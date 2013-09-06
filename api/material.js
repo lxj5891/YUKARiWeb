@@ -35,7 +35,7 @@ exports.list = function(req_, res_) {
 exports.add = function(req_, res_) {
 
   var uid = req_.session.user._id
-    , company = "dreamarts.co.jp";
+    , company = req_.session.user.companyid;
 
   // Get file list from the request
   var files = [];
@@ -60,7 +60,7 @@ exports.updatefile = function(req_, res_) {
 
   var uid = req_.session.user._id
     , fid = req_.body.fid
-    , company = "dreamarts.co.jp";
+    , company = req_.session.user.companyid;
 
   material.updatefile(company, uid, fid, req_.files.files, function(err, result){
     if (err) {
@@ -77,7 +77,7 @@ exports.updatetag = function(req_, res_) {
   var uid = req_.session.user._id
     , fid = req_.body.fid
     , tags = req_.body.tags.split(",")
-    , company = "dreamarts.co.jp";
+    , company = req_.session.user.companyid;
 
   var object = {
     "tags": tags
@@ -98,7 +98,7 @@ exports.download = function(req_, res_, isPublish) {
   var uid = req_.session.user._id
     , target = req_.query.target // temp
     , file_name = req_.query.file // temp
-    , company = "dreamarts.co.jp";
+    , company = req_.session.user.companyid;
 
     if(target == null) {
       var err = new errors.BadRequest("Request parameter is incorrect, \"target\" parameter is required.");
@@ -284,7 +284,7 @@ exports.remove = function(req_, res_) {
 
   var uid = req_.session.user._id
     , fid = req_.body.fid
-    , company = "dreamarts.co.jp";
+    , company = req_.session.user.companyid;
 
   material.remove(company, uid, fid, function(err, result){
     if (err) {

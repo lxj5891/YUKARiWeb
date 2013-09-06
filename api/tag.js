@@ -5,7 +5,7 @@ var json = lib.core.json
 // Tag一览
 exports.search = function(req_, res_) {
 
-  var company = "dreamarts.co.jp"
+  var company = req_.session.user.companyid
     , keywords = req_.query.keywords
     , start = req_.query.start
     , limit = req_.query.count;
