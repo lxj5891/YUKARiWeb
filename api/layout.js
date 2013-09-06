@@ -20,7 +20,7 @@ exports.add = function (req_, res_) {
 exports.get = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = "dreamarts.co.jp";
+  var company = req_.session.user.companyid;
   var layoutId = req_.query.id;
 
   layout.get(company, uid, layoutId, function (err, result) {
