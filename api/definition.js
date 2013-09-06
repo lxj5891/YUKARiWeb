@@ -16,7 +16,7 @@ exports.get = function(req_, res_, isPublish) {
 
   // Get json string for settting
   var uid = req_.session.user._id
-    , company = "dreamarts.co.jp"
+    , company = req_.session.user.companyid
     , target = req_.query.target;
 
   definition.get(company, uid, target, isPublish, function(err, result) {
