@@ -208,13 +208,11 @@
   width: 100%;
 }
 .action_widget_image {
-  margin-left: 146px;
-  margin-top: 9px;
+  margin-left: 133px;
 }
 .action_widget_image_preview {
   width: 150px;
   height: 150px;
-  padding: 2px;
   border: 1px solid #e4e4e4;
   overflow: scroll;
 }
@@ -224,19 +222,18 @@
 .action_jump_preview {
   width: 150px;
   height: 150px;
-  padding: 2px;
   border: 1px solid #e4e4e4;
-  margin-left: 160px;
 }
 .action_jump_preview img {
   width: 100%;
 }
+.action_widget_moive {
+  margin-left: 133px;
+}
 .action_widget_moive_preview {
   width: 150px;
   height: 150px;
-  padding: 2px;
   border: 1px solid #e4e4e4;
-  margin-left: 110px;
 }
 .action_widget_moive_preview video {
   width: 100%;
@@ -335,4 +332,7 @@ div:hover > .tools.tools-right {
   list-style: none;
   padding-left: 0px;
   margin: 0 0 0px 0;
+}
+#_action_type_jump {
+  margin-left: 133px;
 }

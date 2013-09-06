@@ -257,10 +257,25 @@ exports.list = function(condition_, start_, limit_, callback_){
 };
 
 // 获取件数
-exports.total = function(callback_){
+exports.total = function(condition_, callback_){
   var publishLayout = model();
-  publishLayout.count().exec(function(err, count){
+  publishLayout.count(condition_).exec(function(err, count){
     callback_(err, count);
   });
 };
+
+// 获取一览
+exports.activeList = function(condition_, start_, limit_, callback_){
+
+  var publishLayout = model();
+
+  publishLayout.find(condition_).select('_id layoutId active')
+    .skip(start_ || 0)
+    .limit(limit_ || 20)
+    .sort({editat: -1})
+    .exec(function(err, result){
+      callback_(err, result);
+    });
+};
+
 
