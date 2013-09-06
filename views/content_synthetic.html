@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+
+  <script type="text/javascript" src="/javascripts/synthetic.js"></script>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+
+</head>
+<body>
+
+<% include common/navbar.html %>
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari">ホーム</a>
+            <span class="divider">
+              <i class="icon-chevron-right arrow-icon"></i>
+            </span>
+        </li>
+        <li class="active">ネタ一覧</li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row tableheader">
+
+        <div class="pull-right">
+          <a data-toggle="modal" href="#settingModal" class="btn btn-default">
+            <i class="icon-plus icon-white"></i>
+            <span>ネタ追加</span>
+          </a>
+        </div>
+
+        <div class="pull-right" style="width: 300px">
+          <form class="search-form">
+            <div class="input-group">
+              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+                <span class="input-group-addon">
+                  <i class="icon-search"></i>
+                </span>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="list" class="row">
+
+        <!--list table-->
+        <div class="col-lg-12">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>表紙</th>
+              <th>ネタ</th>
+              <th>タイプ</th>
+              <th>ページ</th>
+              <th>更新者</th>
+              <th>更新日</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="synthetic_list"></tbody>
+          </table>
+        </div><!--/span-->
+      </div>
+
+      <div class="pagination-area" id="pagination_area"></div>
+
+    </div>
+
+  </div><!--/.main-container-->
+
+</div>
+<!--popup preview-->
+<div class="modal fade" id="syntheticModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 570px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">スライド一覧</h4>
+      </div>
+      <div class="modal-body" id="slide">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/template" id="tmpl_synthetic_list">
+  <tr>
+    <td>{{index}}</td>
+    <td>
+      <a href="#">
+        <img src="{{cover}}" rowid="{{id}}" class="nav-user-photo" operation="preview">
+      </a>
+    </td>
+    <td>{{name}}</td>
+    <td>{{type}}</td>
+    <td>{{page}}</td>
+    <td>{{editby}}</td>
+    <td>{{editat}}</td>
+    <td>
+      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="edit">編集</a>
+      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="copy">コピー</a>
+      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="delete">削除</a>
+    </td>
+  </tr>
+</script>
+
+<script type="text/template" id="tmpl_slide">
+  <div class="carousel slide bs-docs-carousel-example" id="carousel-example-generic">
+    <ol class="carousel-indicators">
+      <$ for(var cnt=1;cnt<=count;cnt++) { $>
+      <li id="slide{{cnt}}" data-slide-to="{{cnt}}" data-target="#carousel-example-generic"></li>
+      <$ } $>
+    </ol>
+    <div class="carousel-inner">
+      <$ var cnt=1; _.each(files, function(file) { $>
+      <div class="item" id="page{{cnt}}">
+        <img alt="Slide{{cnt}}" src="/picture/{{file}}">
+      </div>
+      <$ cnt++}); $>
+    </div>
+    <a data-slide="prev" href="#carousel-example-generic" class="left carousel-control">
+      <span class="icon-prev"></span>
+    </a>
+    <a data-slide="next" href="#carousel-example-generic" class="right carousel-control">
+      <span class="icon-next"></span>
+    </a>
+  </div>
+</script>
+
+<!--setting  Modal -->
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">新規ネタ</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" role="form">
+
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">タイプ</label>
+            <div class="col-lg-8">
+              <input type="hidden"  name="thumb_type" value="image">
+
+              <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading" style="height: 35px;">
+                    <div class="col-lg-2"><input type="radio" name="type" value="normal" checked style="margin-top: 0px;"></div>
+                    <div class="col-lg-6">
+                    <h4 class="panel-title">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        画像セット
+                      </a>
+                    </h4>
+                    </div>
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                      <img width="300px" src="/images/demo/image.png">
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading" style="height: 35px;">
+                    <div class="col-lg-2"><input type="radio" name="type" value="imageWithThumb" style="margin-top: 0px;"></div>
+                    <div class="col-lg-7">
+                    <h4 class="panel-title">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        アニメーション画像
+                      </a>
+                    </h4>
+                    </div>
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <img width="300px" src="/images/demo/anime.png">
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading" style="height: 35px;">
+                    <div class="col-lg-2"><input type="radio" name="type" value="CaseView" style="margin-top: 0px;"></div>
+                    <div class="col-lg-6">
+                    <h4 class="panel-title">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                        ケースビュー
+                      </a>
+                    </h4>
+                    </div>
+                  </div>
+                  <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <img width="300px" src="/images/demo/caseview.png">
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading" style="height: 35px;">
+                    <div class="col-lg-2" style="margin-top: 0px; margin-bottom: 0px;"><input type="radio" name="type" value="gallery" style="margin-top: 0px;"></div>
+                    <div class="col-lg-6">
+                    <h4 class="panel-title">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                        ギャラリー
+                      </a>
+                    </h4>
+                    </div>
+                  </div>
+                  <div id="collapseFour" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <img width="300px" src="/images/demo/gallery.png">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" name="okSetting" class="btn btn-warning cancel">
+          <i class="icon-hand-right icon-white"></i><span> 次へ</span></button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /. setting modal -->
+</body>
+</html>

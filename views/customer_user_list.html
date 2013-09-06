@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+
+  <script type="text/javascript" src="/javascripts/customer_user_list.js"></script>
+
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+
+  <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari">ホーム</a>
+            <span class="divider">
+              <i class="icon-chevron-right arrow-icon"></i>
+            </span>
+        </li>
+        <li class="active">ユーザ一覧</li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row tableheader">
+        <div class="pull-right" style="padding-bottom: 5px">
+            <a href="/customer/user/add" class="btn btn-default"><i class="icon-plus"></i>ユーザ追加</a>
+        </div>
+        <div class="pull-right" style="width: 300px">
+          <form class="search-form">
+            <div class="input-group">
+              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <span class="input-group-addon">
+                <i class="icon-search"></i>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>ユーザID</th>
+            <th>名前</th>
+            <th>役職</th>
+            <th>電話番号</th>
+            <th>コメント</th>
+            <th>承認者</th>
+            <th>通知者</th>
+            <th>有効</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody id="user_list"></tbody>
+        </table>
+          </div>
+      </div>
+    </div>
+    <div class="pagination-area" id="pagination_area"></div>
+  </div><!--/.main-content-->
+
+</div><!--/.main-container-->
+<footer>
+
+</footer>
+
+<script type="text/template" id="tmpl_user_list">
+  <tr>
+    <td>{{index}}</td>
+    <td>{{uid}}</td>
+    <td>{{name}}</td>
+    <td>{{title}}</td>
+    <td>{{telephone}}</td>
+    <td>{{description}}</td>
+    <$ if (notice == 1) {$>
+    <td><input type="checkbox" checked="true"/></td>
+    <$ } else {$>
+    <td><input type="checkbox"/></td>
+    <$ } $>
+    <$ if (approved == 1) {$>
+    <td><input type="checkbox" checked="true"/></td>
+    <$ } else {$>
+    <td><input type="checkbox"/></td>
+    <$ } $>
+    <$ if (active == 1) {$>
+    <td><input type="checkbox" checked="true"/></td>
+    <$ } else {$>
+    <td><input type="checkbox"/></td>
+    <$ } $>
+    <td>
+
+      <a href="/customer/user/edit/{{id}}" class="btn btn-default btn-sm" index={{index}} operation="edit">編集</a>
+      <$ if (type == 0) {$>
+        <$ if (active == 1) {$>
+          <a href="/customer/user/" class="btn btn-default btn-sm" index={{index}} operation="active">無効</a>
+        <$ } else {$>
+          <a href="/customer/user/" class="btn btn-default btn-sm" index={{index}} operation="active">有効</a>
+        <$ } $>
+      <$ } $>
+    </td>
+  </tr>
+</script>
+
+</body>
+</html>

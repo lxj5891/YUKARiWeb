@@ -1,0 +1,58 @@
+{
+  "db": {
+    "host": "mongo"
+    , "port": 27017
+    , "dbname": "yukari"
+    , "pool": 5
+  },
+
+  "testdb": {
+    "host": "127.0.0.1"
+    , "port": 27017
+    , "dbname": "developer"
+    , "pool": 5
+  },
+
+  "mail": {
+    "service": "Gmail"
+    , "auth": {
+      "user": "smart@gmail.com"
+      , "pass": "smart"
+    }
+    // "host": "mail.securemx.jp"
+    // "port": 465
+    // "secure": true
+  },
+
+  "session": {
+    "timeout": 720 // 24 * 30 一个月
+    , "secret": "com.smart"
+    , "key": "smart.sid"
+  },
+
+  "cookie": {
+    "key": "smart.cookie"
+    , "secret": "com.smart"
+    , "timeout": 12
+  },
+
+  "app": {
+    "tmp": "/tmp"
+    , "hmackey": "smart"
+    , "scissors": ""
+    , "queue": "true"
+    , "port": 3000
+    , "timeout": 30
+    , "libs": "../SmartCore"
+  },
+
+  "mq": {
+    "host": "mq"
+    , "port": 5672
+    , "user": "guest"
+    , "password": "guest"
+    , "queue_join": "smartJoin"
+    , "queue_apn": "smartApn"
+    , "queue_thumb": "smartThumb"
+  }
+}

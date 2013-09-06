@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+
+  <script type="text/javascript" src="/javascripts/admin_company_update.js"></script>
+
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari">ホーム</a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li style="width: 90px;">
+          <i class="icon-briefcase icon-large"></i>
+          <a href="/admin/company">顧客</a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li style="width: 86px;" class="active">
+          <%= title %>
+        </li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row">
+        <div class="page-header position-relative">
+          <h1>
+            管理情報
+          </h1>
+        </div>
+      </div>
+      <div class="row">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-lg-2 control-label">顧客タイプ</label>
+            <div class="col-lg-3">
+              <div class="radio pull-left">
+                <label>
+                  <input type="radio" name="optionsRadios" id="inputDemo" value="0">
+                  体験顧客
+                </label>
+              </div>
+              <div class="radio pull-left">
+                <label>
+                  <input type="radio" name="optionsRadios" id="inputContract" value="1">契約顧客
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAdmin" class="col-lg-2 control-label">管理者ID</label>
+            <div class="col-lg-3">
+              <input type="text" class="form-control" id="inputAdmin" placeholder="管理者ID">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label" id="labelInputPass">初期パスワード</label>
+            <div class="col-lg-3">
+              <input type="password" class="form-control" id="inputPassword" placeholder="初期パスワード">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="page-header position-relative">
+          <h1>
+            基本情報
+          </h1>
+        </div>
+      </div>
+      <div class="row">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputNameEn" class="col-lg-2 control-label">会社名(英語)</label>
+            <div class="col-lg-3">
+              <input type="text" class="form-control" id="inputNameEn" placeholder="会社名(英語)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputNameJp" class="col-lg-2 control-label">会社名(かな)</label>
+            <div class="col-lg-3">
+              <input type="text" class="form-control" id="inputNameJp" placeholder="会社名(かな)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAddress" class="col-lg-2 control-label">会社住所</label>
+            <div class="col-lg-3">
+              <input type="text" class="form-control" id="inputAddress" placeholder="会社住所">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputTel" class="col-lg-2 control-label">電話番号</label>
+            <div class="col-lg-3">
+              <input type="tel" class="form-control" id="inputTel" placeholder="電話番号">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">有効</label>
+            <div class="col-lg-3">
+              <input type="checkbox" style="vertical-align: middle" id="inputActive" checked>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-10 pull-right">
+              <button class="btn btn-warning btn-lg" id="addcompany">登録</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div><!--/.main-content-->
+
+</div><!--/.main-container-->
+<footer>
+
+</footer>
+
+</body>
+</html>

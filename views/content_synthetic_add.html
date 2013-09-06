@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <link href="/stylesheets/contents.css" rel="stylesheet" media="screen">
+  <style type="text/css">
+    .bottom_panel {
+
+      width: 100%;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      height: 160px;
+      white-space: nowrap
+
+    }
+
+    .bottom_panel .thumb {
+      border: 1px solid #555555;
+      width: 156px;
+      height: 156px;
+      background-image: url("/images/block.png");
+      float: left;
+      margin: 2px;
+      padding: 2px;
+    }
+
+    .bottom_panel .content {
+      border: 1px solid #555555;
+      width: 886px;
+      margin: 2px;
+      padding: 2px;
+      height: 156px;
+      float: left;
+    }
+
+    .material_popup {
+      height: 330px;
+      overflow: scroll;
+      width: 100%;
+    }
+
+    .material_thumb {
+      margin: 3px;
+      width: 100px;
+      height: 100px;
+      float: left;
+      background: #e3e3e3;
+    }
+
+    .widget {
+    }
+
+    .widget_border {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .widget_border_normal {
+      border: 0px solid red;
+    }
+
+    .widget_border_selected {
+      border: 2px solid green;
+    }
+
+    .widget_border_hover {
+      border: 2px solid blue;
+    }
+
+    #pickThumb a img {
+      height: 150px;
+      border: solid 1px #e5e5e5;
+    }
+
+    #pickThumb a img {
+      height: 150px;
+      border: solid 1px #e5e5e5;
+    }
+    .col-lg-8 {
+      width: 1048px;
+    }
+
+  </style>
+</head>
+<body>
+<%if(synthetic_id){%>
+<input type="hidden" name="synthetic_id" value="<%=synthetic_id%>">
+<%} else {%>
+<input type="hidden" name="synthetic_id" value="">
+<%} %>
+
+<% include common/navbar.html %>
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari">ホーム</a>
+            <span class="divider">
+              <i class="icon-chevron-right arrow-icon"></i>
+            </span>
+        </li>
+        <li>
+          <i class="icon-unlink"></i>
+          <a href="/content/synthetic">ネタ</a>
+            <span class="divider">
+              <i class="icon-chevron-right arrow-icon"></i>
+            </span>
+        </li>
+        <li class="active">ネタ定義</li>
+      </ul>
+      <!--.breadcrumb-->
+    </div>
+
+
+    <div class="page-content row">
+    <div class="row tableheader col-lg-8">
+      <div class="pull-left">
+        <h4>情報入力</h4>
+      </div>
+    </div>
+    <div class="row col-lg-8" style="border:solid 1px #e3e3e3;margin-bottom: 30px">
+      <form class="form-horizontal" role="form">
+        <div class="form-group" style="margin-top: 15px">
+          <label for="syntheticName" class="col-lg-2 control-label">タイトル</label>
+
+          <div class="col-lg-10">
+            <input type="text" name="syntheticName" class="form-control" id="syntheticName" placeholder="タイトル">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="syntheticComment" class="col-lg-2 control-label">コメント</label>
+
+          <div class="col-lg-10">
+            <textarea class="form-control" name="syntheticComment" id="syntheticComment" placeholder="コメント"
+                      rows="6"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+      <div class="row tableheader col-lg-8">
+        <div class="pull-left">
+          <h4>カバー定義</h4>
+        </div>
+<!--
+        <div class="pull-right" style="padding-bottom: 5px">
+          &lt;!&ndash; TODO ysl&ndash;&gt;
+          <a data-toggle="modal"  href="#pickThumbPic" class="btn btn-default" id="coverimageAdd"><i class="icon-plus">&nbsp;</i>画像選択(仮)</a>
+          <a data-toggle="modal" href="#"  class="btn btn-default" id="coverpreview"><i class="icon-eye-open">&nbsp;</i>プレビュー（仮）</a>
+        </div>
+-->
+      </div>
+      <div class="row col-lg-8" style="margin-bottom: 30px;border:solid 1px #e3e3e3" >
+        <div class="pull-left col-lg-2" style="padding-left: 0px;padding-top: 15px;" id="cover_preview_panel">
+          <div class="cover_thumb"><img src="/images/logo-block.png"></div>
+        </div>
+        <div class="pull-left col-lg-10">
+          <div class="coverpanel" id="cover_panel" style="margin-left:30px;display:none;overflow-x: scroll;overflow-y: hidden;">
+            <div class="cover_view">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row tableheader col-lg-8" >
+        <div class="pull-left">
+          <h4>スライド定義</h4>
+        </div>
+<!--
+        <div class="pull-right" style="padding-bottom: 5px">
+          &lt;!&ndash; TODO ysl&ndash;&gt;
+          <a data-toggle="modal"  href="#pickThumbPic" class="btn btn-default" id="matimageAdd"><i class="icon-plus">&nbsp;</i>画像選択(仮)</a>
+        </div>
+-->
+      </div>
+      <div class="row col-lg-8" style="border:solid 1px #e3e3e3;border-bottom-width: 0px">
+        <div id="main_panel">
+          <img src="/images/logo-block.png">
+          <div id="effect_big_preview">
+            <img src="/images/logo-block.png">
+          </div>
+        </div>
+        <div id="widget_panel" style="font-size: 12px">
+          <div class="title">
+            <span>ウィジェット詳細</span>
+
+            <div class="pull-right title_btn">
+              <a id="btn_add_widget" data-toggle="modal" href="#pickPlugin" class="btn btn-default btn-sm">新規追加</a>
+            </div>
+          </div>
+          <div class="widget_body">
+            <form class="form-horizontal" role="form" name="widget">
+              <div class="form-group">
+                <label for="txt_widget_name" class="col-lg-5 control-label">名前</label>
+
+                <div class="col-lg-7">
+                  <input id="txt_widget_name" type="text" name="widget_name" class="form-control"
+                         placeholder="ウィジェット名">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-5 control-label">サイズ</label>
+
+                <div class="col-lg-7">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <input id="txt_width" type="text" name="widget_width" class="form-control" placeholder="width" readonly>
+                    </div>
+                    <div class="col-lg-6">
+                      <input id="txt_height" type="text" name="widget_height" class="form-control" placeholder="height" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-5 control-label">位置</label>
+
+                <div class="col-lg-7">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <input id="txt_x" type="text" name="widget_left" class="form-control" placeholder="top" readonly>
+                    </div>
+                    <div class="col-lg-6">
+                      <input id="txt_y" type="text" name="widget_top" class="form-control" placeholder="left" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-5 control-label">アクション</label>
+
+                <div class="col-lg-7">
+                  <select class="form-control" id="action">
+                    <option value="none" selected>なし</option>
+                    <option value="movie">ビデオ放送</option>
+                    <option value="image">画像表示</option>
+                    <option value="jump">スライド遷移</option>
+                    <option value="urlScheme">アプリ起動</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="_action_type_movie">
+                <div class="col-lg-7">
+
+                  <div class="action_widget_moive_preview">
+                    <a class="btn btn-default btn-sm" name="btnSelectWidgetMoive">ビデオ選択</a>
+                    <video src="/images/logo-block.png"/></video>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" id="_action_type_image">
+                <div class="col-lg-7" style="display: none">
+                  <input id="txt_widget_action_image" type="text" name="widget_name" class="form-control"
+                         placeholder="ウィジェット名">
+                </div>
+                <div class="col-lg-7 action_widget_image">
+                  <a class="btn btn-default btn-sm" name="btnSelectWidgetImage">画像選択</a>
+                  <input id="select_widget_action_image" type="hidden" name="widget_name" class="form-control"
+                         placeholder="ウィジェット名">
+                  <div class="action_widget_image_preview">
+                    <img src="/images/logo-block.png"/>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" id="_action_type_jump">
+                <label class="col-lg-5 control-label">遷移先</label>
+
+                <div class="action_jump_preview">
+                  <a class="btn btn-default btn-sm" name="btnSelectWidgetMetadata">遷移先</a>
+                  <img src="/images/logo-block.png"/>
+                </div>
+              </div>
+              <div class="form-group" id="_action_type_urlScheme">
+                <label for="txt_widget_action_app" class="col-lg-5 control-label">ウィジェットID</label>
+
+                <div class="col-lg-7">
+                  <input id="txt_widget_action_app" type="text" name="widget_name" class="form-control"
+                         placeholder="ウィジェットid">
+                </div>
+
+                <label for="txt_widget_action_url" class="col-lg-5 control-label">ウィジェットURL</label>
+
+                <div class="col-lg-7">
+                  <input id="txt_widget_action_url" type="text" name="widget_name" class="form-control"
+                         placeholder="ウィジェットurl">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-5 control-label">操作</label>
+
+                <div class="col-lg-7">
+                  <a class="btn btn-default" name="okDelWidget">ウィジェット削除</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id="metadata_panel">
+          <div class="title">
+            <span>背景設定</span>
+
+            <div id="btn_to_widget_parent" class="pull-right title_btn">
+              <a id="btn_to_widget" class="btn btn-default btn-sm">ウィジェットエリア</a>
+            </div>
+          </div>
+          <div class="widget_body">
+            <form class="form-horizontal" role="form" name="setmetadata">
+              <div class="form-group" id="_metadata_effect">
+                <label for="txt_metadata_effect" class="col-lg-5 control-label">背景のアクション</label>
+
+                <div class="col-lg-7">
+                  <select class="form-control" id="txt_metadata_effect">
+                    <option value="none">なし</option>
+                    <option value="zoomAndMoveRightDown">zoomAndMoveRightDown</option>
+                    <option value="zoom">zoom</option>
+                    <option value="zoomOut">zoomOut</option>
+                    <option value="moveRightUp">moveRightUp</option>
+                    <option value="up">up</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="_metadata_effect_image">
+                <label for="btn_select_effect_image" class="col-lg-5 control-label">文字画像設定</label>
+
+                <div class="col-lg-7">
+                  <a class="btn btn-default" id="btn_select_effect_image">画像選択</a>
+                </div>
+              </div>
+            </form>
+            <div id="preview"><img src="/images/block.png"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-lg-8" style="border:solid 1px #e3e3e3;border-top-width:0px">
+        <div id="viewport"></div>
+      </div>
+      <div class="col-lg-8" style="margin-top: 30px">
+        <div name="okSaveSynthetic" class="col-lg-4 btn btn-warning btn-lg">
+          <a id="saveLayout">保存</a>
+        </div>
+      </div>
+  </div>
+  </div>
+    <!--/.main-container-->
+</div>
+
+
+<!--pickThumb  Modal -->
+<div class="modal fade" id="pickThumbPic" tabindex="-1" role="dialog" aria-labelledby="pickThumbPicAria" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="pickThumbPicClose" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">画像選択</h4>
+      </div>
+      <div class="modal-body">
+        <ol class="popular-tags group" style="list-style: none;padding-left: 0px" id="taglist">
+          <li class="tag">
+            <a href="#">video</a>
+          </li>
+
+          <li class="tag">
+            <a href="#"></a>
+          </li>
+
+          <li class="tag">
+            <a href="#">fdfdf</a>
+          </li>
+
+          <li class="tag">
+            <a href="#">dfdfd</a>
+          </li>
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <span id="input_filter">フィルター:<input type="text" name="txt_tag"></span>
+        <button type="button" action="ok" name="okPickThumb" class="btn btn-warning">
+          <i class="icon-ok icon-white"></i><span> 設定</span></button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /. pickThumb modal -->
+
+
+<!-- popup tmpl_popup_image template -->
+<script type="text/template" id="tmpl_popup_image">
+  <div class="modalfix_box">
+    <img src="{{image}}" class="material_thumb" data="{{fileid}}" material_id="{{material_id}}">
+    <div class="modalfix_checkbox" num="{{num}}"><img src="/images/img_check.png"></div>
+  </div>
+</script>
+<!-- 提示工具的template -->
+<script type="text/template" id="tmpl_cell_toolbox">
+  <div id="cellTools_{{num}}" class="tools tools-right">
+    <a><i class="icon-double-angle-left" option="left" num="{{num}}"></i></a>
+    <a><i class="icon-double-angle-right" option="right" num="{{num}}"></i></a>
+    <a><i class="icon-remove red" option="remove" num="{{num}}"></i></a>
+  </div>
+</script>
+<!-- 提示工具的template -->
+<script type="text/template" id="tmpl_thumb_toolbox">
+  <div id="thumbTools_{{num}}" class="tools tools-right">
+    <a><i class="icon-double-angle-left" option="left" num="{{num}}"></i></a>
+    <a><i class="icon-double-angle-right" option="right" num="{{num}}"></i></a>
+    <a><i class="icon-pencil" option="edit" num="{{num}}"></i></a>
+    <a><i class="icon-remove red" option="remove" num="{{num}}"></i></a>
+  </div>
+</script>
+<!-- 封面的Block模板 -->
+<script type="text/template" id="tmpl_cell_block">
+  <div class="cover_block" id="cell_block_{{num}}" num="{{num}}">
+      <img class="cover_block_img" src="{{ image }}" data="{{ fileid }}" cover_id="{{ cover_id }}">
+  </div>
+</script>
+<!-- Material的Block模板 -->
+<script type="text/template" id="tmpl_thumb_block">
+  <div class="thumb_block" id="thumb_block_{{num}}" num="{{num}}">
+    <img class="thumb_block_img" num="{{num}}" src="{{image}}" data="{{fileid}}" metadata_id="{{metadata_id}}">
+    <!--<span class="thumb_block_span" data="{1}" metadata_id="{2}">移除</span>-->
+    <!--<span class="thumb_block_left" data="{1}" metadata_id="{2}">←</span>-->
+    <!--<span class="thumb_block_right" data="{1}" metadata_id="{2}">→</span>-->
+  </div>
+</script>
+
+<script type="text/javascript" src="/javascripts/contents/cover.js"></script>
+<script type="text/javascript" src="/javascripts/contents/material.js"></script>
+<script type="text/javascript" src="/javascripts/contents/widget.js"></script>
+<script type="text/javascript" src="/javascripts/contents/tpl.js"></script>
+<script type="text/javascript" src="/javascripts/contents/viewports.js"></script>
+<script type="text/javascript" src="/javascripts/contents/store.js"></script>
+
+<script type="text/javascript" src="/javascripts/contents.view.js"></script>
+<script type="text/javascript" src="/javascripts/contents.view.widget.js"></script>
+
+
+
+<script type="text/template" id="tmpl_widget">
+  <div id="{{id}}" class="widget" style="left: {{left}}px; top:{{top}}px; width: {{width}}px; height: {{height}}px;">
+    <div id="{{id}}_border" class="widget_border"></div>
+  </div>
+</script>
+
+<script type="text/template" id="tmpl_tag_item">
+  <li class="tag">
+    <a>{{name}}</a>
+  </li>
+</script>
+
+
+</body>
+</html>

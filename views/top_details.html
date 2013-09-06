@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <% include common/required.html %>
+
+    <link rel='stylesheet' href='/stylesheets/top.css'/>
+    <script type='text/javascript' src='/javascripts/login/login.js'></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="masthead">
+        <ul class="nav nav-justified">
+            <li><a href="/top/index">ホーム</a></li>
+            <li><a href="/top/index#service">サービス</a></li>
+            <li><a href="/top/index#sample">サンプル</a></li>
+            <li><a href="/top/index#example">導入実績</a></li>
+            <li class="active"><a href="/top/detail">試用版申請</a></li>
+            <li><a href="/top/login">ログイン</a></li>
+        </ul>
+    </div>
+
+    <div class="row" style="margin-top: 30px;margin-left: 20px;" id="btn-apply">
+        <div class="section_header"><h4 style="color: #428BCA;font-weight: bold;">トライアルサイトご利用上のご注意</h4></div>
+        <!-- Features Row -->
+        <ul style="margin:1em 3em 0.5em 1em">
+            <li>本サイトは、お客様ご自身が「YUKARi」の導入検討を目的とする場合においてのみ、試用期間の間、無償で試用することができます。</li>
+            <li>グループやユーザを追加するための管理機能はご利用いただけませんので、予めご了承ください。</li>
+            <li>本サイトは他の試用目的のお客様もご利用になられている環境になります。漏洩の恐れのある情報は、本サイト上には登録しないでください。お客様が本サイトに登録したデータの全て及び一部が漏洩した場合や本サイトを利用したことによる損害が発生した場合でも、ドリーム・アーツはそれらに対する保証は負いませんので、予めご了承下さい。</li>
+            <li>本サイトは、「YUKARi」の機能評価を目的としており、レスポンスを評価いただくことを目的としておりません。そのため、本サイトをご利用いただく際には、十分なレスポンスが得られない場合がございますので、ご了承ください。</li>
+            <li>本サイト内に登録された内容は、お申込期間終了後に削除いたしますので、以後のデータ復旧は致しかねます。また、本サイト内に登録されたデータは、本番環境への移行はできません。</li>
+        </ul>
+
+        <div class="jumbotron" onclick="applydata();">
+            <a class="btn btn-lg btn-success">利用上の注意に同意して申し込む</a>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;margin-left: 20px;">
+        <section id="container-apply" class="col-lg-4 col-md-offset-4" style="display: none;">
+            <form id="applyform" method="post" action="/login" class="form-horizontal" >
+                <input type="hidden" id="_csrf" name="_csrf" value="<%= csrftoken %>" />
+                <input type="hidden" name="_method" value="post" />
+
+                <div class="form-group">
+                    <a class="btn btn-lg" href="#" style="color: #428BCA;font-weight: bold;margin-bottom: 20px;">
+                        <img src="/images/YUKARi.png" height="18px">&nbsp;&nbsp;トライアルお申し込み
+                    </a>
+                </div>
+                <div class="form-group">
+                    <img src="/images/demo/form_img_step01.png">
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon "><i class="icon-user"></i></span>
+                        <input type="text" class="form-control" placeholder="LastName" id="fname" name="fname">
+                        <input type="text" class="form-control" placeholder="FirstName" id="lname" name="lname">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-globe"></i></span>
+                        <input type="text" class="form-control" placeholder="Company" id="company" name="company">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-group"></i></span>
+                        <input type="text" class="form-control" placeholder="Section" id="section" name="section">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon "><i class="icon-home"></i></span>
+                        <input type="text" class="form-control" placeholder="Address" id="address" name="address">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon "><i class="icon-phone"></i></span>
+                        <input type="text" class="form-control" placeholder="Tel" id="tel" name="tel">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon "><i class="icon-envelope-alt"></i></span>
+                        <input type="text" class="form-control" placeholder="Email" id="email" name="email">
+                    </div>
+                </div>
+                <div style="margin-bottom: 10px" class="checkbox">
+                    <label>
+                        <input type="checkbox" name="update_mark" id="update_mark" checked>弊社の最新情報をお送りします。
+                    </label>
+                </div>
+
+                <div class="jumbotron" onclick="" style="padding-top: 10px;">
+                    <button class="btn btn-success" onclick="javascript:login(); return false;">確認</button>
+                    <button class="btn btn-success" >クリア</button>
+                </div>
+            </form>
+        </section>
+    </div><!-- /.body-content -->
+
+    <!-- Site footer -->
+    <div class="container footer">
+        <p>&copy; Copyright ゆかり 2013 DreamArts Corporation. All Rights Reserved.</p>
+    </div>
+
+</div> <!-- /container -->
+
+</body>
+</html>

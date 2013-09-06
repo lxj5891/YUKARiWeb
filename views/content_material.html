@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/common.tag.view.js"></script>
+  <script type="text/javascript" src="/javascripts/content_material.js"></script>
+</head>
+<body>
+
+  <% include common/navbar.html %>
+
+  <div class="main-container container-fluid">
+    <% include common/sidebar.html %>
+
+    <div class="main-content">
+      <div class="breadcrumbs" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="icon-home icon-large"></i>
+            <a href="/yukari">ホーム</a>
+              <span class="divider">
+                <i class="icon-chevron-right arrow-icon"></i>
+              </span>
+          </li>
+          <li class="active">素材</li>
+        </ul><!--.breadcrumb-->
+      </div>
+
+      <div class="page-content">
+        <div class="row tableheader">
+
+          <div class="pull-right">
+            <button id="selectFile" type="button" class="btn btn-default">
+              <i class="icon-plus icon-white"></i>
+              <span>素材追加</span>
+            </button>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default" id="showlist"><i class="icon-list"></i></button>
+              <button type="button" class="btn btn-default" id="showgrid"><i class="icon-table"></i></button>
+            </div>
+
+            <input type="file" id="uploadfile" style="display: none" multiple="multiple" />
+          </div>
+
+          <div class="pull-right" style="width: 300px">
+            <form class="search-form">
+              <div class="input-group">
+                <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+                <span class="input-group-addon">
+                  <i class="icon-search"></i>
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Grid表示 -->
+        <div id="grid" class="row" style="display: none;">
+          <div class="row pull-left col-lg-11" style="padding-top:20px;" id="material_grid"></div>
+          <div class="row pull-right col-lg-1" style="margin-top: 20px;padding-left: 0px;margin-left: 0px">
+            <ol class="popular-tags group" style="list-style: none;padding-left: 0px" id="taglist"></ol>
+          </div>
+        </div>
+
+        <!-- 一览表示 -->
+        <div id="list" class="row">
+          <div class="col-lg-12">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>番号</th>
+                <th>種別</th>
+                <th>ファイル名</th>
+                <th>サイズ</th>
+                <th>更新日</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody id="material_list"></tbody>
+            </table>
+          </div><!--/span-->
+        </div>
+
+        <div class="pagination-area" id="pagination_area"></div>
+
+      </div>
+    </div>
+
+  </div><!--/.main-container-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="material_detail_dlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">素材詳細</h4>
+        </div>
+        <div class="modal-body" style="min-height: 270px;">
+          <img id="material_detail" src="/images/avatar.png" style="width: 500px;">
+          <div style="float: right; width: 230px;">
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <label for="inputName" class="col-xs-4 control-label">名前</label>
+                <div class="col-xs-8">
+                  <input type="text" class="form-control" id="inputName" placeholder="名前" readonly="readonly">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-xs-4 control-label">サイズ</label>
+                <div class="col-xs-8">
+                  <input type="text" class="form-control" id="inputSize" placeholder="サイズ" readonly="readonly">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-xs-4 control-label">更新者</label>
+                <div class="col-xs-8">
+                  <input type="text" class="form-control" id="inputEditBy" placeholder="更新者" value="2013/08/17" readonly="readonly">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-xs-4 control-label">更新日</label>
+                <div class="col-xs-8">
+                  <input type="text" class="form-control" id="inputEditAt" placeholder="更新日" value="2013/08/17" readonly="readonly">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-xs-4 control-label">タグ</label>
+                <div class="col-xs-8">
+                  <div id="textBoxTag" class="incrementBox">
+                    <input id="inputTag" scope="1" placeholder="+ タグを指定" style="width: 130px;" />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="file" id="updatefile" style="display: none" />
+          <button class="btn btn-warning cancel" id="btnUploadFile">
+            <i class="icon-upload icon-white"></i>
+            <span>ファイル入替</span>
+          </button>
+          <button class="btn btn-warning cancel" id="btnSave">
+            <i class="icon-save icon-white"></i>
+            <span>保存</span>
+          </button>
+          <button class="btn btn-warning cancel" data-dismiss="modal" id="btnCancel">
+            <i class="icon-ban-circle icon-white"></i>
+            <span>閉じる</span>
+          </button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <div class="modal fade" id="upload_progress_dlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="progress" style="margin-top: 20px;">
+            <div class="progress-bar" role="progressbar" style="width: 60%;" id="upload_progress_bar">
+              <span class="sr-only">60% Complete</span>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <script type="text/template" id="tmpl_material_list">
+    <tr>
+      <td>{{index}}</td>
+      <td>{{type}}</td>
+      <td>{{filename}}</td>
+      <td>{{size}}</td>
+      <td>{{editat}}</td>
+      <td>
+        <a href="#" class="btn btn-default btn-sm" index={{index}} operation="edit">編集</a>
+        <a href="#" class="btn btn-default btn-sm" index={{index}} operation="delete">削除</a>
+      </td>
+    </tr>
+  </script>
+
+  <script type="text/template" id="tmpl_material_grid">
+    <$ _.each(cols, function(rows){ $>
+    <div class="col_material">
+      <ul>
+        <$ _.each(rows, function(row){ $>
+        <li class="node_material">
+          <div class="p_box">
+            <a href="#">
+              <$ if (row.type == 'video/mp4') { $>
+              <video style="width: 280px;" src="/picture/{{row.file}}" index="{{row.index}}"></video>
+              <$ } else { $>
+              <img style="width: 280px;" src="/picture/{{row.file}}" index="{{row.index}}">
+              <$ } $>
+            </a>
+          </div>
+          <div>
+            <p>{{row.editby}}<br /><span class="date">{{row.editat}}</span></p>
+          </div>
+          <div>
+            <p><strong>{{row.filename}}</strong></p>
+          </div>
+        </li>
+        <$ }); $>
+      </ul>
+    </div>
+    <$ }); $>
+  </script>
+
+  <script type="text/template" id="tmpl_tag_item">
+    <li class="tag">
+      <a href="#">{{tag}}</a>
+    </li>
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/customer_user_update.js"></script>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+
+  <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari">ホーム</a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li style="width:90px">
+          <i class="icon-male icon-large"></i>
+          <a href="/customer/user">ユーザ</a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li class="active" style="width:86px"><%= title %></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="page-header position-relative">
+        <h1>
+          基本情報
+        </h1>
+      </div>
+      <div>
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputUserID" class="col-lg-2 control-label">ユーザID</label>
+            <div class="col-lg-3">
+              <input type="text" class="form-control" id="inputUserID" placeholder="ユーザID">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label">パスワード</label>
+            <div class="col-lg-3">
+              <input type="password" class="form-control" id="inputPassword" placeholder="パスワード">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputName" class="col-lg-2 control-label">名前</label>
+            <div class="col-lg-3">
+              <input type="text" class="form-control" id="inputName" placeholder="名前">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputRole" class="col-lg-2 control-label">役職</label>
+            <div class="col-lg-3">
+              <input type="text" class="form-control" id="inputRole" placeholder="役職">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPhone" class="col-lg-2 control-label">電話番号</label>
+            <div class="col-lg-3">
+              <input type="tel" class="form-control" id="inputPhone" placeholder="電話番号">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputComment" class="col-lg-2 control-label">コメント</label>
+            <div class="col-lg-3">
+              <textarea class="form-control" id="inputComment" placeholder="コメント"></textarea>
+            </div>
+          </div>
+          <% if (user.type == 3 || user.type == 1) {%>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">承認者</label>
+            <div class="col-lg-3">
+              <input type="checkbox" style="vertical-align: middle" id="inputApproved">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">通知者</label>
+            <div class="col-lg-3">
+              <input type="checkbox" style="vertical-align: middle" id="inputNotice">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">有効</label>
+            <div class="col-lg-3">
+              <input type="checkbox" style="vertical-align: middle" id="inputActive">
+            </div>
+          </div>
+          <% } %>
+          <div class="form-group">
+            <div class="col-lg-10 pull-right">
+              <button class="btn btn-warning btn-lg" id="updateUser">登録</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div><!--/.main-container-->
+</body>
+</html>

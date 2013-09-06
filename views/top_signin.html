@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+
+  <link rel='stylesheet' href='/stylesheets/top.css'/>
+  <script type='text/javascript' src='/javascripts/login/login.js'></script>
+
+</head>
+<body>
+<div class="container">
+  <div class="masthead">
+    <ul class="nav nav-justified">
+        <li><a href="/top/index">ホーム</a></li>
+        <li><a href="/top/index#service">サービス</a></li>
+        <li><a href="/top/index#sample">サンプル</a></li>
+        <li><a href="/top/index#example">導入実績</a></li>
+        <li><a href="/top/detail">試用版申請</a></li>
+        <li class="active"><a href="/top/login">ログイン</a></li>
+    </ul>
+  </div>
+
+  <div class="row" style="margin-top: 50px">
+
+    <section id="container-demo" class="col-lg-4 col-md-offset-4">
+
+      <form id="loginform" method="post" action="/login" class="form-horizontal" >
+        <input type="hidden" id="_csrf" name="_csrf" value="<%= csrftoken %>" />
+        <input type="hidden" name="_method" value="post" />
+
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-envelope"></i></span>
+            <input type="text" class="form-control" placeholder="e-mail" id="name" name="name" value="l_li@dreamarts.co.jp">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon "><i class="icon-key"></i></span>
+            <input type="password" class="form-control" placeholder="password" id="pass" name="pass" value="l_li">
+          </div>
+        </div>
+        <div class="form-group">
+            <div class="checkbox" style="margin-bottom: 10px">
+              <label>
+                <input type="checkbox"> サインインしたままにする
+              </label>
+            </div>
+            <button class="btn btn-default btn-block btn-large" onclick="javascript:login(); return false;">サインイン</button>
+          </div>
+      </form>
+    </section>
+
+  </div><!-- /.body-content -->
+
+  <!-- Site footer -->
+  <div class="container footer">
+    <p>&copy; Copyright ゆかり 2013 DreamArts Corporation. All Rights Reserved.</p>
+  </div>
+
+</div> <!-- /container -->
+
+</body>
+</html>

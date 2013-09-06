@@ -1,0 +1,119 @@
+<div class="sidebar" id="sidebar">
+  <ul class="nav nav-list">
+    <% if (user.type == 3 || user.type == 0) {%>
+    <li>
+      <a href="/content/layout">
+        <span class="menu-text">コンテンツ</span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/content/material" class="dropdown-toggle">
+            <i class="icon-picture"></i>&nbsp;素材
+          </a>
+        </li>
+        <li>
+          <a href="/content/synthetic" class="dropdown-toggle">
+            <i class="icon-unlink"></i>&nbsp;ネタ
+          </a>
+        </li>
+        <li>
+          <a href="/content/layout" class="dropdown-toggle">
+            <i class="icon-th"></i>&nbsp;レイアウト
+          </a>
+          <ul class="submenu" style="display: block;">
+            <li>
+              <a href="/content/layout/publish">公式中</a>
+            </li>
+            <li>
+              <a href="/content/layout/apply">申請中</a>
+            </li>
+            <% if (user.authority && user.authority.approve ==1) {%>
+            <li>
+              <a href="/content/layout/confirm">承認待ち</a>
+            </li>
+            <% }%>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" class="dropdown-toggle">
+        <span class="menu-text">個人設定</span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/customer/group" class="dropdown-toggle">
+            <i class="icon-group"></i>&nbsp;グループ
+          </a>
+        </li>
+        <% if (user.authority && user.authority.notice ==1) {%>
+        <li>
+          <a href="/customer/notice" class="dropdown-toggle">
+            <i class="icon-bullhorn"></i>&nbsp;通知
+          </a>
+        </li>
+        <% }%>
+        <li>
+          <a href="/customer/workstation" class="dropdown-toggle">
+            <i class="icon-th-list"></i>&nbsp;ワークステーション
+          </a>
+        </li>
+      </ul>
+    </li>
+    <% }%>
+    <% if (user.type == 3 || user.type == 1) {%>
+    <li>
+      <a href="/customer/user" class="dropdown-toggle">
+        <span class="menu-text">システム管理</span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/customer/user" class="dropdown-toggle">
+            <i class="icon-male"></i>&nbsp;ユーザ
+          </a>
+          <ul class="submenu" style="display: block;">
+            <li>
+              <a href="/customer/user/import">一括登録</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="/customer/device" class="dropdown-toggle">
+            <i class="icon-tablet"></i>&nbsp;デバイス
+          </a>
+        </li>
+        <!--
+        <li>
+          <a href="/customer/setup" class="dropdown-toggle">
+            <i class="icon-cog"></i>&nbsp;システム設定
+          </a>
+        </li>
+        -->
+      </ul>
+    </li>
+    <% }%>
+
+    <% if (user.type == 3 || user.type == 2) {%>
+    <li>
+      <a href="/admin/company" class="dropdown-toggle">
+        <span class="menu-text">運用管理</span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/admin/company" class="dropdown-toggle">
+            <i class="icon-briefcase"></i>&nbsp;顧客
+          </a>
+        </li>
+        <!--
+        <li>
+          <a href="/admin/operated" class="dropdown-toggle">
+            <i class="icon-truck"></i>&nbsp;運行情報
+          </a>
+        </li>
+        -->
+      </ul>
+    </li>
+    <% }%>
+  </ul><!--/.nav-list-->
+</div>
+

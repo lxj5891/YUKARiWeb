@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/customer_device_list.js"></script>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari">ホーム</a>
+            <span class="divider">
+              <i class="icon-chevron-right arrow-icon"></i>
+            </span>
+        </li>
+        <li class="active">設備一覧</li>
+      </ul><!--.breadcrumb-->
+    </div>
+    <div class="page-content">
+      <div class="row tableheader col-lg-12">
+        <div class="pull-right" style="width: 300px">
+          <form class="search-form">
+            <div class="input-group">
+              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <span class="input-group-addon">
+                <i class="icon-search"></i>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table table-hover">
+            <thead>
+              <th class="col-lg-1">番号</th>
+              <th class="col-lg-2">種別</th>
+              <th class="col-lg-3">設備番号</th>
+              <th class="col-lg-2">使用しているユーザ数</th>
+              <th class="col-lg-2">操作</th>
+            </thead>
+          </table>
+        </div>
+        <div class="col-lg-10" id="deviceAndUser_list">
+        </div>
+      <!--/span-->
+      </div>
+    </div>
+    <div class="pagination-area" id="pagination_area"></div>
+  </div><!--/.main-content-->
+</div><!--/.main-container-->
+<script type="text/template" id="temp_deviceAndUser_list">
+  <div>
+    <table class="table table-hover" style="margin-bottom: 0px">
+      <tbody>
+        {{devinfo}}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-11" style="background-color: rgb(223, 204, 204);margin-left: 50px;font-size: 10px;">
+    <table class="table table-hover" style="margin-bottom: 0px">
+      <thead>
+      <tr>
+        <th>番号</th>
+        <th>ユーザID</th>
+        <th>ユーザ名</th>
+        <th>ステータス</th>
+        <th>登録日</th>
+        <th>最終使用日</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+        {{userinfo}}
+      </tbody>
+    </table>
+  </div>
+</script>
+<script type="text/template" id="tmpl_device_list">
+  <tr>
+    <td class="col-lg-1" style="border-top: 0;">{{dev_index}}</td>
+    <td class="col-lg-2" style="border-top: 0;">{{dev_Type}}</td>
+    <td class="col-lg-3" style="border-top: 0;">{{dev_id}}</td>
+    <td class="col-lg-2" style="border-top: 0;">{{userCount}}</td>
+    <td style="text-align: left;border-top: 0;" class="col-lg-2">
+    <$ if (devstatus == 1) {$>
+      <a href="#" class="btn btn-default btn-sm">禁止</a>
+    <$ } else {$>
+      <a href="#" class="btn btn-default btn-sm">許可</a>
+    <$ } $>
+    </td>
+  </tr>
+</script>
+<script type="text/template" id="tmpl_userinfo_list">
+  <tr>
+    <td>{{user_index}}</td>
+    <td style="width: 200px;">{{user_id}}</td>
+    <td>{{user_name}}</td>
+    <td>
+      <$ if (user_status == 1) {$>
+      使用中
+      <$ } else {$>
+      使用不可
+      <$ } $>
+    </td>
+    <td>{{user_createat}}</td>
+    <td>{{user_lastat}}</td>
+    <td style="text-align: left">
+      <$ if (user_status == 1) {$>
+      <a href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="deny">禁止</a>
+      <$ } else {$>
+      <a href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="allow">許可</a>
+      <$ } $>
+    </td>
+  </tr>
+</script>
+</body>
+</html>

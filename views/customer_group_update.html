@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
+  <script type="text/javascript" src="/javascripts/customer_group_update.js"></script>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+
+  <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari">ホーム</a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li style="width:110px">
+          <i class="icon-group"></i>
+          <a href="/customer/group">グループ</a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li class="active" style="width:86px"><%= title %></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="page-header position-relative">
+        <h1>
+          グループ
+        </h1>
+      </div>
+      <div>
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputName" class="col-lg-2 control-label">名前</label>
+            <div class="col-lg-3">
+              <input type="text" class="form-control" id="inputName" placeholder="名前">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputMember" class="col-lg-2 control-label">メンバ</label>
+            <div class="col-lg-3">
+
+              <div id="textBoxMember" class="incrementBox">
+                <input id="inputMember" scope="1" placeholder="+ メンバー" />
+              </div>
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputComment" class="col-lg-2 control-label">コメント</label>
+            <div class="col-lg-3">
+              <textarea class="form-control" id="inputComment" placeholder="コメント" rows="6"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-10 pull-right">
+              <button class="btn btn-warning btn-lg" id="updateGroup">登録</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div><!--/.main-container-->
+</body>
+</html>

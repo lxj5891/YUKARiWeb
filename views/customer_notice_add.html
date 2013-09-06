@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>通知</title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
+  <script type="text/javascript" src="/javascripts/customer_notice_add.js"></script>
+
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid row">
+  <% include common/sidebar.html %>
+  <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari">ホーム</a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li style="width:100px">
+          <i class="icon-bullhorn icon-large"></i>
+          <a href="/customer/notice">通知</a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li class="active" style="width:86px">新規通知</li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row tableheader col-lg-8">
+        <div class="pull-left">
+          <h4>通知</h4>
+        </div>
+      </div>
+      <div class="row col-lg-8" style="border:solid 1px #e3e3e3;margin-bottom: 30px">
+        <form class="form-horizontal" role="form" style="margin-top: 15px">
+          <div class="form-group">
+            <label for="title" class="col-lg-2 control-label">タイトル</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" name="title" id="title" placeholder="タイトル">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="keywordsText" class="col-lg-2 control-label">宛先</label>
+            <div class="col-lg-8">
+
+              <div id="textBoxNotice" class="incrementBox">
+                <input id="keywordsText" scope="1" placeholder="+ ユーザ、グループ" />
+              </div>
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="notice" class="col-lg-2 control-label">メッセージ</label>
+            <div class="col-lg-8">
+              <textarea class="form-control" rows="6" name="notice" id="notice"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-8" style="margin-bottom: 30px">
+        <div id="addNotice" class="col-lg-4 btn btn-warning btn-lg">
+          発送
+        </div>
+      </div>
+    </div>
+
+  </div><!--/.main-content-->
+
+</div><!--/.main-container-->
+
+</body>
+</html>
