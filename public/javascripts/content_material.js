@@ -200,7 +200,7 @@ function render(start, count) {
 
     index = 1;
     _.each(_materialList, function(row){
-      colindex = colindex >= 2 ? 0 : colindex;
+      colindex = colindex >= 4 ? 0 : colindex;
 
       cols[colindex] = cols[colindex] || [];
       cols[colindex].push({
