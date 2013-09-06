@@ -320,7 +320,7 @@ $(function () {
   // 添加插件
   $("#btn_add_widget").bind("click", function (event) {
     if(store.cur_metadata_id.length==0){
-      Alertify.log.error("请选择要编辑的画面");
+      Alertify.log.error("スライドを選択してください");
       return;
     }
     var _obj = new WidgetFace();
