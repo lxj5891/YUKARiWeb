@@ -271,7 +271,7 @@ exports.list = function(company_, start_, limit_, uid, status, callback_) {
   });
 };
 
-exports.history = function(company_, start_, limit_, publish_, callback_) {
+exports.publishList = function(company_, start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -280,7 +280,41 @@ exports.history = function(company_, start_, limit_, publish_, callback_) {
       valid: 1
     };
 
-  history.total(function(err, count){
+
+  history.total(condition, function(err, count){
+    if (err) {
+      return callback_(new error.InternalServer(err));
+    }
+
+    history.activeList(condition, start, limit, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      var subTask = function(item, subCB){
+
+        user.getUserById(item.active.editby, function(err, u_result) {
+          item._doc.active.user = u_result;
+          subCB(err);
+        });
+      };
+      async.forEach(result, subTask, function(err_){
+        return callback_(err, {totalItems: count, items:result});
+      });
+    });
+  });
+};
+
+exports.history = function(company_, start_, limit_, callback_) {
+
+  var start = start_ || 0
+    , limit = limit_ || 20
+    , condition = {
+      company: company_,
+      valid: 1
+    };
+
+  history.total(condition, function(err, count){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
@@ -292,8 +326,8 @@ exports.history = function(company_, start_, limit_, publish_, callback_) {
 
       var subTask = function(item, subCB){
 
-        user.listByUids([item.active.editby], 0, 1, function(err, u_result) {
-          item._doc.active.user = u_result[0];
+        user.getUserById(item.active.editby, function(err, u_result) {
+          item._doc.active.user = u_result;
           subCB(err);
         });
       };
