@@ -2,7 +2,7 @@
 $(function () {
   'use strict';
 
-  render();
+  render(0, 20);
 });
 
 function render(start, count) {
@@ -13,16 +13,18 @@ function render(start, count) {
     var tmpl = $('#tmpl_notice_list').html()
       , container = $("#notice_list")
       , index = 1;
-
-    console.log(result);
-    //container.html("");
+    container.html("");
 
     _.each(result.items, function(row){
 
       var sendto = new Array();
-console.log(row);
-      _.each(row.sendto, function(user) {
-        sendto.push(user.name.name_zh);
+
+      _.each(row.sendto.user, function(user) {
+        sendto.push("<i class=\"icon-male\"></i> "+user.name.name_zh);
+      });
+
+      _.each(row.sendto.group, function(group) {
+        sendto.push("<i class=\"icon-group\"></i> "+group.name.name_zh);
       });
 
       container.append(_.template(tmpl, {
@@ -36,9 +38,9 @@ console.log(row);
     });
 
     // paging
-    // smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
-    //     render.apply(window, [active, count]);
-    // });
+    smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
+      render.apply(window, [active, count]);
+    });
 
   });
 }
