@@ -31,7 +31,7 @@ exports.getStoreById = function(req_,res_){
   }
 };
 exports.saveDescription = function(req_,res_){
-  var company = "dreamarts.co.jp"
+  var company = req_.session.user.companyid
     , uid = req_.session.user._id;
   var synthetic_id = req_.body.synthetic_id;
   var comment = req_.body.comment;
@@ -46,7 +46,7 @@ exports.saveDescription = function(req_,res_){
 };
 exports.saveAll = function(req_,res_){
 
-  var company = "dreamarts.co.jp"
+  var company = req_.session.user.companyid
     , uid = req_.session.user._id;
   var synthetic_id = req_.body.synthetic_id;
   var cover = req_.body.cover;
@@ -66,7 +66,7 @@ exports.saveAll = function(req_,res_){
 };
 exports.save = function (req_, res_) {
 
-  var company = "dreamarts.co.jp"
+  var company = req_.session.user.companyid
     , uid = req_.session.user._id;
 
   synthetic.save(company, uid, req_.body, function (err, result) {
@@ -81,7 +81,7 @@ exports.save = function (req_, res_) {
 // 获取一览
 exports.list = function(req_, res_) {
 
-  var company = "dreamarts.co.jp"
+  var company = req_.session.user.companyid
     , start = req_.query.start
     , limit = req_.query.count
     , type = req_.query.type;

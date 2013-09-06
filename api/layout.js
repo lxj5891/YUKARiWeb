@@ -6,7 +6,7 @@ var json = lib.core.json
 exports.add = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = "dreamarts.co.jp";
+  var company = req_.session.user.companyid;
 
   layout.add(company, uid, req_.body, function (err, result) {
     if (err) {
@@ -20,7 +20,7 @@ exports.add = function (req_, res_) {
 exports.get = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = "dreamarts.co.jp";
+  var company = req_.session.user.companyid;
   var layoutId = req_.query.id;
 
   layout.get(company, uid, layoutId, function (err, result) {
@@ -35,7 +35,7 @@ exports.get = function (req_, res_) {
 exports.update = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = "dreamarts.co.jp";
+  var company = req_.session.user.companyid;
   var layout_ =  req_.body;
   layout_.status = req_.body.status || 1;
   layout_.editat = new Date();
@@ -53,7 +53,7 @@ exports.update = function (req_, res_) {
 exports.apply = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = "dreamarts.co.jp";
+  var company = req_.session.user.companyid;
   var layout_ = {
     _id: req_.body.id,
     status: 2,
@@ -74,7 +74,7 @@ exports.apply = function (req_, res_) {
 exports.confirm = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = "dreamarts.co.jp";
+  var company = req_.session.user.companyid;
   var layout_ = {
     _id: req_.body.id,
     confirmby : uid,
@@ -100,7 +100,7 @@ exports.confirm = function (req_, res_) {
 };
 
 exports.remove = function(req_, res_) {
-  var company = "dreamarts.co.jp";
+  var company = req_.session.user.companyid;
   var uid = req_.session.user._id
     , id = req_.body.id
     , layoutId = req_.body.layoutId;      // remove publishLayout
@@ -119,7 +119,7 @@ exports.remove = function(req_, res_) {
 
 exports.list = function(req_, res_) {
 
-  var company = "dreamarts.co.jp"
+  var company = req_.session.user.companyid
     , start = req_.query.start
     , limit = req_.query.count
     , publish = req_.query.publish
@@ -147,7 +147,7 @@ exports.list = function(req_, res_) {
 
 exports.history = function(req_, res_) {
 
-  var company = "dreamarts.co.jp"
+  var company = req_.session.user.companyid
     , start = req_.query.start
     , limit = req_.query.count
     , publish = req_.query.publish;

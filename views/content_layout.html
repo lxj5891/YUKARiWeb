@@ -152,6 +152,36 @@
   </tr>
 </script>
 
+<div class="modal fade" id="syntheticModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 570px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">画面プレビュー</h4>
+            </div>
+            <div class="modal-body" id="slide">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/template" id="tmpl_slide">
+    <div class="carousel slide bs-docs-carousel-example" id="carousel-example-generic">
+
+        <div class="carousel-inner" style = "height : 350px ; overflow :hidden ; overflow-y:auto; ">
+            <$ var cnt=1; _.each(files, function(file) { $>
+            <div class="item" id="page{{cnt}}">
+                <img alt="Slide{{cnt}}" src="/picture/{{file}}">
+            </div>
+            <$ cnt++}); $>
+        </div>
+    </div>
+</script>
+
 </div>
 </body>
 </html>

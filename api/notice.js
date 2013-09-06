@@ -25,7 +25,7 @@ exports.add = function(req_, res_) {
 // notice list
 exports.list = function(req_, res_) {
 
-  var company = "dreamarts.co.jp"
+  var company = req_.session.user.companyid
     , start = req_.query.start
     , limit = req_.query.count;
 
