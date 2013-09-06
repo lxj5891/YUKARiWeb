@@ -26,7 +26,7 @@ exports.list = function(condition_, start_, limit_, callback_){
   notice.find(condition_)
     .skip(start_ || 0)
     .limit(limit_ || 20)
-    .sort({editat: -1})
+    .sort({createat: -1})
     .exec(function(err, result){
       callback_(err, result);
     });
@@ -46,4 +46,11 @@ exports.findOne = function(id,callback){
   notice.findOne({_id:id},function(err,docs){
     callback(err,docs);
   });
-}
+};
+
+exports.total = function(condition, callback_){
+  var notice = model();
+  notice.count(condition).exec(function(err, count){
+    callback_(err, count);
+  });
+};

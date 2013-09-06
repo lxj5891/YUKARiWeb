@@ -49,29 +49,29 @@
           </form>
         </div>
       </div>
-      <div class="row">
+      <div id="list" class="row">
         <div class="col-lg-12">
-        <table class="table table-hover">
-          <thead>
-          <tr>
-            <th>#</th>
-            <th>宛先</th>
-            <th width="20%">タイトル</th>
-            <th width="50%">メッセージ</th>
-            <th>作成者</th>
-            <th>作成日</th>
-          </tr>
-          </thead>
-          <tbody id="notice_list"></tbody>
-        </table>
-          </div>
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>宛先</th>
+              <th width="20%">タイトル</th>
+              <th width="50%">メッセージ</th>
+              <th>送信者</th>
+              <th>送信日</th>
+            </tr>
+            </thead>
+            <tbody id="notice_list"></tbody>
+          </table>
+        </div>
       </div>
+
+      <div class="pagination-area" id="pagination_area"></div>
     </div>
-    <div class="pagination-area" id="pagination_area"></div>
   </div><!--/.main-content-->
 
 </div><!--/.main-container-->
-</div><!-- /.modal -->
 
 <script type="text/template" id="tmpl_notice_list">
     <tr>

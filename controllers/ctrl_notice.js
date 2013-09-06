@@ -3,6 +3,7 @@ var _         = require('underscore')
   , notice    = require('../modules/mod_notice.js')
   , mq        = require('./ctrl_mq')
   , user      = lib.ctrl.user
+  , group     = lib.ctrl.group
   , error     = lib.core.errors;
 
 var EventProxy = require('eventproxy');
@@ -16,28 +17,48 @@ exports.getNoticeById = function(notice_id,callback){
 // get list
 exports.list = function(company_, start_, limit_, callback_) {
 
-    var start = start_ || 0
-        , limit = limit_ || 20
-        , condition = {valid: 1};
+  var start = start_ || 0
+      , limit = limit_ || 20
+      , condition = {valid: 1};
+
+  notice.total(condition, function(err, count){
+    if (err) {
+      return callback_(new error.InternalServer(err));
+    }
 
     notice.list(condition, start, limit, function(err, result){
-        if (err) {
-            return callback_(new error.InternalServer(err));
-        }
+      if (err) {
+          return callback_(new error.InternalServer(err));
+      }
 
-        var subTask = function(item, subCB){
+      var subTask = function(item, subCB){
+
+        async.parallel({
+          user: function (callback2) {
+
             user.listByUids(item.touser, 0, 20, function(err, u_result) {
-                item._doc.sendto = u_result;
-                subCB(err);
+              callback2(err, u_result);
             });
-        };
-        async.forEach(result, subTask, function(err_){
-
-            user.appendUser(result, "createby", function(err, result){
-                return callback_(err, {items:result});
+          },
+          group: function (callback2) {
+            group.listByGids(item.togroup, 0, 20, function(err, g_result) {
+              callback2(err, g_result);
             });
+          }
+        }, function(errs, results) {
+          item._doc.sendto = results;
+          subCB(errs);
         });
+
+      };
+
+      async.forEach(result, subTask, function(err_){
+        user.appendUser(result, "createby", function(err){
+          return callback_(err, {items:result, totalItems: count});
+        });
+      });
     });
+  });
 };
 
 exports.add = function(uid_, notice_, callback_) {
