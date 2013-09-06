@@ -129,7 +129,7 @@ function ImagePopup(opt, callback) {
     $("#input_filter").css("display","none");
     $("#" + el + " div[class=modal-body]").html("<ol id=\"taglist\"  class=\"popular-tags group material_tags\"></ol>");
     $("#" + el + " div[class=modal-body]").append("<div id=\"material_popup\" class=\"material_popup\"></div>");
-    $("#" + el + " div[class=material_popup]").append('<div id=\"hook\" class=\"hook\">继续加载</div>');
+    $("#" + el + " div[class=material_popup]").append('<div id=\"hook\" class=\"hook\">load</div>');
     $("#" + el).modal('show');
   };
   var _initTagsStore = function(data){
@@ -319,7 +319,7 @@ function ImagePopup(opt, callback) {
     var that = this;
     var tags = that._tags;
     ajaxStatus = 1 ;
-    $("#hook").html("正在加载中。。。。");
+    $("#hook").html("loading。。。。");
     var url = $tplUtil.format('/material/list.json?type=image&&tags={0}&&start={1}&count={2}&&contentType=image',[cur_tags,start,count]);
     smart.doget(url, function (err, result) {
       console.log(url);
@@ -327,7 +327,7 @@ function ImagePopup(opt, callback) {
       _initStore(result);
       setTimeout(function(){
         ajaxStatus = 0;
-        $("#hook").html("加载");
+        $("#hook").html("load");
         _render(_listener);
       },1000);
 
