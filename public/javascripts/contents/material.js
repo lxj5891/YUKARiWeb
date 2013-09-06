@@ -73,6 +73,7 @@ $(function () {
     ,editCell: function(num){
       var _this = this;
       var thumb_blocks = $('.thumb_block');
+
       thumb_blocks.each(function(index){
         var cur_num = $(this).attr('num');
         if(cur_num == num) {
@@ -81,7 +82,9 @@ $(function () {
           var selectedEvent = function(event){
             console.log("_callbackFn e  " +event );
             var _img = $("#thumb_block_" + num + " .thumb_block_img");
+            _img.hide();
             _img.attr("src",event.image);
+            _img.fadeIn(1500);
             store.setMetadata(index,event);
           };
 
@@ -121,16 +124,22 @@ $(function () {
       if(direction == "left" && cur_index > 0) {
         var cur = thumb_block[cur_index];
         var pre = thumb_block[cur_index - 1];
-
+        $(cur).hide();
+        $(pre).hide();
         store.leftMetadata(cur_index);
         $(pre).before($(cur));
+        $(cur).fadeIn(500);
+        $(pre).fadeIn(1500);
       }
       if(direction == "right" && cur_index <last_index) { // right
         var cur = thumb_block[cur_index];
         var next = thumb_block[cur_index + 1];
-
+        $(cur).hide();
+        $(next).hide();
         store.rightMetadata(cur_index);
         $(next).after($(cur));
+        $(cur).fadeIn(500);
+        $(next).fadeIn(1500);
       }
     }
   }
