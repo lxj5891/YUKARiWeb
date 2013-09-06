@@ -92,22 +92,8 @@ exports.add = function(uid_, data_, callback_) {
       user_.password = auth.sha256(user_.password);
 
   sync.waterfall([
-
-       function(callback) {
-         // 确认用户id重复
-         user.findUserList({"uid": uid_}, function(err, result) {
-           if (err) {
-             callback(new error.InternalServer("システムエラーが発生しました。"));
-           }
-
-           if (result) {
-             callback(new error.BadRequest("ユーザが存在しました。"));
-           }
-
-         });
-       },
         // 添加公司
-        function(rtncheck,callback) {
+        function(callback) {
             company.add(comp_, function(err, result) {
                 callback(err, result);
 

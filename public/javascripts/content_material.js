@@ -85,7 +85,7 @@ function events() {
         // OK
         smart.dodelete("/material/remove.json", {"fid": row._id}, function(err, result){
           if (err) {
-            Alertify.log.error("削除に失敗しました。" +err.responseJSON.error.message); console.log(err);
+            Alertify.log.error("素材が既に使用されているため、削除できません。"); console.log(err);
           } else {
             render(_start, _count);
             Alertify.log.success("削除しました。");
@@ -200,7 +200,7 @@ function render(start, count) {
 
     index = 1;
     _.each(_materialList, function(row){
-      colindex = colindex >= 2 ? 0 : colindex;
+      colindex = colindex >= 4 ? 0 : colindex;
 
       cols[colindex] = cols[colindex] || [];
       cols[colindex].push({

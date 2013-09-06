@@ -70,7 +70,6 @@ var store = {
     that.metadata = getstore;
     for (var i in that.metadata) {
       var metadata_obj = that.metadata[i]
-      console.log("metadata_obj.index" + metadata_obj.index);
       if (metadata_obj.index != undefined) {
         if (that.metadata_index < metadata_obj.index) {
           max_index = metadata_obj.index;
@@ -187,7 +186,6 @@ var store = {
     var that = this;
     _metadata = [];
     for (var index in that.metadata) {
-      console.log(index);
       var _obj = that.metadata[index];
       if (_obj.metadata_id == metadata_id) {
         return  index;

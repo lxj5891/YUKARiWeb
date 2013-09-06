@@ -106,7 +106,7 @@ function ImagePopup(opt, callback) {
   var _type = {single: "single", multiple: "multiple", video: "video"};
   this._tpltype = {image:'image'};
 
-  this.template = {image: '', video: '',tags:''};
+  this.template = {image: '', video: '',tags:'',tagsall:''};
   this._store = {ddd:'dd'};
   this._tags = '';
   var options = opt || {};
@@ -125,10 +125,11 @@ function ImagePopup(opt, callback) {
   this.init = function(){
     that.template.image = $("#tmpl_popup_image").html();
     that.template.tags = $("#tmpl_tag_item").html();
+    that.template.tagsall = $("#tmpl_tag_item_all").html();
     $("#input_filter").css("display","none");
     $("#" + el + " div[class=modal-body]").html("<ol id=\"taglist\"  class=\"popular-tags group material_tags\"></ol>");
     $("#" + el + " div[class=modal-body]").append("<div id=\"material_popup\" class=\"material_popup\"></div>");
-    $("#" + el + " div[class=material_popup]").append('<div id=\"hook\" class=\"hook\">继续加载</div>');
+    $("#" + el + " div[class=material_popup]").append('<div id=\"hook\" class=\"hook\">load</div>');
     $("#" + el).modal('show');
   };
   var _initTagsStore = function(data){
@@ -137,6 +138,7 @@ function ImagePopup(opt, callback) {
       console.log(data[i]);
       if(data[i].name){
         tmp.push({
+          data: '',
           name:data[i].name,
           counter :data[i].counter
         });
@@ -181,12 +183,16 @@ function ImagePopup(opt, callback) {
       var _tpl = _.template(that.template.tags,that._tags_store[i]);
       $("#taglist").append(_tpl);
     }
+    var _tpl = _.template(that.template.tagsall);
+    $("#taglist").append(_tpl);
     listener();
   }
   var _listener_tags = function(){
     $("#taglist").unbind("click").on("click","a",function(e){
       cur_tags = $(e.target).html();
-      reloadStore();
+      var cur_data = $(e.target).attr("data");
+        reloadStore(cur_data);
+
     })
   }
   var _listener = function(){
@@ -313,7 +319,7 @@ function ImagePopup(opt, callback) {
     var that = this;
     var tags = that._tags;
     ajaxStatus = 1 ;
-    $("#hook").html("正在加载中。。。。");
+    $("#hook").html("loading。。。。");
     var url = $tplUtil.format('/material/list.json?type=image&&tags={0}&&start={1}&count={2}&&contentType=image',[cur_tags,start,count]);
     smart.doget(url, function (err, result) {
       console.log(url);
@@ -321,16 +327,19 @@ function ImagePopup(opt, callback) {
       _initStore(result);
       setTimeout(function(){
         ajaxStatus = 0;
-        $("#hook").html("加载");
+        $("#hook").html("load");
         _render(_listener);
       },1000);
 
     });
   };
-  var reloadStore = function(){
+  var reloadStore = function(data){
     start = 0 ;
     _index_num = 0 ;
     that.init();
+    if(data=="all"){
+      cur_tags = '';
+    }
     loadStore();
     filterStore();
   }

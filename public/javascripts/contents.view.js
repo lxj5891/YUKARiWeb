@@ -9,7 +9,6 @@ $contents.view = {
   initialize: function () {
     var that = this;
     that.initByStore(function () {
-      console.log(store.type);
       that.viewDidLoad();
       that.listener();
       that.initCover(that.didListenerMaterialImagePanel);
@@ -204,7 +203,9 @@ $contents.view = {
       var _data = $(e.target).attr("data");
       var _src = $(e.target).attr("src");
       var _metadata_id = $(e.target).attr("metadata_id");
+      $("#main_panel > img").hide();
       $("#main_panel > img").attr("src", _src);
+      $("#main_panel > img").fadeIn(800);
       store.cur_metadata_id = _metadata_id;
       if (store.type == store._synthetic_type.normal) {
         self.widgetList.showWidgetByPage(store.cur_metadata_id);
@@ -225,9 +226,6 @@ $contents.view = {
     var popuplistener = function () {
       var selectedEvent = function (event) {
         console.log("_callbackFn e  " + event);
-//        var _img = $("#thumb_block_" + num + " .thumb_block_img");
-//        _img.attr("src", event.image);
-//        store.setMetadata(index, event);
         for(var i in event){
           if (store.type == store._synthetic_type.CaseView) {
             if (store.metadata && store.metadata.length == 1) {
@@ -262,31 +260,6 @@ $contents.view = {
       var _popup = new ImagePopup({ type: 'multiple', tpl: 'image', el: 'pickThumbPic' }, selectedEvent);
       _popup.show();
 
-//      smart.doget("/material/list.json?type=image&&tags=" + tags + "&&start=0&count=500", function (e, result) {
-//        new jModal("pickImagePic", tpl_materialPopupImage, result.items);
-//        //TODO :绑定 选择封面的事件
-//        $("#pickImagePic").unbind('click').on("click", "img", function (e) {
-//          var $target = $($(e.target).parent().find('div'));
-//          $target.toggleClass("checked");
-//          if (!$target.attr("checked")) {
-//            $target.attr("checked", true);
-//          } else {
-//            $target.removeAttr("checked");
-//          }
-//        });
-//        $("input[name=image_tag]").unbind("change").bind("change", function (e) {
-//          tags = $(e.target).val();
-//          popuplistener();
-//        });
-//        $("button[name=okPickImg]").unbind("click").bind("click", function (e) {
-//          $("#pickImagePic div[checked]").parent().find(".material_thumb").each(function (i, es) {
-//
-//          });
-//
-//          $("#pickImagePic").modal('hide');
-//        });
-//        $("#pickImagePic").modal('show');
-//      });
     }
 
     $(".material_cell > .cover_add").unbind("click").bind('click', popuplistener);
@@ -345,7 +318,6 @@ $contents.view = {
         callback.apply();
         return;
       }
-      console.log(result);
       store.initSyntheticType(result.data.items.type);
 
       // 初始化Cover的行数列数
@@ -355,9 +327,23 @@ $contents.view = {
       store.initCover(result.data.items.cover);
       store.initMetadata(result.data.items.metadata);
       //TODO ：通过store  render
-
+      var type_redner  = function(type){
+        this._synthetic_type =  {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"};
+        if(type == this._synthetic_type.imageWithThumb){
+          return "アニメーション画像";
+        } else if(type == this._synthetic_type.normal){
+          return "画像セット";
+        } else if(type == this._synthetic_type.gallery){
+          return "ギャラリー";
+        } else if(type == this._synthetic_type.CaseView){
+          return "ケースビュー";
+        }
+        return
+      }
       $("#syntheticName").val(result.data.items.name);
       $("#syntheticComment").val(result.data.items.comment);
+      $("#syntheticType").html(type_redner(result.data.items.type));
+
 
       callback.apply();
     });
@@ -442,7 +428,6 @@ $contents.view = {
           Alertify.log.error(save_valida.err);
         } else {
           smart.dopost("/content/synthetic/saveAll.json", _data, function (e, result) {
-            console.log(result);
             Alertify.log.success("ネタが保存されました");
             window.location.href = "/content/synthetic/edit/" + result.data.items._id;
           });

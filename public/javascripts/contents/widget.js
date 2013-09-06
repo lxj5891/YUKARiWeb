@@ -52,6 +52,7 @@ WidgetFace.prototype.init = function() {
 
   this.self = $("#"+this.widget_id);
 
+
   this.setSelect();
   this.setHover();
   this.setResizable();
@@ -111,10 +112,17 @@ WidgetFace.prototype.setResizable = function () {
 
     },
     stop: function () {
+      var pos = _this.self.position();
       _this.itemWidth.val(store.fixScaleWidthToIpad(_this.self.width()));
       _this.itemHeight.val(store.fixScaleHeightToIpad(_this.self.height()));
       _this.width = store.fixScaleWidthToIpad(_this.self.width());
       _this.height = store.fixScaleHeightToIpad(_this.self.height());
+      if (store.fixScaleWidthToIpad(pos.left + _this.self.width()) > 1024) {
+        _this.self.width(store.fixScaleWidthToWeb(1024) - pos.left);
+      }
+      if (store.fixScaleHeightToIpad(pos.top + _this.self.height()) > 723) {
+        _this.self.height(store.fixScaleHeightToWeb(723) - pos.top);
+      }
       store.setWidget(_this.metadata_id,_this);
     }
   });
@@ -128,14 +136,18 @@ WidgetFace.prototype.setActionChange = function(init){
   var _this = this;
 
 
+
   var setImageAction = function() {
+    if(_this.action&&(_this.action.type!=store._action_type.image))
+    _this.action = undefined;
     var _loadMaterialFn = function(start){
       smart.doget("/material/list.json?type=image&&start=0&count=500", function (e, result) {
         new loadModal("pickThumbPic", tpl_materialPopupImage, result.items,'single',function(event){
           $(".action_widget_image_preview img").attr("src",event.src);
-          _this.action = _this.action ||{};
+          _this.action = {};
           _this.action.type= store._action_type.image;
           _this.action.material_id = event.material_id;
+          _this.action.image = event.src;
         });
       });
       //_loadMaterialFn 的callback  启动显示窗口
@@ -150,10 +162,11 @@ WidgetFace.prototype.setActionChange = function(init){
     $("a[name=btnSelectWidgetImage]").unbind("click").bind("click",_fn);
   };
   var setJumpAction = function(){
+    if(_this.action&&(_this.action.type!=store._action_type.jump))
+      _this.action = undefined;
     var _metadata = [];
     for(var i in store.metadata){
       var m = store.metadata[i].material;
-      console.log(store.metadata[i]);
       _metadata[i] = {
         image : store.metadata[i].image,
         data :store.metadata[i].index,
@@ -177,7 +190,7 @@ WidgetFace.prototype.setActionChange = function(init){
       //value存入数据库
       var _data = store.getMetadata(_metadata_id);
       console.log(_data);
-      _this.action = _this.action ||{};
+      _this.action = {};
       _this.action.type= store._action_type.jump;
       _this.action.value = _data.index;
       //image用于画面存入数据库
@@ -189,11 +202,15 @@ WidgetFace.prototype.setActionChange = function(init){
     $("#pickThumbPic").modal('show');
   };
   var setMovieAction = function(){
+    if(_this.action&&(_this.action.type!=store._action_type.movie))
+      _this.action = undefined;
+
     var _loadMaterialFn = function(start){
       smart.doget("/material/list.json?type=image&&start=0&count=500", function (e, result) {
         new loadModal("pickThumbPic", tpl_materialPopupVideo, result.items,'video',function(event){
           $(".action_widget_moive_preview video").attr("src",event.src);
-          _this.action = _this.action ||{};
+//          _this.action = _this.action ||{};
+          _this.action = {};
           _this.action.type= store._action_type.movie;
           _this.action.material_id = event.material_id;
           console.log(event);
@@ -213,6 +230,9 @@ WidgetFace.prototype.setActionChange = function(init){
     $("a[name=btnSelectWidgetMoive]").unbind("click").bind("click",_fn);
   };
   var setUrlSchemeAction = function(){
+    if(_this.action&&(_this.action.type!=store._action_type.urlScheme))
+      _this.action = undefined;
+
     $("#txt_widget_action_app").unbind("change").bind("change",function(e){
       _this.action = _this.action ||{};
       _this.action.type= store._action_type.urlScheme;
@@ -229,6 +249,15 @@ WidgetFace.prototype.setActionChange = function(init){
   };
   var _action_chage_event = function(){
     var cur_action_type = $("#action").val();
+    if(!_this.action||cur_action_type != _this.action.type ){
+      $(".action_widget_moive_preview video").attr("src",'/images/logo-block.png');
+      $(".action_widget_image_preview img").attr("src",'/images/logo-block.png');
+      $(".action_jump_preview img").attr("src","/images/logo-block.png");
+      $("#txt_widget_action_app").val('');
+      $("#txt_widget_action_url").val('');
+
+    }
+
 //    _this.action = _this.action ||{};
 //    _this.action.type= cur_action_type;
     $("#_action_type_image").css("display", "none");
@@ -271,8 +300,12 @@ WidgetFace.prototype.setAction = function(){
     //如果不存在动作设置为none
     _this.itemAction.val("none");
   }else{
+
     _this.itemAction.val(_this.action.type);
   }
+//  $(".action_jump_preview img").attr("src","/images/logo-block.png");
+//  $(".action_widget_image_preview video").attr("src",'/images/logo-block.png');
+//  $(".action_jump_preview img").attr("src",'/images/logo-block.png');
 
 
   //删除插件事件
@@ -297,6 +330,8 @@ WidgetFace.prototype.setAction = function(){
     }else if(_this.action.type == store._action_type.image){
       if(_this.action.material){
         $(".action_widget_image_preview img").attr("src",'/picture/'+_this.action.material.fileid);
+      }else{
+        $(".action_widget_image_preview img").attr("src",_this.action.image);
       }
       $("#_action_type_image").css("display", "block");
     }else if(_this.action.type == store._action_type.movie){
@@ -356,6 +391,7 @@ WidgetFace.prototype.setSelect =  function () {
 
   var _this = this;
   this.self.click(function () {
+    $("#action").unbind("change");
     //显示插件设定的form
     $contents.view.widgetList.showWidgetPanel();
 
@@ -370,7 +406,6 @@ WidgetFace.prototype.setSelect =  function () {
     _this.itemWidth.val(store.fixScaleWidthToIpad(_this.self.width()));
     _this.itemHeight.val(store.fixScaleHeightToIpad(_this.self.height()));
     _this.itemName.val(_this.name);
-    console.log(_this.action)
 
 
     // set selection css

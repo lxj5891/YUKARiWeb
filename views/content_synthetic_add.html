@@ -137,6 +137,13 @@
             <input type="text" name="syntheticName" class="form-control" id="syntheticName" placeholder="タイトル">
           </div>
         </div>
+        <div class="form-group" style="margin-top: 15px">
+          <label class="col-lg-2 control-label">タイプ</label>
+
+          <div class="col-lg-10">
+            <p class="form-control-static" id="syntheticType"></p>
+          </div>
+        </div>
         <div class="form-group">
           <label for="syntheticComment" class="col-lg-2 control-label">コメント</label>
 
@@ -249,10 +256,9 @@
                 </div>
               </div>
               <div class="form-group" id="_action_type_movie">
-                <div class="col-lg-7">
-
+                <div class="col-lg-7 action_widget_moive">
+                  <a class="btn btn-default btn-sm" name="btnSelectWidgetMoive">ビデオ選択</a>
                   <div class="action_widget_moive_preview">
-                    <a class="btn btn-default btn-sm" name="btnSelectWidgetMoive">ビデオ選択</a>
                     <video src="/images/logo-block.png"/></video>
                   </div>
                 </div>
@@ -262,20 +268,17 @@
                   <input id="txt_widget_action_image" type="text" name="widget_name" class="form-control"
                          placeholder="ウィジェット名">
                 </div>
+
                 <div class="col-lg-7 action_widget_image">
                   <a class="btn btn-default btn-sm" name="btnSelectWidgetImage">画像選択</a>
-                  <input id="select_widget_action_image" type="hidden" name="widget_name" class="form-control"
-                         placeholder="ウィジェット名">
                   <div class="action_widget_image_preview">
                     <img src="/images/logo-block.png"/>
                   </div>
                 </div>
               </div>
               <div class="form-group" id="_action_type_jump">
-                <label class="col-lg-5 control-label">遷移先</label>
-
+                <a class="btn btn-default btn-sm" name="btnSelectWidgetMetadata" >遷移先</a>
                 <div class="action_jump_preview">
-                  <a class="btn btn-default btn-sm" name="btnSelectWidgetMetadata">遷移先</a>
                   <img src="/images/logo-block.png"/>
                 </div>
               </div>
@@ -454,7 +457,12 @@
 
 <script type="text/template" id="tmpl_tag_item">
   <li class="tag">
-    <a>{{name}}</a>
+    <a data="{{data}}">{{name}}</a>
+  </li>
+</script>
+<script type="text/template" id="tmpl_tag_item_all">
+  <li class="tag">
+    <a data="all">All</a>
   </li>
 </script>
 
