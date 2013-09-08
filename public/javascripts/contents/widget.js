@@ -120,6 +120,7 @@ WidgetFace.prototype.setResizable = function () {
       if (store.fixScaleWidthToIpad(pos.left + _this.self.width()) > 1024) {
         _this.self.width(store.fixScaleWidthToWeb(1024) - pos.left);
       }
+      console.log(pos.top + _this.self.height());
       if (store.fixScaleHeightToIpad(pos.top + _this.self.height()) > 723) {
         _this.self.height(store.fixScaleHeightToWeb(723) - pos.top);
       }

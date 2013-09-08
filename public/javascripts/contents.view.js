@@ -22,7 +22,6 @@ $contents.view = {
 
     $("#widget_panel").css("display", "none");
     $("#metadata_panel").css("display", "block");
-
     $("#effect_big_preview").css("display", "none");
     var _metadata = store.getMetadata(metadata_id);
     $("#txt_metadata_effect option").each(function (e) {
@@ -102,6 +101,32 @@ $contents.view = {
       store.metadata[_metadata_index] = _metadata;
     };
     $("#txt_metadata_effect").unbind("change").bind("change", effectChangeListener);
+    var removeEffectImage = function(e){
+       console.log("removeEffectImage  ");
+      var _metadata = store.getMetadata(store.cur_metadata_id);
+      if(_metadata.txtmaterial_id){
+        _metadata.txtmaterial_id = null;
+
+      }
+      if(_metadata.txtmaterial){
+        _metadata.txtmaterial = null;
+      }
+      if(_metadata.txtimage){
+        _metadata.txtimage = null;
+      }
+      store.setTxtmetadata(_metadata);
+
+      $("#preview img").attr("src","/images/block.png");
+
+    };
+    $("#preview span").unbind("click").bind("click",removeEffectImage);
+    var _metadata = store.getMetadata(store.cur_metadata_id);
+    if(_metadata.txtmaterial_id){
+      $("#preview span").css("display","block");
+    }else{
+      $("#preview span").css("display","none");
+    }
+
   },
   /**
    * 已选择元素的 事件监听
@@ -212,9 +237,19 @@ $contents.view = {
       }
 //      self.widgetList.showWidgetByPage(store.cur_metadata_id);
       if (store.type == store._synthetic_type.imageWithThumb) {
+
+        console.log("_materialImageClickListener");
         self.showEffectPage(store.cur_metadata_id);
       }
-
+      if (store.type == store._synthetic_type.CaseView) {
+        $("#cover_setting").css("display", "block");
+        $("#main_panel").css("height", "1020px");
+        $("#main_panel").css("overflow-y", "scroll");
+        $("#main_panel img").css("width", "100%");
+        $("#main_panel img").css("height", "auto");
+        $("#widget_panel").css("display", "none");
+        $("#metadata_panel").css("display", "none");
+      }
 
       //设置当前编辑的metadata_id
 
@@ -225,18 +260,20 @@ $contents.view = {
     $("input[name=image_tag]").val('');
     var popuplistener = function () {
       var selectedEvent = function (event) {
-        console.log("_callbackFn e  " + event);
-        for(var i in event){
-          if (store.type == store._synthetic_type.CaseView) {
-            if (store.metadata && store.metadata.length == 1) {
-              Alertify.log.error("CaseView 类型只用一张图片");
-              return;
-            }
-            $("#main_panel").css("overflow-y", "scroll");
-            $("#main_panel img").css("width", "100%");
-            $("#main_panel img").css("height", "auto");
-            $("#main_panel > img").attr("src", event[i].image);
+        if (store.type == store._synthetic_type.CaseView) {
+
+          $("#main_panel > img").attr("src", event.image);
+
+
+          if (store.metadata && store.metadata.length == 1) {
+            store.setMetadata(0,event);
+          }else{
+            var i = store.addMetadata(event.fileid, event.material_id);
           }
+          self.didRenderMaterialImagePanel(self.didListenerMaterialImagePanel);
+          return;
+        }
+        for(var i in event){
           var i = store.addMetadata(event[i].fileid, event[i].material_id);
           self.didRenderMaterialImagePanel(self.didListenerMaterialImagePanel);
           store.cur_metadata_id = "metadata_" + i;
@@ -252,12 +289,14 @@ $contents.view = {
           $("#widget_panel").css("display", "none");
           $("#metadata_panel").css("display", "block");
         }
-        if (store.type == store._synthetic_type.CaseView) {
-          $("#main_panel").css("overflow-y", "scroll");
-        }
       };
-
-      var _popup = new ImagePopup({ type: 'multiple', tpl: 'image', el: 'pickThumbPic' }, selectedEvent);
+      var options = undefined;
+      if (store.type == store._synthetic_type.CaseView) {
+        options = { type: 'single', tpl: 'image', el: 'pickThumbPic' };
+      }else{
+        options = { type: 'multiple', tpl: 'image', el: 'pickThumbPic' };
+      }
+      var _popup = new ImagePopup(options, selectedEvent);
       _popup.show();
 
     }
@@ -274,6 +313,7 @@ $contents.view = {
    */
   initMaterial: function (listener) {
     this.didRenderMaterialImagePanel(listener, true);
+
   },
   didRenderMaterialImagePanel: function (listener, isInit) {
     var that = this;
@@ -589,10 +629,10 @@ $contents.view = {
 
     $("#viewport").append("<div id=\"thumb_panel\"></div>");
     $("#thumb_panel").append("<div class=\"material\"></div></div>");
-    if (store.type != store._synthetic_type.CaseView) {
-      $("#cover_setting").css("display", "block");
+    if (store.type == store._synthetic_type.CaseView) {
+      $("#widget_panel").css("display", "none");
+      $("#metadata_panel").css("display", "none");
     }
-
   },
   initCover: function (listener) {
     this.didRenderCover(listener, true);
@@ -652,5 +692,4 @@ $contents.view = {
 
 $(document).ready(function () {
   $contents.view.initialize();
-
 });

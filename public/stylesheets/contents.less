@@ -212,12 +212,24 @@
   width: 100%;
   margin-left: 5px;
   background: #e5e5e5;
-
+  position: relative;
+  height: 220px;
 }
 
 #preview img {
   width: 100%;
+  float: left;
 }
+#preview span {
+  position: absolute;
+  float: left;
+  top: 10px;
+  right: 10px;
+  display: none;
+  cursor:  pointer;
+}
+
+
 .panelheader {
   margin-left: 30px;
 }
@@ -401,4 +413,8 @@ div:hover>.tools.tools-right {
 
 #_action_type_jump {
   margin-left: 133px;
+}
+#page1 {
+  height: 400px;
+  overflow-y: scroll;
 }

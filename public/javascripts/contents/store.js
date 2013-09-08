@@ -154,6 +154,19 @@ var store = {
       });
 //      return;
     }
+    if (that.type == that._synthetic_type.CaseView) {
+      _.each(that.cover, function (e, i) {
+        if (!e.image) {
+          if(e.material.thumb){
+            e.image = smart.image_prefix() + e.material.thumb.big;
+          }else{
+            e.image = smart.image_prefix() + e.material.fileid;
+          }
+        }
+        that.cover[i] = e;
+      });
+//      return;
+    }
     that.fixManyCover();
   },
   addMetadata: function (fileid,material_id) {
@@ -225,6 +238,15 @@ var store = {
   setMetadata : function(index,material_event){
     this.metadata[index].material_id = material_event.material_id;
     this.metadata[index].image = material_event.image;
+  },
+  setTxtmetadata  : function(tmetadata){
+    var _m_id = tmetadata.metadata_id;
+    for(var i in this.metadata){
+      if(this.metadata[i].metadata_id == _m_id){
+          this.metadata[i] = tmetadata;
+        return;
+      }
+    }
   },
   addContents: function (fileid, content_id) {
     var that = this;

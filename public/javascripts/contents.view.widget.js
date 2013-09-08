@@ -415,6 +415,7 @@ $(function () {
 
   // 添加 widgetList 对象
   $contents.view.widgetList = widgetList;
-
-  $contents.view.widgetList.initWidgetlistFromMetadata(store.metadata);
+  if(store.type  == store._synthetic_type.normal){
+    $contents.view.widgetList.initWidgetlistFromMetadata(store.metadata);
+  }
 });

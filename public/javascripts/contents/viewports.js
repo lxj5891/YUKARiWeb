@@ -203,10 +203,12 @@ function ImagePopup(opt, callback) {
     if(type == _type.single){
       $("#" + el + " button[action=ok]").unbind("click").bind("click", function () {
         var _src = $($("#" + el + " div[checked]").parent().find("img[class=material_thumb]")).attr("src");
+        var _fileid = $($("#" + el + " div[checked]").parent().find("img[class=material_thumb]")).attr("data");
         var _material_id = $($("#" + el + " div[checked]").parent().find("img[class=material_thumb]")).attr("material_id");
         $("#" + el).modal('hide');
         var event = {
           image: _src,
+          fileid : _fileid,
           material_id: _material_id
         };
         callback(event);
