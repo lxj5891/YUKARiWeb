@@ -238,7 +238,7 @@ function uploadFiles(files) {
   for (var i = 0; i < files.length; i++) {
       var filetype = files[i].type.split("/");
       if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
-          Alertify.dialog.alert( "ファイルのファイルタイプは非合法的");
+          Alertify.dialog.alert( "ファイルのファイルタイプは合法的ではない");
           return ;
       }
   }
