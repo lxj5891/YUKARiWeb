@@ -29,6 +29,7 @@ exports.guiding = function(app){
 
   // 注销
   app.get("/simplelogout", function (req, res) {
+    req.query.home = "/top/login";
     user.logout(req, res);
   });
 
