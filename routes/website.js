@@ -150,7 +150,27 @@ exports.guiding = function (app) {
   app.get('/admin/operated', function (req, res) {
     res.render("admin_operated_list", {"title": "運行情報", user: req.session.user});
   });
-
+  // 元素
+  app.get('/content/synthetic', function (req, res) {
+    res.render("content_synthetic", {
+      title: "ネタ" , user: req.session.user
+    });
+  });
+  // 元素
+  app.get('/content/synthetic/add', function (req, res) {
+    res.render("content_synthetic_add", {
+      title: "ネタ編集" , synthetic_id:'' , user: req.session.user
+    });
+  });
+  //元素
+  app.get('/content/synthetic/edit/:synthetic_id', function (req_, res_) {
+    var id = req_.params.synthetic_id;
+    res_.render("content_synthetic_add", {
+      title: "ネタ編集"
+      , synthetic_id : id
+      , user: req_.session.user
+    });
+  });
 
   // ----------------------------------
   app.get('*', function (req, res) {

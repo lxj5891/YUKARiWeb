@@ -1,5 +1,4 @@
 var apis    = require('./apis')
-  , synthetic = require('./synthetic')
   , website = require('./website');
 
 /*
@@ -8,10 +7,7 @@ var apis    = require('./apis')
 
 exports.guiding = function (app) {
   apis.guiding(app);
-  synthetic.guiding(app);
 
   website.guiding(app);
-
-
 };
 
