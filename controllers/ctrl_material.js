@@ -236,7 +236,7 @@ exports.remove = function(company_, uid_, fid_, callback_) {
   checkMaterialHasUse(fid_,function(err,count){
     if(count>0){
       console.log("已经使用");
-      return callback_(new error.BadRequest("素材已经使用"));
+      return callback_(new error.BadRequest(__("js.ctr.material.used.error")));
     } else {
       material.remove(fid_, function(err, info){
         return callback_(err, info);

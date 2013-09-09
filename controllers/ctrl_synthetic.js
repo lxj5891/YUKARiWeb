@@ -305,7 +305,7 @@ exports.remove = function (uid_, id_, callback_) {
         callback_(err, result);
       });
     }else{
-      return callback_(new error.BadRequest("元素已经使用"));
+      return callback_(new error.BadRequest(__("js.ctr.synthetic.used.error")));
     }
   })
 };

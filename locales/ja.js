@@ -257,5 +257,11 @@
   "js.public.check.company.password":"パスワードを入力してください。",
   "js.public.check.company.name":"会社名を入力してください。",
   "js.public.check.material.delete":"素材が既に使用されているため、削除できません。",
+  "===================controllers=================":"",
+  "js.ctr.delete.auth.error":"削除権限はありません",
+  "js.ctr.confirm.auth.error":"承認権限はありません",
+  "js.ctr.layout.complete.error":"レイアウトは完成してないので、申請できません",
+  "js.ctr.synthetic.used.error":"ネタが既に使用される",
+  "js.ctr.material.used.error":"素材が既に使用される",
   "===================end=================":""
 }

@@ -108,7 +108,7 @@ exports.remove = function(company_, uid_, id_, layoutId_ , callback_){
       if ( uid_ != result._doc.createby ) {
 
         // 権限チェック
-        callback_({code:0, message: "削除権限はありません"});
+        callback_({code:0, message: __("js.ctr.delete.auth.error")});
 
       } else {
 
@@ -141,7 +141,7 @@ exports.updateStatus = function (company_, uid_, layout_, callback_) {
     layout.get(condition, function (err, result) {
       if ( uid_ != result._doc.confirmby ) {
         // 権限チェック
-        callback_({code:0, message: "承認権限はありません"});
+        callback_({code:0, message: __("js.ctr.confirm.auth.error")});
 
       } else {
 
@@ -159,7 +159,7 @@ exports.updateStatus = function (company_, uid_, layout_, callback_) {
   }  else {
     if (layout_.status == 2 && isLayoutComplete(layout_)) {
       // 権限チェック
-      callback_({code:0, message: "レイアウトは完成してないので、申請できません"});
+      callback_({code:0, message: __("js.ctr.layout.complete.error")});
     } else {
 
       layout.update(condition, layout_, function (err, result) {

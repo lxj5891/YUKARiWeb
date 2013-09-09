@@ -258,5 +258,11 @@
   "js.public.check.company.password":"请输入管理员密码",
   "js.public.check.company.name":"请输入客户公司名称",
   "js.public.check.material.delete":"素材正在被使用,不能删除.",
+  "===================controllers=================":"",
+  "js.ctr.delete.auth.error":"无删除权限",
+  "js.ctr.confirm.auth.error":"无承认权限",
+  "js.ctr.layout.complete.error":"布局设定不完整，无法申请",
+  "js.ctr.synthetic.used.error":"元素已经使用",
+  "js.ctr.material.used.error":"素材已经使用",
   "===================end=================":""
 }
