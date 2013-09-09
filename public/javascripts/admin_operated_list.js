@@ -18,7 +18,7 @@ function render(start,count) {
     container.html("");
     _.each(result.items, function(row){
       container.append(_.template(tmpl, {
-        "index": index++
+        "index": index++ + start
         , "compid": row._id
         , "compname": row.name
         , "adminid" : row.mail

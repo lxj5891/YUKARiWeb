@@ -45,7 +45,7 @@ function render(start, count) {
       }
       container.append(_.template(tmpl, {
           "id": row._id
-        , "index": index++
+        , "index": index++ + start
         , "name": row.name
         , "page": row.page
         , "type": type_redner(row.type)

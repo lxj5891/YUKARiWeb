@@ -31,7 +31,7 @@ function render(start, count) {
 
       container.append(_.template(tmpl, {
           "id": row._id
-        , "index": index++
+        , "index": index++ + start
         , "name": row.name.name_zh
         , "members": row.member.length
         , "description": row.description

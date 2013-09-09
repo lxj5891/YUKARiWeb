@@ -80,15 +80,15 @@ function events() {
 
     // 删除按钮
     if (operation == "delete") {
-      Alertify.dialog.confirm("削除します。よろしいですか？", function () {
+      Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
         // OK
         smart.dodelete("/material/remove.json", {"fid": row._id}, function(err, result){
           if (err) {
-            Alertify.log.error("素材が既に使用されているため、削除できません。"); console.log(err);
+            Alertify.log.error(i18n["js.public.check.material.delete"]); console.log(err);
           } else {
             render(_start, _count);
-            Alertify.log.success("削除しました。");
+            Alertify.log.success(i18n["js.common.delete.success"]);
           }
         });
       }, function () {
@@ -120,10 +120,10 @@ function events() {
 
     smart.doput("/material/updatetag.json", {fid: row._id, tags: tag.join(",")}, function(err, result) {
       if (err) {
-        Alertify.log.error("更新失敗しました。"); console.log(err);
+        Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
       } else {
         render(_start, _count);
-        Alertify.log.success("更新しました。");
+        Alertify.log.success(i18n["js.common.update.success"]);
       }
     });
   });
@@ -181,7 +181,7 @@ function render(start, count) {
     container_list.html("");
     _.each(_materialList, function(row){
       container_list.append(_.template(tmpl_list, {
-          "index": index++
+          "index": index++ + start
         , "fid": row._id
         , "file": row.thumb ? row.thumb.middle : row.fileid
         , "type": row.contentType
@@ -235,6 +235,13 @@ function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
   }
+  for (var i = 0; i < files.length; i++) {
+      var filetype = files[i].type.split("/");
+      if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
+          Alertify.dialog.alert( "ファイルのファイルタイプは合法的ではない");
+          return ;
+      }
+  }
 
   var fd = new FormData();
   for (var i = 0; i < files.length; i++) {
@@ -250,10 +257,10 @@ function uploadFiles(files) {
 
       $("#upload_progress_dlg").modal("hide");
       if (err) {
-        Alertify.log.error("アップロード失敗しました。"); console.log(err);
+        Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
       } else {
         render(_start, _count);
-        Alertify.log.success("アップロードしました。");
+        Alertify.log.success(i18n["js.common.upload.success"]);
       }
     },
     function(progress){
@@ -283,12 +290,12 @@ function updateFiles(index, files) {
 
       $("#upload_progress_dlg").modal("hide");
       if (err) {
-        Alertify.log.error("ファイルを入れ替えに失敗しました。"); console.log(err);
+        Alertify.log.error(i18n["js.common.replace.error"]); console.log(err);
       } else {
 
         render(_start, _count);
         renderDialog(result.data.items, index);
-        Alertify.log.success("ファイルを入れ替えました。");
+        Alertify.log.success(i18n["js.common.replace.success"]);
       }
     },
     function(progress){

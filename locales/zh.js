@@ -17,6 +17,19 @@
   "html.label.common.createat":"登录日",
   "html.label.common.createby":"登录者",
   "html.label.common.operation":"操作",
+  "js.common.add.confirm":"",
+  "js.common.add.success":"",
+  "js.common.add.error":"新规失败",
+  "js.common.update.confirm":"",
+  "js.common.update.success":"更新成功",
+  "js.common.update.error":"更新失败",
+  "js.common.delete.confirm":"确定删除吗?",
+  "js.common.delete.success":"删除成功",
+  "js.common.delete.error":"删除失败",
+  "js.common.upload.success":"上传成功",
+  "js.common.upload.error":"上传失败",
+  "js.common.replace.success":"文件替换了",
+  "js.common.replace.error":"文件替换失败",
   "===================sidebar.html":"",
   "common.sidebar.content":"内容",
   "common.sidebar.content.material":"素材",
@@ -239,7 +252,6 @@
   "js.routes.website.admin_operated_list.title":"运营信息",
   "js.routes.synthetic.content_synthetic.title":"元素",
   "js.routes.synthetic.content_synthetic_add.title":"编辑元素",
-
   "===================smart core=================":"",
   "group.error.OrganizationNameCanNotBeEmpty": "组织名称不能为空",
   "group.error.OrganizationIdCanNotBeEmpty": "组织ID不能为空",
@@ -254,6 +266,12 @@
   "user.csv.unit": "条",
   "user.csv.imported": "导入成功:",
   "user.csv.canNotToParseTheCSVFile": "无法解析CSV文件.",
-  "file.err.ImageIsNotFound": "没有图像文件. fileid:"
-
+  "file.err.ImageIsNotFound": "没有图像文件. fileid:",
+  "===================public js=================":"",
+  "js.public.check.company.type":"请输入客户类型",
+  "js.public.check.company.adminid":"请输入管理员ID",
+  "js.public.check.company.password":"请输入管理员密码",
+  "js.public.check.company.name":"请输入客户公司名称",
+  "js.public.check.material.delete":"素材正在被使用,不能删除.",
+  "===================end=================":""
 }

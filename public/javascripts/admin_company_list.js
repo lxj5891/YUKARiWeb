@@ -22,7 +22,7 @@ function render(start, count) {
     container.html("");
     _.each(result.items, function(row){
       container.append(_.template(tmpl, {
-          "index": index++
+          "index": index++ + start
         , "type": row.companyType
         , "_id": row._id
         , "name": row.name
@@ -61,7 +61,7 @@ function events() {
           };
           smart.doput("/company/remove.json",company, function(err, result){
             if (err) {
-              Alertify.log.error("削除に失敗しました。");
+              Alertify.log.error(i18n["js.common.delete.error"]);
               console.log(err);
             } else {
               render(0, 15);
@@ -83,7 +83,7 @@ function events() {
             };
             smart.doput("/company/active.json",company, function(err, result){
               if (err) {
-                Alertify.log.error("更新に失敗しました。");
+                Alertify.log.error(i18n["js.common.update.error"]);
                 console.log(err);
               } else {
                 render(0, 15);
