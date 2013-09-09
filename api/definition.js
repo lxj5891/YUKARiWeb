@@ -9,7 +9,7 @@ var json = lib.core.json
 exports.get = function(req_, res_, isPublish) {
   // Check Params
   if(!req_.query.target) {
-    var err = new errors.BadRequest("Request parameter is incorrect, \"target\" parameter is required.");
+    var err = new errors.BadRequest(__("api.param.error","target"));
     res_.send(err.code, json.errorSchema(err.code, err.message));
     return;
   }

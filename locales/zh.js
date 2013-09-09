@@ -273,11 +273,17 @@
   "js.public.check.company.password":"请输入管理员密码",
   "js.public.check.company.name":"请输入客户公司名称",
   "js.public.check.material.delete":"素材正在被使用,不能删除.",
+  "===================modules=================":"",
+  "js.mod.copy.title":"副本",
   "===================controllers=================":"",
   "js.ctr.delete.auth.error":"无删除权限",
   "js.ctr.confirm.auth.error":"无承认权限",
   "js.ctr.layout.complete.error":"布局设定不完整，无法申请",
   "js.ctr.synthetic.used.error":"元素已经使用",
   "js.ctr.material.used.error":"素材已经使用",
+  "===================api=================":"",
+  "api.param.error":"请求参数不正确，请输入参数【%s】。",
+  "api.layout.id.error":"布局不存在。布局ID：",
+  "api.file.name.error":"文件不存在。文件名：",
   "===================end=================":""
 }

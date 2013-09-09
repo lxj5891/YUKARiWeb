@@ -8,7 +8,7 @@ var async = require('async');
 var EventProxy = require('eventproxy');
 
 exports.getSyntheticById = function (synthetic_id, callback) {
-  console.log("synthetic_id   %s"   ,synthetic_id);
+  //console.log("synthetic_id   %s"   ,synthetic_id);
   synthetic.findOne(synthetic_id, function (err, docs) {
     if(err || !docs){
       return callback(err,null);
@@ -93,7 +93,7 @@ function setMaterialInfoMetadata(synthetic_docs, callback) {
       }
     });
   }, function(){
-    console.log("ok");
+    //console.log("ok");
     return;
   });
 
