@@ -250,7 +250,7 @@ exports.list = function(condition_, start_, limit_, callback_){
   publishLayout.find(condition_)
     .skip(start_ || 0)
     .limit(limit_ || 20)
-    .sort({editat: -1})
+    .sort({"active.editat": -1})
     .exec(function(err, result){
       callback_(err, result);
     });
@@ -272,7 +272,7 @@ exports.activeList = function(condition_, start_, limit_, callback_){
   publishLayout.find(condition_).select('_id layoutId active')
     .skip(start_ || 0)
     .limit(limit_ || 20)
-    .sort({editat: -1})
+    .sort({"active.editat": -1})
     .exec(function(err, result){
       callback_(err, result);
     });
