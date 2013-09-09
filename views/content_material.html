@@ -20,12 +20,12 @@
         <ul class="breadcrumb">
           <li>
             <i class="icon-home icon-large"></i>
-            <a href="/yukari">ホーム</a>
+            <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
               <span class="divider">
                 <i class="icon-chevron-right arrow-icon"></i>
               </span>
           </li>
-          <li class="active">素材</li>
+          <li class="active"><%= i('html.label.material') %><!-- 素材--></li>
         </ul><!--.breadcrumb-->
       </div>
 
@@ -35,7 +35,7 @@
           <div class="pull-right">
             <button id="selectFile" type="button" class="btn btn-default">
               <i class="icon-plus icon-white"></i>
-              <span>素材追加</span>
+              <span><%= i('html.button.material.add') %><!-- 素材追加--></span>
             </button>
 
             <div class="btn-group">
@@ -49,7 +49,7 @@
           <div class="pull-right" style="width: 300px">
             <form class="search-form">
               <div class="input-group">
-                <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+                <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
                 <span class="input-group-addon">
                   <i class="icon-search"></i>
                 </span>
@@ -72,12 +72,12 @@
             <table class="table table-hover">
               <thead>
               <tr>
-                <th>番号</th>
-                <th>種別</th>
-                <th>ファイル名</th>
-                <th>サイズ</th>
-                <th>更新日</th>
-                <th>操作</th>
+                <th><%= i('html.label.material.no') %><!-- 番号--></th>
+                <th><%= i('html.label.material.type') %><!-- 種別--></th>
+                <th><%= i('html.label.material.filename') %><!-- ファイル名--></th>
+                <th><%= i('html.label.material.size') %><!-- サイズ--></th>
+                <th><%= i('html.label.common.updateat') %><!-- 更新日--></th>
+                <th><%= i('html.label.common.operation') %><!-- 操作--></th>
               </tr>
               </thead>
               <tbody id="material_list"></tbody>
@@ -98,41 +98,41 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">素材詳細</h4>
+          <h4 class="modal-title"><%= i('html.label.material.detail') %><!-- 素材詳細--></h4>
         </div>
         <div class="modal-body" style="min-height: 270px;">
           <img id="material_detail" src="/images/avatar.png" style="width: 500px;">
           <div style="float: right; width: 230px;">
             <form class="form-horizontal" role="form">
               <div class="form-group">
-                <label for="inputName" class="col-xs-4 control-label">名前</label>
+                <label for="inputName" class="col-xs-4 control-label"><%= i('html.label.material.name') %><!-- 名前--></label>
                 <div class="col-xs-8">
-                  <input type="text" class="form-control" id="inputName" placeholder="名前" readonly="readonly">
+                  <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.material.name') %>" readonly="readonly">
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputName" class="col-xs-4 control-label">サイズ</label>
+                <label for="inputName" class="col-xs-4 control-label"><%= i('html.label.material.size') %><!-- サイズ--></label>
                 <div class="col-xs-8">
-                  <input type="text" class="form-control" id="inputSize" placeholder="サイズ" readonly="readonly">
+                  <input type="text" class="form-control" id="inputSize" placeholder="<%= i('html.label.material.size') %>" readonly="readonly">
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputName" class="col-xs-4 control-label">更新者</label>
+                <label for="inputName" class="col-xs-4 control-label"><%= i('html.label.common.updateby') %><!-- 更新者--></label>
                 <div class="col-xs-8">
-                  <input type="text" class="form-control" id="inputEditBy" placeholder="更新者" value="2013/08/17" readonly="readonly">
+                  <input type="text" class="form-control" id="inputEditBy" placeholder="<%= i('html.label.common.updateby') %>" value="2013/08/17" readonly="readonly">
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputName" class="col-xs-4 control-label">更新日</label>
+                <label for="inputName" class="col-xs-4 control-label"><%= i('html.label.common.updateat') %><!-- 更新日--></label>
                 <div class="col-xs-8">
-                  <input type="text" class="form-control" id="inputEditAt" placeholder="更新日" value="2013/08/17" readonly="readonly">
+                  <input type="text" class="form-control" id="inputEditAt" placeholder="%= i('html.label.common.updateat') %>" value="2013/08/17" readonly="readonly">
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputName" class="col-xs-4 control-label">タグ</label>
+                <label for="inputName" class="col-xs-4 control-label"><%= i('html.label.material.tag') %><!-- タグ--></label>
                 <div class="col-xs-8">
                   <div id="textBoxTag" class="incrementBox">
-                    <input id="inputTag" scope="1" placeholder="+ タグを指定" style="width: 130px;" />
+                    <input id="inputTag" scope="1" placeholder="<%= i('html.input.material.tag') %>" style="width: 130px;" />
                   </div>
                 </div>
               </div>
@@ -143,15 +143,15 @@
           <input type="file" id="updatefile" style="display: none" />
           <button class="btn btn-warning cancel" id="btnUploadFile">
             <i class="icon-upload icon-white"></i>
-            <span>ファイル入替</span>
+            <span><%= i('html.button.material.upload') %><!-- ファイル入替--></span>
           </button>
           <button class="btn btn-warning cancel" id="btnSave">
             <i class="icon-save icon-white"></i>
-            <span>保存</span>
+            <span><%= i('html.button.common.save') %><!-- 保存--></span>
           </button>
           <button class="btn btn-warning cancel" data-dismiss="modal" id="btnCancel">
             <i class="icon-ban-circle icon-white"></i>
-            <span>閉じる</span>
+            <span><%= i('html.button.common.close') %><!-- 閉じる--></span>
           </button>
         </div>
       </div><!-- /.modal-content -->
@@ -181,8 +181,8 @@
       <td>{{size}}</td>
       <td>{{editat}}</td>
       <td>
-        <a href="#" class="btn btn-default btn-sm" index={{index}} operation="edit">編集</a>
-        <a href="#" class="btn btn-default btn-sm" index={{index}} operation="delete">削除</a>
+        <a href="#" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
+        <a href="#" class="btn btn-default btn-sm" index={{index}} operation="delete"><%= i('html.button.common.delete') %><!-- 削除--></a>
       </td>
     </tr>
   </script>

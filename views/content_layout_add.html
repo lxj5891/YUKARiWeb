@@ -264,19 +264,19 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home home-icon"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
           <span class="divider">
             <i class="icon-chevron-right arrow-icon"></i>
           </span>
         </li>
         <li>
           <i class="icon-th icon-large"></i>
-          <a href="/content/layout">レイアウト</a>
+          <a href="/content/layout"><%= i('html.label.layout') %><!-- レイアウト--></a>
           <span class="divider">
             <i class="icon-chevron-right arrow-icon"></i>
           </span>
         </li>
-        <li class="active">新規レイアウト</li>
+        <li class="active"><%= i('html.label.layout.new') %><!-- 新規レイアウト--></li>
       </ul>
       <!--.breadcrumb-->
     </div>
@@ -292,23 +292,23 @@
       -->
       <div class="row tableheader col-lg-8">
         <div class="pull-left">
-          <h4>情報入力</h4>
+          <h4><%= i('html.label.layout.info') %><!-- 情報入力--></h4>
         </div>
       </div>
       <div class="row col-lg-8" style="border:solid 1px #e3e3e3;margin-bottom: 30px">
         <form class="form-horizontal" role="form">
           <div class="form-group" style="margin-top: 15px">
-            <label for="layoutName" class="control-label col-lg-2">タイトル</label>
+            <label for="layoutName" class="control-label col-lg-2"><%= i('html.label.layout.info.title') %><!-- タイトル--></label>
 
             <div style="margin-left:200px;width:700px">
-              <input type="text" name="layoutName" class="form-control" id="layoutName" placeholder="タイトル">
+              <input type="text" name="layoutName" class="form-control" id="layoutName" placeholder="<%= i('html.label.layout.info.title') %>">
             </div>
           </div>
           <div class="form-group">
-            <label for="layoutComment" class="col-lg-2 control-label">コメント</label>
+            <label for="layoutComment" class="col-lg-2 control-label"><%= i('html.label.layout.info.comment') %><!-- コメント--></label>
 
             <div style="margin-left:200px;width:700px">
-              <textarea class="form-control" name="layoutComment" id="layoutComment" placeholder="コメント"
+              <textarea class="form-control" name="layoutComment" id="layoutComment" placeholder="<%= i('html.label.layout.info.comment') %>"
                         rows="6"></textarea>
             </div>
           </div>
@@ -316,11 +316,11 @@
       </div>
       <div class="row col-lg-8 tableheader" style="border:solid 1px #e3e3e3;">
         <div class="pull-left">
-          <h4>横</h4>
+          <h4><%= i('html.label.layout.x') %><!-- 横--></h4>
         </div>
         <div class="pull-right">
           <!-- TODO ysl-->
-          <a data-toggle="modal"  href="#" class="btn btn-default" id="addLayoutScreen"><i class="icon-plus">&nbsp;</i>追加スクリーン</a>
+          <a data-toggle="modal"  href="#" class="btn btn-default" id="addLayoutScreen"><i class="icon-plus">&nbsp;</i><%= i('html.button.layout.screenadd') %><!-- 追加スクリーン--></a>
         </div>
       </div>
       <div class="row col-lg-8" style="border: 1px solid #dddddd;">
@@ -340,11 +340,11 @@
       </div>
       <div class="row col-lg-8 tableheader" style="border:solid 1px #e3e3e3;margin-top: 30px">
         <div class="pull-left">
-          <h4>縦</h4>
+          <h4><%= i('html.label.layout.y') %><!-- 縦--></h4>
         </div>
         <div class="pull-right">
           <!-- TODO ysl-->
-          <a data-toggle="modal"  href="#" class="btn btn-default" id="addCaseMenu"><i class="icon-plus">&nbsp;</i>追加ケースメーニュー</a>
+          <a data-toggle="modal"  href="#" class="btn btn-default" id="addCaseMenu"><i class="icon-plus">&nbsp;</i><%= i('html.button.layout.casemenu') %><!-- 追加ケースメーニュー--></a>
         </div>
       </div>
       <div class="row col-lg-8" style="border:solid 1px #e3e3e3;margin-bottom:30px">
@@ -396,7 +396,7 @@
       </div>
       <div class="col-lg-8" style="margin-bottom: 30px">
         <div id="saveLayout" name="saveLayout" class="col-lg-4 btn btn-warning btn-lg">
-          <a>保存</a>
+          <a><%= i('html.button.common.save') %><!-- 保存--></a>
         </div>
       </div>
     </div>
@@ -407,27 +407,27 @@
     <div class="modal-dialog" style="width: 800px;">
       <div class="modal-content">
         <div class="modal-header">
-          <h3>ネタ選択</h3>
+          <h3><%= i('html.label.layout.contents.title') %><!-- ネタ選択--></h3>
         </div>
         <div class="modal-body" style="padding-bottom: 0px">
           <table class="table table-hover" style="margin-bottom: 0px">
             <thead>
             <tr>
               <th>#</th>
-              <th>表紙</th>
-              <th>ネタ</th>
-              <th>タイプ</th>
-              <th>ページ</th>
-              <th>更新者</th>
-              <th>更新日</th>
-              <th>選択</th>
+              <th><%= i('html.label.layout.contents.sheet') %><!-- 表紙--></th>
+              <th><%= i('html.label.layout.contents.synthetic') %><!-- ネタ--></th>
+              <th><%= i('html.label.layout.contents.type') %><!-- タイプ--></th>
+              <th><%= i('html.label.layout.contents.pages') %><!-- ページ--></th>
+              <th><%= i('html.label.layout.contents.updateby') %><!-- 更新者--></th>
+              <th><%= i('html.label.layout.contents.updateat') %><!-- 更新日--></th>
+              <th><%= i('html.label.layout.contents.select') %><!-- 選択--></th>
             </tr>
             </thead>
             <tbody id="synthetic_list"></tbody>
           </table>
         </div>
         <div class="modal-footer" style="margin-top: 0px">
-          <button class="btn btn-default btn-sm" id="selectedContents">選択</button>
+          <button class="btn btn-default btn-sm" id="selectedContents"><%= i('html.button.layout.contents.select') %><!-- 選択--></button>
         </div>
       </div>
     </div>

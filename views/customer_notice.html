@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>通知</title>
+  <title><%= title %></title>
   <% include common/required.html %>
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="/javascripts/customer_notice.js"></script>
@@ -20,12 +20,12 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
         </li>
-        <li class="active">通知</li>
+        <li class="active"><%= i('html.label.notice') %><!-- 通知--></li>
       </ul><!--.breadcrumb-->
     </div>
 
@@ -34,14 +34,14 @@
         <div class="pull-right">
           <a id="selectFile" type="button" class="btn btn-default" href="/customer/notice/add" style="height: 34px;">
             <i class="icon-plus icon-white"></i>
-            <span>通知追加</span>
+            <span><%= i('html.button.notice.add') %><!-- 通知追加--></span>
           </a>
         </div>
 
         <div class="pull-right" style="width: 300px">
           <form class="search-form">
             <div class="input-group">
-              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
           <span class="input-group-addon">
             <i class="icon-search"></i>
           </span>
@@ -55,11 +55,11 @@
             <thead>
             <tr>
               <th>#</th>
-              <th>宛先</th>
-              <th width="20%">タイトル</th>
-              <th width="50%">メッセージ</th>
-              <th>送信者</th>
-              <th>送信日</th>
+              <th><%= i('html.label.notice.recipient') %><!-- 宛先--></th>
+              <th width="20%"><%= i('html.label.notice.title') %><!-- タイトル--></th>
+              <th width="50%"><%= i('html.label.notice.message') %><!-- メッセージ--></th>
+              <th><%= i('html.label.notice.sendby') %><!-- 送信者--></th>
+              <th><%= i('html.label.notice.sendat') %><!-- 送信日--></th>
             </tr>
             </thead>
             <tbody id="notice_list"></tbody>

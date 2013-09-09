@@ -20,43 +20,43 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
         </li>
-        <li class="active">一括登録</li>
+        <li class="active"><%= i('html.label.user.import') %><!-- 一括登録--></li>
       </ul><!--.breadcrumb-->
     </div>
 
     <div class="page-content">
       <div class="row tableheader col-lg-12">
         <div class="pull-left">
-          <h4>インポート説明</h4>
+          <h4><%= i('html.label.user.import.instruction.title') %><!-- インポート説明--></h4>
         </div>
       </div>
       <div class="row col-lg-12" style="border:solid 1px #e3e3e3;margin-bottom: 30px;height:200px">
-        <p>CSVファイルから、ユーザマスタ にインポートできます。 </p>
+        <p><%= i('html.label.user.import.instruction') %><!-- CSVファイルから、ユーザマスタ にインポートできます。--> </p>
       </div>
       <div class="row tableheader col-lg-12">
         <div class="pull-left">
-          <h4>インポート</h4>
+          <h4><%= i('html.label.user.import.title') %><!-- インポート--></h4>
         </div>
       </div>
       <div class="row col-lg-12" style="border:solid 1px #e3e3e3;margin-bottom: 30px;">
         <div style="margin-bottom: 3em;margin-left: 30px">
-          <h4>テンプレートダウンロード　</h4>
+          <h4><%= i('html.label.user.import.download.instruction') %><!-- テンプレートダウンロード--></h4>
           <div>
             <form action="/user/download/template.json" method="GET">
-              <input type="submit" class="btn btn-warning btn-lg" value="ダウンロード">
+              <input type="submit" class="btn btn-warning btn-lg" value="<%= i('html.button.user.import.download') %>">
             </form>
           </div>
         </div>
         <div style="margin-bottom: 3em;margin-left: 30px">
-          <h4>インポート</h4>
+          <h4><%= i('html.label.user.import.title') %><!-- インポート--></h4>
           <div>
             <input type="file" id="csvfile" name="files" accept="text/csv"/>
-            <button class="btn btn-warning btn-lg" style="margin-top: 30px" id="importuser">インポート</button>
+            <button class="btn btn-warning btn-lg" style="margin-top: 30px" id="importuser"><%= i('html.button.user.import') %><!-- インポート--></button>
           </div>
 
         </div>

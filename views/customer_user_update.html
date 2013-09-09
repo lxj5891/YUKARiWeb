@@ -20,12 +20,12 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
           <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
         </li>
         <li style="width:90px">
           <i class="icon-male icon-large"></i>
-          <a href="/customer/user">ユーザ</a>
+          <a href="/customer/user"><%= i('html.label.user') %><!-- ユーザ一覧--></a>
           <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
         </li>
         <li class="active" style="width:86px"><%= title %></li>
@@ -35,62 +35,62 @@
     <div class="page-content">
       <div class="page-header position-relative">
         <h1>
-          基本情報
+          <%= i('html.label.user.basicinfo') %><!-- 基本情報-->
         </h1>
       </div>
       <div>
         <form class="form-horizontal" role="form">
           <div class="form-group">
-            <label for="inputUserID" class="col-lg-2 control-label">ユーザID</label>
+            <label for="inputUserID" class="col-lg-2 control-label"><%= i('html.label.user.id') %><!-- ユーザID--></label>
             <div class="col-lg-3">
-              <input type="text" class="form-control" id="inputUserID" placeholder="ユーザID">
+              <input type="text" class="form-control" id="inputUserID" placeholder="<%= i('html.label.user.id') %>">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputPassword" class="col-lg-2 control-label">パスワード</label>
+            <label for="inputPassword" class="col-lg-2 control-label"><%= i('html.label.user.password') %><!-- パスワード--></label>
             <div class="col-lg-3">
-              <input type="password" class="form-control" id="inputPassword" placeholder="パスワード">
+              <input type="password" class="form-control" id="inputPassword" placeholder="<%= i('html.label.user.password') %>">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputName" class="col-lg-2 control-label">名前</label>
+            <label for="inputName" class="col-lg-2 control-label"><%= i('html.label.user.name') %><!-- 名前--></label>
             <div class="col-lg-3">
-              <input type="text" class="form-control" id="inputName" placeholder="名前">
+              <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.user.name') %>">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputRole" class="col-lg-2 control-label">役職</label>
+            <label for="inputRole" class="col-lg-2 control-label"><%= i('html.label.user.role') %><!-- 役職--></label>
             <div class="col-lg-3">
-              <input type="text" class="form-control" id="inputRole" placeholder="役職">
+              <input type="text" class="form-control" id="inputRole" placeholder="<%= i('html.label.user.role') %>">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputPhone" class="col-lg-2 control-label">電話番号</label>
+            <label for="inputPhone" class="col-lg-2 control-label"><%= i('html.label.user.tel') %><!-- 電話番号--></label>
             <div class="col-lg-3">
-              <input type="tel" class="form-control" id="inputPhone" placeholder="電話番号">
+              <input type="tel" class="form-control" id="inputPhone" placeholder="<%= i('html.label.user.tel') %>">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputComment" class="col-lg-2 control-label">コメント</label>
+            <label for="inputComment" class="col-lg-2 control-label"><%= i('html.label.user.comment') %><!-- コメント--></label>
             <div class="col-lg-3">
-              <textarea class="form-control" id="inputComment" placeholder="コメント"></textarea>
+              <textarea class="form-control" id="inputComment" placeholder="<%= i('html.label.user.comment') %>"></textarea>
             </div>
           </div>
           <% if (user.type == 3 || user.type == 1) {%>
           <div class="form-group">
-            <label class="col-lg-2 control-label">承認者</label>
+            <label class="col-lg-2 control-label"><%= i('html.label.user.approved') %><!-- 承認者--></label>
             <div class="col-lg-3">
               <input type="checkbox" style="vertical-align: middle" id="inputApproved">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-2 control-label">通知者</label>
+            <label class="col-lg-2 control-label"><%= i('html.label.user.notice') %><!-- 通知者--></label>
             <div class="col-lg-3">
               <input type="checkbox" style="vertical-align: middle" id="inputNotice">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-2 control-label">有効</label>
+            <label class="col-lg-2 control-label"><%= i('html.label.user.active') %><!-- 有効--></label>
             <div class="col-lg-3">
               <input type="checkbox" style="vertical-align: middle" id="inputActive">
             </div>
@@ -98,7 +98,7 @@
           <% } %>
           <div class="form-group">
             <div class="col-lg-10 pull-right">
-              <button class="btn btn-warning btn-lg" id="updateUser">登録</button>
+              <button class="btn btn-warning btn-lg" id="updateUser"><%= i('html.button.common.add') %><!-- 登録--></button>
             </div>
           </div>
         </form>

@@ -23,24 +23,24 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!--ホーム --></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
         </li>
-        <li class="active">顧客</li>
+        <li class="active"><%= i('html.label.company') %><!--顧客 --></li>
       </ul><!--.breadcrumb-->
     </div>
 
     <div class="page-content">
       <div class="row tableheader">
         <div class="pull-right" style="padding-bottom: 5px">
-          <a href="/admin/company/add" class="btn btn-default"><i class="icon-plus"></i>顧客追加</a>
+          <a href="/admin/company/add" class="btn btn-default"><i class="icon-plus"></i><%= i('html.button.company.add') %><!--顧客追加 --></a>
         </div>
         <div class="pull-right" style="width: 300px">
           <form class="search-form">
             <div class="input-group">
-              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
               <span class="input-group-addon">
                 <i class="icon-search"></i>
               </span>
@@ -54,15 +54,15 @@
           <thead>
           <tr>
             <th>#</th>
-            <th>顧客タイプ</th>
-            <th>会社ID</th>
-            <th>会社名</th>
-            <th>会社住所</th>
-            <th>電話番号</th>
-            <th>管理者ID</th>
-            <th>登録日</th>
-            <th>有効性</th>
-            <th>操作</th>
+            <th><%= i('html.label.company.type') %><!--顧客タイプ --></th>
+            <th><%= i('html.label.company.id') %><!--会社ID --></th>
+            <th><%= i('html.label.company.name') %><!--会社名 --></th>
+            <th><%= i('html.label.company.address') %><!--会社住所 --></th>
+            <th><%= i('html.label.company.tel') %><!--電話番号 --></th>
+            <th><%= i('html.label.company.adminid') %><!--管理者ID --></th>
+            <th><%= i('html.label.company.createat') %><!--登録日 --></th>
+            <th><%= i('html.label.company.active') %><!--有効性 --></th>
+            <th><%= i('html.label.common.operation') %><!--操作 --></th>
           </tr>
           </thead>
           <tbody id="company_list"></tbody>
@@ -82,9 +82,9 @@
 <tr>
   <td>{{index}}</td>
   <$ if (type == 1) {$>
-  <td>契約顧客</td>
+  <td><%= i('html.label.company.type.contract') %><!--契約顧客 --></td>
   <$ } else {$>
-  <td>体験顧客</td>
+  <td><%= i('html.label.company.type.demo') %><!--体験顧客 --></td>
   <$ } $>
   <td>{{_id}}</td>
   <td>{{name}}</td>
@@ -98,16 +98,16 @@
     <td><input type="checkbox"></td>
   <$ } $>
   <td>
-    <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="edit">編集</a>
+    <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>
     <$ if (type == 1) {$>
-        <a href="/admin/company/remove/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="delete">削除</a>
+        <a href="/admin/company/remove/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
         <$ if (active == 1) {$>
-          <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="active">無効</a>
+          <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.inactive') %><!--無効 --></a>
         <$ } else {$>
-          <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="active">有効</a>
+          <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.active') %><!--有効 --></a>
         <$ } $>
     <$ } else {$>
-      <a href="/admin/company/remove/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="delete">削除</a>
+      <a href="/admin/company/remove/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
     <$ } $>
   </td>
 </tr>

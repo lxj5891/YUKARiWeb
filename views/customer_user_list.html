@@ -22,24 +22,24 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
         </li>
-        <li class="active">ユーザ一覧</li>
+        <li class="active"><%= i('html.label.user') %><!-- ユーザ一覧--></li>
       </ul><!--.breadcrumb-->
     </div>
 
     <div class="page-content">
       <div class="row tableheader">
         <div class="pull-right" style="padding-bottom: 5px">
-            <a href="/customer/user/add" class="btn btn-default"><i class="icon-plus"></i>ユーザ追加</a>
+            <a href="/customer/user/add" class="btn btn-default"><i class="icon-plus"></i><%= i('html.button.user.add') %><!-- ユーザ追加--></a>
         </div>
         <div class="pull-right" style="width: 300px">
           <form class="search-form">
             <div class="input-group">
-              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
               <span class="input-group-addon">
                 <i class="icon-search"></i>
               </span>
@@ -53,15 +53,15 @@
           <thead>
           <tr>
             <th>#</th>
-            <th>ユーザID</th>
-            <th>名前</th>
-            <th>役職</th>
-            <th>電話番号</th>
-            <th>コメント</th>
-            <th>承認者</th>
-            <th>通知者</th>
-            <th>有効</th>
-            <th>操作</th>
+            <th><%= i('html.label.user.id') %><!-- ユーザID--></th>
+            <th><%= i('html.label.user.name') %><!-- 名前--></th>
+            <th><%= i('html.label.user.role') %><!-- 役職--></th>
+            <th><%= i('html.label.user.tel') %><!-- 電話番号--></th>
+            <th><%= i('html.label.user.comment') %><!-- コメント--></th>
+            <th><%= i('html.label.user.approved') %><!-- 承認者--></th>
+            <th><%= i('html.label.user.notice') %><!-- 通知者--></th>
+            <th><%= i('html.label.user.active') %><!-- 有効--></th>
+            <th><%= i('html.label.common.operation') %><!-- 操作--></th>
           </tr>
           </thead>
           <tbody id="user_list"></tbody>
@@ -102,12 +102,12 @@
     <$ } $>
     <td>
 
-      <a href="/customer/user/edit/{{id}}" class="btn btn-default btn-sm" index={{index}} operation="edit">編集</a>
+      <a href="/customer/user/edit/{{id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
       <$ if (type == 0) {$>
         <$ if (active == 1) {$>
-          <a href="/customer/user/" class="btn btn-default btn-sm" index={{index}} operation="active">無効</a>
+          <a href="/customer/user/" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.inactive') %><!-- 無効--></a>
         <$ } else {$>
-          <a href="/customer/user/" class="btn btn-default btn-sm" index={{index}} operation="active">有効</a>
+          <a href="/customer/user/" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.active') %><!-- 有効--></a>
         <$ } $>
       <$ } $>
     </td>

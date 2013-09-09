@@ -19,12 +19,12 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
         </li>
-        <li class="active">ネタ一覧</li>
+        <li class="active"><%= i('html.label.synthetic') %><!-- ネタ一覧--></li>
       </ul><!--.breadcrumb-->
     </div>
 
@@ -34,14 +34,14 @@
         <div class="pull-right">
           <a data-toggle="modal" href="#settingModal" class="btn btn-default">
             <i class="icon-plus icon-white"></i>
-            <span>ネタ追加</span>
+            <span><%= i('html.button.synthetic.add') %><!-- ネタ追加--></span>
           </a>
         </div>
 
         <div class="pull-right" style="width: 300px">
           <form class="search-form">
             <div class="input-group">
-              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
                 <span class="input-group-addon">
                   <i class="icon-search"></i>
                 </span>
@@ -57,13 +57,13 @@
             <thead>
             <tr>
               <th>#</th>
-              <th>表紙</th>
-              <th>タイトル</th>
-              <th>タイプ</th>
-              <th>ページ</th>
-              <th>更新者</th>
-              <th>更新日</th>
-              <th>操作</th>
+              <th><%= i('html.label.synthetic.sheet') %><!-- 表紙--></th>
+              <th><%= i('html.label.synthetic.title') %><!-- タイトル--></th>
+              <th><%= i('html.label.synthetic.type') %><!-- タイプ--></th>
+              <th><%= i('html.label.synthetic.pages') %><!-- ページ--></th>
+              <th><%= i('html.label.common.updateby') %><!-- 更新者--></th>
+              <th><%= i('html.label.common.updateat') %><!-- 更新日--></th>
+              <th><%= i('html.label.common.operation') %><!-- 操作--></th>
             </tr>
             </thead>
             <tbody id="synthetic_list"></tbody>
@@ -84,12 +84,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">スライド一覧</h4>
+        <h4 class="modal-title"><%= i('html.label.synthetic.slide') %><!-- スライド一覧--></h4>
       </div>
       <div class="modal-body" id="slide">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal"><%= i('html.button.common.close') %><!-- Close--></button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -109,9 +109,9 @@
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>
-      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="edit">編集</a>
-      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="copy">コピー</a>
-      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="delete">削除</a>
+      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
+      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="copy"><%= i('html.button.common.copy') %><!-- コピー--></a>
+      <a href="#" class="btn btn-default btn-sm" rowid="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!-- 削除--></a>
     </td>
   </tr>
 </script>
@@ -145,14 +145,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">新規ネタ</h4>
+        <h4 class="modal-title"><%= i('html.label.synthetic.new') %><!-- 新規ネタ--></h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" role="form">
 
 
           <div class="form-group">
-            <label class="col-lg-3 control-label">タイプ</label>
+            <label class="col-lg-3 control-label"><%= i('html.label.synthetic.type') %><!-- タイプ--></label>
             <div class="col-lg-8">
               <input type="hidden"  name="thumb_type" value="image">
 
@@ -163,7 +163,7 @@
                     <div class="col-lg-6">
                     <h4 class="panel-title">
                       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        画像セット
+                        <%= i('html.label.synthetic.type.setimage') %><!-- 画像セット-->
                       </a>
                     </h4>
                     </div>
@@ -180,7 +180,7 @@
                     <div class="col-lg-7">
                     <h4 class="panel-title">
                       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                        アニメーション画像
+                        <%= i('html.label.synthetic.type.actionimage') %><!-- アニメーション画像-->
                       </a>
                     </h4>
                     </div>
@@ -197,7 +197,7 @@
                     <div class="col-lg-6">
                     <h4 class="panel-title">
                       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                        ケースビュー
+                        <%= i('html.label.synthetic.type.casemenu') %><!-- ケースビュー-->
                       </a>
                     </h4>
                     </div>
@@ -214,7 +214,7 @@
                     <div class="col-lg-6">
                     <h4 class="panel-title">
                       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
-                        ギャラリー
+                        <%= i('html.label.synthetic.type.gallery') %><!-- ギャラリー-->
                       </a>
                     </h4>
                     </div>
@@ -232,7 +232,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" name="okSetting" class="btn btn-warning cancel">
-          <i class="icon-hand-right icon-white"></i><span> 次へ</span></button>
+          <i class="icon-hand-right icon-white"></i><span> <%= i('html.button.synthetic.next') %><!-- 次へ--></span></button>
       </div>
     </div>
     <!-- /.modal-content -->

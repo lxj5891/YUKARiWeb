@@ -27,17 +27,17 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
           <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
         </li>
-        <li class="active">ワークステーション定義</li>
+        <li class="active"><%= i('html.label.workstation') %><!-- ワークステーション設定--></li>
       </ul><!--.breadcrumb-->
     </div>
 
     <div class="page-content">
       <div class="page-header position-relative">
         <h1>
-          ワークステーション設定
+          <%= i('html.label.workstation') %><!-- ワークステーション設定-->
         </h1>
       </div>
       <div class="row" style="margin-left: 30px">
@@ -45,10 +45,10 @@
         <div>
           <ul>
             <li class="ui-state-default">
-              <div class="wsicon pull-left"><label>Icon</label></div>
-              <div class="wsname pull-left"><label>名称</label></div>
-              <div class="wstype pull-left"><label>タイプ</label></div>
-              <div class="wsurl pull-left"><label>URL</label></div>
+              <div class="wsicon pull-left"><label><%= i('html.label.workstation.icon') %><!-- Icon--></label></div>
+              <div class="wsname pull-left"><label><%= i('html.label.workstation.name') %><!-- 名称--></label></div>
+              <div class="wstype pull-left"><label><%= i('html.label.workstation.type') %><!-- タイプ--></label></div>
+              <div class="wsurl pull-left"><label><%= i('html.label.workstation.url') %><!-- URL--></label></div>
               <div class="wsoper pull-left" id="setting_add"><i class="icon-plus"></i></div>
             </li>
           </ul>
@@ -59,7 +59,7 @@
       </div>
       </div>
         <div class="row" style="margin-left: 30px;margin-top: 50px">
-        <button type="submit" class="btn btn-default btn-lg">保存</button>
+        <button type="submit" class="btn btn-default btn-lg"><%= i('html.button.common.save') %><!-- 保存--></button>
       </div>
     </div>
   </div>
@@ -96,8 +96,8 @@
     </div>
     <div class="wstype pull-left">
       <select class="form-control">
-        <option>リンク</option>
-        <option>アプリ起動</option>
+        <option><%= i('html.select.workstation.type.link') %><!-- リンク--></option>
+        <option><%= i('html.select.workstation.type.app') %><!-- アプリ起動--></option>
       </select>
     </div>
     <div class="wsurl pull-left">
