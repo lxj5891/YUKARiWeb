@@ -491,9 +491,18 @@ var smart = {
       var activePage = $(event.target).html();
 
       if (activePage == "prev") {
-        startPage = activePage = startPage - pageCount < 1 ? 1 : startPage - pageCount;
+          if(startPage == 1){
+              return;
+          }else{
+              startPage = activePage = startPage - pageCount < 1 ? 1 : startPage - pageCount;
+          }
       } else if (activePage == "next") {
-        startPage = activePage = startPage + pageCount;
+          if(Math.ceil((totalItems - (startPage - 1) * rowCount) / rowCount) > pageCount ){
+                startPage = activePage = startPage + pageCount;
+            }
+          else{
+             return;
+          }
       }
       callback((activePage - 1) * rowCount);
 

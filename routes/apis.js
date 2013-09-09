@@ -29,6 +29,7 @@ exports.guiding = function(app){
 
   // 注销
   app.get("/simplelogout", function (req, res) {
+    req.query.home = "/top/login";
     user.logout(req, res);
   });
 
@@ -217,5 +218,30 @@ exports.guiding = function(app){
   // 运营情报
   app.get('/operated/list.json', function (req, res) {
     company.companyListWithDevice(req,res);
+  });
+
+
+
+  app.post("/content/synthetic/save.json", function (req, res) {
+    synthetic.save(req,res);
+  });
+  app.post("/content/synthetic/saveAll.json", function (req, res) {
+    synthetic.saveAll(req,res);
+  });
+  app.post("/content/synthetic/getstore.json", function (req, res) {
+    synthetic.getStoreById(req,res);
+  });
+  app.post("/content/synthetic/saveDescription.json", function (req, res) {
+    synthetic.saveDescription(req,res);
+  });
+  // 获取元素一览
+  app.get('/synthetic/list.json', function (req, res) {
+    synthetic.list(req,res);
+  });
+  app.delete('/synthetic/remove.json', function (req, res) {
+    synthetic.remove(req,res);
+  });
+  app.post('/synthetic/copy.json', function (req, res) {
+    synthetic.copy(req,res);
   });
 };
