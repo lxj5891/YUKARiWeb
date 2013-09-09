@@ -182,9 +182,9 @@
 <script type="text/template" id="tmpl_slide">
     <div class="carousel slide bs-docs-carousel-example" id="carousel-example-generic">
 
-        <div class="carousel-inner" style = "height : 350px ; overflow :hidden ; overflow-y:auto; ">
+        <div class="carousel-inner" style = "height : 349px ; ">
             <$ var cnt=1; _.each(files, function(file) { $>
-            <div class="item" id="page{{cnt}}">
+            <div class="item" id="page{{cnt}}" style="height:349px;">
                 <img alt="Slide{{cnt}}" src="/picture/{{file}}">
             </div>
             <$ cnt++}); $>

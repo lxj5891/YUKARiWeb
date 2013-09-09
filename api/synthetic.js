@@ -10,12 +10,7 @@ var json = lib.core.json
   , synthetic = require('../controllers/ctrl_synthetic');
 
 exports.editSynthetic = function(req_,res_){
-  var id = req_.params.synthetic_id;
-  res_.render("content_synthetic_add", {
-    title: "ネタ編集"
-    , synthetic_id : id
-    , user: req_.session.user
-  });
+
 
 }
 exports.getStoreById = function(req_,res_){
