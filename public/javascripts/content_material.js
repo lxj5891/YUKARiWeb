@@ -77,7 +77,7 @@ function events() {
 
     // 编辑按钮
     if (operation == "edit") {
-      renderDialog(row, index);
+      renderDialog(row, it);
       $('#material_detail_dlg').modal("show");
     }
 
@@ -126,6 +126,7 @@ function events() {
       if (err) {
         Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
       } else {
+        smart.paginationInitalized = false;
         render(_start, _count);
         Alertify.log.success(i18n["js.common.update.success"]);
       }
