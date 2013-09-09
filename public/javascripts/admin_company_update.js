@@ -97,11 +97,11 @@ function checkCompanyData(company,user,compid) {
     try {
         if (compid) {
         } else {
-          check(company.companyType, '顧客タイプを入力してください。').notEmpty();
-          check(company.mail, '管理者IDには、メールアドレスを入れてください。').notEmpty().isEmail();
-          check(user.password, 'パスワードを入力してください。').notEmpty();
+          check(company.companyType, i18n["js.public.check.company.type"]).notEmpty();
+          check(company.mail, i18n["js.public.check.company.adminid"]).notEmpty().isEmail();
+          check(user.password,i18n["js.public.check.company.password"]).notEmpty();
         }
-        check(company.name, '会社名を入力してください。').notEmpty();
+        check(company.name, i18n["js.public.check.company.name"]).notEmpty();
 
     } catch (e) {
         Alertify.log.error(e.message);
@@ -121,7 +121,7 @@ function addCompany(company,user) {
         if (result.responseJSON.error.code) {
           Alertify.log.error(result.responseJSON.error.message);
         } else {
-          Alertify.log.error("新規に失敗しました。");
+          Alertify.log.error(i18n["js.common.add.error"]);
           console.log(err);
         }
       }else {
@@ -139,7 +139,7 @@ function updateCompany(company,user) {
     };
     smart.doput("/company/update.json", body, function(err, result){
       if (err) {
-        Alertify.log.error("更新に失敗しました。");
+        Alertify.log.error(i18n["js.common.update.error"]);
         console.log(err);
       } else {
         window.location = "/admin/company";
