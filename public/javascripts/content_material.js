@@ -70,7 +70,7 @@ function events() {
 
     var operation = $(event.target).attr("operation")
       , index = $(event.target).attr("index")
-      //TODO: 元素bug  11  不能删除元素
+      //DONE: 素材bug  11  不能删除素材
       , it = parseInt(index) % 20 == 0 ? 20 : parseInt(index) % 20
       , row = _materialList[it - 1 ];
 
