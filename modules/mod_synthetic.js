@@ -111,7 +111,7 @@ exports.copy = function (uid_, id_, callback_) {
     newdata.createby = uid_;
     newdata.editat = new Date();
     newdata.editby = uid_;
-    newdata.name = newdata.name + " copy";
+    newdata.name = newdata.name + __("js.mod.copy.title");
 
     synthetic.create(newdata, function(err, result){
       callback_(err, result);

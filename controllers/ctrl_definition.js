@@ -16,14 +16,14 @@ exports.get = function(company_, uid_, target_, isPublish, callback_) {
     if(isPublish) {
       layout_publish.get({company: company_, _id:target_}, function (err, layout) {
         if (err || !layout || !layout.active)
-          return cb(new errors.InternalServer("Not found layout: layoutId:" + target_), null);
+          return cb(new errors.InternalServer(__("api.layout.id.error") + target_), null);
         setLayout(data, layout.active);
         cb(err, data);
       });
     } else {
       ctl_layout.get(company_, uid_, target_, function(err, layout) {
         if (err || !layout)
-          return cb(new errors.InternalServer("Not found layout: layoutId:" + target_), null);
+          return cb(new errors.InternalServer(__("api.layout.id.error") + target_), null);
         setLayout(data, layout);
         cb(err, data);
       });

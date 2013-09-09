@@ -171,7 +171,7 @@ exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
   detail_["editby"] = uid_;
 
   var tasks = [];
-  console.log("----------------------------------------");
+  //console.log("----------------------------------------");
   // 获取原来的tag一览
   tasks.push(function(cb) {
     material.get(fid_, function(err, data) {
@@ -183,9 +183,9 @@ exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
   tasks.push(function(data, cb) {
     var add = _.difference(detail_.tags, data);
 
-    console.log(data);
-    console.log(detail_.tags);
-    console.log(add);
+    //console.log(data);
+   //console.log(detail_.tags);
+    //console.log(add);
     if (add && add.length > 0) {
       tag.add(company_, uid_, add, function(err, result){
         cb(err, data);
@@ -198,7 +198,7 @@ exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
   // 删除的tag，从tag表移除
   tasks.push(function(data, cb) {
     var remove = _.difference(data, detail_.tags);
-    console.log(remove);
+    //console.log(remove);
     if (remove && remove.length > 0) {
       tag.remove(company_, uid_, remove, function(err, result){
         cb(err, data);
@@ -211,13 +211,13 @@ exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
   // 更新素材表
   tasks.push(function(data, cb){
     material.replace(fid_, detail_, function(err, info){
-      console.log(info);
+      //console.log(info);
       return callback_(err, info);
     });
   });
 
   async.waterfall(tasks, function(err, result){
-    console.log(result);
+    //console.log(result);
     return callback_(err, result);
   });
 
@@ -235,8 +235,8 @@ exports.remove = function(company_, uid_, fid_, callback_) {
   // 保留GridFS中的文件，而不删除
   checkMaterialHasUse(fid_,function(err,count){
     if(count>0){
-      console.log("已经使用");
-      return callback_(new error.BadRequest("素材已经使用"));
+      //console.log("已经使用");
+      return callback_(new error.BadRequest(__("js.ctr.material.used.error")));
     } else {
       material.remove(fid_, function(err, info){
         return callback_(err, info);

@@ -264,7 +264,7 @@
   "user.csv.unit": "件",
   "user.csv.imported": "インポートしました：",
   "user.csv.canNotToParseTheCSVFile": "CSVファイルを解析することができません。",
-  "file.err.ImageIsNotFound": "画像ファイルが存在しません。 fileid:"
+  "file.err.ImageIsNotFound": "画像ファイルが存在しません。 fileid:",
   "===================public js=================":"",
   "js.public.common.group":"グループ",
   "js.public.check.company.type":"顧客タイプを入力してください。",
@@ -272,5 +272,17 @@
   "js.public.check.company.password":"パスワードを入力してください。",
   "js.public.check.company.name":"会社名を入力してください。",
   "js.public.check.material.delete":"素材が既に使用されているため、削除できません。",
+  "===================modules=================":"",
+  "js.mod.copy.title":"コピー",
+  "===================controllers=================":"",
+  "js.ctr.delete.auth.error":"削除権限はありません",
+  "js.ctr.confirm.auth.error":"承認権限はありません",
+  "js.ctr.layout.complete.error":"レイアウトは完成してないので、申請できません",
+  "js.ctr.synthetic.used.error":"ネタが既に使用される",
+  "js.ctr.material.used.error":"素材が既に使用される",
+  "===================api=================":"",
+  "api.param.error":"パラメータが正しくありません、パラメータ「%s」を指定してください。",
+  "api.layout.id.error":"レイアウトが存在しません。レイアウトID：",
+  "api.file.name.error":"ファイルが存在しません。ファイル名：",
   "===================end=================":""
 }

@@ -15,9 +15,9 @@ exports.editSynthetic = function(req_,res_){
 }
 exports.getStoreById = function(req_,res_){
   var synthetic_id = req_.body.synthetic_id;
-  console.log("synthetic_id :%s",synthetic_id);
+  //console.log("synthetic_id :%s",synthetic_id);
   if(synthetic_id){
-    console.log("success");
+    //console.log("success");
     synthetic.getSyntheticById(synthetic_id,function(err,result){
       return res_.send(json.dataSchema({items:result}));
     });

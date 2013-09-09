@@ -8,7 +8,7 @@ var async = require('async');
 var EventProxy = require('eventproxy');
 
 exports.getSyntheticById = function (synthetic_id, callback) {
-  console.log("synthetic_id   %s"   ,synthetic_id);
+  //console.log("synthetic_id   %s"   ,synthetic_id);
   synthetic.findOne(synthetic_id, function (err, docs) {
     if(err || !docs){
       return callback(err,null);
@@ -93,7 +93,7 @@ function setMaterialInfoMetadata(synthetic_docs, callback) {
       }
     });
   }, function(){
-    console.log("ok");
+    //console.log("ok");
     return;
   });
 
@@ -305,7 +305,7 @@ exports.remove = function (uid_, id_, callback_) {
         callback_(err, result);
       });
     }else{
-      return callback_(new error.BadRequest("元素已经使用"));
+      return callback_(new error.BadRequest(__("js.ctr.synthetic.used.error")));
     }
   })
 };
