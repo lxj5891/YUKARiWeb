@@ -26,7 +26,7 @@ function render(start, count) {
 
       //2.
       var devHtml = _.template(temp_device,{
-        "dev_index": index_dev++
+        "dev_index": index_dev++ + start
         , "dev_Type": row.deviceType
         , "dev_id": row.deviceid
         , "userCount": row.userinfo.length

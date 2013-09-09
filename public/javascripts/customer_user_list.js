@@ -22,7 +22,7 @@ function render(start, count) {
         container.html("");
         _.each(result.items, function(row){
             container.append(_.template(tmpl, {
-                "index": index++
+                "index": index++ + start
                 , "id": row._id
                 , "uid": row.uid
                 , "name": row.name ? row.name.name_zh:""

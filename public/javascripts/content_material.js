@@ -181,7 +181,7 @@ function render(start, count) {
     container_list.html("");
     _.each(_materialList, function(row){
       container_list.append(_.template(tmpl_list, {
-          "index": index++
+          "index": index++ + start
         , "fid": row._id
         , "file": row.thumb ? row.thumb.middle : row.fileid
         , "type": row.contentType
@@ -234,6 +234,13 @@ function render(start, count) {
 function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
+  }
+  for (var i = 0; i < files.length; i++) {
+      var filetype = files[i].type.split("/");
+      if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
+          Alertify.dialog.alert( "ファイルのファイルタイプは非合法的");
+          return ;
+      }
   }
 
   var fd = new FormData();
