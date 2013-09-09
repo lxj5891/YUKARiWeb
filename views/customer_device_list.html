@@ -18,12 +18,12 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
         </li>
-        <li class="active">設備一覧</li>
+        <li class="active"><%= i('html.label.device') %><!-- 設備一覧--></li>
       </ul><!--.breadcrumb-->
     </div>
     <div class="page-content">
@@ -31,7 +31,7 @@
         <div class="pull-right" style="width: 300px">
           <form class="search-form">
             <div class="input-group">
-              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
               <span class="input-group-addon">
                 <i class="icon-search"></i>
               </span>
@@ -43,11 +43,11 @@
         <div class="col-lg-12">
           <table class="table table-hover">
             <thead>
-              <th class="col-lg-1">番号</th>
-              <th class="col-lg-2">種別</th>
-              <th class="col-lg-3">設備番号</th>
-              <th class="col-lg-2">使用しているユーザ数</th>
-              <th class="col-lg-2">操作</th>
+              <th class="col-lg-1"><%= i('html.label.device.no') %><!-- 番号--></th>
+              <th class="col-lg-2"><%= i('html.label.device.type') %><!-- 種別--></th>
+              <th class="col-lg-3"><%= i('html.label.device.dno') %><!-- 設備番号--></th>
+              <th class="col-lg-2"><%= i('html.label.device.users') %><!-- 使用しているユーザ数--></th>
+              <th class="col-lg-2"><%= i('html.label.common.operation') %><!-- 操作--></th>
             </thead>
           </table>
         </div>
@@ -71,13 +71,13 @@
     <table class="table table-hover" style="margin-bottom: 0px">
       <thead>
       <tr>
-        <th>番号</th>
-        <th>ユーザID</th>
-        <th>ユーザ名</th>
-        <th>ステータス</th>
-        <th>登録日</th>
-        <th>最終使用日</th>
-        <th>操作</th>
+        <th><%= i('html.label.device.user.no') %><!-- 番号--></th>
+        <th><%= i('html.label.device.user.id') %><!-- ユーザID--></th>
+        <th><%= i('html.label.device.user.name') %><!-- ユーザ名--></th>
+        <th><%= i('html.label.device.user.status') %><!-- ステータス--></th>
+        <th><%= i('html.label.common.createat') %><!-- 登録日--></th>
+        <th><%= i('html.label.common.updateat') %><!-- 最終使用日--></th>
+        <th><%= i('html.label.common.operation') %><!-- 操作--></th>
       </tr>
       </thead>
       <tbody>
@@ -94,9 +94,9 @@
     <td class="col-lg-2" style="border-top: 0;">{{userCount}}</td>
     <td style="text-align: left;border-top: 0;" class="col-lg-2">
     <$ if (devstatus == 1) {$>
-      <a href="#" class="btn btn-default btn-sm">禁止</a>
+      <a href="#" class="btn btn-default btn-sm"><%= i('html.button.device.status.deny') %><!-- 禁止--></a>
     <$ } else {$>
-      <a href="#" class="btn btn-default btn-sm">許可</a>
+      <a href="#" class="btn btn-default btn-sm"><%= i('html.button.device.status.allow') %><!-- 許可--></a>
     <$ } $>
     </td>
   </tr>
@@ -108,18 +108,18 @@
     <td>{{user_name}}</td>
     <td>
       <$ if (user_status == 1) {$>
-      使用中
+      <%= i('html.label.device.user.status.allow') %><!-- 使用中-->
       <$ } else {$>
-      使用不可
+      <%= i('html.label.device.user.status.deny') %><!-- 使用不可-->
       <$ } $>
     </td>
     <td>{{user_createat}}</td>
     <td>{{user_lastat}}</td>
     <td style="text-align: left">
       <$ if (user_status == 1) {$>
-      <a href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="deny">禁止</a>
+      <a href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="deny"><%= i('html.button.device.status.deny') %><!-- 禁止--></a>
       <$ } else {$>
-      <a href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="allow">許可</a>
+      <a href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="allow"><%= i('html.button.device.status.allow') %><!-- 許可--></a>
       <$ } $>
     </td>
   </tr>

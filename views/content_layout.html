@@ -19,12 +19,12 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">ホーム</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!--ホーム --></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
         </li>
-        <li class="active" id="list_title">レイアウト一覧</li>
+        <li class="active" id="list_title"><%= i('html.label.layout') %><!--レイアウト一覧 --></li>
       </ul><!--.breadcrumb-->
     </div>
 
@@ -33,14 +33,14 @@
 
         <div class="pull-right">
           <button id="addLayout" type="button" class="btn btn-default">
-            <i class="icon-plus icon-white"></i><span>レイアウト追加</span>
+            <i class="icon-plus icon-white"></i><span><%= i('html.label.layout.add') %><!--レイアウト追加 --></span>
           </button>
         </div>
 
         <div class="pull-right" style="width: 300px">
           <form class="search-form">
             <div class="input-group">
-              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
                 <span class="input-group-addon">
                   <i class="icon-search"></i>
                 </span>
@@ -52,7 +52,17 @@
       <div id="list" class="row">
         <div class="col-lg-12">
           <table class="table table-hover">
-            <thead id="layout_header"><tr><th>#</th><th>名称</th><th>ステータス</th><th>公式</th><th>更新者</th><th>更新日</th><th>操作</th></tr></thead>
+            <thead id="layout_header">
+            <tr>
+              <th>#</th>
+              <th><%= i('html.label.layout.name') %><!--名称 --></th>
+              <th><%= i('html.label.layout.status') %><!--ステータス --></th>
+              <th><%= i('html.label.layout.public') %><!--公式 --></th>
+              <th><%= i('html.label.layout.updateby') %><!--更新者 --></th>
+              <th><%= i('html.label.layout.updateat') %><!--更新日 --></th>
+              <th><%= i('html.label.common.operation') %><!--操作 --></th>
+            </tr>
+            </thead>
             <tbody  id="layout_list"></tbody>
           </table>
         </div><!--/span-->
@@ -70,17 +80,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">申請提出</h4>
+        <h4 class="modal-title"><%= i('html.label.layout.applyrequest') %><!--申請提出 --></h4>
       </div>
       <div class="modal-body" style="padding-bottom: 0px">
         <div class="row">
           <form class="form-horizontal" role="form">
             <input type="hidden" name="confirmId" id="confirmId">
             <div class="form-group">
-              <label for="keywordsText" class="col-lg-3 control-label">承認者</label>
+              <label for="keywordsText" class="col-lg-3 control-label"><%= i('html.label.layout.approver') %><!--承認者 --></label>
               <div class="col-lg-7">
                 <div id="textBoxConfirm" class="incrementBox">
-                  <input id="keywordsText" scope="1" placeholder="＋承認者" />
+                  <input id="keywordsText" scope="1" placeholder="<%= i('html.input.layout.approver') %>" />
                 </div>
               </div>
             </div>
@@ -89,7 +99,7 @@
       </div>
       <div class="modal-footer" style="margin-top: 0px">
         <button class="btn btn-warning" id="applyButton">
-          <i class="icon-share icon-white"></i><span> 申請</span></button>
+          <i class="icon-share icon-white"></i><span> <%= i('html.button.layout.appply') %><!--申請 --></span></button>
       </div>
     </div>
   </div>
@@ -104,11 +114,11 @@
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>
-      <a href="#" class="btn btn-default btn-sm {{class1}}" rowid="{{id}}" operation="edit">編集</a>
-      <a href="#" class="btn btn-default btn-sm {{class2}}" rowid="{{id}}" operation="apply">申請</a>
-      <a href="#" class="btn btn-default btn-sm" rowid={{id}} operation="copy">コピー</a>
-      <a href="#" class="btn btn-default btn-sm {{class4}}" rowid="{{id}}" operation="delete">削除</a>
-      <a href="#" class="btn btn-default btn-sm {{class5}}" rowid="{{id}}" operation="preview" imageH = "{{preview_image}}" >プレビュー</a>
+      <a href="#" class="btn btn-default btn-sm {{class1}}" rowid="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>
+      <a href="#" class="btn btn-default btn-sm {{class2}}" rowid="{{id}}" operation="apply"><%= i('html.button.layout.appply') %><!--申請 --></a>
+      <a href="#" class="btn btn-default btn-sm" rowid={{id}} operation="copy"><%= i('html.button.common.copy') %><!--コピー --></a>
+      <a href="#" class="btn btn-default btn-sm {{class4}}" rowid="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
+      <a href="#" class="btn btn-default btn-sm {{class5}}" rowid="{{id}}" operation="preview" imageH = "{{preview_image}}" ><%= i('html.button.common.preview') %><!--プレビュー --></a>
     </td>
   </tr>
 </script>
@@ -121,8 +131,8 @@
     <td>{{editat}}</td>
     <td>
       <!--<a href="#" class="btn btn-default btn-sm" rowid={{id}} layoutId={{layoutId}} operation="copy">コピー</a>-->
-      <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="preview" imageH = {{preview_image}} >プレビュー</a>
-      <a href="#" class="btn btn-default btn-sm" rowid={{id}} layoutId={{layoutId}} operation="delete">廃止</a>
+      <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="preview" imageH = {{preview_image}} ><%= i('html.button.common.preview') %><!--プレビュー --></a>
+      <a href="#" class="btn btn-default btn-sm" rowid={{id}} layoutId={{layoutId}} operation="delete"><%= i('html.button.common.discard') %><!--廃止 --></a>
     </td>
   </tr>
 </script>
@@ -134,7 +144,7 @@
     <td>{{confirmby}}</td>
     <td>{{editat}}</td>
     <td>
-       <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="preview" imageH = {{preview_image}} >プレビュー</a>
+       <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="preview" imageH = {{preview_image}} ><%= i('html.button.common.preview') %><!--プレビュー --></a>
     </td>
   </tr>
 </script>
@@ -146,8 +156,8 @@
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>
-      <a href="#" class="btn btn-default btn-sm " rowid={{id}} operation="confirm">承認</a>
-      <a href="#" class="btn btn-default btn-sm " rowid={{id}} operation="deny">否認</a>
+      <a href="#" class="btn btn-default btn-sm " rowid={{id}} operation="confirm"><%= i('html.button.layout.approve') %><!--承認 --></a>
+      <a href="#" class="btn btn-default btn-sm " rowid={{id}} operation="deny"><%= i('html.button.layout.deny') %><!--否認 --></a>
     </td>
   </tr>
 </script>
@@ -157,12 +167,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">画面プレビュー</h4>
+                <h4 class="modal-title"><%= i('html.label.layout.imagepreview') %><!--画面プレビュー --></h4>
             </div>
             <div class="modal-body" id="slide">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal"><%= i('html.button.common.close') %><!--クローズ -->クローズ</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

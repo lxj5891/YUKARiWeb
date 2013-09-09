@@ -23,12 +23,12 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home icon-large"></i>
-          <a href="/yukari">Home</a>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
         </li>
-        <li class="active">運行情報</li>
+        <li class="active"><%= i('html.label.operated.info') %><!--運行情報 --></li>
       </ul><!--.breadcrumb-->
     </div>
 
@@ -37,7 +37,7 @@
         <div class="pull-right" style="width: 300px">
           <form class="search-form">
             <div class="input-group">
-              <input type="text" placeholder="検索 ..." class="form-control"  autocomplete="off" />
+              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
               <span class="input-group-addon">
                 <i class="icon-search"></i>
               </span>
@@ -51,11 +51,11 @@
           <thead>
           <tr>
             <th>#</th>
-            <th>会社ID</th>
-            <th>会社名</th>
-            <th>管理者ID</th>
-            <th>ユーザ数</th>
-            <th>デバイス数</th>
+            <th><%= i('html.label.operated.company.id') %><!--会社ID --></th>
+            <th><%= i('html.label.operated.company.name') %><!--会社名 --></th>
+            <th><%= i('html.label.operated.company.adminid') %><!--管理者ID --></th>
+            <th><%= i('html.label.operated.company.users') %><!--ユーザ数 --></th>
+            <th><%= i('html.label.operated.company.devices') %><!--デバイス数 --></th>
           </tr>
           </thead>
           <tbody id="companyinfo_list"></tbody>
