@@ -34,7 +34,7 @@ $(function () {
       layoutData = result;
       if(isCopy == "true"){
         delete layoutData._id;
-        layoutData.layout.name += " copy";
+        layoutData.layout.name += i18n["js.public.common.copy"];
       }
 
       console.log(layoutData);
@@ -126,7 +126,7 @@ $(function () {
   function preSubmit(){
     // check
     if(_.isEmpty($.trim(layoutData.layout.name))){
-      Alertify.log.error("タイトルを入力してください。");
+      Alertify.log.error(i18n["js.public.check.layout.title"]);
       return false;
     }
 
@@ -191,13 +191,13 @@ $(function () {
     smart.dopost(url, layoutData, function (e, result) {
       if (e) {
         render();
-        Alertify.log.error("保存に失敗しました。");
+        Alertify.log.error(i18n["js.common.save.error"]);
         return;
       }
       layoutData = result.data;
       render();
       console.log(result);
-      Alertify.log.success("保存しました。");
+      Alertify.log.success(i18n["js.common.save.success"]);
     });
   }
 
@@ -951,16 +951,16 @@ $(function () {
 
   function syntheticTypeString(type){
     if(type == 'imageWithThumb'){
-      return 'アニメーション画像';
+      return i18n["js.public.info.synthetic.type.animation"];
     }
     if(type == 'normal'){
-      return '画像セット';
+      return i18n["js.public.info.synthetic.type.imageset"];
     }
     if(type == 'gallery'){
-      return 'ギャラリー';
+      return i18n["js.public.info.synthetic.type.gallery"];
     }
     if(type == 'CaseView'){
-      return 'ケースビュー';
+      return i18n["js.public.info.synthetic.type.caseview"];
     }
   }
 

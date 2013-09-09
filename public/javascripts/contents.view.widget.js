@@ -320,13 +320,13 @@ $(function () {
   // 添加插件
   $("#btn_add_widget").bind("click", function (event) {
     if(store.cur_metadata_id.length==0){
-      Alertify.log.error("スライドを選択してください");
+      Alertify.log.error(i18n["js.public.check.widget.length"]);
       return;
     }
     var _obj = new WidgetFace();
     var widget_obj = {
       title: undefined,
-      name: "未命名_" + store.widget_index,
+      name: i18n["js.public.info.widget.name"] + store.widget_index,
       index: store.widget_index,
       widget_id: "widget" + store.widget_index,
       width: 100,

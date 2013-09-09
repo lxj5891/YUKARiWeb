@@ -96,9 +96,9 @@ function getUserData() {
 //check用户信息
 function checkUserData(user) {
   try {
-    check(user.userid, 'ユーザIDを入力してください。').notEmpty().isEmail();
-    check(user.password, 'パスワードを入力してください。').notEmpty();
-    check(user.name.name_zh, 'ユーザ名を入力してください。').notEmpty();
+    check(user.userid, i18n["js.public.check.user.id"]).notEmpty().isEmail();
+    check(user.password, i18n["js.public.check.user.password"]).notEmpty();
+    check(user.name.name_zh, i18n["js.public.check.user.name"]).notEmpty();
   } catch (e) {
     Alertify.log.error(e.message);
     return false;
@@ -115,7 +115,7 @@ function addUser(user) {
       if (result.responseJSON.error.code) {
         Alertify.log.error(result.responseJSON.error.message);
       } else {
-        Alertify.log.error("新規に失敗しました。");
+        Alertify.log.error(i18n["js.common.add.error"]);
         console.log(err);
       }
     } else {
@@ -128,7 +128,7 @@ function addUser(user) {
 function updateUser(user) {
   smart.doput("/user/update.json", user, function(err, result){
     if (err) {
-      Alertify.log.error("更新に失敗しました。");
+      Alertify.log.error(i18n["js.common.update.error"]);
       console.log(err);
     } else {
      if (userType == 1) {

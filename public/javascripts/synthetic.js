@@ -14,13 +14,13 @@ $(function () {
 function type_redner(type){
   this._synthetic_type =  {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"};
   if(type == this._synthetic_type.imageWithThumb){
-    return "アニメーション画像";
+    return  i18n["js.public.info.synthetic.type.animation"];
   } else if(type == this._synthetic_type.normal){
-    return "画像セット";
+    return i18n["js.public.info.synthetic.type.imageset"];
   } else if(type == this._synthetic_type.gallery){
-    return "ギャラリー";
+    return i18n["js.public.info.synthetic.type.gallery"];
   } else if(type == this._synthetic_type.CaseView){
-    return "ケースビュー";
+    return i18n["js.public.info.synthetic.type.caseview"];
   }
   return
 }
@@ -98,15 +98,15 @@ function events() {
 
     // 删除按钮
     if (operation == "delete") {
-      Alertify.dialog.confirm("削除します。よろしいですか？", function () {
+      Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
         // OK
         smart.dodelete("/synthetic/remove.json", {"id": rowid}, function(err, result){
           if (err) {
-            Alertify.log.error("削除に失敗しました。"); console.log(err);
+            Alertify.log.error(i18n["js.common.delete.error"]); console.log(err);
           } else {
             render(0, 20);
-            Alertify.log.success("削除しました。");
+            Alertify.log.success(i18n["js.common.delete.success"]);
           }
         });
       }, function () {
@@ -137,10 +137,10 @@ function events() {
     if (operation == "copy") {
       smart.dopost("/synthetic/copy.json", {"id": rowid}, function(err, result){
         if (err) {
-          Alertify.log.error("コピーに失敗しました。"); console.log(err);
+          Alertify.log.error(i18n["js.common.copy.error"]); console.log(err);
         } else {
           render(0, 20);
-          Alertify.log.success("コピーしました。");
+          Alertify.log.success(i18n["js.common.copy.success"]);
         }
       });
     }

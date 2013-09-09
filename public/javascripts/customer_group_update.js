@@ -85,8 +85,8 @@ function getGroupData() {
 //check组信息
 function checkGroupData(group) {
   try {
-    check(group.name.name_zh, 'グループ名を入力してください。').notEmpty();
-    check(group.member, 'メンバを入力してください。').notEmpty();
+    check(group.name.name_zh, i18n["js.public.check.group.name"]).notEmpty();
+    check(group.member, i18n["js.public.check.group.member"]).notEmpty();
   } catch (e) {
     Alertify.log.error(e.message);
     return false;
@@ -99,7 +99,7 @@ function addGroup(group) {
   smart.dopost("/group/add.json", group, function(err, result) {
 
     if (err) {
-      Alertify.log.error("新規に失敗しました。");
+      Alertify.log.error(i18n["js.common.add.error"]);
       console.log(err);
     } else {
       window.location = "/customer/group";
@@ -111,7 +111,7 @@ function addGroup(group) {
 function updateGroup(group) {
   smart.doput("/group/update.json", group, function(err, result){
     if (err) {
-      Alertify.log.error("更新に失敗しました。");
+      Alertify.log.error(i18n["js.common.update.error"]);
       console.log(err);
     } else {
       window.location = "/customer/group";

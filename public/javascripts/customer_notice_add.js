@@ -39,15 +39,15 @@ $(function () {
 function check_notice (notice_) {
   var flag = 0;
   if (notice_.title == "") {
-    Alertify.log.error("タイトルを入力してください。");
+    Alertify.log.error(i18n["js.public.check.notice.title"]);
     flag = 1;
   }
   if (notice_.user == "" && notice_.group == "") {
-    Alertify.log.error("宛先を指定してください。");
+    Alertify.log.error(i18n["js.public.check.notice.user"]);
     flag = 1;
   }
   if (notice_.notice == "") {
-    Alertify.log.error("メッセージを入力してください。");
+    Alertify.log.error(i18n["js.public.check.notice.message"]);
     flag = 1;
   }
 

@@ -75,7 +75,7 @@ $contents.view = {
           } else {
 
             if ($("#txt_metadata_effect").val() == "none") {
-              Alertify.log.error("请选择效果");
+              Alertify.log.error(i18n["js.public.check.contents.view.effect"]);
               return;
             }
 
@@ -186,7 +186,7 @@ $contents.view = {
       var __toLeftMaterialImageEvent = function (e) {
         var _intex = store.leftMetadata($(e.target).attr("metadata_id"));
         if (_intex == -1) {
-          Alertify.log.error("已经是第一个了");
+          Alertify.log.error(i18n["js.public.check.contents.view.first"]);
           return;
         }
 //        that.removePickThumb();
@@ -197,7 +197,7 @@ $contents.view = {
       var __toRightMaterialImageEvent = function (e) {
         var _intex = store.rightMetadata($(e.target).attr("metadata_id"));
         if (_intex == -1) {
-          Alertify.log.error("已经是最后一个了");
+          Alertify.log.error(i18n["js.public.check.contents.view.last"]);
           return;
         }
         self.didRenderMaterialImagePanel(self.didListenerMaterialImagePanel);
@@ -370,13 +370,13 @@ $contents.view = {
       var type_redner  = function(type){
         this._synthetic_type =  {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"};
         if(type == this._synthetic_type.imageWithThumb){
-          return "アニメーション画像";
+          return i18n["js.public.info.synthetic.type.animation"];
         } else if(type == this._synthetic_type.normal){
-          return "画像セット";
+          return i18n["js.public.info.synthetic.type.imageset"];
         } else if(type == this._synthetic_type.gallery){
-          return "ギャラリー";
+          return i18n["js.public.info.synthetic.type.gallery"];
         } else if(type == this._synthetic_type.CaseView){
-          return "ケースビュー";
+          return i18n["js.public.info.synthetic.type.caseview"];
         }
         return
       }
@@ -422,16 +422,16 @@ $contents.view = {
       if (synthetic_id.length > 0) {
         console.log("synthetic_id  = %s", synthetic_id);
         if (_name.length == 0) {
-          Alertify.log.error("ネタの情報を入力してください");
+          Alertify.log.error(i18n["js.public.check.contents.view.name"]);
           return;
         }
         if (store.cover.length == 0) {
-          Alertify.log.error("カバーを設定してください");
+          Alertify.log.error(i18n["js.public.check.contents.view.cover"]);
           //TODO: 选择封面  弹出画面
           return;
         }
         if (store.metadata.length == 0) {
-          Alertify.log.error("画像を設定してください");
+          Alertify.log.error(i18n["js.public.check.contents.view.metadata"]);
           //TODO: 选择图片  画面
           return;
         }
@@ -468,7 +468,7 @@ $contents.view = {
           Alertify.log.error(save_valida.err);
         } else {
           smart.dopost("/content/synthetic/saveAll.json", _data, function (e, result) {
-            Alertify.log.success("ネタが保存されました");
+            Alertify.log.success(i18n["js.common.save.success"]);
             window.location.href = "/content/synthetic/edit/" + result.data.items._id;
           });
         }
@@ -480,7 +480,7 @@ $contents.view = {
 
       var _metadata = store.getMetadata(store.cur_metadata_id);
       if (_metadata.effect) {
-        Alertify.log.error("已经有了背景效果不能编辑插件");
+        Alertify.log.error(i18n["js.public.info.contents.view.effect"]);
         return;
       }
       ;
@@ -506,7 +506,7 @@ $contents.view = {
         name: _name
       };
       smart.dopost("/content/synthetic/saveDescription.json", _data, function (e, result) {
-        Alertify.log.success("情报保存成功");
+        Alertify.log.success(i18n["js.common.save.success"]);
         $("#savemodal").modal('hide');
       });
     });
@@ -536,7 +536,7 @@ $contents.view = {
      */
     $("button[name=cancelSaveDescription]").unbind("click").bind("click", function () {
       $("#savemodal").modal('hide');
-      Alertify.log.info("取消编辑");
+      Alertify.log.info(i18n["js.public.info.contents.view.cancel"]);
     });
 
 

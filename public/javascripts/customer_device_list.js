@@ -75,9 +75,9 @@ function events() {
     if (operation == "deny") {
       smart.doput("/device/deny.json", {user: user_id, device: dev_id}, function(err, result){
         if (err) {
-          Alertify.log.error("処理に失敗しました。"); console.log(err);
+          Alertify.log.error(i18n["js.public.error.device.operation"]); console.log(err);
         } else {
-          Alertify.log.info("禁止しました。");
+          Alertify.log.info(i18n["js.public.info.device.deny"]);
           render(0, 15);
         }
       });
@@ -87,9 +87,9 @@ function events() {
     if (operation == "allow") {
       smart.doput("/device/allow.json", {user: user_id, device: dev_id}, function(err, result){
         if (err) {
-          Alertify.log.error("処理に失敗しました。"); console.log(err);
+          Alertify.log.error(i18n["js.public.error.device.operation"]); console.log(err);
         } else {
-          Alertify.log.info("許可しました。");
+          Alertify.log.info(i18n["js.public.info.device.allow"]);
           render(0, 15);
         }
       });

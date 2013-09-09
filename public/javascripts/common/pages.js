@@ -11,8 +11,8 @@ var Pages = {
         ,count_num: 0
         ,limit_num: 20
         ,str: {
-             prev_page: "前一页"
-            ,next_page: "下一页"
+             prev_page: i18n["js.public.info.page.prev"]
+            ,next_page: i18n["js.public.info.page.next"]
         }
         ,owner: undefined
         ,callback: null

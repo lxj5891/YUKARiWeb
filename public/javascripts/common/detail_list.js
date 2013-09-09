@@ -6,7 +6,7 @@ var DetailList = {
         ,url: ""
         ,cols: []
         ,str: {
-            loading: "加载中..."
+            loading: i18n["js.public.info.detaillist.loading"]
         }
         ,tmpl_table_id: "template_detail_list"
         ,tmpl_item_id: "template_detail_list_item"

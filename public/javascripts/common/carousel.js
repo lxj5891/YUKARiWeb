@@ -72,7 +72,7 @@ var Carousel = {
             var id_item_group_container = this.getId("item_group_container");
 
             if(!data.items || data.items.length == 0) {
-                this.container.html("没有数据");
+                this.container.html(i18n["js.public.info.carousel.items"]);
                 return;
             }
 
