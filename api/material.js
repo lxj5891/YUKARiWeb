@@ -101,12 +101,12 @@ exports.download = function(req_, res_, isPublish) {
     , company = req_.session.user.companyid;
 
     if(target == null) {
-      var err = new errors.BadRequest("Request parameter is incorrect, \"target\" parameter is required.");
+      var err = new errors.BadRequest(__("api.param.error","target"));
       res_.send(err.code, json.errorSchema(err.code, err.message));
       return;
     }
     if(file_name == null) {
-      var err = new errors.BadRequest("Request parameter is incorrect, \"file\" parameter is required.");
+      var err = new errors.BadRequest(__("api.param.error","filename"));
       res_.send(err.code, json.errorSchema(err.code, err.message));
       return;
     }
@@ -116,7 +116,7 @@ exports.download = function(req_, res_, isPublish) {
       if (err)
         return res_.send(err.code, json.errorSchema(err.code, err.message));
       if (!layout) {
-        var err = new errors.InternalServer("Not found layout. layoutId: " + target);
+        var err = new errors.InternalServer(__("api.layout.id.error") + target);
         return res_.send(err.code, json.errorSchema(err.code, err.message));
       }
 
@@ -146,7 +146,7 @@ exports.download = function(req_, res_, isPublish) {
       } else {
         var ids = file_name.split("-");
         if(ids.length < 4) {
-          var err = new errors.BadRequest("Request parameter is incorrect, \"file_name\" parameter is required.");
+          var err = new errors.BadRequest(__("api.param.error","filename"));
           return res_.send(err.code, json.errorSchema(err.code, err.message));
         }
 
@@ -156,7 +156,7 @@ exports.download = function(req_, res_, isPublish) {
         // param 2
         var page_index = parseInt(ids[1]);
         if(! layout.layout.page[page_index]) {
-          var err = new errors.NotFound("Not found the file: " + file_name);
+          var err = new errors.NotFound(__("api.file.name.error") + file_name);
           return res_.send(err.code, json.errorSchema(err.code, err.message));
         }
         var page = fixDoc(layout.layout.page[page_index]);
@@ -164,7 +164,7 @@ exports.download = function(req_, res_, isPublish) {
         // param 3
         var tile_index = parseInt(ids[2]);
         if(! page.tile[tile_index]) {
-          var err = new errors.NotFound("Not found the file: " + file_name);
+          var err = new errors.NotFound(__("api.file.name.error") + file_name);
           return res_.send(err.code, json.errorSchema(err.code, err.message));
         }
         var tile = fixDoc(page.tile[tile_index]);
@@ -201,7 +201,7 @@ exports.download = function(req_, res_, isPublish) {
       }
 
       if(!file_id) {
-        var err = new errors.NotFound("Not found the file: " + file_name);
+        var err = new errors.NotFound(__("api.file.name.error") + file_name);
         return res_.send(err.code, json.errorSchema(err.code, err.message));
       }
 
@@ -220,7 +220,7 @@ exports.download = function(req_, res_, isPublish) {
     if(isPublish) { // 公开Layout的取得
       layout_publish.get({company: company, _id:target}, function (err, result) {
         if (err) {
-          var err = new errors.InternalServer("Not found the file: " + file_name);
+          var err = new errors.InternalServer(__("api.file.name.error") + file_name);
           return res_.send(err.code, json.errorSchema(err.code, err.message));
         }
         getLayout(err, (result && result.active) ? result.active : null);

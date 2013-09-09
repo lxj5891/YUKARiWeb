@@ -71,6 +71,26 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="inputLang" class="col-lg-2 control-label"><%= i('html.label.user.lang') %><!-- 言語--></label>
+            <div class="col-lg-3">
+              <div class="btn-group" value="ja" id="inputLang">
+                <button type="button" class="btn btn-sm btn-info" value="ja">日本語</button>
+                <button type="button" class="btn btn-sm btn-default" value="en">English</button>
+                <button type="button" class="btn btn-sm btn-default" value="zh">中国语</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputTimezone" class="col-lg-2 control-label"><%= i('html.label.user.timezone') %><!-- 时区--></label>
+            <div class="col-lg-3">
+              <div class="btn-group" value="GMT+08:00" id="inputTimezone">
+                <button type="button" class="btn btn-sm btn-default" value="GMT+09:00">日本(GMT+09)</button>
+                <button type="button" class="btn btn-sm btn-default" value="GMT+05:00">東部(GMT-05)</button>
+                <button type="button" class="btn btn-sm btn-info" value="GMT+08:00">中国(GMT+08)</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
             <label for="inputComment" class="col-lg-2 control-label"><%= i('html.label.user.comment') %><!-- コメント--></label>
             <div class="col-lg-3">
               <textarea class="form-control" id="inputComment" placeholder="<%= i('html.label.user.comment') %>"></textarea>
@@ -80,19 +100,31 @@
           <div class="form-group">
             <label class="col-lg-2 control-label"><%= i('html.label.user.approved') %><!-- 承認者--></label>
             <div class="col-lg-3">
-              <input type="checkbox" style="vertical-align: middle" id="inputApproved">
+              <!--<input type="checkbox" style="vertical-align: middle" id="inputApproved">-->
+              <div class="btn-group" value="1" id="inputApproved">
+                <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
+                <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+              </div>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label"><%= i('html.label.user.notice') %><!-- 通知者--></label>
             <div class="col-lg-3">
-              <input type="checkbox" style="vertical-align: middle" id="inputNotice">
+              <!--<input type="checkbox" style="vertical-align: middle" id="inputNotice">-->
+              <div class="btn-group" value="1" id="inputNotice">
+                <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
+                <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+              </div>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label"><%= i('html.label.user.active') %><!-- 有効--></label>
             <div class="col-lg-3">
-              <input type="checkbox" style="vertical-align: middle" id="inputActive">
+              <!--<input type="checkbox" style="vertical-align: middle" id="inputActive">-->
+              <div class="btn-group" value="1" id="inputActive">
+                <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
+                <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+              </div>
             </div>
           </div>
           <% } %>
