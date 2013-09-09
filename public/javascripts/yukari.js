@@ -609,4 +609,48 @@ Date.prototype.Format = function (fmt) { //author: meizz
       fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
   
   return fmt;
-}
+};
+
+/**
+ * 代替Radio的按钮组合
+ * @param id 字符串
+ * @param value
+ * @constructor
+ */
+var ButtonGroup = function(id, value) {
+  this.id = $("#" + id);
+  this.value = value;
+
+  // append event
+  var self = this;
+  this.id.on("click", "button", function(){
+    self.value = $(this).attr("value");
+    self.init();
+  });
+};
+
+ButtonGroup.prototype.init = function() {
+
+  // set default value
+  this.id.attr("value", this.value);
+
+  var child = this.id.children()
+    , self = this;
+
+  _.each(child, function(item){
+    if (self.value == $(item).attr("value")) {
+      $(item).addClass("btn-info");
+      $(item).removeClass("btn-default");
+      $(item).attr("active", "on");
+    } else {
+      $(item).removeClass("btn-info");
+      $(item).addClass("btn-default");
+      $(item).removeAttr("active");
+    }
+  });
+};
+
+ButtonGroup.prototype.set = function(value) {
+  this.value = value;
+  this.init();
+};

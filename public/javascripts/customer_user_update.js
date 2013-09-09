@@ -1,5 +1,6 @@
 $(function () {
   'use strict';
+
   //取得URL参数
   //TODO 暂定取法
   var userid = window.location.href.split("/")[6];
@@ -8,7 +9,7 @@ $(function () {
   //事件追加
   $("#updateUser").bind("click", function(event){
     //取得用户信息
-    var user = getUserData();
+    var user = getUserData(userid);
     //check用户信息
     var checkResult =  checkUserData (user);
     //更新用户信息
@@ -25,6 +26,7 @@ $(function () {
     return false;
   });
 });
+
 var userType = 0;
 //画面表示
 function render(userid) {
@@ -38,34 +40,33 @@ function render(userid) {
         $("#inputRole").val(result.title);
         $("#inputPhone").val(result.tel ? result.tel.telephone:"");
         $("#inputComment").val(result.description);
-        if (result.authority && result.authority.notice == 1) {
-          $("#inputNotice").attr("checked",true);
-        } else {
-          $("#inputNotice").attr("checked",false);
-        }
-        if (result.authority && result.authority.approve == 1) {
-          $("#inputApproved").attr("checked",true);
-        } else {
-          $("#inputApproved").attr("checked",false);
-        }
-        if (result.active == 1) {
-          $("#inputActive").attr("checked",true);
-        } else {
-          $("#inputActive").attr("checked",false);
-        }
+
+        var inputLang = result.lang;
+        new ButtonGroup("inputLang", inputLang).init();
+        var inputTimezone = result.timezone;
+        new ButtonGroup("inputTimezone", inputTimezone).init();
+        var inputNotice = result.authority && result.authority.notice == 1 ? "1" : "0";
+        new ButtonGroup("inputNotice", inputNotice).init();
+        var inputApproved = result.authority && result.authority.approve == 1 ? "1" : "0";
+        new ButtonGroup("inputApproved", inputApproved).init();
+        var inputActive = result.active == 1 ? "1" : "0";
+        new ButtonGroup("inputActive", inputActive).init();
+
         userType = result.type;
       }
       console.log(e);
     });
+  } else {
+    new ButtonGroup("inputLang", "ja").init();
+    new ButtonGroup("inputTimezone", "GMT+09:00").init();
+    new ButtonGroup("inputNotice", "0").init();
+    new ButtonGroup("inputApproved", "0").init();
+    new ButtonGroup("inputActive", "0").init();
   }
 }
 
 //取得用户信息
-function getUserData() {
-
-  var notice = $("#inputNotice").prop('checked') ? 1:0;
-  var approved =$("#inputApproved").prop('checked') ? 1:0;
-  var active =$("#inputActive").prop('checked') ? 1:0;
+function getUserData(userid) {
 
   var user = {
      userid : $("#inputUserID").val()
@@ -77,17 +78,21 @@ function getUserData() {
     , tel: {
         telephone:$("#inputPhone").val()
     }
-    , description: $("#inputComment").val()
-    , timezone :"GMT+08:00" //TODO 暂定
+    , "description": $("#inputComment").val()
+    , "timezone": $("#inputTimezone").attr('value')
+    , "lang": $("#inputLang").attr('value')
   };
   //自己编辑自己信息时,承认者,通知者,有效 不能指定.
   if ($("#inputNotice").size() > 0 && $("#inputApproved").size() > 0) {
+    var notice =  $("#inputNotice").attr('value');
+    var approved = $("#inputApproved").attr('value');
     user.authority = {
         notice : notice
       , approve : approved
     };
   }
   if ($("#inputActive").size() > 0) {
+    var active = $("#inputActive").attr('value');
     user.active = active;
   }
   return user;
