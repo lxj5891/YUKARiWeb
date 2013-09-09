@@ -10,7 +10,8 @@ var user     = lib.api.user
   , util     = lib.core.util
   , file     = lib.api.dbfile
   , synthetic = require("../api/synthetic")
-  , company  = require("../api/company");
+  , company  = require("../api/company")
+  , i        = require("i18n");
 
 exports.guiding = function(app){
 
@@ -19,14 +20,14 @@ exports.guiding = function(app){
   // 元素
   app.get('/content/synthetic', function (req, res) {
     res.render("content_synthetic", {
-      title: "ネタ"
+      title: i.__("js.routes.website.content_synthetic.title")
       , user: req.session.user
     });
   });
   // 元素
   app.get('/content/synthetic/add', function (req, res) {
     res.render("content_synthetic_add", {
-      title: "ネタ編集"
+      title: i.__("js.routes.website.content_synthetic_add.title")
       ,synthetic_id:''
       , user: req.session.user
     });
