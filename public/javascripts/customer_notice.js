@@ -28,7 +28,7 @@ function render(start, count) {
       });
 
       container.append(_.template(tmpl, {
-        "index": index++
+        "index": index++ + start
         , "sendto": sendto.join("<br>")
         , "title": row.title
         , "notice": row.notice.replace('\n','<br>')

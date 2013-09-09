@@ -99,7 +99,7 @@ function render(start, count) {
         container.append(_.template(tmpl, {
           "id": row._id
           , "layoutId" : row.layoutId
-          , "index": index++
+          , "index": index++ + start
           , "name": active.layout.name
           , "editat": smart.date(active.editat)
           , "editby": active.user.name.name_zh
@@ -117,7 +117,7 @@ function render(start, count) {
       _.each(layoutList, function(row){
         container.append(_.template(tmpl, {
           "id": row._id
-          , "index": index++
+          , "index": index++ + start
           , "name": row.layout.name
           , "editat": smart.date(row.editat)
           , "confirmby": row.user.name.name_zh
@@ -135,7 +135,7 @@ function render(start, count) {
       _.each(layoutList, function(row){
         container.append(_.template(tmpl, {
           "id": row._id
-          , "index": index++
+          , "index": index++ + start
           , "name": row.layout.name
           , "editat": smart.date(row.editat)
           , "editby": row.user.name.name_zh
@@ -152,7 +152,7 @@ function render(start, count) {
       _.each(layoutList, function(row){
         container.append(_.template(tmpl, {
           "id": row._id
-          , "index": index++
+          , "index": index++ + start
           , "name": row.layout.name
           , "status": get_status(row.status)
           , "publish": get_publish(row.publish)

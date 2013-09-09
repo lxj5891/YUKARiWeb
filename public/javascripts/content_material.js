@@ -70,16 +70,20 @@ function events() {
 
     var operation = $(event.target).attr("operation")
       , index = $(event.target).attr("index")
-      , row = _materialList[index - 1];
+      //DONE: 素材bug  11  不能删除素材
+      , it = parseInt(index) % 20 == 0 ? 20 : parseInt(index) % 20
+      , row = _materialList[it - 1 ];
+
 
     // 编辑按钮
     if (operation == "edit") {
-      renderDialog(row, index);
+      renderDialog(row, it);
       $('#material_detail_dlg').modal("show");
     }
 
     // 删除按钮
     if (operation == "delete") {
+
       Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
         // OK
@@ -122,6 +126,7 @@ function events() {
       if (err) {
         Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
       } else {
+        smart.paginationInitalized = false;
         render(_start, _count);
         Alertify.log.success(i18n["js.common.update.success"]);
       }
@@ -181,7 +186,7 @@ function render(start, count) {
     container_list.html("");
     _.each(_materialList, function(row){
       container_list.append(_.template(tmpl_list, {
-          "index": index++
+          "index": index++ + start
         , "fid": row._id
         , "file": row.thumb ? row.thumb.middle : row.fileid
         , "type": row.contentType
@@ -234,6 +239,13 @@ function render(start, count) {
 function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
+  }
+  for (var i = 0; i < files.length; i++) {
+      var filetype = files[i].type.split("/");
+      if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
+//          Alertify.dialog.alert( "ファイルのファイルタイプは合法的ではない");
+          return ;
+      }
   }
 
   var fd = new FormData();
