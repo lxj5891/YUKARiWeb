@@ -213,6 +213,6 @@
   "html.label.user.notice":"通知者",
   "html.label.user.active":"有効",
   "html.label.user.basicinfo":"基本情報",
-  "html.label.user.password":"パスワード",
+  "html.label.user.password":"パスワード"
 
 }
