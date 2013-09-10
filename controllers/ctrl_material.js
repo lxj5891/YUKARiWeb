@@ -10,7 +10,7 @@ var ph        = require('path')
   , gridfs    = lib.mod.gridfs
   , user      = lib.ctrl.user
   , error     = lib.core.errors;
-
+var mime = require('mime-magic');
 var EventProxy = require('eventproxy');
 exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, callback_) {
 
@@ -70,41 +70,51 @@ exports.add = function(company_, uid_, files_, callback_) {
 
     var name = ph.basename(file.name);
     var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
-    var metadata = {
-      "author": uid_
-      , "company": company_
-      , "tags": types(file.type)
-    };
+    mime(path, function (err, type) {
+        if (err) {
+            return callback(new error.InternalServer(err));
+        } else {
+            var temptype = type.split("/");
+            if(temptype[0] != "image"  &&  !(temptype[0] == "video" && temptype[1] == "mp4")){
+                  result.push("path:" + file.name);
+                  return callback(null,{});
+            }
+        }
 
-    // To save the file to GridFS
-    gridfs.save(name, path, metadata, file.type, function(err, doc){
+        var metadata = {
+            "author": uid_
+            , "company": company_
+            , "tags": types(file.type)
+        };
 
-      if (err) {
-        return callback(new error.InternalServer(err));
-      }
+        // To save the file to GridFS
+        gridfs.save(name, path, metadata, file.type, function(err, doc){
 
-      var detail = {};
-      detail["company"] = company_;
-      detail["fileid"] = doc._id;
-      detail["filename"] = doc.filename;
-      detail["chunkSize"] = doc.chunkSize;
-      detail["contentType"] = doc.contentType;
-      detail["length"] = doc.length;
-      detail["editat"] = doc.uploadDate;
-      detail["editby"] = uid_;
+          if (err) {
+              return callback(new error.InternalServer(err));
+          }
 
-      material.save(detail, function(err, info){
-        result.push(info);
+          var detail = {};
+          detail["company"] = company_;
+          detail["fileid"] = doc._id;
+          detail["filename"] = doc.filename;
+          detail["chunkSize"] = doc.chunkSize;
+          detail["contentType"] = doc.contentType;
+          detail["length"] = doc.length;
+          detail["editat"] = doc.uploadDate;
+          detail["editby"] = uid_;
 
-        // create thumbs
-        mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
-        return callback(err);
-      });
+          material.save(detail, function(err, info){
+           result.push(info);
+           // create thumbs
+           mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
+           return callback(err);
+         });
+        });
     });
-
-  }, function(err){
+  },function(err){
     return callback_(err, result);
-  });
+});
 
 };
 

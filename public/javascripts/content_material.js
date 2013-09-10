@@ -88,8 +88,8 @@ function events() {
 
         // OK
         smart.dodelete("/material/remove.json", {"fid": row._id}, function(err, result){
-          if (err) {
-            Alertify.log.error(i18n["js.public.check.material.delete"]); console.log(err);
+          if(err){
+            Alertify.log.error( i18n["js.public.check.material.delete"]); console.log(err);
           } else {
             render(_start, _count);
             Alertify.log.success(i18n["js.common.delete.success"]);
@@ -123,7 +123,7 @@ function events() {
       , row = _materialList[index - 1];
 
     smart.doput("/material/updatetag.json", {fid: row._id, tags: tag.join(",")}, function(err, result) {
-      if (err) {
+      if(err){
         Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
       } else {
         smart.paginationInitalized = false;
@@ -240,13 +240,6 @@ function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
   }
-  for (var i = 0; i < files.length; i++) {
-      var filetype = files[i].type.split("/");
-      if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
-//          Alertify.dialog.alert( "ファイルのファイルタイプは合法的ではない");
-          return ;
-      }
-  }
 
   var fd = new FormData();
   for (var i = 0; i < files.length; i++) {
@@ -261,11 +254,20 @@ function uploadFiles(files) {
     function(err, result){
 
       $("#upload_progress_dlg").modal("hide");
-      if (err) {
-        Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
+      var filename = null;
+      for (var i = 0 ; i < result.data.items.length ; i++)
+      {
+          if((typeof (result.data.items[i]) == 'string')&&result.data.items[i].constructor == String){
+              var filepath = result.data.items[i];
+              var filename = filepath.split(":")[1];
+          }
+      }
+      if(filename){
+          Alertify.log.error(filename + i18n["js.common.upload.error"]);
+          render(_start, _count);
       } else {
-        render(_start, _count);
-        Alertify.log.success(i18n["js.common.upload.success"]);
+          Alertify.log.success(i18n["js.common.upload.success"]);
+          render(_start, _count);
       }
     },
     function(progress){
