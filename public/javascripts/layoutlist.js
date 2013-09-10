@@ -30,17 +30,17 @@ $(function () {
       //last;
     });
     if (!confirmby) {
-      Alertify.log.error("承認者を指定してください。");
+      Alertify.log.error(i18n["js.public.check.layoutlist.apply"]);
     } else {
       var confirmId = $("#confirmId").val();
 
       smart.dopost("/layout/apply.json", {"id": confirmId, confirmby: confirmby}, function(err, result){
         if (err) {
-          var mess = err.message || "申請に失敗しました。";
+          var mess = err.message || i18n["js.public.error.layoutlist.apply"];
           Alertify.log.error(mess); console.log(err);
         } else {
           render(0, 20);
-          Alertify.log.success("申請しました。");
+          Alertify.log.success(i18n["js.public.success.layoutlist.apply"]);
         }
         $("#applyModal").modal("hide");
       });
@@ -55,14 +55,14 @@ function setTitle (publishFlag, statusFlag) {
 
   if (publishFlag == 1) {
 
-    $("#list_title").html("公式中 レイアウト一覧");
+    $("#list_title").html(i18n["js.public.info.layoutlist.title.publish"]);
 
   } else if (statusFlag == 21) {
 
-    $("#list_title").html("申請中 レイアウト一覧");
+    $("#list_title").html(i18n["js.public.info.layoutlist.title.apply"]);
   } else if (statusFlag == 22) {
 
-    $("#list_title").html("承認待ち レイアウト一覧");
+    $("#list_title").html(i18n["js.public.info.layoutlist.title.approve"]);
   }
 }
 
@@ -89,7 +89,7 @@ function render(start, count) {
 
     // publish list
     if (publish == 1) {
-      $('#layout_header').html("<tr><th>#</th><th>名称</th><th>更新者</th><th>更新日</th><th>操作</th></tr>");
+      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.publish"]);
 
       var tmpl = $('#tmpl_publishlayout_list').html();
 
@@ -110,7 +110,7 @@ function render(start, count) {
 
     // apply list
     } else if (status == 21) {
-      $('#layout_header').html("<tr><th>#</th><th>名称</th><th>承認者</th><th>申請日</th><th>操作</th></tr>");
+      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.apply"]);
 
       var tmpl = $('#tmpl_applylayout_list').html();
 
@@ -128,7 +128,7 @@ function render(start, count) {
 
     //
     } else if (status == 22) {
-      $('#layout_header').html("<tr><th>#</th><th>名称</th><th>申請者</th><th>申請日</th><th>操作</th></tr>");
+      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.approve"]);
 
       var tmpl = $('#tmpl_confirmlayout_list').html();
 
@@ -176,25 +176,25 @@ function render(start, count) {
       var status_title;
       switch (status_) {
           case 1:
-                status_title = "未申請";
+                status_title = i18n["js.public.info.layoutlist.status.01"];//"未申請"
                 break;
           case 2:
-                status_title = "申請中";
+                status_title = i18n["js.public.info.layoutlist.status.02"];//"申請中"
                 break;
           case 3:
-                status_title = "否認";
+                status_title = i18n["js.public.info.layoutlist.status.03"];//"否認"
                 break;
           case 4:
-                status_title = "承認済み";
+                status_title = i18n["js.public.info.layoutlist.status.04"];//"承認済み"
                 break;
         }
         return status_title;
   }
   function get_publish (publish_) {
       if (publish_ == 1) {
-          return "あり";
+          return i18n["js.public.info.layoutlist.publish.status.01"];//"あり"
       }  else {
-          return "なし";
+          return i18n["js.public.info.layoutlist.publish.status.01"];//"なし"
       }
   }
 }
@@ -218,15 +218,15 @@ function events() {
     }
 
     if (operation == "delete") {
-        Alertify.dialog.confirm("削除します。よろしいですか？", function () {
+        Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
             // OK
             smart.dodelete("/layout/remove.json", {"id": rowid, "layoutId": layoutId}, function(err, result){
                 if (err) {
-                    Alertify.log.error("削除に失敗しました。"); console.log(err);
+                    Alertify.log.error(i18n["js.common.delete.error"]); console.log(err);
                 } else {
                     render(0, 20);
-                    Alertify.log.success("削除しました。");
+                    Alertify.log.success(i18n["js.common.delete.success"]);
                 }
             });
         }, function () {
@@ -253,10 +253,10 @@ function events() {
     if (operation == "confirm") {
         smart.dopost("/layout/confirm.json", {"id": rowid, "confirm": 1}, function(err, result){
             if (err) {
-                Alertify.log.error("承認に失敗しました。"); console.log(err);
+                Alertify.log.error(i18n["js.public.error.layoutlist.confirm"]); console.log(err);
             } else {
                 render(0, 20);
-                Alertify.log.success("承認しました。");
+                Alertify.log.success(i18n["js.public.success.layoutlist.confirm"]);
             }
         });
     }
@@ -264,10 +264,10 @@ function events() {
     if (operation == "deny") {
         smart.dopost("/layout/confirm.json", {"id": rowid, "confirm": 2}, function(err, result){
             if (err) {
-                Alertify.log.error("否認に失敗しました。"); console.log(err);
+                Alertify.log.error(i18n["js.public.error.layoutlist.deny"]); console.log(err);
             } else {
                 render(0, 20);
-                Alertify.log.success("否認しました。");
+                Alertify.log.success(i18n["js.public.success.layoutlist.deny"]);
             }
         });
     }
@@ -283,7 +283,7 @@ function events() {
                 $("#slide1").addClass("active");
                 $("#syntheticModal").modal("show");
             } else {
-                Alertify.dialog.alert("プレビュー画像が生成されません", function () {
+                Alertify.dialog.alert(i18n["js.public.error.layoutlist.preview"], function () {
                     console.log("プレビュー画像が生成されません");
                 });
             }
