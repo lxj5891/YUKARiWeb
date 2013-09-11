@@ -59,6 +59,10 @@ exports.guiding = function (app) {
     app.get('/customer/workstation', function (req, res) {
         res.render("customer_workstation", {"title": i.__("js.routes.website.customer_workstation.title"), user: req.session.user});
     });
+  //appicon
+  app.get('/customer/appimage', function (req, res) {
+    res.render("customer_appimage", {"title": i.__("js.routes.website.customer_appicon.title"), user: req.session.user});
+  });
 
   // 系统设定
   app.get('/customer/setup', function (req, res) {
