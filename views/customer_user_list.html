@@ -37,10 +37,10 @@
             <a href="/customer/user/add" class="btn btn-default"><i class="icon-plus"></i><%= i('html.button.user.add') %><!-- ユーザ追加--></a>
         </div>
         <div class="pull-right" style="width: 300px">
-          <form class="search-form">
+          <form class="search-form" onsubmit="return false;">
             <div class="input-group">
-              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
-              <span class="input-group-addon">
+              <input id = "user_search" type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
+              <span id="doSearchUser" class="input-group-addon">
                 <i class="icon-search"></i>
               </span>
             </div>

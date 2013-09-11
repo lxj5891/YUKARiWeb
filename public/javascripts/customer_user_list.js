@@ -9,9 +9,11 @@ var userList;
 /**
  * 绘制画面
  */
-function render(start, count) {
-
-    smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start, function(e, result){
+function render(start, count ,keyword) {
+    if(!keyword){
+        keyword = '';
+    }
+    smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function(e, result){
 
         userList = result.items;
 
@@ -35,14 +37,30 @@ function render(start, count) {
                 , "type": row.type
             }));
         });
+        if(result.items.length == 0){
+            container.html("没有记录");
+        }
         // 设定翻页
         smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
             render.apply(window, [active, count]);
         });
     });
 }
-
+var _start = 0;
+var _count = 15;
+var _keyword = '';
 function events() {
+    $("#doSearchUser").bind("click",function(){
+        _keyword =  $("#user_search").val();
+        smart.paginationInitalized = false;
+        render(_start, _count,_keyword);
+    });
+
+    $("#user_search").bind("change",function(){
+        var _keyword =  $("#user_search").val();
+        smart.paginationInitalized = false;
+        render(_start, _count,_keyword);
+    });
     // 一览按钮
     $("#user_list").on("click", "a", function(event){
 

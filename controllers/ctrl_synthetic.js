@@ -8,7 +8,6 @@ var async = require('async');
 var EventProxy = require('eventproxy');
 
 exports.getSyntheticById = function (synthetic_id, callback) {
-  console.log("synthetic_id   %s"   ,synthetic_id);
   if(synthetic_id&&synthetic_id.length<20){
     callback(null,{
       type:synthetic_id
@@ -176,7 +175,7 @@ exports.save = function (company_, uid_, item_, callback) {
 }
 
 // 获取一览
-exports.list = function (keyword_,type,company_, start_, limit_, callback_) {
+exports.list = function (keyword,type,company_, start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -197,8 +196,8 @@ exports.list = function (keyword_,type,company_, start_, limit_, callback_) {
   }
 
   // 检索用关键字
-  if (keyword_&&keyword_.length>0) {
-    condition.name = new RegExp("^" + keyword_.toLowerCase() + ".*$", "i");
+  if (keyword&&keyword.length>0) {
+    condition.name = new RegExp(keyword.toLowerCase(),"i");
   }
 
   synthetic.total(condition, function (err, count) {

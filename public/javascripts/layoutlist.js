@@ -1,3 +1,6 @@
+var _start = 0;
+var _count = 20;
+var _keyword = '';
 $(function () {
   'use strict';
 
@@ -69,7 +72,7 @@ function setTitle (publishFlag, statusFlag) {
 /**
  * get layout list
  */
-function render(start, count) {
+function render(start, count,keyword) {
     var publish = $("#publishFlag").val();
     var status  = $("#statusFlag").val();
 
@@ -78,6 +81,9 @@ function render(start, count) {
     jsonUrl += "&count=" + count;
     jsonUrl += "&publish=" + publish;
     jsonUrl += "&status=" + status;
+  if(keyword){
+    jsonUrl += "&keyword=" + keyword;
+  }
 
   smart.doget(jsonUrl, function(e, result){
 
@@ -108,6 +114,7 @@ function render(start, count) {
           , "preview_image" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : null
         }));
       });
+
 
     // apply list
     } else if (status == 21) {
@@ -169,6 +176,9 @@ function render(start, count) {
       }));
     });
   }
+    if(layoutList.length == 0 ){
+      container.html("没有记录");
+    }
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);
@@ -203,6 +213,19 @@ function render(start, count) {
 }
 
 function events() {
+
+  $("#txt_search").bind("change",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
+  $("#doSearch").bind("click",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
 
   // list events
   $("#layout_list").on("click", "a", function(event){

@@ -32,7 +32,17 @@ var _keyword = '';
  * 注册事件
  */
 function events() {
+  $("#txt_search").bind("change",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
 
+  $("#doSearch").bind("click",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
   // 一览显示
   $("#showlist").bind("click", function(e){
     $("#list").show();
@@ -60,10 +70,6 @@ function events() {
     renderDialog(_materialList[index - 1], index);
     $('#material_detail_dlg').modal("show");
     return false;
-  });
-  $("#doSearch").bind("click",function(){
-    _keyword =  $("#txt_search").val();
-    render(_start, _count,_keyword);
   });
 
   // 关闭对话框时隐藏检索结果
@@ -94,8 +100,8 @@ function events() {
 
         // OK
         smart.dodelete("/material/remove.json", {"fid": row._id}, function(err, result){
-          if (err) {
-            Alertify.log.error(i18n["js.public.check.material.delete"]); console.log(err);
+          if(err){
+            Alertify.log.error( i18n["js.public.check.material.delete"]); console.log(err);
           } else {
             render(_start, _count);
             Alertify.log.success(i18n["js.common.delete.success"]);
@@ -129,7 +135,7 @@ function events() {
       , row = _materialList[index - 1];
 
     smart.doput("/material/updatetag.json", {fid: row._id, tags: tag.join(",")}, function(err, result) {
-      if (err) {
+      if(err){
         Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
       } else {
         smart.paginationInitalized = false;
@@ -204,6 +210,9 @@ function render(start, count,keyword) {
         , "editby": row.user.name.name_zh
       }));
     });
+    if(_materialList.length == 0 ){
+      container_list.html("没有记录");
+    }
 
     // 格状表示
     var cols = []
@@ -244,6 +253,17 @@ function render(start, count,keyword) {
 /**
  * 上传图片
  */
+/**根据文件头信息判断文件类型
+
+ var filename = null;
+ for (var i = 0 ; i < result.data.items.length ; i++)
+ {
+     if((typeof (result.data.items[i]) == 'string')&&result.data.items[i].constructor == String){
+         var filepath = result.data.items[i];
+         var filename = filepath.split(":")[1];
+     }
+ }
+ */
 function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
@@ -251,7 +271,7 @@ function uploadFiles(files) {
   for (var i = 0; i < files.length; i++) {
       var filetype = files[i].type.split("/");
       if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
-//          Alertify.dialog.alert( "ファイルのファイルタイプは合法的ではない");
+          Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
           return ;
       }
   }
@@ -269,11 +289,11 @@ function uploadFiles(files) {
     function(err, result){
 
       $("#upload_progress_dlg").modal("hide");
-      if (err) {
+      if(err){
         Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
       } else {
-        render(_start, _count);
-        Alertify.log.success(i18n["js.common.upload.success"]);
+          render(_start, _count);
+          Alertify.log.success(i18n["js.common.upload.success"]);
       }
     },
     function(progress){
