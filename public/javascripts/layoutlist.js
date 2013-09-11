@@ -89,7 +89,8 @@ function render(start, count) {
 
     // publish list
     if (publish == 1) {
-      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.publish"]);
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["html.label.common.updateby"] + "</th><th>" + i18n["html.label.common.updateat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_publishlayout_list').html();
 
@@ -110,7 +111,8 @@ function render(start, count) {
 
     // apply list
     } else if (status == 21) {
-      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.apply"]);
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.approveby"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_applylayout_list').html();
 
@@ -128,7 +130,8 @@ function render(start, count) {
 
     //
     } else if (status == 22) {
-      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.approve"]);
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyby"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_confirmlayout_list').html();
 
@@ -194,7 +197,7 @@ function render(start, count) {
       if (publish_ == 1) {
           return i18n["js.public.info.layoutlist.publish.status.01"];//"あり"
       }  else {
-          return i18n["js.public.info.layoutlist.publish.status.01"];//"なし"
+          return i18n["js.public.info.layoutlist.publish.status.02"];//"なし"
       }
   }
 }

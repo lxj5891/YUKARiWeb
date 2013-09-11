@@ -273,7 +273,7 @@ var store = {
     if (_metadata) {
       _metadata.widget = _metadata.widget || [];
       if (!widget.widget_id) {
-        Alertify.log.error("up the widget_id ");
+        //Alertify.log.error("up the widget_id ");
         return null;
       }
       if(_i){
@@ -414,10 +414,10 @@ var store = {
         return {valide: true, metadata_id: _metadata_id};
       }
       if (!_metadata.effect) {
-        return _error("effect none");
+        return _error(i18n["js.public.error.store.effect"]);
       }
-      if (!_metadata.txtfileid) {
-        return _error("ネタ" + _metadata_id + "画像がない");
+      if (!_metadata.txtmaterial_id || _metadata.txtmaterial_id == null) {
+        return _error(i18n["js.public.error.store.txtfileid"]);
       }
       return _success();
     }
