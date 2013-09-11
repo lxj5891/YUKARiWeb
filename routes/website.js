@@ -80,10 +80,6 @@ exports.guiding = function (app) {
     });
   });
 
-  app.get('/content/synthetic/detail', function (req, res) {
-    res.render("syntheticdetail", {"title": i.__("js.routes.website.syntheticdetail.title"), user: req.session.user});
-  });
-
   // 布局
   app.get('/content/layout', function (req, res) {
     res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:0});
@@ -103,15 +99,15 @@ exports.guiding = function (app) {
     });
 
   app.get('/content/layout/add', function (req, res) {
-    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, layoutId:0, isCopy:"false"});
+    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_add.title"), user: req.session.user, layoutId:0, isCopy:"false"});
   });
 
   app.get('/content/layout/edit/:id', function (req, res) {
-    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, layoutId:req.params.id, isCopy:"false"});
+    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_update.title"), user: req.session.user, layoutId:req.params.id, isCopy:"false"});
   });
 
   app.get('/content/layout/copy/:id', function (req, res) {
-    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, layoutId:req.params.id, isCopy:"true"});
+    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_copy.title"), user: req.session.user, layoutId:req.params.id, isCopy:"true"});
   });
 
 
@@ -127,8 +123,6 @@ exports.guiding = function (app) {
     res.render("top_details", {"title": "top_details"});
   });
 
-
-  // ----------------------
   // 公司一览
     app.get('/admin/company/add', function (req, res) {
         res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_add.title"), user: req.session.user});
@@ -143,10 +137,6 @@ exports.guiding = function (app) {
         res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
     });
 
-  // 制作画面
-  app.get('/make', function (req, res) {
-    res.render("make", {"title": "customer", user: req.session.user});
-  });
   // 运营情报
   app.get('/admin/operated', function (req, res) {
     res.render("admin_operated_list", {"title":  i.__("js.routes.website.admin_operated_list.title"), user: req.session.user});
@@ -154,19 +144,19 @@ exports.guiding = function (app) {
   // 元素
   app.get('/content/synthetic', function (req, res) {
     res.render("content_synthetic", {
-      title: "ネタ" , user: req.session.user
+      title: i.__("js.routes.synthetic.content_synthetic.title") , user: req.session.user
     });
   });
   // 元素
   app.get('/content/synthetic/add', function (req, res) {
     res.render("content_synthetic_add", {
-      title: "ネタ編集" , synthetic_id:'' , user: req.session.user
+      title: i.__("js.routes.synthetic.content_synthetic_add.title") , synthetic_id:'' , user: req.session.user
     });
   });
   app.get('/content/synthetic/add/:type', function (req_, res_) {
     var type = req_.params.type;
     res_.render("content_synthetic_add", {
-      title: "ネタ編集"
+      title: i.__("js.routes.synthetic.content_synthetic_add.title")
       , synthetic_id : type
       , user: req_.session.user
     });
@@ -176,7 +166,7 @@ exports.guiding = function (app) {
   app.get('/content/synthetic/edit/:synthetic_id', function (req_, res_) {
     var id = req_.params.synthetic_id;
     res_.render("content_synthetic_add", {
-      title: "ネタ編集"
+      title: i.__("js.routes.synthetic.content_synthetic_update.title")
       , synthetic_id : id
       , user: req_.session.user
     });
