@@ -14,8 +14,7 @@ exports.lang = function(req, res, next) {
 
   // set default
   if(req.session.user && req.session.user.lang){
-    //console.log(req.session.user);
-    i18n.setLocale(req, req.session.user.lang);
+    i18n.setLocale(req.session.user.lang);
     if(req.session.localJS){
       res.locals.i18n = req.session.localJS;
     }else{
