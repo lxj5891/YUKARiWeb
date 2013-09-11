@@ -363,9 +363,17 @@ $contents.view = {
       // 初始化Cover的行数列数
       var cover = $contents.view.cover;
       cover.intRowCol(result.data.items.coverrows, result.data.items.covercols);
+      if (result.data.items.cover) {
+        store.initCover(result.data.items.cover);
+      } else {
+        store.initCover([]);
+      }
+      if (result.data.items.metadata) {
+        store.initMetadata(result.data.items.metadata);
+      } else {
+        store.initMetadata([]);
+      }
 
-      store.initCover(result.data.items.cover);
-      store.initMetadata(result.data.items.metadata);
       //TODO ：通过store  render
       var type_redner  = function(type){
         this._synthetic_type =  {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"};

@@ -5,6 +5,7 @@ $(function () {
   render(_start, _count);
   events();
 
+
   smart.view("tag").view.initialize("textBoxTag");
 
   // 获取Tag一览
@@ -25,6 +26,7 @@ $(function () {
 var _materialList;
 var _start = 0;
 var _count = 20;
+var _keyword = '';
 
 /**
  * 注册事件
@@ -58,6 +60,10 @@ function events() {
     renderDialog(_materialList[index - 1], index);
     $('#material_detail_dlg').modal("show");
     return false;
+  });
+  $("#doSearch").bind("click",function(){
+    _keyword =  $("#txt_search").val();
+    render(_start, _count,_keyword);
   });
 
   // 关闭对话框时隐藏检索结果
@@ -167,14 +173,16 @@ function renderDialog(row, index) {
 /**
  * 绘制画面
  */
-function render(start, count) {
+function render(start, count,keyword) {
 
   var tags = [];
   _.each($("#taglist").find(".selected_tag"), function(item){
     tags.push($(item).html());
   });
-
-  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(","), function(e, result){
+  if(!keyword){
+    keyword = '';
+  }
+  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword="+keyword, function(e, result){
 
     _materialList = result.items;
 
