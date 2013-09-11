@@ -8,8 +8,8 @@ $(function () {
 
 });
 
-//// 保持一览数据
-//var groupList;
+// 保持一览数据
+var groupList;
 /**
  * 绘制画面
  */
@@ -19,7 +19,7 @@ function render(start, count , keyword) {
     }
   smart.doget("/group/list.json?count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
 
-    var groupList = result.items;
+    groupList = result.items;
 
     // 一览表示
     var tmpl = $('#tmpl_group_list').html()
