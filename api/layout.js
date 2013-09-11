@@ -123,10 +123,11 @@ exports.list = function(req_, res_) {
     , start = req_.query.start
     , limit = req_.query.count
     , publish = req_.query.publish
+    , keyword = req_.query.keyword
     , status = req_.query.status;
 
     if (publish == 1) {
-        layout.publishList(company, start, limit, function(err, result) {
+        layout.publishList(keyword,company, start, limit, function(err, result) {
             if (err) {
                 return res_.send(err.code, json.errorSchema(err.code, err.message));
             } else {
@@ -135,7 +136,7 @@ exports.list = function(req_, res_) {
         });
     } else {
         var uid = req_.session.user._id;
-        layout.list(company, start, limit, uid, status, function(err, result) {
+        layout.list(keyword,company, start, limit, uid, status, function(err, result) {
             if (err) {
                 return res_.send(err.code, json.errorSchema(err.code, err.message));
             } else {

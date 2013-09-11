@@ -742,3 +742,6 @@ ol.popular-tags li a {
   height: 400px;
   overflow-y: scroll;
 }
+#doSearch {
+  cursor: pointer;
+}

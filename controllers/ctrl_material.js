@@ -38,7 +38,7 @@ exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, c
 
   // 检索用关键字
   if (keyword_&&keyword_.length>0) {
-    condition.filename = new RegExp("^" + keyword_.toLowerCase() + ".*$", "i");
+    condition.filename = new RegExp(keyword_.toLowerCase(),"i");
   }
 
   material.total(condition, function(err, count){

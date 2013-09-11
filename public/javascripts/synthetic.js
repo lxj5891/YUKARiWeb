@@ -1,4 +1,6 @@
-
+var _start = 0;
+var _count = 20;
+var _keyword = '';
 $(function () {
   'use strict';
 
@@ -24,9 +26,12 @@ function type_redner(type){
   }
   return
 }
-function render(start, count) {
+function render(start, count,keyword) {
 
-  smart.doget("/synthetic/list.json?count=" + count + "&start=" + start, function(e, result){
+  if(!keyword){
+    keyword = '';
+  }
+  smart.doget("/synthetic/list.json?count=" + count + "&start=" + start + "&keyword=" + keyword, function (e, result) {
 
     var syntheticList = result.items;
 
@@ -40,7 +45,7 @@ function render(start, count) {
 
     _.each(syntheticList, function(row){
       var f = "";
-      if(row.cover_material && row.cover_material.thumb){
+      if(row.cover_material){
         if(row.cover_material.thumb){
           f = "/picture/" + row.cover_material.thumb.middle;
         }else{
@@ -61,7 +66,9 @@ function render(start, count) {
         , "editby": row.user.name.name_zh
       }));
     });
-
+    if(syntheticList.length == 0 ){
+      container.html("没有记录");
+    }
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);
@@ -75,6 +82,18 @@ function render(start, count) {
  * 注册事件
  */
 function events() {
+  $("#txt_search").bind("change",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
+  $("#doSearch").bind("click",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
   $("button[name=okSetting]").on("click", function (e) {
     var _type = $("input[name=type]:checked").val();
     window.location.href = "/content/synthetic/add/" + _type;

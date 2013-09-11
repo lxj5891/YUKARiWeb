@@ -32,7 +32,17 @@ var _keyword = '';
  * 注册事件
  */
 function events() {
+  $("#txt_search").bind("change",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
 
+  $("#doSearch").bind("click",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
   // 一览显示
   $("#showlist").bind("click", function(e){
     $("#list").show();
@@ -60,10 +70,6 @@ function events() {
     renderDialog(_materialList[index - 1], index);
     $('#material_detail_dlg').modal("show");
     return false;
-  });
-  $("#doSearch").bind("click",function(){
-    _keyword =  $("#txt_search").val();
-    render(_start, _count,_keyword);
   });
 
   // 关闭对话框时隐藏检索结果
@@ -204,6 +210,9 @@ function render(start, count,keyword) {
         , "editby": row.user.name.name_zh
       }));
     });
+    if(_materialList.length == 0 ){
+      container_list.html("没有记录");
+    }
 
     // 格状表示
     var cols = []
