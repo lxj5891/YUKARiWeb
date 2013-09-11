@@ -7,7 +7,8 @@
   <script type="text/javascript" src="/javascripts/customer_user_update.js"></script>
 </head>
 <body>
-
+<input type="hidden" id="userId" name="userId" value="<%= userId %>">
+<input type="hidden" id="userType" name="userType" value="<%= user.type %>">
 <% include common/navbar.html %>
 
 <div class="main-container container-fluid">
@@ -43,25 +44,25 @@
           <div class="form-group">
             <label for="inputUserID" class="col-lg-2 control-label"><%= i('html.label.user.id') %><!-- ユーザID--></label>
             <div class="col-lg-3">
-              <input type="text" class="form-control" id="inputUserID" placeholder="<%= i('html.label.user.id') %>">
+              <input type="text" class="form-control" id="inputUserID" placeholder="<%= i('html.label.user.id') %>" maxlength="30">
             </div>
           </div>
           <div class="form-group">
             <label for="inputPassword" class="col-lg-2 control-label"><%= i('html.label.user.password') %><!-- パスワード--></label>
             <div class="col-lg-3">
-              <input type="password" class="form-control" id="inputPassword" placeholder="<%= i('html.label.user.password') %>">
+              <input type="password" class="form-control" id="inputPassword" placeholder="<%= i('html.label.user.password') %>" maxlength="20">
             </div>
           </div>
           <div class="form-group">
             <label for="inputName" class="col-lg-2 control-label"><%= i('html.label.user.name') %><!-- 名前--></label>
             <div class="col-lg-3">
-              <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.user.name') %>">
+              <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.user.name') %>" maxlength="20">
             </div>
           </div>
           <div class="form-group">
             <label for="inputRole" class="col-lg-2 control-label"><%= i('html.label.user.role') %><!-- 役職--></label>
             <div class="col-lg-3">
-              <input type="text" class="form-control" id="inputRole" placeholder="<%= i('html.label.user.role') %>">
+              <input type="text" class="form-control" id="inputRole" placeholder="<%= i('html.label.user.role') %>" maxlength="20">
             </div>
           </div>
           <div class="form-group">
