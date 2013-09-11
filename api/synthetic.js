@@ -42,7 +42,8 @@ exports.saveDescription = function(req_,res_){
 exports.saveAll = function(req_,res_){
 
   var company = req_.session.user.companyid
-    , uid = req_.session.user._id;
+    , uid = req_.session.user._id
+    , user = req_.session.user;
   var synthetic_id = req_.body.synthetic_id;
   var cover = req_.body.cover;
   var metadata = req_.body.metadata;
@@ -51,7 +52,7 @@ exports.saveAll = function(req_,res_){
   var syntheticName = req_.body.syntheticName;
   var syntheticComment = req_.body.syntheticComment;
 
-  synthetic.saveThumbAndMatedata(synthetic_id,cover,metadata,coverrows,covercols,syntheticName,syntheticComment,uid, function(err,result){
+  synthetic.saveThumbAndMatedata(synthetic_id,cover,metadata,coverrows,covercols,syntheticName,syntheticComment,user, function(err,result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -65,6 +66,7 @@ exports.save = function (req_, res_) {
     , uid = req_.session.user._id;
 
   synthetic.save(company, uid, req_.body, function (err, result) {
+    console.log(result);
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {

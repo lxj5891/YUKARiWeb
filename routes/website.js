@@ -163,6 +163,15 @@ exports.guiding = function (app) {
       title: "ネタ編集" , synthetic_id:'' , user: req.session.user
     });
   });
+  app.get('/content/synthetic/add/:type', function (req_, res_) {
+    var type = req_.params.type;
+    res_.render("content_synthetic_add", {
+      title: "ネタ編集"
+      , synthetic_id : type
+      , user: req_.session.user
+    });
+
+  });
   //元素
   app.get('/content/synthetic/edit/:synthetic_id', function (req_, res_) {
     var id = req_.params.synthetic_id;

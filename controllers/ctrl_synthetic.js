@@ -9,6 +9,12 @@ var EventProxy = require('eventproxy');
 
 exports.getSyntheticById = function (synthetic_id, callback) {
   //console.log("synthetic_id   %s"   ,synthetic_id);
+  if(synthetic_id.length<20){
+    callback(null,{
+      type:synthetic_id
+    });
+    return;
+  }
   synthetic.findOne(synthetic_id, function (err, docs) {
     if(err || !docs){
       return callback(err,null);
@@ -148,7 +154,7 @@ exports.saveNameAndComment = function (synthetic_id, name, comment, uid, callbac
     callback(err, result);
   });
 }
-exports.saveThumbAndMatedata = function (synthetic_id, cover, metadata, coverrows, covercols,syntheticName,syntheticComment, uid, callback) {
+exports.saveThumbAndMatedata = function (synthetic_id, cover, metadata, coverrows, covercols,syntheticName,syntheticComment, user, callback) {
 
   var _data = {
     cover: cover,
@@ -158,16 +164,15 @@ exports.saveThumbAndMatedata = function (synthetic_id, cover, metadata, coverrow
     syntheticName: syntheticName,
     syntheticComment:syntheticComment
   }
-  synthetic.update(synthetic_id, _data, uid, function (err, result) {
+  synthetic.update(synthetic_id, _data, user, function (err, result) {
     callback(err, result);
   });
 };
 
 exports.save = function (company_, uid_, item_, callback) {
-  var obj = {
-    name: item_.name, type: item_.type, company: company_, page: 0, editat: new Date(), editby: uid_, createat: new Date(), createby: uid_
-  }
-  synthetic.saveAndNew(obj, callback);
+  callback(null,{
+    _id : item_.type
+  });
 }
 
 // 获取一览
@@ -311,7 +316,7 @@ exports.remove = function (uid_, id_, callback_) {
 };
 
 function checkLayoutUse(id_,callback){
-  layout.count({"layout.page.tile.syntheticId":id_},function(err,count){
+  layout.count({"layout.page.tile.syntheticId":id_,"valid":1},function(err,count){
     callback(null,count);
   });
 }

@@ -39,9 +39,16 @@ function render(start, count) {
     container.html("");
 
     _.each(syntheticList, function(row){
-      var f = row.cover && row.cover.length > 0 ? "/picture/" + row.cover_material.fileid : "/images/empty.png";
+      var f = "";
       if(row.cover_material && row.cover_material.thumb){
-        f = "/picture/" + row.cover_material.thumb.middle;
+        if(row.cover_material.thumb){
+          f = "/picture/" + row.cover_material.thumb.middle;
+        }else{
+          f = "/picture/" + row.cover_material.fileid;
+        }
+
+      }else{
+        f = "/images/empty.png";
       }
       container.append(_.template(tmpl, {
           "id": row._id
@@ -69,19 +76,8 @@ function render(start, count) {
  */
 function events() {
   $("button[name=okSetting]").on("click", function (e) {
-    var _name = $("input[name=name]").val();
     var _type = $("input[name=type]:checked").val();
-    var _thumb_type = $("input[name=thumb_type]").val();
-
-    var _data = {
-      name: _name,
-      type: _type,
-      thumb_type: _thumb_type
-    };
-
-    smart.dopost("/content/synthetic/save.json", _data, function (e, result) {
-      window.location.href="/content/synthetic/edit/"+result.data.items._id;
-    });
+    window.location.href = "/content/synthetic/add/" + _type;
   });
 
 
