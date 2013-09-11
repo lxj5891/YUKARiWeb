@@ -231,7 +231,7 @@ function publishLayout(layout_, callback_) {
 //////////////////////////////////////////////////
 
 // 获取一览
-exports.list = function(company_, start_, limit_, uid, status, callback_) {
+exports.list = function(keyword_,company_, start_, limit_, uid, status, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -246,6 +246,9 @@ exports.list = function(company_, start_, limit_, uid, status, callback_) {
   } else if(status == 22) {
     condition.status = 2;
     condition.confirmby = uid;
+  }
+  if(keyword_ && keyword_.length > 0){
+      condition["layout.name"] = new RegExp(keyword_.toLowerCase());
   }
 
   layout.total(condition, function(err, count){
@@ -271,7 +274,7 @@ exports.list = function(company_, start_, limit_, uid, status, callback_) {
   });
 };
 
-exports.publishList = function(company_, start_, limit_, callback_) {
+exports.publishList = function(keyword,company_, start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -279,6 +282,9 @@ exports.publishList = function(company_, start_, limit_, callback_) {
       company: company_,
       valid: 1
     };
+  if(keyword && keyword.length > 0){
+    condition["active.layout.name"] = new RegExp(keyword.toLowerCase(),"i");
+  }
 
 
   history.total(condition, function(err, count){

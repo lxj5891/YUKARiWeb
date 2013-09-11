@@ -26,10 +26,11 @@ exports.add = function(req_, res_) {
 exports.list = function(req_, res_) {
 
   var company = req_.session.user.companyid
+    , keyword = req_.query.keyword
     , start = req_.query.start
     , limit = req_.query.count;
 
-  notice.list(company, start, limit, function(err, result) {
+  notice.list(keyword,company, start, limit, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {

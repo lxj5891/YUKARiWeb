@@ -81,9 +81,10 @@ exports.list = function(req_, res_) {
   var company = req_.session.user.companyid
     , start = req_.query.start
     , limit = req_.query.count
+    , keyword = req_.query.keyword
     , type = req_.query.type;
 
-  synthetic.list(type,company, start, limit, function(err, result) {
+  synthetic.list(keyword,type,company, start, limit, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
