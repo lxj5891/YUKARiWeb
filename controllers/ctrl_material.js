@@ -62,6 +62,23 @@ exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, c
 /**
  * 保存文件
  */
+
+/**
+ 根据文件头信息判断文件类型
+mime(path, function (err, type) {
+    if (err) {
+        return callback(new error.InternalServer(err));
+    } else {
+        var temptype = type.split("/");
+        if(temptype[0] != "image"  &&  !(temptype[0] == "video" && temptype[1] == "mp4")){
+            result.push("path:" + file.name);
+            return callback(null,{});
+        }
+    }
+ });
+*/
+
+
 exports.add = function(company_, uid_, files_, callback_) {
 
   var result = [];
@@ -70,16 +87,6 @@ exports.add = function(company_, uid_, files_, callback_) {
 
     var name = ph.basename(file.name);
     var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
-    mime(path, function (err, type) {
-        if (err) {
-            return callback(new error.InternalServer(err));
-        } else {
-            var temptype = type.split("/");
-            if(temptype[0] != "image"  &&  !(temptype[0] == "video" && temptype[1] == "mp4")){
-                  result.push("path:" + file.name);
-                  return callback(null,{});
-            }
-        }
 
         var metadata = {
             "author": uid_
@@ -110,7 +117,7 @@ exports.add = function(company_, uid_, files_, callback_) {
            mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
            return callback(err);
          });
-        });
+
     });
   },function(err){
     return callback_(err, result);
