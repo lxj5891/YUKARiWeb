@@ -244,9 +244,27 @@ function render(start, count,keyword) {
 /**
  * 上传图片
  */
+/**根据文件头信息判断文件类型
+
+ var filename = null;
+ for (var i = 0 ; i < result.data.items.length ; i++)
+ {
+     if((typeof (result.data.items[i]) == 'string')&&result.data.items[i].constructor == String){
+         var filepath = result.data.items[i];
+         var filename = filepath.split(":")[1];
+     }
+ }
+ */
 function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
+  }
+  for (var i = 0; i < files.length; i++) {
+      var filetype = files[i].type.split("/");
+      if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
+          Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
+          return ;
+      }
   }
 
   var fd = new FormData();
@@ -262,20 +280,11 @@ function uploadFiles(files) {
     function(err, result){
 
       $("#upload_progress_dlg").modal("hide");
-      var filename = null;
-      for (var i = 0 ; i < result.data.items.length ; i++)
-      {
-          if((typeof (result.data.items[i]) == 'string')&&result.data.items[i].constructor == String){
-              var filepath = result.data.items[i];
-              var filename = filepath.split(":")[1];
-          }
-      }
-      if(filename){
-          Alertify.log.error(filename + i18n["js.common.upload.error"]);
-          render(_start, _count);
+      if(err){
+        Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
       } else {
-          Alertify.log.success(i18n["js.common.upload.success"]);
           render(_start, _count);
+          Alertify.log.success(i18n["js.common.upload.success"]);
       }
     },
     function(progress){

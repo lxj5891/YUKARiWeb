@@ -10,7 +10,7 @@ var ph        = require('path')
   , gridfs    = lib.mod.gridfs
   , user      = lib.ctrl.user
   , error     = lib.core.errors;
-var mime = require('mime-magic');
+//var mime = require('mime-magic');根据文件头信息判断文件类型
 var EventProxy = require('eventproxy');
 exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, callback_) {
 
@@ -87,8 +87,7 @@ exports.add = function(company_, uid_, files_, callback_) {
 
     var name = ph.basename(file.name);
     var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
-
-        var metadata = {
+    var metadata = {
             "author": uid_
             , "company": company_
             , "tags": types(file.type)
