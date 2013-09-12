@@ -93,7 +93,7 @@ exports.add = function(uid_, data_, callback_) {
       user_.createby = uid_;
       user_.editat = new Date();
       user_.editby = uid_;
-      user_.password = auth.sha256(user_.password);
+      //user_.password = auth.sha256(user_.password);
 
   sync.waterfall([
         // 添加公司
