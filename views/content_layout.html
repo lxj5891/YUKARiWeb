@@ -40,7 +40,7 @@
         <div class="pull-right" style="width: 300px">
           <form class="search-form" onsubmit="return false">
             <div class="input-group">
-              <input id="txt_search" type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
+              <input id="txt_search" type="text" placeholder="<%= i('html.label.common.search') %>(<%= i('html.label.layout.name') %>)" class="form-control"  autocomplete="off" />
                 <span id="doSearch" class="input-group-addon">
                   <i class="icon-search"></i>
                 </span>
@@ -169,7 +169,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><%= i('html.label.layout.imagepreview') %><!--画面プレビュー --></h4>
             </div>
-            <div class="modal-body" id="slide">
+            <div class="modal-body" id="slide" style="background-image: url('/images/ipad.jpg');background-repeat:no-repeat">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" data-dismiss="modal"><%= i('html.button.common.close') %></button>
@@ -180,11 +180,11 @@
 
 
 <script type="text/template" id="tmpl_slide">
-    <div class="carousel slide bs-docs-carousel-example" id="carousel-example-generic">
+    <div class="carousel slide bs-docs-carousel-example" id="carousel-example-generic" style ="">
 
-        <div class="carousel-inner" style = "height : 349px ; ">
+        <div class="carousel-inner" style = "">
             <$ var cnt=1; _.each(files, function(file) { $>
-            <div class="item" id="page{{cnt}}" style="height:349px;">
+            <div class="item" id="page{{cnt}}" style="height : 336px; width :491px; border-style: solid; border-width: 2px 2px 2px 2px;border-color：FFFFFF ;overflow-y:scroll;">
                 <img alt="Slide{{cnt}}" src="/picture/{{file}}">
             </div>
             <$ cnt++}); $>

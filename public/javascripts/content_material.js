@@ -1,10 +1,8 @@
 
 $(function () {
   'use strict';
-
-  render(_start, _count);
+  render(0, 20);
   events();
-
 
   smart.view("tag").view.initialize("textBoxTag");
 
@@ -24,24 +22,23 @@ $(function () {
 
 // 保持一览数据
 var _materialList;
-var _start = 0;
-var _count = 20;
-var _keyword = '';
 
 /**
  * 注册事件
  */
 function events() {
   $("#txt_search").bind("change",function(){
-    _keyword =  $("#txt_search").val();
-    smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+      var _keyword = '';
+      _keyword =  $("#txt_search").val();
+      smart.paginationInitalized = false;
+      render(0, 20,_keyword);
   });
 
   $("#doSearch").bind("click",function(){
-    _keyword =  $("#txt_search").val();
-    smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+      var _keyword = '';
+      _keyword =  $("#txt_search").val();
+      smart.paginationInitalized = false;
+      render(0, 20,_keyword);
   });
   // 一览显示
   $("#showlist").bind("click", function(e){

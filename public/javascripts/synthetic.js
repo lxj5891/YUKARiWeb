@@ -1,6 +1,3 @@
-var _start = 0;
-var _count = 20;
-var _keyword = '';
 $(function () {
   'use strict';
 
@@ -83,15 +80,17 @@ function render(start, count,keyword) {
  */
 function events() {
   $("#txt_search").bind("change",function(){
+    var _keyword = '';
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+    render(0, 20 ,_keyword);
   });
 
   $("#doSearch").bind("click",function(){
+    var _keyword = '';
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+    render(0, 20,_keyword);
   });
 
   $("button[name=okSetting]").on("click", function (e) {
