@@ -51,20 +51,20 @@
         <h4><%= i('html.label.synthetic.info') %><!-- 情報入力--></h4>
       </div>
     </div>
-    <div class="row col-lg-8" style="border:solid 1px #e3e3e3;margin-bottom: 30px">
+    <div class="row col-lg-8" style="border:solid 0px #e3e3e3;margin-bottom: 30px">
       <form class="form-horizontal" role="form">
-        <div class="form-group" style="margin-top: 15px">
-          <label for="syntheticName" class="col-lg-2 control-label"><%= i('html.label.synthetic.title') %><!-- タイトル--></label>
-
-          <div class="col-lg-10">
-            <input type="text" name="syntheticName" class="form-control" id="syntheticName" placeholder="<%= i('html.label.synthetic.title') %>">
-          </div>
-        </div>
         <div class="form-group" style="margin-top: 15px">
           <label class="col-lg-2 control-label"><%= i('html.label.synthetic.type') %><!-- タイプ--></label>
 
           <div class="col-lg-10">
             <p class="form-control-static" id="syntheticType"></p>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 15px">
+          <label for="syntheticName" class="col-lg-2 control-label"><%= i('html.label.synthetic.title') %><!-- タイトル--></label>
+
+          <div class="col-lg-10">
+            <input type="text" name="syntheticName" class="form-control" id="syntheticName" placeholder="<%= i('html.label.synthetic.title') %>">
           </div>
         </div>
         <div class="form-group">
@@ -89,9 +89,9 @@
         </div>
 -->
       </div>
-      <div class="row col-lg-8" style="margin-bottom: 30px;border:solid 1px #e3e3e3" >
+      <div class="row col-lg-8" style="margin-bottom: 30px;border:solid 0px #e3e3e3" >
         <div class="pull-left col-lg-2" style="padding-left: 0px;padding-top: 15px;" id="cover_preview_panel">
-          <div class="cover_thumb"><img src="/images/logo-block.png"></div>
+          <div class="cover_thumb"><img src="/images/logo-block.png" style="opacity: 0.4;"></div>
         </div>
         <div class="pull-left col-lg-10">
           <div class="coverpanel" id="cover_panel" style="margin-left:30px;display:none;overflow-x: scroll;overflow-y: hidden;">
@@ -111,9 +111,9 @@
         </div>
 -->
       </div>
-      <div class="row col-lg-8" style="border:solid 1px #e3e3e3;border-bottom-width: 0px">
+      <div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-bottom-width: 0px">
         <div id="main_panel">
-          <img src="/images/logo-block.png">
+          <img src="/images/logo-block.png" style="opacity: 0.4;">
           <div id="effect_big_preview">
             <img src="/images/logo-block.png">
           </div>
@@ -269,12 +269,12 @@
           </div>
         </div>
       </div>
-      <div class="row col-lg-8" style="border:solid 1px #e3e3e3;border-top-width:0px">
+      <div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-top-width:0px">
         <div id="viewport"></div>
       </div>
       <div class="col-lg-8" style="margin-top: 30px">
-        <div name="okSaveSynthetic" class="col-lg-4 btn btn-warning btn-lg">
-          <a id="saveLayout"><%= i('html.button.synthetic.metadata.save') %><!-- 保存--></a>
+        <div name="okSaveSynthetic" id="saveLayout" class="col-lg-4 btn btn-warning btn-lg">
+          <%= i('html.button.synthetic.metadata.save') %><!-- 保存-->
         </div>
       </div>
   </div>
