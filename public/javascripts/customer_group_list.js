@@ -7,18 +7,18 @@ $(function () {
 
 });
 
-//// 保持一览数据
-//var groupList;
+// 保持一览数据
+var groupList;
 /**
  * 绘制画面
  */
 function render(start, count , keyword) {
-    if(!keyword){
-        keyword = '';
-    }
+
+  keyword = keyword ? encodeURIComponent(keyword) : "";
+
   smart.doget("/group/list.json?count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
 
-    var groupList = result.items;
+    groupList = result.items;
 
     // 一览表示
     var tmpl = $('#tmpl_group_list').html()
@@ -40,7 +40,7 @@ function render(start, count , keyword) {
       }));
     });
     if(groupList.length == 0)
-        container.html("没有记录");
+        container.html(i18n["js.common.list.empty"]);
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);

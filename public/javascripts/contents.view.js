@@ -472,7 +472,7 @@ $contents.view = {
 
         var save_valida = store.validatorSava();
         console.log(save_valida);
-        if (!save_valida.valide && store.type != store._synthetic_type.imageWithThumb) {
+        if (!save_valida.valide && store.type == store._synthetic_type.imageWithThumb) {
           Alertify.log.error(save_valida.err);
         } else {
           smart.dopost("/content/synthetic/saveAll.json", _data, function (e, result) {

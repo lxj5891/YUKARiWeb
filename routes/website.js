@@ -19,10 +19,10 @@ exports.guiding = function (app) {
   // ----------------------
   // 用户
   app.get('/customer/user/add', function (req, res) {
-    res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user});
+    res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:""});
   });
   app.get('/customer/user/edit/:id', function (req, res) {
-    res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user});
+    res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
   });
   app.get('/customer/user', function (req, res) {
     res.render("customer_user_list", {"title": i.__("js.routes.website.customer_user_list.title"), user: req.session.user});
@@ -59,6 +59,10 @@ exports.guiding = function (app) {
     app.get('/customer/workstation', function (req, res) {
         res.render("customer_workstation", {"title": i.__("js.routes.website.customer_workstation.title"), user: req.session.user});
     });
+  //appicon
+  app.get('/customer/appimage', function (req, res) {
+    res.render("customer_appimage", {"title": i.__("js.routes.website.customer_appicon.title"), user: req.session.user});
+  });
 
   // 系统设定
   app.get('/customer/setup', function (req, res) {

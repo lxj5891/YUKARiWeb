@@ -24,10 +24,8 @@ function type_redner(type){
   return
 }
 function render(start, count,keyword) {
+  keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  if(!keyword){
-    keyword = '';
-  }
   smart.doget("/synthetic/list.json?count=" + count + "&start=" + start + "&keyword=" + keyword, function (e, result) {
 
     var syntheticList = result.items;
@@ -64,7 +62,7 @@ function render(start, count,keyword) {
       }));
     });
     if(syntheticList.length == 0 ){
-      container.html("没有记录");
+      container.html(i18n["js.common.list.empty"]);
     }
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){

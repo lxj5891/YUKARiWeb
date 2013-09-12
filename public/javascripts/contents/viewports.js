@@ -127,10 +127,12 @@ function ImagePopup(opt, callback) {
     that.template.image = $("#tmpl_popup_image").html();
     that.template.tags = $("#tmpl_tag_item").html();
     that.template.tagsall = $("#tmpl_tag_item_all").html();
+    var localLoad = i18n["js.public.info.detaillist.load"];
+    var localHtml = '<div id=\"hook\" class=\"hook\">'+ localLoad + '</div>';
     $("#input_filter").css("display","none");
     $("#" + el + " div[class=modal-body]").html("<ol id=\"taglist\"  class=\"popular-tags group material_tags\"></ol>");
     $("#" + el + " div[class=modal-body]").append("<div id=\"material_popup\" class=\"material_popup\"></div>");
-    $("#" + el + " div[class=material_popup]").append('<div id=\"hook\" class=\"hook\">load</div>');
+    $("#" + el + " div[class=material_popup]").append(localHtml);
     $("#" + el).modal('show');
   };
   var _initTagsStore = function(data){
@@ -323,7 +325,7 @@ function ImagePopup(opt, callback) {
 //    var that = this;
     var tags = that._tags;
     ajaxStatus = 1 ;
-    $("#hook").html("loading。。。。");
+    $("#hook").html(i18n["js.public.info.detaillist.loading"]);
     var url = $tplUtil.format('/material/list.json?type=image&&tags={0}&&start={1}&count={2}&&contentType=image',[cur_tags,start,count]);
 
     smart.doget(url, function (err, result) {
@@ -333,7 +335,7 @@ function ImagePopup(opt, callback) {
       var total = that._total;
       setTimeout(function(){
         ajaxStatus = 0;
-        $("#hook").html("load");
+        $("#hook").html(i18n["js.public.info.detaillist.load"]);
         if(total < 15){
           $("#hook").hide();
         }else{

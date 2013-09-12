@@ -39,7 +39,7 @@ function render(start, count,keyword) {
       }));
     });
     if(!result.items||result.items.length == 0 ){
-      container.html("没有记录");
+      container.html(i18n["js.common.list.empty"]);
     }
     // paging
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){

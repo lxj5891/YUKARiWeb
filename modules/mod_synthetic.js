@@ -174,7 +174,7 @@ exports.update = function (id, synthetic_, user, callback_) {
       updateSynthetic(docs._id, synthetic_, user._id, callback_);
     });
   } else {
-    updateSynthetic(id, synthetic_, uid, callback_);
+    updateSynthetic(id, synthetic_, user._id, callback_);
   }
 };
 

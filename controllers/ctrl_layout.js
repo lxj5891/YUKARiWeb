@@ -8,7 +8,8 @@ var async     = require('async')
   , user      = lib.ctrl.user
   , error     = lib.core.errors
   , log       = lib.core.log
-  , cutil     = require('../core/contentutil');
+  , cutil     = require('../core/contentutil')
+  , util     = lib.core.util;
 
 
 exports.add = function(company_,uid_,layout_,callback_){
@@ -248,7 +249,8 @@ exports.list = function(keyword_,company_, start_, limit_, uid, status, callback
     condition.confirmby = uid;
   }
   if(keyword_ && keyword_.length > 0){
-      condition["layout.name"] = new RegExp(keyword_.toLowerCase());
+    keyword_ = util.quoteRegExp(keyword_);
+    condition["layout.name"] = new RegExp(keyword_.toLowerCase(),"i");
   }
 
   layout.total(condition, function(err, count){
@@ -282,8 +284,9 @@ exports.publishList = function(keyword,company_, start_, limit_, callback_) {
       company: company_,
       valid: 1
     };
-  if(keyword && keyword.length > 0){
-    condition["active.layout.name"] = new RegExp(keyword.toLowerCase(),"i");
+  if (keyword && keyword.length > 0) {
+    keyword_ = util.quoteRegExp(keyword_);
+    condition["active.layout.name"] = new RegExp(keyword.toLowerCase(), "i");
   }
 
 
