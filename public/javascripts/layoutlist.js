@@ -39,7 +39,7 @@ $(function () {
 
       smart.dopost("/layout/apply.json", {"id": confirmId, confirmby: confirmby}, function(err, result){
         if (err) {
-          var mess = err.message || i18n["js.public.error.layoutlist.apply"];
+          var mess = result.message || i18n["js.public.error.layoutlist.apply"];
           Alertify.log.error(mess); console.log(err);
         } else {
           render(0, 20);

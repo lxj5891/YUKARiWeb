@@ -158,7 +158,7 @@ exports.updateStatus = function (company_, uid_, layout_, callback_) {
     });
   // 申請、否認
   }  else {
-    if (layout_.status == 2 && isLayoutComplete(layout_)) {
+    if (layout_.status == 2 && !isLayoutComplete(layout_)) {
       // 権限チェック
       callback_({code:0, message: __("js.ctr.layout.complete.error")});
     } else {

@@ -346,7 +346,7 @@
   "js.ctr.common.system.error":"システムエラーが発生しました。",
   "js.ctr.delete.auth.error":"削除権限はありません",
   "js.ctr.confirm.auth.error":"承認権限はありません",
-  "js.ctr.layout.complete.error":"レイアウトは完成してないので、申請できません",
+  "js.ctr.layout.complete.error":"レイアウトは完成してないので、申請不可",
   "js.ctr.synthetic.used.error":"エフェクトが既に使用される",
   "js.ctr.material.used.error":"素材が既に使用される",
   "js.ctr.check.user":"ユーザが存在しました。",
