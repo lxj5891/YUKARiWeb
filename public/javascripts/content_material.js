@@ -270,7 +270,7 @@ function uploadFiles(files) {
   var fd = new FormData();
   for (var i = 0; i < files.length; i++) {
       var filetype = files[i].type.split("/");
-      var typecount = new Array("mp4","png","jpg","jpeg","jpe","gif","bmp");
+      var typecount = new Array("mp4","png","jpg","jpeg","jpe","gif","bmp","MP4","PNG","JPG","JPEG","JPE","GIF","BMP");
       if(typecount.indexOf(filetype[1]) < 0){
           Alertify.log.error(files[i].name + i18n["js.common.upload.error"]);
       }else{
