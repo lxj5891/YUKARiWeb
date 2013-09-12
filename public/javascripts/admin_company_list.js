@@ -10,9 +10,8 @@ var companyList;
  * 绘制画面
  */
 function render(start, count, keyword) {
-    if(!keyword){
-        keyword = '';
-    }
+
+  keyword = keyword ? encodeURIComponent(keyword) : "";
   smart.doget("/company/list.json?type=all&count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
 
     companyList = result.items;
@@ -37,7 +36,7 @@ function render(start, count, keyword) {
     });
     if(result.items.length == 0)
     {
-        container.html("没有记录");
+        container.html(i18n["js.common.list.empty"]);
     }
       // 设定翻页
       smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){

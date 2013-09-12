@@ -34,6 +34,7 @@
   "js.common.copy.error":"コピーに失敗しました。",
   "js.common.save.success":"保存しました。",
   "js.common.save.error":"保存に失敗しました。",
+  "js.common.list.empty":"データがありません。",
   "===================sidebar":"",
   "html.label.sidebar.content":"コンテンツ",
   "html.label.sidebar.content.material":"素材",

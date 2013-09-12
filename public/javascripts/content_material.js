@@ -32,6 +32,7 @@ var _keyword = '';
  * 注册事件
  */
 function events() {
+
   $("#txt_search").bind("change",function(){
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
@@ -185,10 +186,10 @@ function render(start, count,keyword) {
   _.each($("#taglist").find(".selected_tag"), function(item){
     tags.push($(item).html());
   });
-  if(!keyword){
-    keyword = '';
-  }
-  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword="+keyword, function(e, result){
+
+  keyword = keyword ? encodeURIComponent(keyword) : "";
+
+  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword=" + keyword, function (e, result) {
 
     _materialList = result.items;
 
@@ -211,7 +212,7 @@ function render(start, count,keyword) {
       }));
     });
     if(_materialList.length == 0 ){
-      container_list.html("没有记录");
+      container_list.html(i18n["js.common.list.empty"]);
     }
 
     // 格状表示

@@ -34,6 +34,7 @@
   "js.common.copy.error":"拷贝失败",
   "js.common.save.success":"保存成功",
   "js.common.save.error":"保存失败",
+  "js.common.list.empty":"没有记录",
   "===================sidebar":"",
   "html.label.sidebar.content":"内容",
   "html.label.sidebar.content.material":"素材",

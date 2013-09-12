@@ -10,41 +10,30 @@ var userList;
  * 绘制画面
  */
 function render(start, count ,keyword) {
-    if(!keyword){
-        keyword = '';
-    }
-    smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function(e, result){
+  keyword = keyword ? encodeURIComponent(keyword) : "";
 
-        userList = result.items;
+  smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function (e, result) {
 
-        var tmpl = $('#tmpl_user_list').html()
-            , container = $("#user_list")
-            , index = 1;
+    userList = result.items;
 
-        container.html("");
-        _.each(result.items, function(row){
-            container.append(_.template(tmpl, {
-                "index": index++ + start
-                , "id": row._id
-                , "uid": row.uid
-                , "name": row.name ? row.name.name_zh:""
-                , "title": row.title
-                , "telephone": row.tel ? row.tel.telephone : ""
-                , "description": row.description
-                , "notice": row.authority ? row.authority.notice:""
-                , "approved":row.authority ? row.authority.approve : ""
-                , "active": row.active
-                , "type": row.type
-            }));
-        });
-        if(result.items.length == 0){
-            container.html("没有记录");
-        }
-        // 设定翻页
-        smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
-            render.apply(window, [active, count]);
-        });
+    var tmpl = $('#tmpl_user_list').html()
+      , container = $("#user_list")
+      , index = 1;
+
+    container.html("");
+    _.each(result.items, function (row) {
+      container.append(_.template(tmpl, {
+        "index": index++ + start, "id": row._id, "uid": row.uid, "name": row.name ? row.name.name_zh : "", "title": row.title, "telephone": row.tel ? row.tel.telephone : "", "description": row.description, "notice": row.authority ? row.authority.notice : "", "approved": row.authority ? row.authority.approve : "", "active": row.active, "type": row.type
+      }));
     });
+    if (result.items.length == 0) {
+      container.html(i18n["js.common.list.empty"]);
+    }
+    // 设定翻页
+    smart.pagination($("#pagination_area"), result.totalItems, count, function (active, rowCount) {
+      render.apply(window, [active, count]);
+    });
+  });
 }
 var _start = 0;
 var _count = 15;

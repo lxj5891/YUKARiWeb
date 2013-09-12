@@ -82,9 +82,9 @@ function render(start, count,keyword) {
     jsonUrl += "&publish=" + publish;
     jsonUrl += "&status=" + status;
   if(keyword){
+    keyword = keyword ? encodeURIComponent(keyword) : "";
     jsonUrl += "&keyword=" + keyword;
   }
-
   smart.doget(jsonUrl, function(e, result){
 
     var layoutList = result.items;
@@ -177,7 +177,7 @@ function render(start, count,keyword) {
     });
   }
     if(layoutList.length == 0 ){
-      container.html("没有记录");
+      container.html(i18n["js.common.list.empty"]);
     }
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){

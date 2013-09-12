@@ -14,9 +14,9 @@ var groupList;
  * 绘制画面
  */
 function render(start, count , keyword) {
-    if(!keyword){
-        keyword = '';
-    }
+
+  keyword = keyword ? encodeURIComponent(keyword) : "";
+
   smart.doget("/group/list.json?count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
 
     groupList = result.items;
@@ -41,7 +41,7 @@ function render(start, count , keyword) {
       }));
     });
     if(groupList.length == 0)
-        container.html("没有记录");
+        container.html(i18n["js.common.list.empty"]);
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);
