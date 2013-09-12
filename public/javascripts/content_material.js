@@ -101,7 +101,7 @@ function events() {
           if(err){
             Alertify.log.error( i18n["js.public.check.material.delete"]); console.log(err);
           } else {
-            render(_start, _count);
+            render(0, 20);
             Alertify.log.success(i18n["js.common.delete.success"]);
           }
         });
@@ -137,7 +137,7 @@ function events() {
         Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
       } else {
         smart.paginationInitalized = false;
-        render(_start, _count);
+        render(0, 20);
         Alertify.log.success(i18n["js.common.update.success"]);
       }
     });
@@ -153,7 +153,7 @@ function events() {
       item.addClass("selected_tag");
     }
 
-    render(_start, _count);
+    render(0, 20);
   });
 
 }
@@ -266,17 +266,16 @@ function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
   }
-  for (var i = 0; i < files.length; i++) {
-      var filetype = files[i].type.split("/");
-      if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
-          Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
-          return ;
-      }
-  }
 
   var fd = new FormData();
   for (var i = 0; i < files.length; i++) {
-    fd.append("files", files[i]);
+      var filetype = files[i].type.split("/");
+      var typecount = new Array("mp4","png","jpg","jpeg","jpe","gif","bmp");
+      if(typecount.indexOf(filetype[1]) < 0){
+          Alertify.log.error(files[i].name + i18n["js.common.upload.error"]);
+      }else{
+        fd.append("files", files[i]);
+      }
   }
 
   // 显示进度条
@@ -290,7 +289,7 @@ function uploadFiles(files) {
       if(err){
         Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
       } else {
-          render(_start, _count);
+          render(0, 20);
           Alertify.log.success(i18n["js.common.upload.success"]);
       }
     },
@@ -324,7 +323,7 @@ function updateFiles(index, files) {
         Alertify.log.error(i18n["js.common.replace.error"]); console.log(err);
       } else {
 
-        render(_start, _count);
+        render(0, 20);
         renderDialog(result.data.items, index);
         Alertify.log.success(i18n["js.common.replace.success"]);
       }
