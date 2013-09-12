@@ -640,11 +640,11 @@ ButtonGroup.prototype.init = function() {
   _.each(child, function(item){
     if (self.value == $(item).attr("value")) {
       $(item).addClass("btn-info");
-      $(item).removeClass("btn-default");
+      $(item).removeClass("btn-white");
       $(item).attr("active", "on");
     } else {
       $(item).removeClass("btn-info");
-      $(item).addClass("btn-default");
+      $(item).addClass("btn-white");
       $(item).removeAttr("active");
     }
   });
