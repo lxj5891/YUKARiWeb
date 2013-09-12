@@ -18,11 +18,11 @@ exports.list = function(start_, limit_, keyword ,callback_) {
   var start = start_ || 0
     , limit = limit_ || 20
     , condition = {
-          valid:1
-      };
+      valid:1
+    };
     if(keyword){
-        condition.$or = [
-            {"name": new RegExp( keyword.toLowerCase(), "i")}]
+      condition.$or = [
+        {"name": new RegExp( keyword.toLowerCase(), "i")}]
     }
     company.total(function(err, count){
         if (err) {
