@@ -1,6 +1,3 @@
-var _start = 0;
-var _count = 20;
-var _keyword = '';
 $(function () {
   'use strict';
 
@@ -27,10 +24,8 @@ function type_redner(type){
   return
 }
 function render(start, count,keyword) {
+  keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  if(!keyword){
-    keyword = '';
-  }
   smart.doget("/synthetic/list.json?count=" + count + "&start=" + start + "&keyword=" + keyword, function (e, result) {
 
     var syntheticList = result.items;
@@ -67,7 +62,7 @@ function render(start, count,keyword) {
       }));
     });
     if(syntheticList.length == 0 ){
-      container.html("没有记录");
+      container.html(i18n["js.common.list.empty"]);
     }
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
@@ -83,15 +78,17 @@ function render(start, count,keyword) {
  */
 function events() {
   $("#txt_search").bind("change",function(){
+    var _keyword = '';
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+    render(0, 20 ,_keyword);
   });
 
   $("#doSearch").bind("click",function(){
+    var _keyword = '';
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+    render(0, 20,_keyword);
   });
 
   $("button[name=okSetting]").on("click", function (e) {

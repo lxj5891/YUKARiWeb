@@ -1,7 +1,3 @@
-var _start = 0;
-var _count = 20;
-var _keyword = '';
-
 $(function () {
   'use strict';
 
@@ -43,7 +39,7 @@ function render(start, count,keyword) {
       }));
     });
     if(!result.items||result.items.length == 0 ){
-      container.html("没有记录");
+      container.html(i18n["js.common.list.empty"]);
     }
     // paging
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
@@ -54,14 +50,16 @@ function render(start, count,keyword) {
 }
 function event(){
   $("#txt_search").bind("change",function(){
+    var _keyword = '';
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+    render(0, 20,_keyword);
   });
 
   $("#doSearch").bind("click",function(){
+    var _keyword = '';
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+    render(0, 20,_keyword);
   });
 }

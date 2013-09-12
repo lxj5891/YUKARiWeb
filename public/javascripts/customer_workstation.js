@@ -20,18 +20,22 @@ $(function () {
   $( "#sortable").html();
 
   var list = [];
-  list.push({name: "トップポータル", url: "http://moe.dreamarts.co.jp/", icon: "desktop"});
-  list.push({name: "SPモードトップ", url: "http://moe.dreamarts.co.jp/", icon: "tablet"});
-  list.push({name: "InquiryDB", url: "http://moe.dreamarts.co.jp/", icon: "comments"});
-  list.push({name: "営業レポート作成", url: "http://moe.dreamarts.co.jp/", icon: "calendar-empty"});
-  list.push({name: "営業レポート一覧", url: "http://moe.dreamarts.co.jp/", icon: "bar-chart"});
+  list.push({name: "連絡・通達", url: "http://moe.dreamarts.co.jp/", icon: "desktop"});
+  list.push({name: "行動予定", url: "http://moe.dreamarts.co.jp/", icon: "tablet"});
+  list.push({name: "メール", url: "http://moe.dreamarts.co.jp/", icon: "comments"});
+  list.push({name: "社内SNS", url: "http://moe.dreamarts.co.jp/", icon: "calendar-empty"});
+  list.push({name: "問合せDB", url: "http://moe.dreamarts.co.jp/", icon: "bar-chart"});
+  list.push({name: "営業レポート作成", url: "http://moe.dreamarts.co.jp/", icon: "envelope-alt"});
+  list.push({name: "営業レポート一覧", url: "http://moe.dreamarts.co.jp/", icon: "folder-open-alt"});
   list.push({name: "顧客情報検索", url: "http://moe.dreamarts.co.jp/", icon: "envelope-alt"});
   list.push({name: "案件情報検索", url: "http://moe.dreamarts.co.jp/", icon: "folder-open-alt"});
-  list.push({name: "予材管理", url: "http://moe.dreamarts.co.jp/", icon: "tags"});
-  list.push({name: "メール", url: "http://moe.dreamarts.co.jp/", icon: "cloud"});
-  list.push({name: "スケジュール（iOS）", url: "http://moe.dreamarts.co.jp/", icon: "calendar"});
-  list.push({name: "スケジュール（一覧表示）", url: "http://moe.dreamarts.co.jp/", icon: "calendar"});
-  list.push({name: "iPadコンテンツ改善提案", url: "http://moe.dreamarts.co.jp/", icon: "pencil"});
+  list.push({name: "営業予算管理", url: "http://moe.dreamarts.co.jp/", icon: "envelope-alt"});
+  list.push({name: "営業資料・My書庫", url: "http://moe.dreamarts.co.jp/", icon: "folder-open-alt"});
+
+  list.push({name: "VOCお客様の声", url: "http://moe.dreamarts.co.jp/", icon: "folder-open-alt"});
+  list.push({name: "電子稟議決裁", url: "http://moe.dreamarts.co.jp/", icon: "folder-open-alt"});
+  list.push({name: "アンケート調査", url: "http://moe.dreamarts.co.jp/", icon: "folder-open-alt"});
+  list.push({name: "見積り作成", url: "http://moe.dreamarts.co.jp/", icon: "folder-open-alt"});
 
   var tmpl = $("#tmpl_sortable").html();
   _.each(list, function(item){

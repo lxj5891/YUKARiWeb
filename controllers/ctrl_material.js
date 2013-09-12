@@ -9,7 +9,10 @@ var ph        = require('path')
   , tag       = require('./ctrl_tag')
   , gridfs    = lib.mod.gridfs
   , user      = lib.ctrl.user
-  , error     = lib.core.errors;
+  , error     = lib.core.errors
+  , util     = lib.core.util;
+
+
 //var mime = require('mime-magic');根据文件头信息判断文件类型
 var EventProxy = require('eventproxy');
 exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, callback_) {
@@ -35,9 +38,8 @@ exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, c
     else
       condition.contentType = / /;
   }
-
-  // 检索用关键字
-  if (keyword_&&keyword_.length>0) {
+  if (keyword_&& keyword_.length>0) {
+    keyword_ = util.quoteRegExp(keyword_);
     condition.filename = new RegExp(keyword_.toLowerCase(),"i");
   }
 

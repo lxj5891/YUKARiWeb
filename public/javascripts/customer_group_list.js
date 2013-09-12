@@ -2,7 +2,6 @@
 
 $(function () {
   'use strict';
-
   render(0, 20);
   events();
 
@@ -14,9 +13,9 @@ var groupList;
  * 绘制画面
  */
 function render(start, count , keyword) {
-    if(!keyword){
-        keyword = '';
-    }
+
+  keyword = keyword ? encodeURIComponent(keyword) : "";
+
   smart.doget("/group/list.json?count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
 
     groupList = result.items;
@@ -41,7 +40,7 @@ function render(start, count , keyword) {
       }));
     });
     if(groupList.length == 0)
-        container.html("没有记录");
+        container.html(i18n["js.common.list.empty"]);
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);
@@ -50,20 +49,20 @@ function render(start, count , keyword) {
   });
 
 }
-var _start = 0;
-var _count = 15;
-var _keyword = '';
+
 function events() {
     $("#doSearchGroup").bind("click",function(){
+        var _keyword = '';
         _keyword =  $("#group_search").val();
         smart.paginationInitalized = false;
-        render(_start, _count,_keyword);
+        render(0, 20,_keyword);
     });
 
     $("#group_search").bind("change",function(){
-        var _keyword =  $("#group_search").val();
+        var _keyword = '';
+        _keyword =  $("#group_search").val();
         smart.paginationInitalized = false;
-        render(_start, _count,_keyword);
+        render(0, 20,_keyword);
     });
   // 一览按钮
   $("#group_list").on("click", "a", function(event){

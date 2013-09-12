@@ -3,7 +3,9 @@ var _ = require('underscore')
   , layout    = require('../modules/mod_layout')
   , material = require('../modules/mod_material.js')
   , user = lib.ctrl.user
-  , error = lib.core.errors;
+  , error = lib.core.errors
+  , util     = lib.core.util;
+
 var async = require('async');
 var EventProxy = require('eventproxy');
 
@@ -175,7 +177,7 @@ exports.save = function (company_, uid_, item_, callback) {
 }
 
 // 获取一览
-exports.list = function (keyword,type,company_, start_, limit_, callback_) {
+exports.list = function (keyword_,type,company_, start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -196,8 +198,9 @@ exports.list = function (keyword,type,company_, start_, limit_, callback_) {
   }
 
   // 检索用关键字
-  if (keyword&&keyword.length>0) {
-    condition.name = new RegExp(keyword.toLowerCase(),"i");
+  if (keyword_&&keyword_.length>0) {
+    keyword_ = util.quoteRegExp(keyword_);
+    condition.name = new RegExp(keyword_.toLowerCase(),"i");
   }
 
   synthetic.total(condition, function (err, count) {

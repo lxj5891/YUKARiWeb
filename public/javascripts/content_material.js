@@ -1,10 +1,8 @@
 
 $(function () {
   'use strict';
-
-  render(_start, _count);
+  render(0, 20);
   events();
-
 
   smart.view("tag").view.initialize("textBoxTag");
 
@@ -24,24 +22,24 @@ $(function () {
 
 // 保持一览数据
 var _materialList;
-var _start = 0;
-var _count = 20;
-var _keyword = '';
 
 /**
  * 注册事件
  */
 function events() {
+
   $("#txt_search").bind("change",function(){
-    _keyword =  $("#txt_search").val();
-    smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+      var _keyword = '';
+      _keyword =  $("#txt_search").val();
+      smart.paginationInitalized = false;
+      render(0, 20,_keyword);
   });
 
   $("#doSearch").bind("click",function(){
-    _keyword =  $("#txt_search").val();
-    smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+      var _keyword = '';
+      _keyword =  $("#txt_search").val();
+      smart.paginationInitalized = false;
+      render(0, 20,_keyword);
   });
   // 一览显示
   $("#showlist").bind("click", function(e){
@@ -103,7 +101,7 @@ function events() {
           if(err){
             Alertify.log.error( i18n["js.public.check.material.delete"]); console.log(err);
           } else {
-            render(_start, _count);
+            render(0, 20);
             Alertify.log.success(i18n["js.common.delete.success"]);
           }
         });
@@ -139,7 +137,7 @@ function events() {
         Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
       } else {
         smart.paginationInitalized = false;
-        render(_start, _count);
+        render(0, 20);
         Alertify.log.success(i18n["js.common.update.success"]);
       }
     });
@@ -155,7 +153,7 @@ function events() {
       item.addClass("selected_tag");
     }
 
-    render(_start, _count);
+    render(0, 20);
   });
 
 }
@@ -185,10 +183,10 @@ function render(start, count,keyword) {
   _.each($("#taglist").find(".selected_tag"), function(item){
     tags.push($(item).html());
   });
-  if(!keyword){
-    keyword = '';
-  }
-  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword="+keyword, function(e, result){
+
+  keyword = keyword ? encodeURIComponent(keyword) : "";
+
+  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword=" + keyword, function (e, result) {
 
     _materialList = result.items;
 
@@ -211,7 +209,7 @@ function render(start, count,keyword) {
       }));
     });
     if(_materialList.length == 0 ){
-      container_list.html("没有记录");
+      container_list.html(i18n["js.common.list.empty"]);
     }
 
     // 格状表示
@@ -268,17 +266,16 @@ function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
   }
-  for (var i = 0; i < files.length; i++) {
-      var filetype = files[i].type.split("/");
-      if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
-          Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
-          return ;
-      }
-  }
 
   var fd = new FormData();
   for (var i = 0; i < files.length; i++) {
-    fd.append("files", files[i]);
+      var filetype = files[i].type.split("/");
+      var typecount = new Array("mp4","png","jpg","jpeg","jpe","gif","bmp","MP4","PNG","JPG","JPEG","JPE","GIF","BMP");
+      if(typecount.indexOf(filetype[1]) < 0){
+          Alertify.log.error(files[i].name + i18n["js.common.upload.error"]);
+      }else{
+        fd.append("files", files[i]);
+      }
   }
 
   // 显示进度条
@@ -292,7 +289,7 @@ function uploadFiles(files) {
       if(err){
         Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
       } else {
-          render(_start, _count);
+          render(0, 20);
           Alertify.log.success(i18n["js.common.upload.success"]);
       }
     },
@@ -326,7 +323,7 @@ function updateFiles(index, files) {
         Alertify.log.error(i18n["js.common.replace.error"]); console.log(err);
       } else {
 
-        render(_start, _count);
+        render(0, 20);
         renderDialog(result.data.items, index);
         Alertify.log.success(i18n["js.common.replace.success"]);
       }

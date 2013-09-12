@@ -4,7 +4,8 @@ var _         = require('underscore')
   , mq        = require('./ctrl_mq')
   , user      = lib.ctrl.user
   , group     = lib.ctrl.group
-  , error     = lib.core.errors;
+  , error     = lib.core.errors
+  , util      = lib.core.util;
 
 var EventProxy = require('eventproxy');
 
@@ -22,6 +23,7 @@ exports.list = function(keyword_,company_, start_, limit_, callback_) {
       , condition = {valid: 1};
 
   if(keyword_){
+    keyword_ = util.quoteRegExp(keyword_);
     condition.title = new RegExp(keyword_.toLowerCase(),"i");
   }
 

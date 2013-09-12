@@ -1,6 +1,3 @@
-var _start = 0;
-var _count = 20;
-var _keyword = '';
 $(function () {
   'use strict';
 
@@ -39,7 +36,7 @@ $(function () {
 
       smart.dopost("/layout/apply.json", {"id": confirmId, confirmby: confirmby}, function(err, result){
         if (err) {
-          var mess = err.message || i18n["js.public.error.layoutlist.apply"];
+          var mess = result.message || i18n["js.public.error.layoutlist.apply"];
           Alertify.log.error(mess); console.log(err);
         } else {
           render(0, 20);
@@ -82,9 +79,9 @@ function render(start, count,keyword) {
     jsonUrl += "&publish=" + publish;
     jsonUrl += "&status=" + status;
   if(keyword){
+    keyword = keyword ? encodeURIComponent(keyword) : "";
     jsonUrl += "&keyword=" + keyword;
   }
-
   smart.doget(jsonUrl, function(e, result){
 
     var layoutList = result.items;
@@ -177,7 +174,7 @@ function render(start, count,keyword) {
     });
   }
     if(layoutList.length == 0 ){
-      container.html("没有记录");
+      container.html(i18n["js.common.list.empty"]);
     }
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
@@ -215,15 +212,17 @@ function render(start, count,keyword) {
 function events() {
 
   $("#txt_search").bind("change",function(){
-    _keyword =  $("#txt_search").val();
-    smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+      var _keyword = '';
+      _keyword =  $("#txt_search").val();
+      smart.paginationInitalized = false;
+      render(0, 20,_keyword);
   });
 
   $("#doSearch").bind("click",function(){
-    _keyword =  $("#txt_search").val();
-    smart.paginationInitalized = false;
-    render(_start, _count,_keyword);
+      var _keyword = '';
+      _keyword =  $("#txt_search").val();
+      smart.paginationInitalized = false;
+      render(0, 20,_keyword);
   });
 
 
