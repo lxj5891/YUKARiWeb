@@ -9,9 +9,10 @@ var companyList;
 /**
  * 绘制画面
  */
-function render(start, count) {
+function render(start, count, keyword) {
 
-  smart.doget("/company/list.json?type=all&count=" + count + "&start=" + start, function(e, result){
+  keyword = keyword ? encodeURIComponent(keyword) : "";
+  smart.doget("/company/list.json?type=all&count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
 
     companyList = result.items;
 
@@ -33,15 +34,33 @@ function render(start, count) {
         , "active": row.active
       }));
     });
-
+    if(result.items.length == 0)
+    {
+        container.html(i18n["js.common.list.empty"]);
+    }
       // 设定翻页
       smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
           render.apply(window, [active, count]);
       });
   });
 }
+var _start = 0;
+var _count = 15;
+var _keyword = '';
 
 function events() {
+
+    $("#doSearchCompany").bind("click",function(){
+        _keyword =  $("#company_search").val();
+        smart.paginationInitalized = false;
+        render(_start, _count,_keyword);
+    });
+
+    $("#company_search").bind("change",function(){
+        var _keyword =  $("#company_search").val();
+        smart.paginationInitalized = false;
+        render(_start, _count,_keyword);
+    });
     // 一览按钮
     $("#company_list").on("click", "a", function(event){
 

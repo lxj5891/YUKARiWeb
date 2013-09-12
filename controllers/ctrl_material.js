@@ -9,8 +9,11 @@ var ph        = require('path')
   , tag       = require('./ctrl_tag')
   , gridfs    = lib.mod.gridfs
   , user      = lib.ctrl.user
-  , error     = lib.core.errors;
+  , error     = lib.core.errors
+  , util     = lib.core.util;
 
+
+//var mime = require('mime-magic');根据文件头信息判断文件类型
 var EventProxy = require('eventproxy');
 exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, callback_) {
 
@@ -35,10 +38,9 @@ exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, c
     else
       condition.contentType = / /;
   }
-
-  // 检索用关键字
-  if (keyword_) {
-    condition.keyword = new RegExp("^" + keyword_.toLowerCase() + ".*$", "i");
+  if (keyword_&& keyword_.length>0) {
+    keyword_ = util.quoteRegExp(keyword_);
+    condition.filename = new RegExp(keyword_.toLowerCase(),"i");
   }
 
   material.total(condition, function(err, count){
@@ -62,6 +64,23 @@ exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, c
 /**
  * 保存文件
  */
+
+/**
+ 根据文件头信息判断文件类型
+mime(path, function (err, type) {
+    if (err) {
+        return callback(new error.InternalServer(err));
+    } else {
+        var temptype = type.split("/");
+        if(temptype[0] != "image"  &&  !(temptype[0] == "video" && temptype[1] == "mp4")){
+            result.push("path:" + file.name);
+            return callback(null,{});
+        }
+    }
+ });
+*/
+
+
 exports.add = function(company_, uid_, files_, callback_) {
 
   var result = [];
@@ -71,40 +90,39 @@ exports.add = function(company_, uid_, files_, callback_) {
     var name = ph.basename(file.name);
     var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
     var metadata = {
-      "author": uid_
-      , "company": company_
-      , "tags": types(file.type)
-    };
+            "author": uid_
+            , "company": company_
+            , "tags": types(file.type)
+        };
 
-    // To save the file to GridFS
-    gridfs.save(name, path, metadata, file.type, function(err, doc){
+        // To save the file to GridFS
+        gridfs.save(name, path, metadata, file.type, function(err, doc){
 
-      if (err) {
-        return callback(new error.InternalServer(err));
-      }
+          if (err) {
+              return callback(new error.InternalServer(err));
+          }
 
-      var detail = {};
-      detail["company"] = company_;
-      detail["fileid"] = doc._id;
-      detail["filename"] = doc.filename;
-      detail["chunkSize"] = doc.chunkSize;
-      detail["contentType"] = doc.contentType;
-      detail["length"] = doc.length;
-      detail["editat"] = doc.uploadDate;
-      detail["editby"] = uid_;
+          var detail = {};
+          detail["company"] = company_;
+          detail["fileid"] = doc._id;
+          detail["filename"] = doc.filename;
+          detail["chunkSize"] = doc.chunkSize;
+          detail["contentType"] = doc.contentType;
+          detail["length"] = doc.length;
+          detail["editat"] = doc.uploadDate;
+          detail["editby"] = uid_;
 
-      material.save(detail, function(err, info){
-        result.push(info);
+          material.save(detail, function(err, info){
+           result.push(info);
+           // create thumbs
+           mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
+           return callback(err);
+         });
 
-        // create thumbs
-        mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
-        return callback(err);
-      });
     });
-
-  }, function(err){
+  },function(err){
     return callback_(err, result);
-  });
+});
 
 };
 

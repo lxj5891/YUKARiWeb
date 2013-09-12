@@ -1,3 +1,6 @@
+var _start = 0;
+var _count = 20;
+var _keyword = '';
 $(function () {
   'use strict';
 
@@ -69,7 +72,7 @@ function setTitle (publishFlag, statusFlag) {
 /**
  * get layout list
  */
-function render(start, count) {
+function render(start, count,keyword) {
     var publish = $("#publishFlag").val();
     var status  = $("#statusFlag").val();
 
@@ -78,7 +81,10 @@ function render(start, count) {
     jsonUrl += "&count=" + count;
     jsonUrl += "&publish=" + publish;
     jsonUrl += "&status=" + status;
-
+  if(keyword){
+    keyword = keyword ? encodeURIComponent(keyword) : "";
+    jsonUrl += "&keyword=" + keyword;
+  }
   smart.doget(jsonUrl, function(e, result){
 
     var layoutList = result.items;
@@ -89,7 +95,8 @@ function render(start, count) {
 
     // publish list
     if (publish == 1) {
-      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.publish"]);
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["html.label.common.updateby"] + "</th><th>" + i18n["html.label.common.updateat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_publishlayout_list').html();
 
@@ -108,9 +115,11 @@ function render(start, count) {
         }));
       });
 
+
     // apply list
     } else if (status == 21) {
-      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.apply"]);
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.approveby"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_applylayout_list').html();
 
@@ -128,7 +137,8 @@ function render(start, count) {
 
     //
     } else if (status == 22) {
-      $('#layout_header').html(i18n["js.public.info.layoutlist.tableheader.approve"]);
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyby"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_confirmlayout_list').html();
 
@@ -166,6 +176,9 @@ function render(start, count) {
       }));
     });
   }
+    if(layoutList.length == 0 ){
+      container.html(i18n["js.common.list.empty"]);
+    }
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);
@@ -194,12 +207,25 @@ function render(start, count) {
       if (publish_ == 1) {
           return i18n["js.public.info.layoutlist.publish.status.01"];//"あり"
       }  else {
-          return i18n["js.public.info.layoutlist.publish.status.01"];//"なし"
+          return i18n["js.public.info.layoutlist.publish.status.02"];//"なし"
       }
   }
 }
 
 function events() {
+
+  $("#txt_search").bind("change",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
+  $("#doSearch").bind("click",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
 
   // list events
   $("#layout_list").on("click", "a", function(event){

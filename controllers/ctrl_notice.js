@@ -4,7 +4,8 @@ var _         = require('underscore')
   , mq        = require('./ctrl_mq')
   , user      = lib.ctrl.user
   , group     = lib.ctrl.group
-  , error     = lib.core.errors;
+  , error     = lib.core.errors
+  , util      = lib.core.util;
 
 var EventProxy = require('eventproxy');
 
@@ -15,11 +16,16 @@ exports.getNoticeById = function(notice_id,callback){
 };
 
 // get list
-exports.list = function(company_, start_, limit_, callback_) {
+exports.list = function(keyword_,company_, start_, limit_, callback_) {
 
   var start = start_ || 0
       , limit = limit_ || 20
       , condition = {valid: 1};
+
+  if(keyword_){
+    keyword_ = util.quoteRegExp(keyword_);
+    condition.title = new RegExp(keyword_.toLowerCase(),"i");
+  }
 
   notice.total(condition, function(err, count){
     if (err) {

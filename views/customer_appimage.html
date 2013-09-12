@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/customer_appicon.js"></script>
+
+  <style>
+     .splash-size {
+       width: 410px;
+       height: 307px;
+     }
+     .header-size {
+       width: 160px;
+       height: 45px;
+     }
+  </style>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+
+  <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <li class="active"><%= i('html.label.appicon') %></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="page-header position-relative">
+        <h1>
+          <%= i('html.label.appicon') %>
+        </h1>
+      </div>
+      <div class="row" style="margin-top:30px;margin-left: 30px;margin-bottom: 30px">
+        <div class="col-lg-2">
+          <div class="row">
+            <label class="control-label"><%= i('html.label.appsplash01') %></label>
+          </div>
+          <div class="row">
+            <label class="control-label">W:1024　H:768</label>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <img class="img-rounded splash-size">
+        </div>
+      </div>
+      <div class="row" style="margin-left: 30px;margin-bottom: 30px">
+        <div class="col-lg-2">
+          <div class="row">
+            <label class="control-label"><%= i('html.label.appsplash02') %></label>
+          </div>
+          <div class="row">
+            <label class="control-label">W:1024　H:768</label>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <img class="img-rounded splash-size">
+        </div>
+      </div>
+      <div class="row" style="margin-left: 30px;margin-bottom: 30px">
+        <div class="col-lg-2">
+          <div class="row">
+            <label class="control-label"><%= i('html.label.appheader') %></label>
+          </div>
+          <div class="row">
+            <label class="control-label">W:160　H:45</label>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <img class="img-rounded header-size">
+        </div>
+      </div>
+      <div class="col-lg-8" style="margin-bottom: 30px">
+        <div id="saveimage" class="col-lg-4 btn btn-warning btn-lg">
+          <%= i('html.button.common.save') %><!-- 発送-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!--/.main-container-->
+</body>
+</html>

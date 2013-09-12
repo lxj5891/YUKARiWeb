@@ -8,7 +8,8 @@ var async     = require('async')
   , user      = lib.ctrl.user
   , error     = lib.core.errors
   , log       = lib.core.log
-  , cutil     = require('../core/contentutil');
+  , cutil     = require('../core/contentutil')
+  , util     = lib.core.util;
 
 
 exports.add = function(company_,uid_,layout_,callback_){
@@ -231,7 +232,7 @@ function publishLayout(layout_, callback_) {
 //////////////////////////////////////////////////
 
 // 获取一览
-exports.list = function(company_, start_, limit_, uid, status, callback_) {
+exports.list = function(keyword_,company_, start_, limit_, uid, status, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -246,6 +247,10 @@ exports.list = function(company_, start_, limit_, uid, status, callback_) {
   } else if(status == 22) {
     condition.status = 2;
     condition.confirmby = uid;
+  }
+  if(keyword_ && keyword_.length > 0){
+    keyword_ = util.quoteRegExp(keyword_);
+    condition["layout.name"] = new RegExp(keyword_.toLowerCase(),"i");
   }
 
   layout.total(condition, function(err, count){
@@ -271,7 +276,7 @@ exports.list = function(company_, start_, limit_, uid, status, callback_) {
   });
 };
 
-exports.publishList = function(company_, start_, limit_, callback_) {
+exports.publishList = function(keyword,company_, start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -279,6 +284,10 @@ exports.publishList = function(company_, start_, limit_, callback_) {
       company: company_,
       valid: 1
     };
+  if (keyword && keyword.length > 0) {
+    keyword_ = util.quoteRegExp(keyword_);
+    condition["active.layout.name"] = new RegExp(keyword.toLowerCase(), "i");
+  }
 
 
   history.total(condition, function(err, count){

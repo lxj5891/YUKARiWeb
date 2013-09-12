@@ -1,4 +1,6 @@
-
+var _start = 0;
+var _count = 20;
+var _keyword = '';
 $(function () {
   'use strict';
 
@@ -24,9 +26,10 @@ function type_redner(type){
   }
   return
 }
-function render(start, count) {
+function render(start, count,keyword) {
+  keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/synthetic/list.json?count=" + count + "&start=" + start, function(e, result){
+  smart.doget("/synthetic/list.json?count=" + count + "&start=" + start + "&keyword=" + keyword, function (e, result) {
 
     var syntheticList = result.items;
 
@@ -39,9 +42,16 @@ function render(start, count) {
     container.html("");
 
     _.each(syntheticList, function(row){
-      var f = row.cover && row.cover.length > 0 ? "/picture/" + row.cover_material.fileid : "/images/empty.png";
-      if(row.cover_material && row.cover_material.thumb){
-        f = "/picture/" + row.cover_material.thumb.middle;
+      var f = "";
+      if(row.cover_material){
+        if(row.cover_material.thumb){
+          f = "/picture/" + row.cover_material.thumb.middle;
+        }else{
+          f = "/picture/" + row.cover_material.fileid;
+        }
+
+      }else{
+        f = "/images/empty.png";
       }
       container.append(_.template(tmpl, {
           "id": row._id
@@ -54,7 +64,9 @@ function render(start, count) {
         , "editby": row.user.name.name_zh
       }));
     });
-
+    if(syntheticList.length == 0 ){
+      container.html(i18n["js.common.list.empty"]);
+    }
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);
@@ -68,20 +80,21 @@ function render(start, count) {
  * 注册事件
  */
 function events() {
+  $("#txt_search").bind("change",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
+  $("#doSearch").bind("click",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
   $("button[name=okSetting]").on("click", function (e) {
-    var _name = $("input[name=name]").val();
     var _type = $("input[name=type]:checked").val();
-    var _thumb_type = $("input[name=thumb_type]").val();
-
-    var _data = {
-      name: _name,
-      type: _type,
-      thumb_type: _thumb_type
-    };
-
-    smart.dopost("/content/synthetic/save.json", _data, function (e, result) {
-      window.location.href="/content/synthetic/edit/"+result.data.items._id;
-    });
+    window.location.href = "/content/synthetic/add/" + _type;
   });
 
 

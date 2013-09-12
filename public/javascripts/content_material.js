@@ -5,6 +5,7 @@ $(function () {
   render(_start, _count);
   events();
 
+
   smart.view("tag").view.initialize("textBoxTag");
 
   // 获取Tag一览
@@ -25,12 +26,24 @@ $(function () {
 var _materialList;
 var _start = 0;
 var _count = 20;
+var _keyword = '';
 
 /**
  * 注册事件
  */
 function events() {
 
+  $("#txt_search").bind("change",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
+
+  $("#doSearch").bind("click",function(){
+    _keyword =  $("#txt_search").val();
+    smart.paginationInitalized = false;
+    render(_start, _count,_keyword);
+  });
   // 一览显示
   $("#showlist").bind("click", function(e){
     $("#list").show();
@@ -88,8 +101,8 @@ function events() {
 
         // OK
         smart.dodelete("/material/remove.json", {"fid": row._id}, function(err, result){
-          if (err) {
-            Alertify.log.error(i18n["js.public.check.material.delete"]); console.log(err);
+          if(err){
+            Alertify.log.error( i18n["js.public.check.material.delete"]); console.log(err);
           } else {
             render(_start, _count);
             Alertify.log.success(i18n["js.common.delete.success"]);
@@ -123,7 +136,7 @@ function events() {
       , row = _materialList[index - 1];
 
     smart.doput("/material/updatetag.json", {fid: row._id, tags: tag.join(",")}, function(err, result) {
-      if (err) {
+      if(err){
         Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
       } else {
         smart.paginationInitalized = false;
@@ -167,14 +180,16 @@ function renderDialog(row, index) {
 /**
  * 绘制画面
  */
-function render(start, count) {
+function render(start, count,keyword) {
 
   var tags = [];
   _.each($("#taglist").find(".selected_tag"), function(item){
     tags.push($(item).html());
   });
 
-  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(","), function(e, result){
+  keyword = keyword ? encodeURIComponent(keyword) : "";
+
+  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword=" + keyword, function (e, result) {
 
     _materialList = result.items;
 
@@ -196,6 +211,9 @@ function render(start, count) {
         , "editby": row.user.name.name_zh
       }));
     });
+    if(_materialList.length == 0 ){
+      container_list.html(i18n["js.common.list.empty"]);
+    }
 
     // 格状表示
     var cols = []
@@ -236,6 +254,17 @@ function render(start, count) {
 /**
  * 上传图片
  */
+/**根据文件头信息判断文件类型
+
+ var filename = null;
+ for (var i = 0 ; i < result.data.items.length ; i++)
+ {
+     if((typeof (result.data.items[i]) == 'string')&&result.data.items[i].constructor == String){
+         var filepath = result.data.items[i];
+         var filename = filepath.split(":")[1];
+     }
+ }
+ */
 function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
@@ -243,7 +272,7 @@ function uploadFiles(files) {
   for (var i = 0; i < files.length; i++) {
       var filetype = files[i].type.split("/");
       if(filetype[0] != "image"  &&  !(filetype[0] == "video" && filetype[1] == "mp4") ){
-//          Alertify.dialog.alert( "ファイルのファイルタイプは合法的ではない");
+          Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
           return ;
       }
   }
@@ -261,11 +290,11 @@ function uploadFiles(files) {
     function(err, result){
 
       $("#upload_progress_dlg").modal("hide");
-      if (err) {
+      if(err){
         Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
       } else {
-        render(_start, _count);
-        Alertify.log.success(i18n["js.common.upload.success"]);
+          render(_start, _count);
+          Alertify.log.success(i18n["js.common.upload.success"]);
       }
     },
     function(progress){

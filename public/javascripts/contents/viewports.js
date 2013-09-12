@@ -108,6 +108,7 @@ function ImagePopup(opt, callback) {
 
   this.template = {image: '', video: '',tags:'',tagsall:''};
   this._store = {ddd:'dd'};
+  this._total = 0;
   this._tags = '';
   var options = opt || {};
   var el = options.el;
@@ -126,10 +127,12 @@ function ImagePopup(opt, callback) {
     that.template.image = $("#tmpl_popup_image").html();
     that.template.tags = $("#tmpl_tag_item").html();
     that.template.tagsall = $("#tmpl_tag_item_all").html();
+    var localLoad = i18n["js.public.info.detaillist.load"];
+    var localHtml = '<div id=\"hook\" class=\"hook\">'+ localLoad + '</div>';
     $("#input_filter").css("display","none");
     $("#" + el + " div[class=modal-body]").html("<ol id=\"taglist\"  class=\"popular-tags group material_tags\"></ol>");
     $("#" + el + " div[class=modal-body]").append("<div id=\"material_popup\" class=\"material_popup\"></div>");
-    $("#" + el + " div[class=material_popup]").append('<div id=\"hook\" class=\"hook\">load</div>');
+    $("#" + el + " div[class=material_popup]").append(localHtml);
     $("#" + el).modal('show');
   };
   var _initTagsStore = function(data){
@@ -147,7 +150,9 @@ function ImagePopup(opt, callback) {
     that._tags_store = tmp;
   };
   var _initStore = function(data){
+
     var tmp = [];
+    that._total = data.totalItems;
     that._store = data.items;
     if(opt.tpl == that._tpltype.image){
       for(var i in that._store){
@@ -192,7 +197,6 @@ function ImagePopup(opt, callback) {
       cur_tags = $(e.target).html();
       var cur_data = $(e.target).attr("data");
         reloadStore(cur_data);
-
     })
   }
   var _listener = function(){
@@ -318,18 +322,25 @@ function ImagePopup(opt, callback) {
     //filter
   };
   var loadStore = function(){
-    var that = this;
+//    var that = this;
     var tags = that._tags;
     ajaxStatus = 1 ;
-    $("#hook").html("loading。。。。");
+    $("#hook").html(i18n["js.public.info.detaillist.loading"]);
     var url = $tplUtil.format('/material/list.json?type=image&&tags={0}&&start={1}&count={2}&&contentType=image',[cur_tags,start,count]);
+
     smart.doget(url, function (err, result) {
       console.log(url);
       console.log(result);
       _initStore(result);
+      var total = that._total;
       setTimeout(function(){
         ajaxStatus = 0;
-        $("#hook").html("load");
+        $("#hook").html(i18n["js.public.info.detaillist.load"]);
+        if(total < 15){
+          $("#hook").hide();
+        }else{
+          $("#hook").show();
+        }
         _render(_listener);
       },1000);
 
@@ -342,7 +353,9 @@ function ImagePopup(opt, callback) {
     if(data=="all"){
       cur_tags = '';
     }
-    loadStore();
+    if(ajaxStatus == 0 ){
+      loadStore();
+    }
     filterStore();
   }
   var filterStore =  function(){

@@ -8,16 +8,18 @@ $(function () {
 
 });
 
-//// 保持一览数据
-//var groupList;
+// 保持一览数据
+var groupList;
 /**
  * 绘制画面
  */
-function render(start, count) {
+function render(start, count , keyword) {
 
-  smart.doget("/group/list.json?count=" + count + "&start=" + start, function(e, result){
+  keyword = keyword ? encodeURIComponent(keyword) : "";
 
-    var groupList = result.items;
+  smart.doget("/group/list.json?count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
+
+    groupList = result.items;
 
     // 一览表示
     var tmpl = $('#tmpl_group_list').html()
@@ -38,7 +40,8 @@ function render(start, count) {
         , "editat": smart.date(row.editat)
       }));
     });
-
+    if(groupList.length == 0)
+        container.html(i18n["js.common.list.empty"]);
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);
@@ -47,8 +50,21 @@ function render(start, count) {
   });
 
 }
-
+var _start = 0;
+var _count = 15;
+var _keyword = '';
 function events() {
+    $("#doSearchGroup").bind("click",function(){
+        _keyword =  $("#group_search").val();
+        smart.paginationInitalized = false;
+        render(_start, _count,_keyword);
+    });
+
+    $("#group_search").bind("change",function(){
+        var _keyword =  $("#group_search").val();
+        smart.paginationInitalized = false;
+        render(_start, _count,_keyword);
+    });
   // 一览按钮
   $("#group_list").on("click", "a", function(event){
 

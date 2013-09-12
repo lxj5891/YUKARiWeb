@@ -9,40 +9,47 @@ var userList;
 /**
  * 绘制画面
  */
-function render(start, count) {
+function render(start, count ,keyword) {
+  keyword = keyword ? encodeURIComponent(keyword) : "";
 
-    smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start, function(e, result){
+  smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function (e, result) {
 
-        userList = result.items;
+    userList = result.items;
 
-        var tmpl = $('#tmpl_user_list').html()
-            , container = $("#user_list")
-            , index = 1;
+    var tmpl = $('#tmpl_user_list').html()
+      , container = $("#user_list")
+      , index = 1;
 
-        container.html("");
-        _.each(result.items, function(row){
-            container.append(_.template(tmpl, {
-                "index": index++ + start
-                , "id": row._id
-                , "uid": row.uid
-                , "name": row.name ? row.name.name_zh:""
-                , "title": row.title
-                , "telephone": row.tel ? row.tel.telephone : ""
-                , "description": row.description
-                , "notice": row.authority ? row.authority.notice:""
-                , "approved":row.authority ? row.authority.approve : ""
-                , "active": row.active
-                , "type": row.type
-            }));
-        });
-        // 设定翻页
-        smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
-            render.apply(window, [active, count]);
-        });
+    container.html("");
+    _.each(result.items, function (row) {
+      container.append(_.template(tmpl, {
+        "index": index++ + start, "id": row._id, "uid": row.uid, "name": row.name ? row.name.name_zh : "", "title": row.title, "telephone": row.tel ? row.tel.telephone : "", "description": row.description, "notice": row.authority ? row.authority.notice : "", "approved": row.authority ? row.authority.approve : "", "active": row.active, "type": row.type
+      }));
     });
+    if (result.items.length == 0) {
+      container.html(i18n["js.common.list.empty"]);
+    }
+    // 设定翻页
+    smart.pagination($("#pagination_area"), result.totalItems, count, function (active, rowCount) {
+      render.apply(window, [active, count]);
+    });
+  });
 }
-
+var _start = 0;
+var _count = 15;
+var _keyword = '';
 function events() {
+    $("#doSearchUser").bind("click",function(){
+        _keyword =  $("#user_search").val();
+        smart.paginationInitalized = false;
+        render(_start, _count,_keyword);
+    });
+
+    $("#user_search").bind("change",function(){
+        var _keyword =  $("#user_search").val();
+        smart.paginationInitalized = false;
+        render(_start, _count,_keyword);
+    });
     // 一览按钮
     $("#user_list").on("click", "a", function(event){
 
