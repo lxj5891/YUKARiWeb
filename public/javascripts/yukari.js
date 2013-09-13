@@ -518,7 +518,7 @@ var smart = {
         , "canNext": limit >= pageCount
       }));
 
-      return false;
+      return ;
     });
 
     // 初始化
