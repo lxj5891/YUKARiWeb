@@ -9,7 +9,8 @@ var mongo = require('mongoose')
   , schema = mongo.Schema;
 
 var Company = new schema({
-    companyType: {type: String,description: "0:demo 1:正式客户"}
+    code : {type: String ,description:"公司CODE"}
+  , companyType: {type: String,description: "0:demo 1:正式客户"}
   , mail: {type: String,description: "管理员ID"}
   , name: {type: String}
   , kana: {type: String}
@@ -40,7 +41,15 @@ exports.list = function(condition_, start_, limit_, callback_){
             callback_(err, result);
         });
 };
+// 获取指定公司
+exports.find = function(query,callback_){
 
+  var comp = model();
+
+  comp.find(query, function(err, result){
+    callback_(err, result);
+  });
+};
 // 获取指定公司
 exports.searchOne = function(compid,callback_){
 

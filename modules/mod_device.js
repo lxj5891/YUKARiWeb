@@ -4,14 +4,16 @@ var mongo = require('mongoose')
   , schema = mongo.Schema;
 
 var Device = new schema({
+
     companyid: {type: String}
+  , companycode : {type:String,description:"公司CODE"}
   , deviceid: {type: String}
   , deviceType: {type:String}
   , devstatus : {type:String,description: "1:使用中 0:使用不可"}
   , userinfo: [{
       userid: {type:String,description: "使用者ID" }
     , username: {type:String}
-    , status: {type:String,description: "1:使用中 0:使用不可 2:申请中" }
+    , status: {type:String,description: "1:使用中 0:使用不可 2:申请中 3:未注册用户申请中" }
 //    , createat: { type: Date, default: Date.now }
 //    , createby: {type: String}
 //    , lastat: { type: Date, default: Date.now }

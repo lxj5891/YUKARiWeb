@@ -214,6 +214,9 @@ exports.guiding = function(app){
   app.put('/device/add.json', function(req, res){
     device.add(req, res);
   });
+  app.get("/device/login.json", function(req, res){
+    device.login(req, res);
+  });
 
   // 运营情报
   app.get('/operated/list.json', function (req, res) {
