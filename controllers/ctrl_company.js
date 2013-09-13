@@ -74,6 +74,17 @@ exports.searchOne = function( compid, callback_) {
 
 };
 
+// 通过公司ID获取指定公司
+exports.getByPath = function( path, callback_) {
+  company.getByPath(path, function(err, result){
+    if (err) {
+      return callback_(new error.InternalServer(err));
+    }
+    return callback_(err, result);
+  });
+
+};
+
 /**
  * 添加公司
  * @param uid_
@@ -182,7 +193,7 @@ exports.add = function(uid_, data_, callback_) {
         user_.active = 1;
         user_.companyid = result.id;
         user_.companycode = result.code;
-        user.add(uid_, user_, function(err,resultuser){
+        user.addByDBName(user_.companycode, uid_, user_, function(err,resultuser){
             if (err) {
            //TODO  rollback未对应
             }

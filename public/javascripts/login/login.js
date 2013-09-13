@@ -18,6 +18,7 @@ function login() {
 
   var username = $('#name').val()
     , password = $('#pass').val()
+    , path = $('#path').val()
     , csrftoken = $('#_csrf').val();
 
   // 必须输入，否则摇一摇
@@ -35,7 +36,7 @@ function login() {
       , async: false
       , type: "GET"
       , data: {
-        "name": username, "pass": password, "home": "yukari"
+        "path": path, "name": username, "pass": password, "home": "yukari"
       }
       , success: function(data, textStatus, jqXHR) {
         if (jqXHR.status != 200) {

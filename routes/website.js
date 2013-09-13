@@ -3,12 +3,12 @@ var i        = require("i18n");
 exports.guiding = function (app) {
 
   app.get('/', function (req, res) {
-    res.render("top_page", {"title": i.__("js.routes.website.top_signin.title")});
+    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
   });
 
   // Login画面
   app.get('/login', function (req, res) {
-    res.render("top_signin", {"title": i.__("js.routes.website.top_signin.title")});
+    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
   });
 
   // 主画面
@@ -116,16 +116,16 @@ exports.guiding = function (app) {
 
 
 
-  // 首页
-  app.get('/top/index', function (req, res) {
-    res.render("top_page", {"title": "top_page"});
-  });
-  app.get('/top/login', function (req, res) {
-    res.render("top_signin", {"title": "top_signin"});
-  });
-  app.get('/top/detail', function (req, res) {
-    res.render("top_details", {"title": "top_details"});
-  });
+//  // 首页
+//  app.get('/top/index', function (req, res) {
+//    res.render("top_page", {"title": "top_page"});
+//  });
+//  app.get('/top/login', function (req, res) {
+//    res.render("top_signin", {"title": "top_signin"});
+//  });
+//  app.get('/top/detail', function (req, res) {
+//    res.render("top_details", {"title": "top_details"});
+//  });
 
   // 公司一览
     app.get('/admin/company/add', function (req, res) {
