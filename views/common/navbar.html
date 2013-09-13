@@ -44,23 +44,23 @@
 <script type="text/template" id="tmpl_pagination">
   <ul class="pagination">
     <$ if (canPrev) { $>
-    <li><a href="#"><%= i('js.public.info.page.prev')%></a></li>
+    <li><a href="#" activePage = "prev"><%= i('js.public.info.page.prev')%></a></li>
     <$ } else { $>
-    <li class="disabled"><a href="#"><%= i('js.public.info.page.prev')%></a></li>
+    <li class="disabled" ><a href="#" activePage = "prev"><%= i('js.public.info.page.prev')%></a></li>
     <$ } $>
 
     <$ for (var i = start; i < start + limit; i++) { $>
     <$ if (i == active) { $>
-    <li class="active"><a href="#">{{i}}</a></li>
+    <li class="active" ><a href="#" activePage = {{i}}>{{i}}</a></li>
     <$ } else { $>
-    <li><a href="#">{{i}}</a></li>
+    <li><a href="#" activePage = {{i}}>{{i}}</a></li>
     <$ } $>
     <$ } $>
 
     <$ if (canNext) { $>
-    <li><a href="#"><%= i('js.public.info.page.next')%></a></li>
+    <li><a href="#" activePage = "next"><%= i('js.public.info.page.next')%></a></li>
     <$ } else { $>
-    <li class="disabled"><a href="#"><%= i('js.public.info.page.next')%></a></li>
+    <li class="disabled"><a href="#" activePage = "next"><%= i('js.public.info.page.next')%></a></li>
     <$ } $>
   </ul>
 </script>

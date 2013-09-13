@@ -39,6 +39,7 @@ function render(compid) {
       $("#inputNameJp").val(result.kana);
       $("#inputAddress").val(result.address);
       $("#inputTel").val(result.tel);
+      $("#inputComPath").val(result.path);
       var inputActive = result.active == 1 ? "1" : "0";
       new ButtonGroup("inputActive", inputActive).init();
       $("#inputActive").attr('disabled','disabled');
@@ -59,6 +60,7 @@ function getCompanyData() {
     , address: $("#inputAddress").val()
     , tel: $("#inputTel").val()
     , active: $("#inputActive").attr('value')
+    , path: $("#inputComPath").val()
   };
   return company;
 }
