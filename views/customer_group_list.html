@@ -53,7 +53,7 @@
           <thead>
           <tr>
             <th>#</th>
-            <th><%= i('html.label.group.no') %><!-- グループ番号--></th>
+            <!--<th><%= i('html.label.group.no') %>&lt;!&ndash; グループ番号&ndash;&gt;</th>-->
             <th><%= i('html.label.group.name') %><!-- グループ名--></th>
             <th><%= i('html.label.group.members') %><!-- グループメンバ数--></th>
             <th><%= i('html.label.group.comment') %><!-- コメント--></th>
@@ -65,8 +65,9 @@
         </table>
         </div>
       </div>
+      <div class="pagination-area" id="pagination_area"></div>
     </div>
-    <div class="pagination-area" id="pagination_area"></div>
+
   </div><!--/.main-content-->
 
 </div><!--/.main-container-->
@@ -78,7 +79,7 @@
 <script type="text/template" id="tmpl_group_list">
   <tr>
     <td>{{index}}</td>
-    <td>{{id}}</td>
+    <!--<td>{{id}}</td>-->
     <td>{{name}}</td>
     <td>{{members}}</td>
     <td style="word-break:break-all;word-wrap:break-word">{{description}}</td>

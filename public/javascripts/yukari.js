@@ -488,7 +488,7 @@ var smart = {
 
     container.unbind("click").on("click", "a", function(event){
 
-      var activePage = $(event.target).html();
+      var activePage = $(event.target).attr("activePage");
 
       if (activePage == "prev") {
           if(startPage == 1){
