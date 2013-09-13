@@ -5,6 +5,7 @@ var user        = lib.api.user
   , util        = lib.core.util
   , file        = lib.api.dbfile
   , apn         = lib.api.apn
+  , json        = lib.core.json
   , material    = require("../api/material")
   , synthetic   = require("../api/synthetic")
   , layout      = require("../api/layout")
@@ -13,13 +14,13 @@ var user        = lib.api.user
   , definition  = require("../api/definition")
   , tag         = require("../api/tag")
   , notice      = require("../api/notice")
-  , device      = require("../api/device");
+  , device      = require("../api/device")
+  , logicError  = require("../core/logicerrors");
 
 exports.guiding = function(app){
 
   // 登陆
   app.get('/simplelogin', function (req, res) {
-
     var logined = function() {
       if (req.session.user.type == 1) // 重新设定管理员画面
         req.query.home = "/admin";
@@ -29,9 +30,9 @@ exports.guiding = function(app){
     if(path) { // 登陆到公司的DB进行Login
       ctrl_company.getByPath(path, function(err, comp){
         if(err)
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
+          return res.send(err.code, json.errorSchema(err.code, err.message));
         if(!comp)
-          return res_.send(200, json.errorSchema(1000, "公司ID不存在。"));
+          return res.send(200, json.errorSchema(1000, "公司ID不存在。"));
         var companyDB = comp.code;
         user.login(req, res, logined, companyDB);
       })
