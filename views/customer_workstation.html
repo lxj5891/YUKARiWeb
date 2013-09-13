@@ -35,36 +35,37 @@
     </div>
 
     <div class="page-content">
-      <div class="page-header position-relative">
-        <h1>
-          <%= i('html.label.workstation') %><!-- ワークステーション設定-->
-        </h1>
+      <div class="row tableheader">
+        <div class="pull-left">
+          <h4><%= i('html.label.workstation') %><!-- ワークステーション設定--></h4>
+        </div>
       </div>
-      <div class="row" style="margin-left: 30px">
-        <div class="col-lg-8 wsbackcolor">
+      <div class="row box-border">
+        <div class="wsbackcolor" style="width:815px;">
         <div>
           <ul>
+              <li class="ui-state-default">
+                <div class="wsicon pull-left"><label><%= i('html.label.workstation.icon') %><!-- アイコン--></label></div>
+                <div class="wsname pull-left"><label><%= i('html.label.workstation.name') %><!-- タイトル--></label></div>
+                <div class="wstype pull-left"><label><%= i('html.label.workstation.type') %><!-- タイプ--></label></div>
+                <div class="wsurl pull-left"><label><%= i('html.label.workstation.url') %><!-- URL--></label></div>
+                <div class="wsoper pull-left" id="setting_add"><i class="icon-plus"></i></div>
+              </li>
+          </ul>
+          <ul id="sortable"></ul>
+          <ul>
             <li class="ui-state-default">
-              <div class="wsicon pull-left"><label><%= i('html.label.workstation.icon') %><!-- Icon--></label></div>
-              <div class="wsname pull-left"><label><%= i('html.label.workstation.name') %><!-- 名称--></label></div>
-              <div class="wstype pull-left"><label><%= i('html.label.workstation.type') %><!-- タイプ--></label></div>
-              <div class="wsurl pull-left"><label><%= i('html.label.workstation.url') %><!-- URL--></label></div>
-              <div class="wsoper pull-left" id="setting_add"><i class="icon-plus"></i></div>
             </li>
           </ul>
         </div>
-        <div>
-          <ul id="sortable"></ul>
         </div>
       </div>
-      </div>
-        <div class="row" style="margin-left: 30px;margin-top: 50px">
-        <button type="submit" class="btn btn-default btn-lg"><%= i('html.button.common.save') %><!-- 保存--></button>
+      <div class="row" style="margin-left: 30px;margin-top: 50px">
+        <button type="submit" class="col-lg-4 btn btn-default btn-lg "><%= i('html.button.common.save') %><!-- 保存--></button>
       </div>
     </div>
   </div>
 </div><!--/.main-container-->
-</body>
 
 <script type="text/template" id="tmpl_sortable">
   <li class="ui-state-default">
@@ -72,7 +73,7 @@
       <ul class="nav nav-pills">
         <li class="dropdown">
           <label class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span>&nbsp;&nbsp;<i class="icon-{{icon}} icon-large"></i>&nbsp;&nbsp;&nbsp;</span><span class="caret"></span>
+            <span>&nbsp;&nbsp;<i class="icon-{{icon}}"></i>&nbsp;&nbsp;&nbsp;</span><span class="caret"></span>
           </label>
           <ul class="dropdown-menu">
             <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-desktop"></i></li>
@@ -94,18 +95,21 @@
     <div class="wsname pull-left">
       <input class="form-control" type="text" value="{{name}}">
     </div>
-    <div class="wstype pull-left">
-      <select class="form-control">
-        <option><%= i('html.select.workstation.type.link') %><!-- リンク--></option>
-        <option><%= i('html.select.workstation.type.app') %><!-- アプリ起動--></option>
-      </select>
+    <div class="wstype pull-left btn-group" id="inputType" value="url">
+        <button value="url" class="btn btn-sm btn-default btn-white" type="button" active="on" style="height:34px;">URL</button>
+        <button value="app" class="btn btn-sm btn-default btn-info" type="button" style="height:34px;">APP</button>
     </div>
     <div class="wsurl pull-left">
       <input class="form-control" type="text" value="{{url}}">
     </div>
     <div class="wsoper pull-left">
-      <i class="icon-th-list icon-large"></i>
+      <i class="icon-move"></i>
     </div>
-  </li></script>
+    <div class="pull-left">
+      <!--i option="remove" class="icon-remove"></i-->
+    </div>
+  </li>
+</script>
 
+</body>
 </html>
