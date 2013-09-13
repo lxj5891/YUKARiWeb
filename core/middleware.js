@@ -2,6 +2,7 @@
 var i18n    = require('i18n')
   , fs      = require('fs')
   , confapp = require("config").app
+  , company = require("../controllers/ctrl_company")
   , json    = lib.core.json
   , errors  = lib.core.errors
   , util    = lib.core.util
@@ -79,6 +80,15 @@ exports.authenticate = function(req, res, next) {
 
   // 确认Session里是否有用户情报
   if (req.session.user) {
+//    var user = req.session.user;
+//    var code = req.params ? req.params.code: undefined;
+//    if(user.type == 0 || user.type == 1) { // Company's general user  and system user
+//      var company_code = user.company ? user.company.code : undefined;
+//       if(!code || code != company_code) {
+//         return next(new errors.InternalServer("没有权限登陆"));
+//       }
+//    }
+
     return next();
   }
 
@@ -136,3 +146,18 @@ exports.timeout = function(req, res, next) {
   next();
 
 };
+
+exports.loadCompany = function(req, res, next) {
+  var user = req.session? req.session.user : undefined;
+  // Load company
+  if(user && user.companyid && !user.company) {
+    company.searchOne(user.companyid, function(err, result) {
+      if(err)
+        throw err;
+      user.company = result._doc ? result._doc : result;
+      next();
+    });
+  } else {
+    next();
+  }
+}
