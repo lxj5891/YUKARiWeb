@@ -1,5 +1,3 @@
-
-
 $(function () {
   'use strict';
   render(0, 20);
@@ -24,10 +22,7 @@ function render(start, count , keyword) {
     var tmpl = $('#tmpl_group_list').html()
       , container = $("#group_list")
       , index = 1;
-
-    console.log(groupList);
     container.html("");
-
     _.each(groupList, function(row){
 
       container.append(_.template(tmpl, {
@@ -74,21 +69,6 @@ function events() {
     // 编辑按钮
     if (operation == "edit") {
       window.location = "/customer/group/edit/" + row._id;
-    }
-
-    // 删除按钮
-    if (operation == "delete") {
-      var group = {
-        _id: row._id,
-        valid : 0
-      };
-      smart.doput("/group/update.json",group, function(err, result){
-        if (err) {
-          console.log(err);
-        } else {
-          render(0, 15);
-        }
-      });
     }
     return false;
   });

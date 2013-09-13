@@ -8,15 +8,13 @@
   <script type="text/javascript" src="/javascripts/customer_group_update.js"></script>
 </head>
 <body>
-
+<input type="hidden" id="groupId" name="groupId" value="<%= groupId %>">
 <% include common/navbar.html %>
 
 <div class="main-container container-fluid">
   <% include common/sidebar.html %>
 
-
   <div class="main-content">
-
     <div class="breadcrumbs" id="breadcrumbs">
       <ul class="breadcrumb">
         <li>
@@ -43,7 +41,7 @@
             <div class="form-group">
               <label for="inputName" class="col-lg-2 control-label"><%= i('html.label.group.name') %><!-- 名前--></label>
               <div class="col-lg-8">
-                <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.group.name') %>">
+                <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.group.name') %>" maxlength="20">
               </div>
             </div>
             <div class="form-group">
@@ -53,7 +51,6 @@
                 <div id="textBoxMember" class="incrementBox">
                   <input id="inputMember" scope="1" placeholder="<%= i('html.input.group.member') %>" />
                 </div>
-
               </div>
             </div>
             <div class="form-group">
@@ -66,7 +63,7 @@
       </div>
       <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
         <div id="updateGroup" class="col-lg-4 btn btn-warning btn-lg">
-          <%= i('html.button.common.add') %><!-- 登録--><!-- 発送-->
+          <%= i('html.button.common.add') %><!-- 登録-->
         </div>
       </div>
     </div>
