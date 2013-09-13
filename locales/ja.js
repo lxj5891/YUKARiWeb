@@ -368,6 +368,7 @@
   "js.ctr.check.company.name.max":"会社名(英語)は、３０桁以内に指定してください。",
   "js.ctr.check.company.kana.min":"会社名(かな)を入力してください。",
   "js.ctr.check.company.kana.max":"会社名(かな)は、３０桁以内に指定してください。",
+  "js.ctr.check.company.path":"会社IDが存在しました。",
   "js.ctr.check.company.path.min":"会社IDを入力してください。",
   "js.ctr.check.company.path.max":"会社IDは、２０桁以内に指定してください。",
   "js.ctr.check.company.address.min":"会社住所を入力してください。",

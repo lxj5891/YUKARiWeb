@@ -144,13 +144,26 @@ exports.add = function(uid_, data_, callback_) {
 
   sync.waterfall([
     function(callback) {
-      // 确认用户id重复
-      user.findUserList({"uid": user_.userid}, function(err, result) {
+      // 客户分db管理后不再需要check uid，admin用户肯定是第一个用户
+//      // 确认用户id重复
+//      user.findUserList({"uid": user_.userid}, function(err, result) {
+//        if (err) {
+//         return  callback(new error.InternalServer(__("js.ctr.common.system.error")));
+//        }
+//        if (result.length > 0) {
+//          return callback(new error.BadRequest(__("js.ctr.check.user")));
+//        } else {
+//          return callback(err);
+//        }
+//      });
+
+      // check path
+      company.find({path:comp_.path}, function(err, result){
         if (err) {
-         return  callback(new error.InternalServer(__("js.ctr.common.system.error")));
+          return  callback(new error.InternalServer(__("js.ctr.common.system.error")));
         }
         if (result.length > 0) {
-          return callback(new error.BadRequest(__("js.ctr.check.user")));
+          return callback(new error.BadRequest(__("js.ctr.check.company.path")));
         } else {
           return callback(err);
         }
@@ -225,11 +238,21 @@ exports.update = function(uid_, data_, callback_) {
   comp_.editat = new Date();
   comp_.editby = uid_;
 
-  company.update(comp_.id, comp_, function(err, result){
+  // path check
+  company.find({path:comp_.path}, function(err, coms){
     if (err) {
-      return callback_(new error.InternalServer(err));
+      return  callback_(new error.InternalServer(__("js.ctr.common.system.error")));
     }
-    return callback_(err, result);
+    if (coms.length > 0) {
+      return callback_(new error.BadRequest(__("js.ctr.check.company.path")));
+    } else {
+      company.update(comp_.id, comp_, function(err, result){
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
+        return callback_(err, result);
+      });
+    }
   });
 
 };

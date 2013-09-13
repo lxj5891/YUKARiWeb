@@ -368,6 +368,7 @@
   "js.ctr.check.company.name.max":"请输入30位以内公司名(英语)",
   "js.ctr.check.company.kana.min":"请输入公司名(汉语)",
   "js.ctr.check.company.kana.max":"请输入30位以内公司名(汉语)",
+  "js.ctr.check.company.path":"公司ID已存在",
   "js.ctr.check.company.path.min":"请输入公司ID",
   "js.ctr.check.company.path.max":"请输入20位以内公司ID",
   "js.ctr.check.company.address.min":"请输入公司住址",
