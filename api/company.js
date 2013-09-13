@@ -30,6 +30,19 @@ exports.searchOne = function(req_, res_) {
         }
     });
 };
+// 获取指定公司ID
+exports.getByPath = function(req_, res_) {
+
+  var getPath = req_.query.getPath;
+
+  company.getPath(compid, function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+};
 // 添加公司
 exports.add = function(req_, res_) {
 

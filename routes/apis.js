@@ -9,6 +9,7 @@ var user        = lib.api.user
   , synthetic   = require("../api/synthetic")
   , layout      = require("../api/layout")
   , company     = require("../api/company")
+  , ctrl_company     = require("../controllers/ctrl_company")
   , definition  = require("../api/definition")
   , tag         = require("../api/tag")
   , notice      = require("../api/notice")
@@ -24,7 +25,19 @@ exports.guiding = function(app){
         req.query.home = "/admin";
     };
 
-    user.login(req, res, logined);
+    var path = req.query.path;
+    if(path) { // 登陆到公司的DB进行Login
+      ctrl_company.getByPath(path, function(err, comp){
+        if(err)
+          return res_.send(err.code, json.errorSchema(err.code, err.message));
+        if(!comp)
+          return res_.send(200, json.errorSchema(1000, "公司ID不存在。"));
+        var companyDB = comp.code;
+        user.login(req, res, logined, companyDB);
+      })
+    } else { // 登陆主DB进行Login
+      user.login(req, res, logined);
+    }
   });
 
   // 注销

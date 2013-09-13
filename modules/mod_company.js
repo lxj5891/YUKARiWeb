@@ -51,6 +51,17 @@ exports.find = function(query,callback_){
     callback_(err, result);
   });
 };
+// 获取指定条件的一个公司
+exports.getByPath = function(path,callback_){
+  var condition = {
+    path: path
+  };
+
+  var comp = model();
+  comp.findOne(condition,function(err,result){
+    callback_(err, result);
+  });
+};
 // 获取指定公司
 exports.searchOne = function(compid,callback_){
 
@@ -60,6 +71,7 @@ exports.searchOne = function(compid,callback_){
         callback_(err, result);
     });
 };
+
 // 添加公司
 exports.add = function(comp_, callback_){
   createCode(function(err, code){

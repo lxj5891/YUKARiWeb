@@ -74,6 +74,17 @@ exports.searchOne = function( compid, callback_) {
 
 };
 
+// 通过公司ID获取指定公司
+exports.getByPath = function( path, callback_) {
+  company.getByPath(path, function(err, result){
+    if (err) {
+      return callback_(new error.InternalServer(err));
+    }
+    return callback_(err, result);
+  });
+
+};
+
 /**
  * 添加公司
  * @param uid_
