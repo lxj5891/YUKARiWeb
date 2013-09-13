@@ -109,6 +109,7 @@ app.configure(function(){
   /**
    * 系统定义
    */
+  app.use(middleware.loadCompany);  // 加载用户的公司信息
   app.use(middleware.authenticate); // 认证
   app.use(middleware.csrftoken);    // 生成CsrfToken
   app.use(middleware.lang);         // 设定语言
