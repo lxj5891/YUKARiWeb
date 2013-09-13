@@ -32,43 +32,42 @@
         <li class="active" style="width:86px"><%= title %></li>
       </ul><!--.breadcrumb-->
     </div>
-
     <div class="page-content">
-      <div class="page-header position-relative">
-        <h1>
-          <%= i('html.label.group') %><!-- グループ-->
-        </h1>
+      <div class="row tableheader col-lg-8">
+        <div class="pull-left">
+          <h4><%= i('html.label.group') %><!-- グループ--></h4>
+        </div>
       </div>
-      <div>
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label for="inputName" class="col-lg-2 control-label"><%= i('html.label.group.name') %><!-- 名前--></label>
-            <div class="col-lg-3">
-              <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.group.name') %>">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputMember" class="col-lg-2 control-label"><%= i('html.label.group.member') %><!-- メンバ--></label>
-            <div class="col-lg-3">
-
-              <div id="textBoxMember" class="incrementBox">
-                <input id="inputMember" scope="1" placeholder="<%= i('html.input.group.member') %>" />
+      <div class="row col-lg-8 box-border">
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <label for="inputName" class="col-lg-2 control-label"><%= i('html.label.group.name') %><!-- 名前--></label>
+              <div class="col-lg-8">
+                <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.group.name') %>">
               </div>
+            </div>
+            <div class="form-group">
+              <label for="inputMember" class="col-lg-2 control-label"><%= i('html.label.group.member') %><!-- メンバ--></label>
+              <div class="col-lg-8">
 
+                <div id="textBoxMember" class="incrementBox">
+                  <input id="inputMember" scope="1" placeholder="<%= i('html.input.group.member') %>" />
+                </div>
+
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="inputComment" class="col-lg-2 control-label"><%= i('html.label.group.comment') %><!-- コメント--></label>
-            <div class="col-lg-3">
-              <textarea class="form-control" id="inputComment" placeholder="<%= i('html.label.group.comment') %>" rows="6"></textarea>
+            <div class="form-group">
+              <label for="inputComment" class="col-lg-2 control-label"><%= i('html.label.group.comment') %><!-- コメント--></label>
+              <div class="col-lg-8">
+                <textarea class="form-control" id="inputComment" placeholder="<%= i('html.label.group.comment') %>" rows="6"></textarea>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <div class="col-lg-10 pull-right">
-              <button class="btn btn-warning btn-lg" id="updateGroup"><%= i('html.button.common.add') %><!-- 登録--></button>
-            </div>
-          </div>
-        </form>
+          </form>
+      </div>
+      <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
+        <div id="updateGroup" class="col-lg-4 btn btn-warning btn-lg">
+          <%= i('html.button.common.add') %><!-- 登録--><!-- 発送-->
+        </div>
       </div>
     </div>
   </div>
