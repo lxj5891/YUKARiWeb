@@ -23,7 +23,7 @@ function render(start, count, keyword) {
       container.append(_.template(tmpl, {
           "index": index++ + start
         , "type": row.companyType
-        , "_id": row._id
+        , "_id": row.path
         , "name": row.name
         , "kana": row.kana
         , "tel": row.tel

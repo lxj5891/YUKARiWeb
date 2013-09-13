@@ -95,6 +95,11 @@ exports.add = function(uid_, data_, callback_) {
 //      check(data_.body_company.name, __("js.ctr.check.company.name.min")).notEmpty();
       check(data_.body_company.name, __("js.ctr.check.company.name.max")).len(0,30);
     }
+    //会社ID
+    if (data_.body_company.path != undefined) {
+      check(data_.body_company.path, __("js.ctr.check.company.path.min")).notEmpty();
+      check(data_.body_company.path, __("js.ctr.check.company.path.max")).len(0,20);
+    }
     //会社住所
     if (data_.body_company.address != undefined) {
 //      check(data_.body_company.address, __("js.ctr.check.company.address.min")).notEmpty();
@@ -196,6 +201,11 @@ exports.update = function(uid_, data_, callback_) {
     if (data_.body_company.name != undefined) {
 //      check(data_.body_company.name, __("js.ctr.check.company.name.min")).notEmpty();
       check(data_.body_company.name, __("js.ctr.check.company.name.max")).len(0,30);
+    }
+    //会社ID
+    if (data_.body_company.path != undefined) {
+      check(data_.body_company.path, __("js.ctr.check.company.path.min")).notEmpty();
+      check(data_.body_company.path, __("js.ctr.check.company.path.max")).len(0,20);
     }
     //会社住所
     if (data_.body_company.address != undefined) {
