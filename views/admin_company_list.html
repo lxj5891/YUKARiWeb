@@ -93,9 +93,9 @@
   <td>{{mail}}</td>
   <td>{{createat}}</td>
   <$ if (active == 1) {$>
-    <td><input type="checkbox" checked="true"></td>
+    <td><i class="icon-ok"></i></td>
   <$ } else {$>
-    <td><input type="checkbox"></td>
+    <td></td>
   <$ } $>
   <td>
     <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>

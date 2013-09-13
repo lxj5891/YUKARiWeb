@@ -887,3 +887,6 @@ fieldset[disabled] .btn-default.active {
   background-color: #fff;
   border-color: #e3e3e3;
 }
+.form-control:focus {
+  border-color: #92d43e;
+}
