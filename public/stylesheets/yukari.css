@@ -388,12 +388,10 @@ input[type="color"] {
 }
 .tableheader {
   color: #000000;
-  font-size: 24px;
   padding-top: 5px;
   padding-right: 5px;
   margin-bottom: 1px;
   border-bottom: 5px solid #92d43e;
-  font-family: Georgia;
 }
 h4 {
   font-size: 24px;
