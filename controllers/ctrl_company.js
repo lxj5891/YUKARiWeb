@@ -109,6 +109,7 @@ exports.add = function(uid_, data_, callback_) {
             user_.type = 1;
             user_.active = 1;
             user_.companyid = result.id;
+            user_.companycode = result.code;
             user.add(uid_, user_, function(err,resultuser){
                 if (err) {
                //TODO  rollback未对应

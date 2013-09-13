@@ -8,36 +8,62 @@ var mongo = require('mongoose')
   , dbconf = process.env['TEST'] ? require('config').testdb : require('config').db;
 
 /**
- * Mongodb连接实例
+ * Connection map
+ * Formatter : { key1: value1, key2: value2 }
+ * Desc      :   key   : hostname
+ *               value : connection
+ * @type {{}}
  */
-var __connection;
+var connectionMap = {}; //
 
 
-module.exports = function() {
+module.exports = function(dbname) {
+  return getConn(dbname);
+};
+
+exports.getActivityConnectionList =  function() {
+  var list = [];
+};
+
+/**
+ * 取得连接
+ * @param dbname
+ * @returns {*}
+ */
+function getConn(dbname) {
+  // Set default dbname
+  dbname = dbname || dbconf.dbname;
+
+  var conn = connectionMap[dbname];
+  var host = dbconf.host;
+  var port = dbconf.port;
+  var poolSize = dbconf.pool;
 
   // 无连接
-  if (!__connection) {
-    log.out('info', 'Create a connection');
-    return createConnection();
+  if (!conn) {
+    log.out('info', 'Create a connection. ');
+    return createConnection(host, port, dbname, poolSize);
   }
 
   // 连接被断开
-  if (__connection.readyState == 0) {
+  if (conn.readyState == 0) {
     log.out('info', 'Re-new the connection');
-    return createConnection();
+    return createConnection(host, port, dbname, poolSize);
   }
 
-  return __connection;
-};
+  return conn;
+}
 
 /**
  * 创建一个新的连接
  */
-function createConnection() {
-  __connection = mongo.createConnection(
-    util.format('mongodb://%s:%d/%s', dbconf.host, dbconf.port, dbconf.dbname), {server: {poolSize: dbconf.pool}}
+function createConnection(host, port, dbname, poolSize) {
+  var conn= mongo.createConnection(
+    util.format('mongodb://%s:%d/%s', host, port, dbname), {server: {poolSize: poolSize}}
   );
+  connectionMap[dbname] = conn;
 
-  log.out('info', 'The connection pool size of ' + dbconf.pool);
-  return __connection;
+  log.out('info', 'Database name "' + dbname + '". The connection pool size of ' + poolSize);
+  return conn;
 }
+
