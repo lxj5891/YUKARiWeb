@@ -35,6 +35,8 @@
   "js.common.save.success":"保存成功",
   "js.common.save.error":"保存失败",
   "js.common.list.empty":"没有记录",
+  "js.common.dialog.ok":"确定",
+  "js.common.dialog.cancel":"取消",
   "===================sidebar":"",
   "html.label.sidebar.content":"内容",
   "html.label.sidebar.content.material":"素材",
