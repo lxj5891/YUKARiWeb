@@ -1,7 +1,7 @@
 
 // namespace
 var smart = {
-  
+
   // The global setting
   image_prefix : function(){
     return "/picture/"
@@ -38,7 +38,7 @@ var smart = {
 
           onUpdate: function(ratio, image){
               if(image){
-                  
+
                   $("[data-img='"+image+"']").delay(countImg * 50).animate({opacity: 1}, 1000);
                   $("[data-img='"+image+"']").attr("src", image );
 
@@ -69,10 +69,10 @@ var smart = {
 
           onUpdate: function(ratio, image){
               if(image){
-                  
+
                   $("[data-img='"+image+"']").delay(countImg * 50).animate({opacity: 1}, 1000);
                   $("[data-img='"+image+"']").css("width","155px");
-                  //$("[data-img='"+image+"']").css("height","155px");  
+                  //$("[data-img='"+image+"']").css("height","155px");
                   $("[data-img='"+image+"']").attr("src", image );
 
                   countImg++;
@@ -88,13 +88,13 @@ var smart = {
    * Create this closure to contain the cached models
    */
   model: function() {
-    
+
     // Internal model cache.
     var models = {};
-    
+
     // Create a new model reference scaffold or load an existing model.
     return function(name) {
-      
+
       // If this model has already been created, return it.
       if (models[name]) {
         return models[name];
@@ -104,14 +104,14 @@ var smart = {
       return models[name] = {};
     };
   }(),
-  
+
   /**
    * Create this closure to contain the cached views
    */
   view: function() {
 
     var views = {};
-    
+
     return function(name) {
       if (views[name]) {
         return views[name];
@@ -119,7 +119,7 @@ var smart = {
       return views[name] = {};
     };
   }(),
-  
+
   /**
    * 获取CSRF Token
    */
@@ -157,7 +157,7 @@ var smart = {
     } else { // 2013/04/18 08:00
         return new Date(time).Format(format);
     }
-    //return new Date(time).toLocaleString() + $.datepicker.formatDate('yy/mm/dd h:mm', new Date(time)) 
+    //return new Date(time).toLocaleString() + $.datepicker.formatDate('yy/mm/dd h:mm', new Date(time))
   },
 
   /**
@@ -347,7 +347,7 @@ var smart = {
       , success: function(result) {
           callback_(result.error, result.data);
         }
-      , error: function(err) { 
+      , error: function(err) {
         callback_(err);
       }
     });
@@ -486,13 +486,13 @@ var smart = {
       , limit = Math.ceil(totalItems / rowCount) > pageCount ? pageCount : Math.ceil(totalItems / rowCount)
       , tmpl = $("#tmpl_pagination").html();
 
-    container.on("click", "a", function(event){
+    container.unbind("click").on("click", "a", function(event){
 
       var activePage = $(event.target).html();
 
       if (activePage == "prev") {
           if(startPage == 1){
-              return;
+              return false;
           }else{
               startPage = activePage = startPage - pageCount < 1 ? 1 : startPage - pageCount;
           }
@@ -501,7 +501,7 @@ var smart = {
                 startPage = activePage = startPage + pageCount;
             }
           else{
-             return;
+             return false;
           }
       }
       callback((activePage - 1) * rowCount);
@@ -518,7 +518,7 @@ var smart = {
         , "canNext": limit >= pageCount
       }));
 
-      return false;
+      return ;
     });
 
     // 初始化
@@ -536,7 +536,7 @@ var smart = {
    */
   show: function(type, title, message, destroy, position) {
     Alertify.log.success(message);
-    
+
     var tmpl = $("#alert-template").html();
 
     // // 显示消息框
