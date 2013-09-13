@@ -93,7 +93,8 @@ function events() {
 
     // 删除按钮
     if (operation == "delete") {
-
+      Alertify.dialog.labels.ok = i18n["js.common.dialog.ok"];
+      Alertify.dialog.labels.cancel = i18n["js.common.dialog.cancel"];
       Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
         // OK
