@@ -9,7 +9,7 @@
 
 </head>
 <body>
-
+<input type="hidden" id="compId" name="compId" value="<%= compId %>">
 <% include common/navbar.html %>
 
 <div class="main-container container-fluid">
@@ -46,59 +46,62 @@
           <div class="form-group">
             <label class="col-lg-2 control-label"><%= i('html.label.company.type') %><!--顧客タイプ --></label>
             <div class="col-lg-8">
-              <div class="radio pull-left">
-                <label>
-                  <input type="radio" name="optionsRadios" id="inputDemo" value="0">
-                  <%= i('html.label.company.type.demo') %><!--体験顧客 -->
-                </label>
+              <div class="btn-group" value="1" id="inputCompanyType">
+                <button type="button" class="btn btn-sm btn-default" value="0"><%= i('html.label.company.type.demo') %><!--提案客户 --></button>
+                <button type="button" class="btn btn-sm btn-default" value="1"><%= i('html.label.company.type.contract') %></button>
               </div>
-              <div class="radio pull-left">
-                <label>
-                  <input type="radio" name="optionsRadios" id="inputContract" value="1"><%= i('html.label.company.type.contract') %><!--契約顧客 -->
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputAdmin" class="col-lg-2 control-label"><%= i('html.label.company.adminid') %><!--管理者ID --></label>
-            <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputAdmin" placeholder="<%= i('html.label.company.adminid') %>">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputPassword" class="col-lg-2 control-label" id="labelInputPass"><%= i('html.label.company.password') %><!--初期パスワード --></label>
-            <div class="col-lg-8">
-              <input type="password" class="form-control" id="inputPassword" placeholder="<%= i('html.label.company.password') %>">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputNameEn" class="col-lg-2 control-label"><%= i('html.label.company.name1') %><!--会社名(英語) --></label>
-            <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputNameEn" placeholder="<%= i('html.label.company.name1') %>">
             </div>
           </div>
           <div class="form-group">
             <label for="inputNameJp" class="col-lg-2 control-label"><%= i('html.label.company.name2') %><!--会社名(かな) --></label>
             <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputNameJp" placeholder="<%= i('html.label.company.name2') %>">
+              <input type="text" class="form-control" id="inputNameJp" placeholder="<%= i('html.label.company.name2') %>" maxlength="30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputNameEn" class="col-lg-2 control-label"><%= i('html.label.company.name1') %><!--会社名(英語) --></label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputNameEn" placeholder="<%= i('html.label.company.name1') %>" maxlength="30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputComPath" class="col-lg-2 control-label"><%= i('html.label.company.path') %><!--会社ID --></label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputComPath" placeholder="<%= i('html.label.company.path') %>" maxlength="20">
             </div>
           </div>
           <div class="form-group">
             <label for="inputAddress" class="col-lg-2 control-label"><%= i('html.label.company.address') %><!--会社住所 --></label>
             <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputAddress" placeholder="<%= i('html.label.company.address') %>">
+              <input type="text" class="form-control" id="inputAddress" placeholder="<%= i('html.label.company.address') %>" maxlength="50">
             </div>
           </div>
           <div class="form-group">
             <label for="inputTel" class="col-lg-2 control-label"><%= i('html.label.company.tel') %><!--電話番号 --></label>
             <div class="col-lg-8">
-              <input type="tel" class="form-control" id="inputTel" placeholder="<%= i('html.label.company.tel') %>">
+              <input type="tel" class="form-control" id="inputTel" placeholder="<%= i('html.label.company.tel') %>" maxlength="30">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label"><%= i('html.label.company.active') %><!--有効性 --></label>
             <div class="col-lg-8">
-              <input type="checkbox" style="vertical-align: middle" id="inputActive" checked>
+              <div class="btn-group" value="1" id="inputActive">
+                <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
+                <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="inputAdmin" class="col-lg-2 control-label"><%= i('html.label.company.adminid') %><!--管理者ID --></label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputAdmin" placeholder="<%= i('html.label.company.adminid') %>" maxlength="30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label" id="labelInputPass"><%= i('html.label.company.password') %><!--初期パスワード --></label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" id="inputPassword" placeholder="<%= i('html.label.company.password') %>" maxlength="20">
             </div>
           </div>
         </form>

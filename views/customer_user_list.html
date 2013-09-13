@@ -68,8 +68,9 @@
         </table>
           </div>
       </div>
+      <div class="pagination-area" id="pagination_area"></div>
     </div>
-    <div class="pagination-area" id="pagination_area"></div>
+
   </div><!--/.main-content-->
 
 </div><!--/.main-container-->
@@ -84,21 +85,21 @@
     <td>{{name}}</td>
     <td>{{title}}</td>
     <td>{{telephone}}</td>
-    <td>{{description}}</td>
+    <td style="word-break:break-all;word-wrap:break-word">{{description}}</td>
     <$ if (approved == 1) {$>
-    <td><input type="checkbox" checked="true"/></td>
+    <td><i class="icon-ok"></i></td>
     <$ } else {$>
-    <td><input type="checkbox"/></td>
+    <td></td>
     <$ } $>
     <$ if (notice== 1) {$>
-    <td><input type="checkbox" checked="true"/></td>
+    <td><i class="icon-ok"></i></td>
     <$ } else {$>
-    <td><input type="checkbox"/></td>
+    <td></td>
     <$ } $>
     <$ if (active == 1) {$>
-    <td><input type="checkbox" checked="true"/></td>
+    <td><i class="icon-ok"></i></td>
     <$ } else {$>
-    <td><input type="checkbox"/></td>
+    <td></td>
     <$ } $>
     <td>
 

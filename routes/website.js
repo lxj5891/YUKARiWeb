@@ -3,12 +3,12 @@ var i        = require("i18n");
 exports.guiding = function (app) {
 
   app.get('/', function (req, res) {
-    res.render("top_page", {"title": i.__("js.routes.website.top_signin.title")});
+    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
   });
 
   // Login画面
   app.get('/login', function (req, res) {
-    res.render("top_signin", {"title": i.__("js.routes.website.top_signin.title")});
+    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
   });
 
   // 主画面
@@ -41,10 +41,10 @@ exports.guiding = function (app) {
         res.render("customer_group_list", {"title": i.__("js.routes.website.customer_group_list.title"), user: req.session.user});
     });
     app.get('/customer/group/add', function (req, res) {
-      res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_add.title"), user: req.session.user});
+      res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_add.title"), user: req.session.user,groupId:""});
     });
     app.get('/customer/group/edit/:id', function (req, res) {
-        res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_update.title"), user: req.session.user});
+        res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_update.title"), user: req.session.user,groupId:req.params.id});
     });
 
   //通知
@@ -116,23 +116,23 @@ exports.guiding = function (app) {
 
 
 
-  // 首页
-  app.get('/top/index', function (req, res) {
-    res.render("top_page", {"title": "top_page"});
-  });
-  app.get('/top/login', function (req, res) {
-    res.render("top_signin", {"title": "top_signin"});
-  });
-  app.get('/top/detail', function (req, res) {
-    res.render("top_details", {"title": "top_details"});
-  });
+//  // 首页
+//  app.get('/top/index', function (req, res) {
+//    res.render("top_page", {"title": "top_page"});
+//  });
+//  app.get('/top/login', function (req, res) {
+//    res.render("top_signin", {"title": "top_signin"});
+//  });
+//  app.get('/top/detail', function (req, res) {
+//    res.render("top_details", {"title": "top_details"});
+//  });
 
   // 公司一览
     app.get('/admin/company/add', function (req, res) {
-        res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_add.title"), user: req.session.user});
+        res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_add.title"), user: req.session.user,compId:""});
     });
     app.get('/admin/company/edit/:id', function (req, res) {
-        res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_update.title"), user: req.session.user});
+        res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_update.title"), user: req.session.user,compId:req.params.id});
     });
     app.get('/admin/company/remove/:id', function (req, res) {
       res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
