@@ -6,9 +6,7 @@ $(function () {
 
 // 保持一览数据
 var companyList;
-/**
- * 绘制画面
- */
+
 function render(start, count, keyword) {
 
   keyword = keyword ? encodeURIComponent(keyword) : "";
@@ -27,6 +25,7 @@ function render(start, count, keyword) {
         , "type": row.companyType
         , "_id": row._id
         , "name": row.name
+        , "kana": row.kana
         , "tel": row.tel
         , "address": row.address
         , "mail": row.mail
@@ -48,67 +47,57 @@ function render(start, count, keyword) {
 
 
 function events() {
-    $("#doSearchCompany").bind("click",function(){
-        var _keyword = '';
-        _keyword =  $("#company_search").val();
-        smart.paginationInitalized = false;
-        render(0, 20,_keyword);
-    });
+  $("#doSearchCompany").bind("click",function(){
+    var _keyword = '';
+    _keyword =  $("#company_search").val();
+    smart.paginationInitalized = false;
+    render(0, 20,_keyword);
+  });
 
-    $("#company_search").bind("change",function(){
-        var _keyword = '';
-        _keyword =  $("#company_search").val();
-        smart.paginationInitalized = false;
-        render(0, 20,_keyword);
-    });
-    // 一览按钮
-    $("#company_list").on("click", "a", function(event){
+  $("#company_search").bind("change",function(){
+    var _keyword = '';
+    _keyword =  $("#company_search").val();
+    smart.paginationInitalized = false;
+    render(0, 20,_keyword);
+  });
 
-        var operation = $(event.target).attr("operation")
-            , index = $(event.target).attr("index")
-            , row = companyList[index - 1];
-
-        // 编辑按钮
-        if (operation == "edit") {
-            window.location = "/admin/company/edit/" + row._id;
+  // 一览按钮
+  $("#company_list").on("click", "a", function(event){
+    var operation = $(event.target).attr("operation")
+      , index = $(event.target).attr("index")
+      , row = companyList[index - 1];
+    // 编辑按钮
+    if (operation == "edit") {
+      window.location = "/admin/company/edit/" + row._id;
+    }
+    //删除按钮
+    if (operation == "delete") {
+      var company = {
+        id : row._id
+      };
+      smart.doput("/company/remove.json",company, function(err, result){
+        if (err) {
+          Alertify.log.error(i18n["js.common.delete.error"]);
+        } else {
+          render(0, 15);
         }
+      });
+    }
 
-        //删除按钮
-        if (operation == "delete") {
-          var company = {
-            id : row._id
-          };
-          smart.doput("/company/remove.json",company, function(err, result){
-            if (err) {
-              Alertify.log.error(i18n["js.common.delete.error"]);
-              console.log(err);
-            } else {
-              render(0, 15);
-            }
-          });
+    // 无效按钮
+    if (operation == "active") {
+      var company = {
+          id: row._id,
+          active: (row.active == 1) ? 0:1
+      };
+      smart.doput("/company/active.json",company, function(err, result){
+        if (err) {
+          Alertify.log.error(i18n["js.common.update.error"]);
+        } else {
+          render(0, 15);
         }
-
-        // 无效按钮
-        if (operation == "active") {
-            var activeTemp;
-            if (row.active == 1) {
-              activeTemp =0;
-            } else {
-              activeTemp  = 1;
-            }
-            var company = {
-                id: row._id,
-                active: activeTemp
-            };
-            smart.doput("/company/active.json",company, function(err, result){
-              if (err) {
-                Alertify.log.error(i18n["js.common.update.error"]);
-                console.log(err);
-              } else {
-                render(0, 15);
-              }
-            });
-        }
-        return false;
-    });
+      });
+    }
+    return false;
+  });
 }

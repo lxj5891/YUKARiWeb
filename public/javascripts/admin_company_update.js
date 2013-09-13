@@ -67,32 +67,15 @@ function getUserData() {
   var user = {
       userid: $("#inputAdmin").val()
     , password :$("#inputPassword").val()
-    , name : {name_zh : $("#inputNameEn").val()}
+    , name : {name_zh : $("#inputNameJp").val()}
     , timezone :$("#timezone").val()
   }
   return user;
 }
 
-//check公司信息
-function checkCompanyData(company,user,compid) {
-    try {
-        if (compid) {
-        } else {
-          check(company.companyType, i18n["js.public.check.company.type"]).notEmpty();
-          check(company.mail, i18n["js.public.check.company.adminid"]).notEmpty().isEmail();
-          check(user.password,i18n["js.public.check.company.password"]).notEmpty();
-        }
-        check(company.name, i18n["js.public.check.company.name"]).notEmpty();
-
-    } catch (e) {
-        Alertify.log.error(e.message);
-        return false;
-    }
-    return true;
-}
-
 //添加公司
 function addCompany(company,user) {
+
   var body = {
      body_company : company,
      body_user    : user
