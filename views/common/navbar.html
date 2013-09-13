@@ -44,9 +44,9 @@
 <script type="text/template" id="tmpl_pagination">
   <ul class="pagination">
     <$ if (canPrev) { $>
-    <li><a href="#">prev</a></li>
+    <li><a href="#"><%= i('js.public.info.page.prev')%></a></li>
     <$ } else { $>
-    <li class="disabled"><a href="#">prev</a></li>
+    <li class="disabled"><a href="#"><%= i('js.public.info.page.prev')%></a></li>
     <$ } $>
 
     <$ for (var i = start; i < start + limit; i++) { $>
@@ -58,9 +58,9 @@
     <$ } $>
 
     <$ if (canNext) { $>
-    <li><a href="#">next</a></li>
+    <li><a href="#"><%= i('js.public.info.page.next')%></a></li>
     <$ } else { $>
-    <li class="disabled"><a href="#">next</a></li>
+    <li class="disabled"><a href="#"><%= i('js.public.info.page.next')%></a></li>
     <$ } $>
   </ul>
 </script>
