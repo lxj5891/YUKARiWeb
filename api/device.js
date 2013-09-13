@@ -88,3 +88,18 @@ exports.add = function(req_, res_) {
     }
   });
 };
+
+exports.login = function(req_, res_) {
+  var deviceid = req_.query.deviceid
+    , code = req_.query.code
+    , devicetype = req_.query.devicetype
+    , userid = req_.query.userid;
+
+  device.create(deviceid, userid, code , devicetype , function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+};
