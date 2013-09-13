@@ -18,11 +18,11 @@ exports.list = function(start_, limit_, keyword ,callback_) {
   var start = start_ || 0
     , limit = limit_ || 20
     , condition = {
-          valid:1
-      };
+      valid:1
+    };
     if(keyword){
-        condition.$or = [
-            {"name": new RegExp( keyword.toLowerCase(), "i")}]
+      condition.$or = [
+        {"name": new RegExp( keyword.toLowerCase(), "i")}]
     }
     company.total(function(err, count){
         if (err) {
@@ -93,7 +93,7 @@ exports.add = function(uid_, data_, callback_) {
       user_.createby = uid_;
       user_.editat = new Date();
       user_.editby = uid_;
-      user_.password = auth.sha256(user_.password);
+      //user_.password = auth.sha256(user_.password);
 
   sync.waterfall([
         // 添加公司

@@ -36,18 +36,16 @@
     </div>
 
     <div class="page-content">
-      <div class="row">
-        <div class="page-header position-relative">
-          <h1>
-            <%= i('html.label.company.managerinfo') %><!--管理情報 -->
-          </h1>
+      <div class="row tableheader col-lg-8">
+        <div class="pull-left">
+          <h4><%= i('html.label.company.managerinfo') %><!--管理情報 --></h4>
         </div>
       </div>
-      <div class="row">
+      <div class="row col-lg-8 box-border">
         <form class="form-horizontal" role="form">
           <div class="form-group">
             <label class="col-lg-2 control-label"><%= i('html.label.company.type') %><!--顧客タイプ --></label>
-            <div class="col-lg-3">
+            <div class="col-lg-8">
               <div class="radio pull-left">
                 <label>
                   <input type="radio" name="optionsRadios" id="inputDemo" value="0">
@@ -63,63 +61,52 @@
           </div>
           <div class="form-group">
             <label for="inputAdmin" class="col-lg-2 control-label"><%= i('html.label.company.adminid') %><!--管理者ID --></label>
-            <div class="col-lg-3">
+            <div class="col-lg-8">
               <input type="text" class="form-control" id="inputAdmin" placeholder="<%= i('html.label.company.adminid') %>">
             </div>
           </div>
           <div class="form-group">
             <label for="inputPassword" class="col-lg-2 control-label" id="labelInputPass"><%= i('html.label.company.password') %><!--初期パスワード --></label>
-            <div class="col-lg-3">
+            <div class="col-lg-8">
               <input type="password" class="form-control" id="inputPassword" placeholder="<%= i('html.label.company.password') %>">
             </div>
           </div>
-        </form>
-      </div>
-      <div class="row">
-        <div class="page-header position-relative">
-          <h1>
-            <%= i('html.label.company.basicinfo') %><!--基本情報 -->
-          </h1>
-        </div>
-      </div>
-      <div class="row">
-        <form class="form-horizontal" role="form">
           <div class="form-group">
             <label for="inputNameEn" class="col-lg-2 control-label"><%= i('html.label.company.name1') %><!--会社名(英語) --></label>
-            <div class="col-lg-3">
+            <div class="col-lg-8">
               <input type="text" class="form-control" id="inputNameEn" placeholder="<%= i('html.label.company.name1') %>">
             </div>
           </div>
           <div class="form-group">
             <label for="inputNameJp" class="col-lg-2 control-label"><%= i('html.label.company.name2') %><!--会社名(かな) --></label>
-            <div class="col-lg-3">
+            <div class="col-lg-8">
               <input type="text" class="form-control" id="inputNameJp" placeholder="<%= i('html.label.company.name2') %>">
             </div>
           </div>
           <div class="form-group">
             <label for="inputAddress" class="col-lg-2 control-label"><%= i('html.label.company.address') %><!--会社住所 --></label>
-            <div class="col-lg-3">
+            <div class="col-lg-8">
               <input type="text" class="form-control" id="inputAddress" placeholder="<%= i('html.label.company.address') %>">
             </div>
           </div>
           <div class="form-group">
             <label for="inputTel" class="col-lg-2 control-label"><%= i('html.label.company.tel') %><!--電話番号 --></label>
-            <div class="col-lg-3">
+            <div class="col-lg-8">
               <input type="tel" class="form-control" id="inputTel" placeholder="<%= i('html.label.company.tel') %>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label"><%= i('html.label.company.active') %><!--有効性 --></label>
-            <div class="col-lg-3">
+            <div class="col-lg-8">
               <input type="checkbox" style="vertical-align: middle" id="inputActive" checked>
             </div>
           </div>
-          <div class="form-group">
-            <div class="col-lg-10 pull-right">
-              <button class="btn btn-warning btn-lg" id="addcompany"><%= i('html.button.common.add') %><!--登録 --></button>
-            </div>
-          </div>
         </form>
+      </div>
+      <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
+        <div id="addcompany" class="col-lg-4 btn btn-warning btn-lg">
+          <%= i('html.button.common.add') %><!--登録 -->
+        </div>
       </div>
     </div>
   </div><!--/.main-content-->
