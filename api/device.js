@@ -7,8 +7,9 @@ exports.list = function(req_, res_) {
   var start = req_.query.start
     , limit = req_.query.count
     , company = req_.session.user.companyid
+    , code = req_.session.user.companycode;
 
-  device.list(start, limit, company, function(err, result) {
+  device.list(code, start, limit, company, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -19,7 +20,8 @@ exports.list = function(req_, res_) {
 
 //
 exports.countcompanyid = function(req_, res_) {
-  device.countcompanyid (req_, res_, function(err, result) {
+  var code = req_.session.user.companycode;
+  device.countcompanyid (code, req_, res_, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -37,9 +39,10 @@ exports.allow = function(req_, res_) {
 
   var uid = req_.session.user._id
     , devid = req_.body.device
-    , userid = req_.body.user;
+    , userid = req_.body.user
+    , code = req_.session.user.companycode;
 
-  device.allow (uid, devid, userid, true, function(err, result) {
+  device.allow (code, uid, devid, userid, true, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -51,9 +54,10 @@ exports.deny = function(req_, res_) {
 
   var uid = req_.session.user._id
     , devid = req_.body.device
-    , userid = req_.body.user;
+    , userid = req_.body.user
+    , code = req_.session.user.companycode;
 
-  device.allow (uid, devid, userid, false, function(err, result) {
+  device.allow (code, uid, devid, userid, false, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -78,9 +82,10 @@ exports.add = function(req_, res_) {
     , devicetype = req_.body.devicetype
     , deviceid = req_.body.deviceid
     , user = req_.session.user
-    , confirm = req_.body.confirm;
+    , confirm = req_.body.confirm
+    , code = req_.session.user.companycode;
 
-  device.add (deviceid, user, description, devicetype, confirm, function(err, result) {
+  device.add (code, deviceid, user, description, devicetype, confirm, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -95,7 +100,6 @@ exports.login = function(req_, res_) {
     , code = req_.query.code
     , devicetype = req_.query.devicetype
     , userid = req_.query.userid;
-
 
   device.create(deviceid,devicetoken, userid, code , devicetype , function(err, result) {
     if (err) {
