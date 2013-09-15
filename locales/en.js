@@ -383,5 +383,6 @@
   "===================api=================":"",
   "api.param.error":"Incorrect parameter. Please input parameter「%s」",
   "api.layout.id.error":"Not found layout.Layout ID:",
-  "api.file.name.error":"Not found file. Filename:"
+  "api.file.name.error":"Not found file. Filename:",
+  "error.company.noexist":"Company ID does not exist！"
 }

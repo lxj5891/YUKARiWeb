@@ -1,6 +1,7 @@
-var i18n    = require('i18n')
+var __    = require('i18n').__
     , errors  = lib.core.errors
     , util    = require('util')
+    , json      = lib.core.json
     , log     = lib.core.log
     , _       = require('underscore');
 
@@ -16,9 +17,9 @@ function def(code, default_msg, parent){
   parent = parent || errors.NotFound;
 
   var ChildError = function(msg_){
-    this.code = code
     msg_ = msg_ || default_msg;
     ChildError.super_.call(this, msg_, this.constructor);
+    this.code = code
   };
 
   util.inherits(ChildError, parent);
@@ -35,24 +36,30 @@ function def(code, default_msg, parent){
  * @param user
  */
 exports.render = function(req_, res_, error, title, bright, user) {
-    res_.render('error', {
-        error: error
-        , title: title ? title: '错误画面'
-        , bright: bright? bright: ""
-        , user: user? user: req_.session.user
-    });
+  res_.render('error', {
+      error: error
+      , title: title ? title: '错误画面'
+      , bright: bright? bright: ""
+      , user: user? user: req_.session.user
+  });
 }
 /**
  * 返回JSON的Response
  * @param res_
  * @param error
  */
-exports.sendJSON = function(res_, error) {
+exports.sendJSON = function(res_, error, msg) {
+  var e;
+  if (typeof error == "object") { // 实例化后的error
+    e = error;
+    if(msg) e.message = msg;
+  } else { // error定义时，需要实例化
+    e = new error(msg);
+  }
 
+  json.sendError(res_, e);
 };
 
-// 没有权限
-exports.NoPermissionError = def(10010, "没有权限");
+// 公司ID不存在
+exports.NoCompany = def(1000, __("error.company.noexist"));//""
 
-//没有下载权限
-exports.NoDownloadError = def("10013", "没有下载权限");

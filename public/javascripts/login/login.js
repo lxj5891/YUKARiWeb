@@ -48,6 +48,17 @@ function login() {
       , success: function(data, textStatus, jqXHR) {
         if (jqXHR.status != 200) {
           alert(data);
+        }
+        var error = (data && data.error) ? data.error: undefined;
+        if(error) {
+          if(error.code == 1000) {// 公司不存在
+            alert(error.message);
+            $('#path').focus();
+          } else if(error.code) {
+            alert(error.message);
+          } else {
+            alert(data);
+          }
         } else {
           window.location = "/yukari";
         }

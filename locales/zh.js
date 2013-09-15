@@ -385,5 +385,6 @@
   "===================api=================":"",
   "api.param.error":"请求参数不正确，请输入参数【%s】。",
   "api.layout.id.error":"布局不存在。布局ID：",
-  "api.file.name.error":"文件不存在。文件名："
+  "api.file.name.error":"文件不存在。文件名：",
+  "error.company.noexist":"公司ID不存在！"
 }

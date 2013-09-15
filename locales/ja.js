@@ -385,5 +385,6 @@
   "===================api=================":"",
   "api.param.error":"パラメータが正しくありません、パラメータ「%s」を指定してください。",
   "api.layout.id.error":"レイアウトが存在しません。レイアウトID：",
-  "api.file.name.error":"ファイルが存在しません。ファイル名："
+  "api.file.name.error":"ファイルが存在しません。ファイル名：",
+  "error.company.noexist":"公司ID不存在！"
 }

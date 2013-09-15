@@ -30,9 +30,9 @@ exports.guiding = function(app){
     if(path) { // 登陆到公司的DB进行Login
       ctrl_company.getByPath(path, function(err, comp){
         if(err)
-          return res.send(err.code, json.errorSchema(err.code, err.message));
+          return json.send(res, err);
         if(!comp)
-          return res.send(200, json.errorSchema(1000, "公司ID不存在。"));
+          return logicError.sendJSON(res, logicError.NoCompany);
         var companyDB = comp.code;
         user.login(req, res, logined, companyDB);
       })
