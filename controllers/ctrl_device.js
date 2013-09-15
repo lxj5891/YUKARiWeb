@@ -6,6 +6,7 @@ var sync     = require('async')
   , user     = lib.ctrl.user
   , mod_user     = lib.mod.user
   , error     = lib.core.errors
+  , passutil      = lib.core.util
 
 var EventProxy = require('eventproxy');
 var that_device = device;
@@ -15,19 +16,18 @@ var that_device = device;
  * @param limit_
  * @param callback_
  */
-exports.list = function(start_, limit_, company_, callback_) {
+exports.list = function(code, start_, limit_, company_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
     , condition = {
       valid:1
-      ,companyid:company_
     };
-  device.total(function(err, count){
+  device.total(code, function(err, count){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
-    device.list(condition, start, limit, function(err, result){
+    device.list(code, condition, start, limit, function(err, result){
       console.log(err);
       if (err) {
         return callback_(new error.InternalServer(err));
@@ -37,19 +37,80 @@ exports.list = function(start_, limit_, company_, callback_) {
   });
 };
 
-// 允许，禁用设备
-exports.allow = function(uid_, device_, user_, allow_,callback_) {
-  //判断用户状态
-
-  //不存在
-
-  device.allow(uid_, device_, user_, allow_, function(err, result){
+function updateAllow(code, session_uid, device_id, user_id, allow_, pass, callbak_) {
+//  var allow_ = 1;
+  var update_ep = EventProxy.create("update_apply", "update_user", function (update_apply, update_user) {
+    callbak_(null,"allow");
+  });
+  update_ep.fail(function (err) {
+    callbak_(err);
+  });
+  updateApplyFn(code, session_uid , device_id , user_id , allow_ , update_ep.done("update_apply"));
+  updateUserFn(code, session_uid, user_id, pass, update_ep.done("update_user"));
+};
+function updateApplyFn(code, session_uid , device_id , user_id , allow_ ,callback_){
+  device.allow(code, session_uid, device_id, user_id, allow_, function(err, result){
     if (!err) {
       // TODO: add apn push
     }
-
+    console.log(result);
     return callback_(err, result);
   });
+}
+function updateUserFn(code , session_uid , user_,pass,callback_){
+  var userinfo_ = {
+    userid : user_,
+    password : pass,
+    type : 0 ,
+    name : {name_zh : "ipad user"},
+    companycode: code,
+    "lang" : "ja" ,
+    "timezone" : "GMT+08:00"
+
+  }
+  user.addByDBName(code , session_uid ,userinfo_ ,function(err,result){
+    if(!err){
+      console.log("ipad创建用户密码为 : " + pass);
+    }else{
+      console.log("用户已存在");
+    }
+
+    callback_(null,result)
+  })
+}
+function findApply(code,deviceid,userid,callback_){
+  var query  = {deviceid: deviceid, "userinfo.userid": userid, companycode: code ,valid : 1};
+  console.log(query);
+  device.find(code, query, function (err, result) {
+    if (result && result.length > 0) {
+      callback_(err, result[0]);
+    } else {
+      callback_(null, null);
+    }
+  });
+}
+// 允许，禁用设备
+exports.allow = function(code, session_uid, device_, user_id, allow_,callback_) {
+  var pass = passutil.randomGUID4();
+
+  //判断用户状态
+  var ep = EventProxy.create("apply_ep","user_ep",function(apply_ep,user_ep){
+    updateAllow(code, session_uid, apply_ep.deviceid, user_id, allow_,pass,  function(err,result){
+      console.log("allow");
+      console.log(err);
+
+      callback_(err, result);
+    });
+  });
+  ep.fail(function(err){
+    console.log("// 允许，禁用设备  error");
+    callback_(0);
+  });
+  findApply(code,device_,user_id, ep.done("apply_ep"));
+  checkUserByUid(code, user_id, ep.done("user_ep"));
+  //不存在
+
+
 };
 
 /**
@@ -163,7 +224,7 @@ exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callb
         , editat: new Date()
         , editby: userid
       }
-      device.add(object, function(err, result){
+      device.add(code, object, function(err, result){
         console.log("device.add");
         console.log(result);
         return callback_(null, {status: status});
@@ -177,7 +238,7 @@ exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callb
         , editby: userid
       }
       // 更新
-      device.update(device_docs[0]._id, object, function(err, result){
+      device.update(code, device_docs[0]._id, object, function(err, result){
         console.log("device.update");
         console.log(result);
         return callback_(err, {status: status});
@@ -185,17 +246,17 @@ exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callb
     }
   });
   ep.fail(callback_);
-  checkDeviceId(deviceid, ep.done("device"));
-  checkUserByUid(userid, ep.done("user"));
+  checkDeviceId(code, deviceid, ep.done("device"));
+  checkUserByUid(code, userid, ep.done("user"));
   checkCompanyCode(code, ep.done("company"));
-  checkApply(deviceid, userid, code, ep.done("apply"));
+  checkApply(code, deviceid, userid, code, ep.done("apply"));
 
 };
 
-function checkApply(deviceid, userid, code, callback_) {
+function checkApply(code, deviceid, userid, code, callback_) {
   var query  = {deviceid: deviceid, "userinfo.userid": userid, companycode: code ,valid : 1};
   console.log(query);
-  device.find(query, function (err, result) {
+  device.find(code, query, function (err, result) {
     if (result && result.length > 0) {
       callback_(err, result);
     } else {
@@ -204,7 +265,8 @@ function checkApply(deviceid, userid, code, callback_) {
   });
 };
 
-function checkUserByUid(userid, callback) {
+function checkUserByUid(code, userid, callback) {
+  //TODO:
   mod_user.find({uid: userid}, function (err, result) {
     if (result && result.length > 0) {
       callback(null, result[0]);
@@ -224,8 +286,8 @@ function checkCompanyCode(code, callback) {
   });
 };
 
-function checkDeviceId(deviceid, callback) {
-  device.find({"deviceid": deviceid}, function (err, result) {
+function checkDeviceId(code, deviceid, callback) {
+  device.find(code, {"deviceid": deviceid}, function (err, result) {
     if (result && result.length > 0) {
       callback(null, result);
     } else {
@@ -237,10 +299,10 @@ function checkDeviceId(deviceid, callback) {
 /**
  * 添加设备
  */
-exports.add = function(deviceid, user, description, devicetype, confirm, callback_) {
+exports.add = function(code, deviceid, user, description, devicetype, confirm, callback_) {
 
   // check device & user exists
-  device.find({"deviceid": deviceid}, function(err, result){
+  device.find(code, {"deviceid": deviceid}, function(err, result){
 
     if (result && result.length > 0) {
 
@@ -265,7 +327,7 @@ exports.add = function(deviceid, user, description, devicetype, confirm, callbac
       console.log(d._id);
       console.log(object);
       // 更新
-      device.update(d._id, object, function(err, result){
+      device.update(code, d._id, object, function(err, result){
         console.log(err);
         return callback_(err, {status: "2"});
       });
@@ -293,7 +355,7 @@ exports.add = function(deviceid, user, description, devicetype, confirm, callbac
         , editat: new Date()
         , editby: user.uid
       }
-      device.add(object, function(err, result){
+      device.add(code, object, function(err, result){
         return callback_(err, {status: "2"});
       });
     }
@@ -302,8 +364,8 @@ exports.add = function(deviceid, user, description, devicetype, confirm, callbac
 };
 
 //
-exports.deviceTotalByComId = function(compId_, callback_) {
-  device.deviceTotalByComId(compId_, function(err, result){
+exports.deviceTotalByComId = function(code, compId_, callback_) {
+  device.deviceTotalByComId(code, compId_, function(err, result){
     if (err) {
       return callback_(new error.InternalServer(err));
     }

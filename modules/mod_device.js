@@ -29,21 +29,21 @@ var Device = new schema({
   , editby: {type: String}
 });
 
-function model() {
-  return conn().model('Device', Device);
+function model(code) {
+  return conn(code).model('Device', Device);
 }
 // 获取设备有效件数
-exports.total = function(callback_){
-  var dev = model();
+exports.total = function(code,callback_){
+  var dev = model(code);
   dev.count({valid:1}).exec(function(err, count){
     callback_(err, count);
   });
 };
 
 // 获取设备情报一览
-exports.list = function(condition_, start_, limit_, callback_){
+exports.list = function(code,condition_, start_, limit_, callback_){
 
-  var dev = model();
+  var dev = model(code);
 
   dev.find(condition_)
     .skip(start_ || 0)
@@ -55,27 +55,29 @@ exports.list = function(condition_, start_, limit_, callback_){
 };
 
 // 添加设备情报
-exports.add = function(dev_, callback_){
+exports.add = function(code,dev_, callback_){
 
-  var dev = model();
-
+  var dev = model(code);
+  console.log(code);
   new dev(dev_).save(function(err, result){
+    console.log("new dev(dev_).save(function(err, result){");
+    console.log(result);
     callback_(err, result);
   });
 };
 
-exports.update = function(deviceid, dev_, callback_){
+exports.update = function(code,deviceid, dev_, callback_){
 
-  var dev = model();
+  var dev = model(code);
 
   dev.findByIdAndUpdate(deviceid, dev_, function(err, result){
     callback_(err, result);
   });
 };
 
-exports.allow = function(uid_, device_, user_, allow_, callback_){
+exports.allow = function(code,uid_, device_, user_, allow_, callback_){
 
-  var dev = model();
+  var dev = model(code);
 
   // 设备ID是唯一，所以不用加compid
   dev.update({"deviceid": device_, "userinfo.userid": user_}, {
@@ -90,9 +92,9 @@ exports.allow = function(uid_, device_, user_, allow_, callback_){
 
 
 // 检索设备
-exports.find = function(condition_, callback_){
+exports.find = function(code,condition_, callback_){
 
-  var dev = model();
+  var dev = model(code);
 
   dev.find(condition_).exec(function(err, result){
     callback_(err, result);
@@ -100,8 +102,8 @@ exports.find = function(condition_, callback_){
 };
 
 //
-exports.deviceTotalByComId = function(comid_, callback_) {
-  var dev = model();
+exports.deviceTotalByComId = function(code,comid_, callback_) {
+  var dev = model(code);
   dev.count({companyid:comid_,valid:1}).exec(function(err, count){
     console.log(count);
     callback_(err, count);
