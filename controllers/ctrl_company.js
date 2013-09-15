@@ -29,7 +29,6 @@ exports.list = function(start_, limit_, keyword ,callback_) {
             return callback_(new error.InternalServer(err));
         }
         company.list(condition, start, limit, function(err, result){
-            console.log(err);
             if (err) {
                 return callback_(new error.InternalServer(err));
             }
@@ -58,12 +57,6 @@ exports.companyListWithDevice = function(start_, limit_, callback){
   });
 }
 
-/**
- * 获取指定公司
- * @param compid
- * @param callback_
- * @returns {*}
- */
 exports.searchOne = function( compid, callback_) {
     company.searchOne(compid, function(err, result){
         if (err) {
@@ -85,13 +78,6 @@ exports.getByPath = function( path, callback_) {
 
 };
 
-/**
- * 添加公司
- * @param uid_
- * @param data_
- * @param callback_
- * @returns {*}
- */
 exports.add = function(uid_, data_, callback_) {
 
   try {
@@ -155,19 +141,6 @@ exports.add = function(uid_, data_, callback_) {
 
   sync.waterfall([
     function(callback) {
-      // 客户分db管理后不再需要check uid，admin用户肯定是第一个用户
-//      // 确认用户id重复
-//      user.findUserList({"uid": user_.userid}, function(err, result) {
-//        if (err) {
-//         return  callback(new error.InternalServer(__("js.ctr.common.system.error")));
-//        }
-//        if (result.length > 0) {
-//          return callback(new error.BadRequest(__("js.ctr.check.user")));
-//        } else {
-//          return callback(err);
-//        }
-//      });
-
       // check path
       company.find({path:comp_.path}, function(err, result){
         if (err) {
@@ -267,35 +240,10 @@ exports.update = function(uid_, data_, callback_) {
   });
 
 };
-exports.remove= function(uid_, comp_, callback_) {
-  comp_.editat = new Date();
-  comp_.editby = uid_;
-  comp_.valid = 0;
-
-  sync.waterfall([
-    // 更新公司
-    function(callback) {
-      company.update(comp_.id,comp_, function(err, result) {
-        callback(err, result);
-      });
-    },
-
-    // 更新用户
-    function(result,callback) {
-      user.remove(uid_, result._id, function(err,rtn){
-        callback(err, rtn);
-      });
-    }
-
-  ], function(err, result) {
-    callback_(err, result);
-  });
-
-};
-
 exports.active= function(uid_, comp_, callback_) {
   comp_.editat = new Date();
   comp_.editby = uid_;
+  var dbName = comp_.code;
 
   sync.waterfall([
     // 更新公司
@@ -307,7 +255,7 @@ exports.active= function(uid_, comp_, callback_) {
 
     // 更新用户
     function(result,callback) {
-      user.active(uid_, result._id, comp_.active, function(err,rtn){
+      user.activeByDBName(dbName,uid_, result._id, comp_.active, function(err,rtn){
         callback(err, rtn);
       });
     }

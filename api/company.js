@@ -35,7 +35,7 @@ exports.getByPath = function(req_, res_) {
 
   var getPath = req_.query.getPath;
 
-  company.getPath(compid, function(err, result) {
+  company.getByPath(getPath, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -68,19 +68,6 @@ exports.update = function(req_, res_) {
             return res_.send(json.dataSchema(result));
         }
     });
-};
-// 删除指定公司(逻辑删除)
-exports.remove = function(req_, res_) {
-
-  var uid = req_.session.user._id;
-
-  company.remove(uid, req_.body, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
-  });
 };
 // 无效指定公司
 exports.active = function(req_, res_) {

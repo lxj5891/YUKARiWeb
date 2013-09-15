@@ -134,9 +134,6 @@ exports.guiding = function (app) {
     app.get('/admin/company/edit/:id', function (req, res) {
         res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_update.title"), user: req.session.user,compId:req.params.id});
     });
-    app.get('/admin/company/remove/:id', function (req, res) {
-      res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
-    });
     app.get('/admin/company', function (req, res) {
         res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
     });
