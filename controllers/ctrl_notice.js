@@ -7,34 +7,32 @@ var _         = require('underscore')
   , error     = lib.core.errors
   , util      = lib.core.util;
 
-var EventProxy = require('eventproxy');
-
-exports.getNoticeById = function(notice_id,callback){
-  notice.findOne(notice_id,function(err,docs){
-    callback(err,docs);
+exports.getNoticeById = function(code_, notice_id, callback){
+  notice.findOne(code_, notice_id, function(err,docs){
+    callback(err, docs);
   });
 };
 
 // get list
-exports.list = function(keyword_,company_, start_, limit_, callback_) {
+exports.list = function(code_, keyword_,company_, start_, limit_, callback_) {
 
   var start = start_ || 0
-      , limit = limit_ || 20
-      , condition = {valid: 1};
+    , limit = limit_ || 20
+    , condition = {valid: 1};
 
   if(keyword_){
     keyword_ = util.quoteRegExp(keyword_);
     condition.title = new RegExp(keyword_.toLowerCase(),"i");
   }
 
-  notice.total(condition, function(err, count){
+  notice.total(code_, condition, function(err, count){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
 
-    notice.list(condition, start, limit, function(err, result){
+    notice.list(code_, condition, start, limit, function(err, result){
       if (err) {
-          return callback_(new error.InternalServer(err));
+        return callback_(new error.InternalServer(err));
       }
 
       var subTask = function(item, subCB){
@@ -42,12 +40,12 @@ exports.list = function(keyword_,company_, start_, limit_, callback_) {
         async.parallel({
           user: function (callback2) {
 
-            user.listByUids(item.touser, 0, 20, function(err, u_result) {
+            user.listByUids(code_, item.touser, 0, 20, function(err, u_result) {
               callback2(err, u_result);
             });
           },
           group: function (callback2) {
-            group.listByGids(item.togroup, 0, 20, function(err, g_result) {
+            group.listByGids(code_, item.togroup, 0, 20, function(err, g_result) {
               callback2(err, g_result);
             });
           }
@@ -59,7 +57,7 @@ exports.list = function(keyword_,company_, start_, limit_, callback_) {
       };
 
       async.forEach(result, subTask, function(err_){
-        user.appendUser(result, "createby", function(err){
+        user.appendUser(code_, result, "createby", function(err){
           return callback_(err, {items:result, totalItems: count});
         });
       });
@@ -67,7 +65,7 @@ exports.list = function(keyword_,company_, start_, limit_, callback_) {
   });
 };
 
-exports.add = function(uid_, notice_, callback_) {
+exports.add = function(code_, uid_, notice_, callback_) {
 
   var obj = {
       valid: 1
@@ -79,18 +77,16 @@ exports.add = function(uid_, notice_, callback_) {
     , togroup: notice_.group ? notice_.group.split(",") : undefined
   }
 
-  notice.add(obj, function(err, result){
+  notice.add(code_, obj, function(err, result){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
 
     // send apn notice
-    result.touser
     _.each(result.touser, function(u){
-      console.log(u);
-      console.log(result.title)
       mq.pushApnMessage({
-        target: u
+          code: coee_
+        , target: u
         , body: result.title
       });
     });
