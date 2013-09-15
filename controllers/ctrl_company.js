@@ -77,6 +77,16 @@ exports.getByPath = function( path, callback_) {
   });
 
 };
+// 通过公司Code获取指定公司
+exports.getByCode = function( code, callback_) {
+  company.getByCode(code, function(err, result){
+    if (err) {
+      return callback_(new error.InternalServer(err));
+    }
+    return callback_(err, result);
+  });
+
+};
 
 exports.add = function(uid_, data_, callback_) {
 
@@ -255,7 +265,7 @@ exports.active= function(uid_, comp_, callback_) {
 
     // 更新用户
     function(result,callback) {
-      user.activeByDBName(dbName,uid_, result._id, comp_.active, function(err,rtn){
+      user.activeByDBName(dbName,uid_, comp_.active, function(err,rtn){
         callback(err, rtn);
       });
     }
