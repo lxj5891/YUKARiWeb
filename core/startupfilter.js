@@ -52,7 +52,7 @@ function create_admin() {
 	, updateby: userid
 	};
 
-	user.create(info, function(err, result){
+	user.create(undefined, info, function(err, result){
 	  if (err) {
 	    return new callback_(error.InternalServer(__("user.error.savedError")));
 	  }
