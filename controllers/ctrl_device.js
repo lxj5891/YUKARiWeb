@@ -39,6 +39,10 @@ exports.list = function(start_, limit_, company_, callback_) {
 
 // 允许，禁用设备
 exports.allow = function(uid_, device_, user_, allow_,callback_) {
+  //判断用户状态
+
+  //不存在
+
   device.allow(uid_, device_, user_, allow_, function(err, result){
     if (!err) {
       // TODO: add apn push
@@ -50,35 +54,103 @@ exports.allow = function(uid_, device_, user_, allow_,callback_) {
 
 /**
  * 添加设备 check 用户
+ *
+ * 状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
+   申请成功	                   √	       √	           √	      √	       √	       √	       √	     21		     ×
+   新设备&&已存在用户申请	     √	       ×	           -	      √	       〇	       √	       ×	     31		     ×
+   新设备&&用户不存在 申请	     √	       ×	           -	      ×	       〇	       -	       ×	     32		     ×
+   已有设备&&用户不存在 申请	   √	       √	           √	      ×	       -	       -	       ×	     33		     ×
+   申请中	                   √	       √	           〇	      ×	       √	       -	       ×	     41		     ×
+   申请中	                   √	       √	           〇	      √	       √	       -	       ×	     42		     ×
+   设备禁用申请失败            √ 	       √	           ×	      -	       -	       -	       ×	     51		     ×
+   设备许可申请存在用户申请失败  √ 	       √	           √	      √	       ×	       -	       ×	     52		     ×
+   设备许可申请不存在用户申请失败√ 	       √	           √	      √	       ×	       -	       ×	     53		     ×
+   公司不存在错误	             ×	       -	           -	      -	       -	       -	       ×	     61		     √
+   设备不许可错误	             √	       √	           ×	      -	       -	       -	       ×	     62		     √
+   用户失效	                   √	       √	           √	      √	       √	       √	       ×	     63		     ×
  */
 
-exports.create = function (deviceid, userid, code, devicetype ,callback_) {
+exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callback_) {
 
   var ep = EventProxy.create("device", "user", "company","apply", function (device_docs, user_docs, company_docs,apply_docs) {
-    //check apply
+
+    var status = "61";
     var user_status = "2";
-    if(apply_docs){
-      console.log("已存在");
-      console.log(apply_docs);
-      console.log(apply_docs._id);
-      return callback_(null, {status: "0",err:"has apply",dddid:apply_docs[0]._id});
-    }
-    //公司不存在
+    //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
+    //公司不存在错误	             ×	       -	           -	      -	       -	       -	       ×	     61		     √
     if(!company_docs){
-      return callback_(null, {status: "0",err:"公司不存在"});
+      status = "61";
+      return callback_(null, {status: status, debug:"公司不存在错误"});
     }
+    //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
+    //设备不许可错误	             √	       √	           ×	      -	       -	       -	       ×	     62		     √
+    if(device_docs && device_docs.length>0 && device_docs[0].devstatus == "0"){
+      status = "62";
+      return callback_(null, {status: status, debug:"设备不许可错误"});
+    }
+    //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
+    //用户失效	                   √	       √	           √	      √	       √	       √	       ×	     63		     ×
+    if(user_docs && user_docs.valid == 0){
+      status = "63";
+      return callback_(null, {status: status, debug:"用户失效"});
+    }
+
+    //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
+    //申请中	                   √	       √	           〇	      √	       √	       -	       ×	     42		     ×
+    //申请成功	                 √	       √	           √	      √	       √	       √	       √	     21		     ×
+    //设备禁用申请失败           √ 	       √	           ×	      -	       -	       -	       ×	     51		     ×
+    //设备许可申请存在用户申请失败 √ 	       √	           √	      √	       ×	       -	       ×	     52		     ×
+    //许可申请不存在用户申请失败   √ 	       √	           √	      √	       ×	       -	       ×	     53		     ×
+    if (apply_docs&&apply_docs.length > 0) {
+      console.log(apply_docs);
+      status = "42";
+      for (var i in apply_docs[0].userinfo) {
+        var _userinfo = apply_docs[0].userinfo[i];
+
+        if (_userinfo.userid == userid && _userinfo.status == "1" ) {
+          status = "21";
+          return callback_(null, {status: status, debug: "申请成功"});
+        }
+        if (_userinfo.userid == userid && _userinfo.status == "0" ) {
+          if(!user_docs){
+            status = "52";
+          } else {
+            status = "53";
+          }
+          return callback_(null, {status: status, debug: "设备禁用申请失败"});
+        }
+        if (_userinfo.userid == userid && (_userinfo.status == "2" || _userinfo.status == "3" )) {
+          return callback_(null, {status: status, debug: "申请中"});
+        }
+      }
+    }
+    //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
+    //申请成功	                   √	       √	           √	      √	       √	       √	       √	     21		     ×
+
+    //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
+    //新设备&&已存在用户申请	     √	       ×	           -	      √	       ×	       √	       ×	     31		     ×
+    //新设备&&用户不存在 申请	   √	       ×	           -	      ×	       ×	       -	       ×	     32		     ×
+    //已有设备&&用户不存在 申请	   √	       √	           √	      ×	       -	       -	       ×	     33		     ×
+
     //用户不存在
-    if(!user_docs){
+    if (!user_docs) {
+      status = "32";
       user_status = "3";
+    } else {
+      status = "31";
     }
-    console.log(device_docs)
-    console.log(user_docs);
-    console.log(company_docs);
-    console.log(apply_docs);
+//    console.log(device_docs)
+//    console.log(user_docs);
+//    console.log(company_docs);
+//    console.log(apply_docs);
+
+
     if(!device_docs){
       //添加 新申请
       var object = {
-        "companycode" : code
+          "companycode" : company_docs.code
+        , "devicetoken" : devicetoken
+        , "companyid": company_docs._id
         , "deviceid": deviceid
         , "deviceType": devicetype
         , "devstatus" : 1
@@ -94,22 +166,23 @@ exports.create = function (deviceid, userid, code, devicetype ,callback_) {
       device.add(object, function(err, result){
         console.log("device.add");
         console.log(result);
-        return callback_(null, {status: user_status});
+        return callback_(null, {status: status});
       });
     } else {
       // 否则给设备添加一个用户
+      status = "33";
       var object = {
         $push: {"userinfo": {"userid": userid, "status": user_status}}
         , editat: new Date()
         , editby: userid
       }
       // 更新
-      device.update(device_docs._id, object, function(err, result){
-        console.log(err);
-        return callback_(err, {status: user_status});
+      device.update(device_docs[0]._id, object, function(err, result){
+        console.log("device.update");
+        console.log(result);
+        return callback_(err, {status: status});
       });
     }
-
   });
   ep.fail(callback_);
   checkDeviceId(deviceid, ep.done("device"));

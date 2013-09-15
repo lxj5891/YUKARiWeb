@@ -52,10 +52,21 @@ exports.find = function(query,callback_){
     callback_(err, result);
   });
 };
-// 获取指定条件的一个公司
+// 通过公司ID获取一个公司
 exports.getByPath = function(path,callback_){
   var condition = {
     path: path
+  };
+
+  var comp = model();
+  comp.findOne(condition,function(err,result){
+    callback_(err, result);
+  });
+};
+// 通过公司Code获取一个公司
+exports.getByCode = function(code,callback_){
+  var condition = {
+    code: code
   };
 
   var comp = model();
