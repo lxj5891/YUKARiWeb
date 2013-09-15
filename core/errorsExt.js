@@ -57,9 +57,13 @@ exports.sendJSON = function(res_, error, msg) {
     e = new error(msg);
   }
 
-  json.sendError(res_, e);
+  // 自定义Error的code大于1000, 1000以下是系统的错误，如404,500
+  if(e.code >= 1000)
+    json.sendError(res_, e);
+  else
+    json.send(res_, e);
 };
 
 // 公司ID不存在
-exports.NoCompany = def(1000, __("error.company.noexist"));//""
+exports.NoCompany = def(1000, __("error.company.noexist"));
 

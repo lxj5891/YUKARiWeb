@@ -15,7 +15,7 @@ var user        = lib.api.user
   , tag         = require("../api/tag")
   , notice      = require("../api/notice")
   , device      = require("../api/device")
-  , logicError  = require("../core/logicerrors");
+  , errorsExt  = require("../core/errorsExt");
 
 exports.guiding = function(app){
 
@@ -30,9 +30,9 @@ exports.guiding = function(app){
     if(path) { // 登陆到公司的DB进行Login
       ctrl_company.getByPath(path, function(err, comp){
         if(err)
-          return json.send(res, err);
+          return errorsExt.sendJSON(res, err);
         if(!comp)
-          return logicError.sendJSON(res, logicError.NoCompany);
+          return errorsExt.sendJSON(res, errorsExt.NoCompany);
         var companyDB = comp.code;
         user.login(req, res, logined, companyDB);
       })
