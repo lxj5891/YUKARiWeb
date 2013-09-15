@@ -323,7 +323,7 @@ exports.remove = function (code, uid_, id_, callback_) {
 };
 
 function checkLayoutUse(code, id_,callback){
-  layout.count({"layout.page.tile.syntheticId":id_,"valid":1},function(err,count){
+  layout.count(code, {"layout.page.tile.syntheticId":id_,"valid":1},function(err,count){
     callback(null,count);
   });
 }
