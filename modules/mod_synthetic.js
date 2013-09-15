@@ -4,7 +4,7 @@ var mongo = require('mongoose')
   , schema = mongo.Schema;
 
 /**
- * 素材集合
+ * 元素
  * @type {schema}
  */
 
@@ -58,16 +58,16 @@ var Synthetic = new schema({
   createby: {type: String}
 });
 
-function model() {
-  return conn().model('Synthetic', Synthetic);
+function model(code) {
+  return conn(code).model('Synthetic', Synthetic);
 }
 exports.count = function (query, callback) {
   model().count(query, callback);
 }
 // 获取一览
-exports.list = function (condition_, start_, limit_, callback_) {
+exports.list = function (code, condition_, start_, limit_, callback_) {
 
-  var synthetic = model();
+  var synthetic = model(code);
 
   synthetic.find(condition_)
     .skip(start_ || 0)
@@ -79,9 +79,9 @@ exports.list = function (condition_, start_, limit_, callback_) {
 };
 
 // 获取件数
-exports.total = function (condition, callback_) {
+exports.total = function (code, condition, callback_) {
 
-  var synthetic = model();
+  var synthetic = model(code);
 
   synthetic.count(condition).exec(function (err, count) {
     callback_(err, count);
@@ -89,9 +89,9 @@ exports.total = function (condition, callback_) {
 };
 
 // 逻辑删除
-exports.remove = function (uid_, id_, callback_) {
+exports.remove = function (code, uid_, id_, callback_) {
 
-  var synthetic = model();
+  var synthetic = model(code);
 
   synthetic.findByIdAndUpdate(id_, {valid: 0, editat: new Date, editby: uid_}, function (err, result) {
     callback_(err, result);
@@ -99,9 +99,9 @@ exports.remove = function (uid_, id_, callback_) {
 };
 
 // 复制一条数据
-exports.copy = function (uid_, id_, callback_) {
+exports.copy = function (code, uid_, id_, callback_) {
 
-  var synthetic = model();
+  var synthetic = model(code);
 
   synthetic.findById(id_, function (err, result) {
 
@@ -119,16 +119,16 @@ exports.copy = function (uid_, id_, callback_) {
   });
 };
 
-exports.saveAndNew = function (synthetic_, callback_) {
+exports.saveAndNew = function (code, synthetic_, callback_) {
 
-  var synthetic = model();
+  var synthetic = model(code);
   new synthetic(synthetic_).save(function (err, result) {
 
     callback_(err, result);
   });
 };
-function createSynthetic(type,user, callback_) {
-  var synthetic = model();
+function createSynthetic(code, type,user, callback_) {
+  var synthetic = model(code);
   var obj = {
     type: type, company: user.companyid, page: 0, editat: new Date(), editby: user._id, createat: new Date(), createby: user._id
   }
@@ -136,8 +136,8 @@ function createSynthetic(type,user, callback_) {
     callback_(err, result);
   });
 };
-function updateSynthetic(id,synthetic_,uid,callback_){
-  var synthetic = model();
+function updateSynthetic(code, id,synthetic_,uid,callback_){
+  var synthetic = model(code);
   synthetic.findOne({_id: id}, function (err, docs) {
     if (synthetic_.cover)
       docs.cover = synthetic_.cover;
@@ -166,20 +166,20 @@ function updateSynthetic(id,synthetic_,uid,callback_){
   });
 
 };
-exports.update = function (id, synthetic_, user, callback_) {
+exports.update = function (code, id, synthetic_, user, callback_) {
 
   if(id.length<20){
     var type = id;
-    createSynthetic(type,user,function(err,docs){
-      updateSynthetic(docs._id, synthetic_, user._id, callback_);
+    createSynthetic(code, type,user,function(err,docs){
+      updateSynthetic(code, docs._id, synthetic_, user._id, callback_);
     });
   } else {
-    updateSynthetic(id, synthetic_, user._id, callback_);
+    updateSynthetic(code, id, synthetic_, user._id, callback_);
   }
 };
 
-exports.findOne = function (id, callback) {
-  var synthetic = model();
+exports.findOne = function (code, id, callback) {
+  var synthetic = model(code);
   synthetic.findOne({_id: id}, function (err, docs) {
     callback(err, docs);
   });
