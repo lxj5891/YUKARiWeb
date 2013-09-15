@@ -102,15 +102,10 @@
   <$ } $>
   <td>
     <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>
-    <$ if (type == 1) {$>
-        <a href="/admin/company/remove/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
-        <$ if (active == 1) {$>
-          <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.inactive') %><!--無効 --></a>
-        <$ } else {$>
-          <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.active') %><!--有効 --></a>
-        <$ } $>
+    <$ if (active == 1) {$>
+      <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} code={{code}} operation="active"><%= i('html.button.common.inactive') %><!--無効 --></a>
     <$ } else {$>
-      <a href="/admin/company/remove/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
+      <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} code={{code}} operation="active"><%= i('html.button.common.active') %><!--有効 --></a>
     <$ } $>
   </td>
 </tr>

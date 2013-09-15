@@ -122,10 +122,6 @@ exports.guiding = function(app){
   app.put('/company/update.json', function(req, res){
     company.update(req, res);
   });
-  // 删除指定公司
-  app.put('/company/remove.json', function(req, res){
-    company.remove(req, res);
-  });
   // 无效化公司
   app.put('/company/active.json', function(req, res){
     company.active(req, res);

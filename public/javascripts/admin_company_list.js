@@ -31,6 +31,7 @@ function render(start, count, keyword) {
         , "mail": row.mail
         , "createat": smart.date(row.createat)
         , "active": row.active
+        , "code" : row.code
       }));
     });
     if(result.items.length == 0)
@@ -70,25 +71,12 @@ function events() {
     if (operation == "edit") {
       window.location = "/admin/company/edit/" + row._id;
     }
-    //删除按钮
-    if (operation == "delete") {
-      var company = {
-        id : row._id
-      };
-      smart.doput("/company/remove.json",company, function(err, result){
-        if (err) {
-          Alertify.log.error(i18n["js.common.delete.error"]);
-        } else {
-          render(0, 15);
-        }
-      });
-    }
-
     // 无效按钮
     if (operation == "active") {
       var company = {
           id: row._id,
-          active: (row.active == 1) ? 0:1
+          active: (row.active == 1) ? 0:1,
+          code : row.code
       };
       smart.doput("/company/active.json",company, function(err, result){
         if (err) {
