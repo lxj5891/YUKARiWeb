@@ -21,6 +21,13 @@ function login() {
     , path = $('#path').val()
     , csrftoken = $('#_csrf').val();
 
+  if (client.browser.ie >=9 || client.browser.chrome !=0 || client.browser.safari !=0) {
+
+  } else {
+    Alertify.log.info("browser: chrome,safari,IE9,IE10");
+    return;
+  }
+
   // 必须输入，否则摇一摇
   if (username.length <= 0 || password.length <= 0) {
 
@@ -46,7 +53,7 @@ function login() {
         }
       }
       , error: function(jqXHR, textStatus, errorThrown) {
-        alert(jqXHR.responseText);
+        Alertify.log.error(jqXHR.responseJSON.error.message);
       }
     });
   }
