@@ -31,8 +31,6 @@ var args = {
 exports.joinImage = function(message) {
 
   args.queue = mq.queue_join;
-  console.log(args);
-  console.log(message);
   var connection = amqp.createConnection(args);
 
   connection.on("ready", function(){
@@ -53,8 +51,6 @@ exports.joinImage = function(message) {
 exports.pushApnMessage = function(message){
 
   args.queue = mq.queue_apn;
-  console.log(args);
-  console.log(message);
   var connection = amqp.createConnection(args);
 
   connection.on("ready", function(){
@@ -80,8 +76,6 @@ exports.pushApnMessage = function(message){
 exports.thumb = function(message){
 
   args.queue = mq.queue_thumb;
-  console.log(args);
-  console.log(message);
   var connection = amqp.createConnection(args);
 
   connection.on("ready", function(){
