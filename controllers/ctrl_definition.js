@@ -7,7 +7,7 @@ var async     = require('async')
   , cutil  = require('../core/contentutil')
   , errors  = lib.core.errors;
 
-exports.get = function(company_, uid_, target_, isPublish, callback_) {
+exports.get = function(code, uid_, target_, isPublish, callback_) {
   var data = {};
 
   var tasks = [];
