@@ -255,7 +255,7 @@ exports.active= function(uid_, comp_, callback_) {
 
     // 更新用户
     function(result,callback) {
-      user.activeByDBName(dbName,uid_, result._id, comp_.active, function(err,rtn){
+      user.activeByDBName(dbName,uid_, comp_.active, function(err,rtn){
         callback(err, rtn);
       });
     }

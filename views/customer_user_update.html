@@ -24,11 +24,13 @@
           <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
           <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
         </li>
+        <% if (user.type != 0) {%>
         <li style="width:90px">
           <i class="icon-male icon-large"></i>
           <a href="/customer/user"><%= i('html.label.user') %><!-- ユーザ一覧--></a>
           <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
         </li>
+        <% } %>
         <li class="active" style="width:86px"><%= title %></li>
       </ul><!--.breadcrumb-->
     </div>

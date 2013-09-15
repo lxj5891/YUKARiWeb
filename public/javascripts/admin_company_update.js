@@ -71,6 +71,7 @@ function getUserData() {
     , password :$("#inputPassword").val()
     , name : {name_zh : $("#inputNameJp").val()}
     , timezone :$("#timezone").val()
+    , lang :"ja"
   }
   return user;
 }
