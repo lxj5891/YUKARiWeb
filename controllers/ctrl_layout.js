@@ -256,11 +256,11 @@ exports.list = function(code, keyword_,start_, limit_, uid, status, callback_) {
       }
 
       if (status == 21) {
-        user.appendUser(result1, "confirmby", function(err, result){
+        user.appendUser(code, result1, "confirmby", function(err, result){
           return callback_(err, {totalItems: count, items:result1});
         });
       } else {
-        user.appendUser(result1, "editby", function(err, result){
+        user.appendUser(code, result1, "editby", function(err, result){
           return callback_(err, {totalItems: count, items:result1});
         });
       }

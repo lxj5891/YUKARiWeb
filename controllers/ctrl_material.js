@@ -53,7 +53,7 @@ exports.list = function(code_, contentType_, keyword_, tags_, start_, limit_, ca
       }
 
       // 添加用户信息
-      user.appendUser(result, "editby", function(err, result){
+      user.appendUser(code_, result, "editby", function(err, result){
         return callback_(err, {totalItems: count, items:result});
       });
     });
@@ -143,7 +143,7 @@ exports.updatefile = function(code_, uid_, fid_, file_, callback_) {
       mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
 
       // add user info
-      user.appendUser([info], "editby", function(err, result){
+      user.appendUser(code_, [info], "editby", function(err, result){
         return callback_(err, result[0]);
       });
     });

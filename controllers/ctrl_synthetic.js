@@ -214,7 +214,7 @@ exports.list = function (code, keyword_,type,company_, start_, limit_, callback_
       }
       appendCoverImage(code, result, function (err, synthetic_list) {
         // 添加用户信息
-        user.appendUser(synthetic_list, "editby", function (err, result) {
+        user.appendUser(code, synthetic_list, "editby", function (err, result) {
           return callback_(err, {totalItems: count, items: result});
         });
       });
