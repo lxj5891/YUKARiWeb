@@ -5,26 +5,53 @@ var user        = lib.api.user
   , util        = lib.core.util
   , file        = lib.api.dbfile
   , apn         = lib.api.apn
+  , json        = lib.core.json
   , material    = require("../api/material")
   , synthetic   = require("../api/synthetic")
   , layout      = require("../api/layout")
   , company     = require("../api/company")
+  , ctrl_company     = require("../controllers/ctrl_company")
   , definition  = require("../api/definition")
   , tag         = require("../api/tag")
   , notice      = require("../api/notice")
-  , device      = require("../api/device");
+  , device      = require("../api/device")
+  , errorsExt  = require("../core/errorsExt");
 
 exports.guiding = function(app){
 
   // 登陆
   app.get('/simplelogin', function (req, res) {
-
     var logined = function() {
       if (req.session.user.type == 1) // 重新设定管理员画面
         req.query.home = "/admin";
     };
 
-    user.login(req, res, logined);
+    var path = req.query.path; // 公司ID, Web登陆用
+    var code = req.query.code; // 公司Code，iPad登陆用
+    // 登陆到公司的DB进行Login
+    if(path) {
+      ctrl_company.getByPath(path, function(err, comp){
+        if(err)
+          return errorsExt.sendJSON(res, err);
+        if(!comp)
+          return errorsExt.sendJSON(res, errorsExt.NoCompanyID);
+        var companyDB = comp.code;
+        user.login(req, res, logined, companyDB);
+      })
+    // iPad登陆
+    } else if(code) {
+      ctrl_company.getByCode(code, function(err, comp){
+        if(err)
+          return errorsExt.sendJSON(res, err);
+        if(!comp)
+          return errorsExt.sendJSON(res, errorsExt.NoCompanyCode);
+        var companyDB = comp.code;
+        user.login(req, res, logined, companyDB);
+      })
+    // 登陆主DB进行Login
+    } else {
+      user.login(req, res, logined);
+    }
   });
 
   // 注销
@@ -94,10 +121,6 @@ exports.guiding = function(app){
   // 更新指定公司
   app.put('/company/update.json', function(req, res){
     company.update(req, res);
-  });
-  // 删除指定公司
-  app.put('/company/remove.json', function(req, res){
-    company.remove(req, res);
   });
   // 无效化公司
   app.put('/company/active.json', function(req, res){

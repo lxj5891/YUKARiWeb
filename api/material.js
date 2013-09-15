@@ -14,15 +14,15 @@ var async           = require('async')
  */
 exports.list = function(req_, res_) {
 
-  var company = req_.session.user.companyid // 企业ID
+  var code = req_.session.user.companycode
     , keyword = req_.query.keyword          // 检索用关键字
     , tags = req_.query.tags                // 选中的tag
     , start = req_.query.start
-    , limit = req_.query.count;
-  var contentType = req_.query.contentType;
+    , limit = req_.query.count
+    , contentType = req_.query.contentType;
 
 
-  material.list(contentType,company, keyword, tags, start, limit, function(err, result) {
+  material.list(code, contentType, keyword, tags, start, limit, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -35,7 +35,7 @@ exports.list = function(req_, res_) {
 exports.add = function(req_, res_) {
 
   var uid = req_.session.user._id
-    , company = req_.session.user.companyid;
+    , code = req_.session.user.companycode;
 
   // Get file list from the request
   var files = [];
@@ -46,7 +46,7 @@ exports.add = function(req_, res_) {
   }
 
   // Save to GridFS and tables
-  material.add(company, uid, files, function(err, result){
+  material.add(code, uid, files, function(err, result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -60,9 +60,9 @@ exports.updatefile = function(req_, res_) {
 
   var uid = req_.session.user._id
     , fid = req_.body.fid
-    , company = req_.session.user.companyid;
+    , code = req_.session.user.companycode;
 
-  material.updatefile(company, uid, fid, req_.files.files, function(err, result){
+  material.updatefile(code, uid, fid, req_.files.files, function(err, result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -77,13 +77,13 @@ exports.updatetag = function(req_, res_) {
   var uid = req_.session.user._id
     , fid = req_.body.fid
     , tags = req_.body.tags.split(",")
-    , company = req_.session.user.companyid;
+    , code = req_.session.user.companycode;
 
   var object = {
     "tags": tags
   }
 
-  material.updatetag(company, uid, fid, object, function(err, result){
+  material.updatetag(code, uid, fid, object, function(err, result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -98,7 +98,7 @@ exports.download = function(req_, res_, isPublish) {
   var uid = req_.session.user._id
     , target = req_.query.target // temp
     , file_name = req_.query.file // temp
-    , company = req_.session.user.companyid;
+    , code = req_.session.user.companycode;
 
     if(target == null) {
       var err = new errors.BadRequest(__("api.param.error","target"));
@@ -205,7 +205,7 @@ exports.download = function(req_, res_, isPublish) {
         return res_.send(err.code, json.errorSchema(err.code, err.message));
       }
 
-      dbfile.download(file_id, function(err, doc, info){
+      dbfile.download(code, file_id, function(err, doc, info){
         if (err) {
           return res_.send(err.code, json.errorSchema(err.code, err.message));
         } else {
@@ -218,7 +218,7 @@ exports.download = function(req_, res_, isPublish) {
     }
 
     if(isPublish) { // 公开Layout的取得
-      layout_publish.get({company: company, _id:target}, function (err, result) {
+      layout_publish.get({_id: target}, function (err, result) {
         if (err) {
           var err = new errors.InternalServer(__("api.file.name.error") + file_name);
           return res_.send(err.code, json.errorSchema(err.code, err.message));
@@ -226,7 +226,7 @@ exports.download = function(req_, res_, isPublish) {
         getLayout(err, (result && result.active) ? result.active : null);
       });
     } else { // 非公开Layout的取得
-      ctl_layout.get(company, uid, target, function(err, layout) {
+      ctl_layout.get(code, uid, target, function(err, layout) {
         getLayout(err, layout);
       });
     }
@@ -284,9 +284,9 @@ exports.remove = function(req_, res_) {
 
   var uid = req_.session.user._id
     , fid = req_.body.fid
-    , company = req_.session.user.companyid;
+    , code = req_.session.user.companycode;
 
-  material.remove(company, uid, fid, function(err, result){
+  material.remove(code, uid, fid, function(err, result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {

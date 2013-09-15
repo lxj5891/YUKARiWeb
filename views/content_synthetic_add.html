@@ -81,17 +81,10 @@
         <div class="pull-left">
           <h4><%= i('html.label.synthetic.sheetadd') %><!-- カバー定義--></h4>
         </div>
-<!--
-        <div class="pull-right" style="padding-bottom: 5px">
-          &lt;!&ndash; TODO ysl&ndash;&gt;
-          <a data-toggle="modal"  href="#pickThumbPic" class="btn btn-default" id="coverimageAdd"><i class="icon-plus">&nbsp;</i>画像選択(仮)</a>
-          <a data-toggle="modal" href="#"  class="btn btn-default" id="coverpreview"><i class="icon-eye-open">&nbsp;</i>プレビュー（仮）</a>
-        </div>
--->
       </div>
       <div class="row col-lg-8" style="margin-bottom: 30px;border:solid 0px #e3e3e3" >
         <div class="pull-left col-lg-2" style="padding-left: 0px;padding-top: 15px;" id="cover_preview_panel">
-          <div class="cover_thumb"><img src="/images/logo-block.png" style="opacity: 0.4;"></div>
+          <div class="cover_thumb"><img src="/images/logo-block.png"></div>
         </div>
         <div class="pull-left col-lg-10">
           <div class="coverpanel" id="cover_panel" style="margin-left:30px;display:none;overflow-x: auto;overflow-y: hidden;">
@@ -104,16 +97,10 @@
         <div class="pull-left">
           <h4><%= i('html.label.synthetic.imageadd') %><!-- スライド定義--></h4>
         </div>
-<!--
-        <div class="pull-right" style="padding-bottom: 5px">
-          &lt;!&ndash; TODO ysl&ndash;&gt;
-          <a data-toggle="modal"  href="#pickThumbPic" class="btn btn-default" id="matimageAdd"><i class="icon-plus">&nbsp;</i>画像選択(仮)</a>
-        </div>
--->
       </div>
       <div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-bottom-width: 0px">
         <div id="main_panel">
-          <img src="/images/logo-block.png" style="opacity: 0.4;">
+          <img src="/images/logo-block.png">
           <div id="effect_big_preview">
             <img src="/images/logo-block.png">
           </div>
@@ -357,9 +344,6 @@
 <script type="text/template" id="tmpl_thumb_block">
   <div class="thumb_block" id="thumb_block_{{num}}" num="{{num}}">
     <img class="thumb_block_img" num="{{num}}" src="{{image}}" data="{{fileid}}" metadata_id="{{metadata_id}}">
-    <!--<span class="thumb_block_span" data="{1}" metadata_id="{2}">移除</span>-->
-    <!--<span class="thumb_block_left" data="{1}" metadata_id="{2}">←</span>-->
-    <!--<span class="thumb_block_right" data="{1}" metadata_id="{2}">→</span>-->
   </div>
 </script>
 

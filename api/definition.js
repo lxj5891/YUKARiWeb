@@ -16,10 +16,10 @@ exports.get = function(req_, res_, isPublish) {
 
   // Get json string for settting
   var uid = req_.session.user._id
-    , company = req_.session.user.companyid
+    , code = req_.session.user.companycode
     , target = req_.query.target;
 
-  definition.get(company, uid, target, isPublish, function(err, result) {
+  definition.get(code, uid, target, isPublish, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {

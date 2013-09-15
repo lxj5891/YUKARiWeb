@@ -35,77 +35,178 @@
     </div>
 
     <div class="page-content">
-      <div class="page-header position-relative">
-        <h1>
-          <%= i('html.label.workstation') %><!-- ワークステーション設定-->
-        </h1>
-      </div>
-      <div class="row" style="margin-left: 30px">
-        <div class="col-lg-8 wsbackcolor">
-        <div>
-          <ul>
-            <li class="ui-state-default">
-              <div class="wsicon pull-left"><label><%= i('html.label.workstation.icon') %><!-- Icon--></label></div>
-              <div class="wsname pull-left"><label><%= i('html.label.workstation.name') %><!-- 名称--></label></div>
-              <div class="wstype pull-left"><label><%= i('html.label.workstation.type') %><!-- タイプ--></label></div>
-              <div class="wsurl pull-left"><label><%= i('html.label.workstation.url') %><!-- URL--></label></div>
-              <div class="wsoper pull-left" id="setting_add"><i class="icon-plus"></i></div>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <ul id="sortable"></ul>
+      <div class="row tableheader">
+        <div class="pull-left">
+          <h4><%= i('html.label.workstation') %><!-- ワークステーション設定--></h4>
         </div>
       </div>
+      <div class="row box-border">
+        <div class="wsbackcolor" style="width:860px;margin-left:15px;">
+          <div>
+            <ul style="border-bottom-color:1px solid #DCDCDC;">
+              <li class="ui-state-default">
+                <div class="wsicon pull-left"><label><%= i('html.label.workstation.icon') %><!-- アイコン--></label></div>
+                <div class="wsname pull-left"><label><%= i('html.label.workstation.name') %><!-- タイトル--></label></div>
+                <div class="wsurl pull-left"><label><%= i('html.label.workstation.url') %><!-- URL--></label></div>
+                <div class="wstype pull-left"><label><%= i('html.label.workstation.type') %><!-- タイプ--></label></div>
+                <div class="wsopen pull-left"><label><%= i('html.label.workstation.oper') %><!-- 操作--></label></div>
+                <div class="wsoper pull-left"  style="background-color:#DCDCDC;margin-bottom:5px;" id="setting_add">
+                  <i class="icon-plus"></i>&nbsp;<i class="icon-th-list"></i>
+                </div>
+              </li>
+            </ul>
+            <div style="background-color:#DCDCDC;height:1px;margin-bottom:5px;"></div>
+            <ul id="sortable"></ul>
+            <div style="height:10px;"></div>
+          </div>
+        </div>
       </div>
-        <div class="row" style="margin-left: 30px;margin-top: 50px">
-        <button type="submit" class="btn btn-default btn-lg"><%= i('html.button.common.save') %><!-- 保存--></button>
+      <div class="col-lg-8 row">
+        <button type="submit" class="col-lg-4 btn btn-warning btn-lg"><%= i('html.button.common.save') %><!-- 保存--></button>
       </div>
     </div>
   </div>
 </div><!--/.main-container-->
-</body>
+
+<!--setting  Modal -->
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= i('html.label.workstation') %><!-- ワークステーション--></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.icon') %><!-- アイコン--></label>
+            <div class="col-xs-8">
+              <input type="hidden" class="form-control" id="inputIcon">
+              <div class="wsicon pull-left">
+                <ul class="nav nav-pills">
+                  <li class="dropdown">
+                    <label class="dropdown-toggle" data-toggle="dropdown" href="#">
+                      <i class="icon-group"></i>&nbsp; <span class="caret"></span>
+                    </label>
+                    <ul class="dropdown-menu" id="icon_menu">
+                      <li class="pull-left"><a tabindex="1" href="#"><i class="icon-volume-up"></i></a></li>
+                      <li class="pull-left"><a tabindex="2" href="#"><i class="icon-calendar"></i></a></li>
+                      <li class="pull-left"><a tabindex="3" href="#"><i class="icon-envelope"></i></a></li>
+                      <li class="pull-left"><a tabindex="4" href="#"><i class="icon-group"></i></a></li>
+                      <li class="pull-left"><a tabindex="5" href="#"><i class="icon-bar-chart"></i></a></li>
+                      <li class="pull-left"><a tabindex="6" href="#"><i class="icon-pencil"></i></a></li>
+                      <li class="pull-left"><a tabindex="7" href="#"><i class="icon-paste"></i></a></li>
+                      <li class="pull-left"><a tabindex="8" href="#"><i class="icon-search"></i></a></li>
+                      <li class="pull-left"><a tabindex="9" href="#"><i class="icon-briefcase"></i></a></li>
+                      <li class="pull-left"><a tabindex="10" href="#"><i class="icon-bookmark"></i></a></li>
+
+                      <li class="pull-left"><a tabindex="11" href="#"><i class="icon-book"></i></a></li>
+                      <li class="pull-left"><a tabindex="12" href="#"><i class="icon-comments"></i></a></li>
+                      <li class="pull-left"><a tabindex="13" href="#"><i class="icon-file-text-alt"></i></a></li>
+                      <li class="pull-left"><a tabindex="14" href="#"><i class="icon-calendar-empty"></i></a></li>
+                      <li class="pull-left"><a tabindex="15" href="#"><i class="icon-archive"></i></a></li>
+                      <li class="pull-left"><a tabindex="16" href="#"><i class="icon-desktop"></i></a></li>
+                      <li class="pull-left"><a tabindex="17" href="#"><i class="icon-microphone"></i></a></li>
+                      <li class="pull-left"><a tabindex="18" href="#"><i class="icon-magic"></i></a></li>
+                      <li class="pull-left"><a tabindex="19" href="#"><i class="icon-gear"></i></a></li>
+                      <li class="pull-left"><a tabindex="20" href="#"><i class="icon-tags"></i></a></li>
+
+                      <li class="pull-left"><a tabindex="21" href="#"><i class="icon-folder-open"></i></a></li>
+                      <li class="pull-left"><a tabindex="22" href="#"><i class="icon-globe"></i></a></li>
+                      <li class="pull-left"><a tabindex="23" href="#"><i class="icon-home"></i></a></li>
+                      <li class="pull-left"><a tabindex="24" href="#"><i class="icon-download-alt"></i></a></li>
+                      <li class="pull-left"><a tabindex="25" href="#"><i class="icon-bell"></i></a></li>
+                      <li class="pull-left"><a tabindex="26" href="#"><i class="icon-check"></i></a></li>
+                      <li class="pull-left"><a tabindex="27" href="#"><i class="icon-cogs"></i></a></li>
+                      <li class="pull-left"><a tabindex="28" href="#"><i class="icon-cloud-upload"></i></a></li>
+                      <li class="pull-left"><a tabindex="29" href="#"><i class="icon-edit"></i></a></li>
+                      <li class="pull-left"><a tabindex="30" href="#"><i class="icon-camera"></i></a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.name') %><!-- タイトル--></label>
+            <div class="col-xs-8">
+              <input type="text" class="form-control" id="inputTitle" placeholder="<%= i('html.label.workstation.name') %>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.url') %><!-- URL--></label>
+            <div class="col-xs-8">
+              <input type="text" class="form-control" id="inputUrl" placeholder="<%= i('html.label.workstation.url') %>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.type') %><!-- タイプ--></label>
+            <div class="col-xs-8 btn-group">
+              <button value="url" class="btn btn-sm btn-default btn-white" type="button" active="on" style="height:34px;">URL</button>
+              <button value="app" class="btn btn-sm btn-default btn-info" type="button" style="height:34px;">APP</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.pub') %><!-- 公開--></label>
+            <div class="col-xs-8">
+              <div class="btn-group" id="inputType" value="open">
+                <button value="url" class="btn btn-sm btn-default btn-white" type="button" active="on" style="height:34px;">
+                  <i class="icon-unlock"></i>
+                </button>
+                <button value="app" class="btn btn-sm btn-default btn-info" type="button" style="height:34px;margin-bottom:10px;">
+                  <i class="icon-lock"></i>
+                </button>
+              </div>
+              <div id="textBoxTag" class="incrementBox">
+                <input id="inputTag" scope="1" placeholder="<%= i('html.label.workstation.opener') %>" style="width: 130px;" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" name="okSetting" class="btn btn-warning cancel">
+          <span> <%= i('html.button.common.save') %><!-- 次へ--></span></button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 
 <script type="text/template" id="tmpl_sortable">
   <li class="ui-state-default">
     <div class="wsicon pull-left">
-      <ul class="nav nav-pills">
-        <li class="dropdown">
+      <ul>
+        <li>
           <label class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span>&nbsp;&nbsp;<i class="icon-{{icon}} icon-large"></i>&nbsp;&nbsp;&nbsp;</span><span class="caret"></span>
+            <i class="icon-{{icon}}"></i>
           </label>
-          <ul class="dropdown-menu">
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-desktop"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-tablet"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-comments"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-calendar"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-desktop"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-calendar-empty"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-bar-chart"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-pencil"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-envelope-alt"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-folder-open-alt"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-gear"></i></li>
-            <li class="pull-left" style="padding:5px 5px 5px 5px;"><i class="icon-tags"></i></li>
-          </ul>
         </li>
       </ul>
     </div>
     <div class="wsname pull-left">
       <input class="form-control" type="text" value="{{name}}">
     </div>
-    <div class="wstype pull-left">
-      <select class="form-control">
-        <option><%= i('html.select.workstation.type.link') %><!-- リンク--></option>
-        <option><%= i('html.select.workstation.type.app') %><!-- アプリ起動--></option>
-      </select>
-    </div>
     <div class="wsurl pull-left">
       <input class="form-control" type="text" value="{{url}}">
     </div>
-    <div class="wsoper pull-left">
-      <i class="icon-th-list icon-large"></i>
+    <div class="wstype pull-left">
+      <input class="form-control" type="text" value="APP">
     </div>
-  </li></script>
+    <div class="wsopen pull-left btn-group" style="height:34px;margin-top:5px;">
+      <a operation="config" class="btn btn-default btn-sm" href="#settingModal" data-toggle="modal">
+        <%= i('html.button.workstation.conf') %><!-- 設定-->
+      </a>
+    </div>
+    <div class="wsoper pull-left">
+      <i class="icon-move"></i>
+    </div>
+    <div class="pull-left">
+      <i class="icon-trash"></i>
+    </div>
+  </li>
+</script>
 
+</body>
 </html>

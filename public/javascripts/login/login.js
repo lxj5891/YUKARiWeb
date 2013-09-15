@@ -18,7 +18,15 @@ function login() {
 
   var username = $('#name').val()
     , password = $('#pass').val()
+    , path = $('#path').val()
     , csrftoken = $('#_csrf').val();
+
+  if (client.browser.ie >=9 || client.browser.chrome !=0 || client.browser.safari !=0) {
+
+  } else {
+    Alertify.log.info("browser: chrome,safari,IE9,IE10");
+    return;
+  }
 
   // 必须输入，否则摇一摇
   if (username.length <= 0 || password.length <= 0) {
@@ -35,17 +43,28 @@ function login() {
       , async: false
       , type: "GET"
       , data: {
-        "name": username, "pass": password, "home": "yukari"
+        "path": path, "name": username, "pass": password, "home": "yukari"
       }
       , success: function(data, textStatus, jqXHR) {
         if (jqXHR.status != 200) {
           alert(data);
+        }
+        var error = (data && data.error) ? data.error: undefined;
+        if(error) {
+          if(error.code == 1020) {// 公司不存在
+            alert(error.message);
+            $('#path').focus();
+          } else if(error.code) {
+            alert(error.message);
+          } else {
+            alert(data);
+          }
         } else {
           window.location = "/yukari";
         }
       }
       , error: function(jqXHR, textStatus, errorThrown) {
-        alert(jqXHR.responseText);
+        Alertify.log.error(jqXHR.responseJSON.error.message);
       }
     });
   }

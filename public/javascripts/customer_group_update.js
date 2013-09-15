@@ -2,39 +2,27 @@ $(function () {
   'use strict';
 
   //取得URL参数
-  var groupidArr = window.location.href.split("/")
-  var groupid;
-   if (groupidArr[groupidArr.length - 1].length > 20) {
-     groupid = groupidArr[groupidArr.length - 1];
-   }
-
+  var groupid = $('#groupId').val();;
   // 初始化用户
   var view = smart.view("user").view;
   view.initialize("textBoxMember", "", {search_target: "user"});
-
   //画面表示
   render(groupid,view);
   //事件追加
   $("#updateGroup").bind("click", function(event){
     //取得组信息
     var group = getGroupData();
-    //check组信息
-    var checkResult =  checkGroupData (group);
     //更新组信息
-    if (checkResult)   {
-      if (groupid) {
-        //编辑组
-        group._id = groupid;
-        updateGroup(group)
-      } else {
-        //添加组
-        addGroup(group);
-      }
+    if (groupid) {
+      //编辑组
+      group._id = groupid;
+      updateGroup(group)
+    } else {
+      //添加组
+      addGroup(group);
     }
     return false;
   });
-
-
 });
 
 
@@ -77,30 +65,19 @@ function getGroupData() {
     }
     , member : uids
     , description : $("#inputComment").val()
-    , valid : 1
   };
   return group;
-}
-
-//check组信息
-function checkGroupData(group) {
-  try {
-    check(group.name.name_zh, i18n["js.public.check.group.name"]).notEmpty();
-    check(group.member, i18n["js.public.check.group.member"]).notEmpty();
-  } catch (e) {
-    Alertify.log.error(e.message);
-    return false;
-  }
-  return true;
 }
 
 //添加组
 function addGroup(group) {
   smart.dopost("/group/add.json", group, function(err, result) {
-
     if (err) {
-      Alertify.log.error(i18n["js.common.add.error"]);
-      console.log(err);
+      if (result.code) {
+        Alertify.log.error(result.message);
+      } else {
+        Alertify.log.error(i18n["js.common.add.error"]);
+      }
     } else {
       window.location = "/customer/group";
     }
@@ -111,11 +88,13 @@ function addGroup(group) {
 function updateGroup(group) {
   smart.doput("/group/update.json", group, function(err, result){
     if (err) {
-      Alertify.log.error(i18n["js.common.update.error"]);
-      console.log(err);
+      if (err.responseJSON.error.code) {
+        Alertify.log.error(err.responseJSON.error.message);
+      } else {
+        Alertify.log.error(i18n["js.common.update.error"]);
+      }
     } else {
       window.location = "/customer/group";
     }
-
   });
 }

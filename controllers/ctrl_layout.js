@@ -12,16 +12,16 @@ var async     = require('async')
   , util     = lib.core.util;
 
 
-exports.add = function(company_,uid_,layout_,callback_){
+exports.add = function(dbname_,uid_,layout_,callback_){
   layout_.createat = new Date();
   layout_.createby = uid_;
   layout_.editat = new Date();
   layout_.editby = uid_;
-  layout_.company = company_;
+//  layout_.company = company_;
   layout_.publish = 0;
   layout_.status = 1;
 
-  layout.add(layout_,function(err, result){
+  layout.add(dbname_,layout_,function(err, result){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
@@ -32,14 +32,11 @@ exports.add = function(company_,uid_,layout_,callback_){
   });
 };
 
-exports.update = function (company_, uid_, layout_, callback_) {
-  var condition = {
-  company: company_,
-  _id: layout_._id
-  };
+exports.update = function (code, uid_, layout_, callback_) {
+  var layoutId = layout_._id;
   delete layout_._id;
 
-  layout.update(condition, layout_, function (err, result) {
+  layout.update(code, layoutId, layout_, function (err, result) {
     if (err) {
       return callback_(new error.InternalServer(err));
     }
@@ -56,12 +53,11 @@ exports.update = function (company_, uid_, layout_, callback_) {
   });
 };
 
-exports.get = function (company_, uid_, layoutId_, callback_) {
+exports.get = function (code, uid_, layoutId_, callback_) {
   var condition = {
-    _id: layoutId_,
-    company: company_
+    _id: layoutId_
   };
-  layout.get(condition, function (err, result) {
+  layout.get(code, condition, function (err, result) {
     if (err) {
       return callback_(new error.InternalServer(err));
     }
@@ -88,23 +84,23 @@ function setSyntheticIntoLayout(layout_, callback_){
   async.forEach(layout_.layout.page, mainTask, callback_);
 }
 
-exports.remove = function(company_, uid_, id_, layoutId_ , callback_){
+exports.remove = function(code_, uid_, id_, layoutId_ , callback_){
 
   if (layoutId_) {
     // remove publishlayout
-    history.remove(uid_, id_, function(err, result){
+    history.remove(code_, uid_, id_, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
 
-      layout.update({company: company_,_id: layoutId_}, {publish: 0}, function(err1, result1){
+      layout.update(code_, layoutId_, {publish: 0}, function(err1, result1){
         callback_(err1, result);
       });
     });
 
   } else {
     // remove layout
-    layout.get({company: company_,_id: id_}, function (err, result) {
+    layout.get(code_,{_id: id_}, function (err, result) {
 
       if ( uid_ != result._doc.createby ) {
 
@@ -113,7 +109,7 @@ exports.remove = function(company_, uid_, id_, layoutId_ , callback_){
 
       } else {
 
-        layout.remove(uid_, id_, function(err1, result1){
+        layout.remove(code_, uid_, id_, function(err1, result1){
           callback_(err1, result1);
         });
       }
@@ -121,17 +117,16 @@ exports.remove = function(company_, uid_, id_, layoutId_ , callback_){
   }
 };
 
-exports.copy = function(uid_, id_, callback_){
+exports.copy = function(code_, uid_, id_, callback_){
 
-  layout.copy(uid_, id_, function(err, result){
+  layout.copy(code_, uid_, id_, function(err, result){
     callback_(err, result);
   });
 };
 
-exports.updateStatus = function (company_, uid_, layout_, callback_) {
+exports.updateStatus = function (code, uid_, layout_, callback_) {
 
   var condition = {
-    company: company_,
     _id: layout_._id
   };
   delete layout_._id;
@@ -139,14 +134,14 @@ exports.updateStatus = function (company_, uid_, layout_, callback_) {
   // 承認
   if (layout_.status == 4) {
 
-    layout.get(condition, function (err, result) {
+    layout.get(code,condition, function (err, result) {
       if ( uid_ != result._doc.confirmby ) {
         // 権限チェック
         callback_({code:0, message: __("js.ctr.confirm.auth.error")});
 
       } else {
 
-        layout.update(condition, layout_, function (err, result) {
+        layout.update(code, condition._id, layout_, function (err, result) {
           if (err) {
             return callback_(new error.InternalServer(err));
           }
@@ -158,29 +153,28 @@ exports.updateStatus = function (company_, uid_, layout_, callback_) {
     });
   // 申請、否認
   }  else {
-    if (layout_.status == 2 && !isLayoutComplete(layout_)) {
+    //if (layout_.status == 2 && !isLayoutComplete(layout_)) {
       // 権限チェック
-      callback_({code:0, message: __("js.ctr.layout.complete.error")});
-    } else {
+    //  callback_({code:0, message: __("js.ctr.layout.complete.error")});
+    //} else {
 
-      layout.update(condition, layout_, function (err, result) {
+      layout.update(code, condition._id, layout_, function (err, result) {
         if (err) {
           return callback_(new error.InternalServer(err));
         }
         callback_(err, result);
 
       });
-    }
+    //}
   }
 };
 
-function publishLayout(layout_, callback_) {
+function publishLayout(code_, layout_, callback_) {
   var condition = {
-    company: layout_.company,
     layoutId: layout_._id
   };
 
-  exports.get(condition.company, "", condition.layoutId, function (err1, result1) {
+  exports.get(code_, "", condition.layoutId, function (err1, result1) {
 
     if (err1) {
       return callback_(new error.InternalServer(err1));
@@ -197,7 +191,7 @@ function publishLayout(layout_, callback_) {
       layout : result1.layout
     };
 
-    history.get(condition, function (err2, result2) {
+    history.get(code_, condition, function (err2, result2) {
       // get publishLayout
       if (err2) {
         return callback_(new error.InternalServer(err2));
@@ -207,7 +201,7 @@ function publishLayout(layout_, callback_) {
       if (result2 && result2._id) {
         layout_.version = result2.history.length + 1;
 
-         history.update(result2._id, layout_, function(err3, result3){
+         history.update(code_, result2._id, layout_, function(err3, result3){
            return callback_(err3, result3);
          });
 
@@ -215,13 +209,12 @@ function publishLayout(layout_, callback_) {
         layout_.version = 1;
 
         var publishLayout = {
-          company : condition.company,
           layoutId : condition.layoutId,
           active: layout_,
           history : [layout_]
         };
 
-        history.add(publishLayout, function (err3, result3) {
+        history.add(code_, publishLayout, function (err3, result3) {
           return callback_(err3, result3);
         });
       }
@@ -232,12 +225,11 @@ function publishLayout(layout_, callback_) {
 //////////////////////////////////////////////////
 
 // 获取一览
-exports.list = function(keyword_,company_, start_, limit_, uid, status, callback_) {
+exports.list = function(code, keyword_,start_, limit_, uid, status, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
     , condition = {
-      company: company_,
       valid: 1
     };
 
@@ -253,12 +245,12 @@ exports.list = function(keyword_,company_, start_, limit_, uid, status, callback
     condition["layout.name"] = new RegExp(keyword_.toLowerCase(),"i");
   }
 
-  layout.total(condition, function(err, count){
+  layout.total(code,condition, function(err, count){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
 
-    layout.list(condition, start, limit, function(err, result1){
+    layout.list(code, condition, start, limit, function(err, result1){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
@@ -276,26 +268,25 @@ exports.list = function(keyword_,company_, start_, limit_, uid, status, callback
   });
 };
 
-exports.publishList = function(keyword,company_, start_, limit_, callback_) {
+exports.publishList = function(code_, keyword_,start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
     , condition = {
-      company: company_,
       valid: 1
     };
-  if (keyword && keyword.length > 0) {
+  if (keyword_ && keyword_.length > 0) {
     keyword_ = util.quoteRegExp(keyword_);
     condition["active.layout.name"] = new RegExp(keyword.toLowerCase(), "i");
   }
 
 
-  history.total(condition, function(err, count){
+  history.total(code_, condition, function(err, count){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
 
-    history.activeList(condition, start, limit, function(err, result){
+    history.activeList(code_, condition, start, limit, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
@@ -314,21 +305,20 @@ exports.publishList = function(keyword,company_, start_, limit_, callback_) {
   });
 };
 
-exports.history = function(company_, start_, limit_, callback_) {
+exports.history = function(code_, start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
     , condition = {
-      company: company_,
       valid: 1
     };
 
-  history.total(condition, function(err, count){
+  history.total(code_, condition, function(err, count){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
 
-    history.list(condition, start, limit, function(err, result){
+    history.list(code_, condition, start, limit, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }

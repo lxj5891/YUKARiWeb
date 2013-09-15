@@ -8,8 +8,7 @@ var mongo = require('mongoose')
  * @type {schema}
  */
 var Tag = new schema({
-    company: {type: String}
-  , scope :{type: String, description: "Tag的有效范围"}
+    scope :{type: String, description: "Tag的有效范围"}
   , name: {type: String, description: "Tag名称"}
   , counter: { type: Number, description: "使用次数"}
   , valid: {type: Number, default:1, description: "0:无效 1:有效"}
@@ -19,14 +18,14 @@ var Tag = new schema({
   , createby: {type: String}
 });
 
-function model() {
-  return conn().model('Tag', Tag);
+function model(code_) {
+  return conn(code_).model('Tag', Tag);
 }
 
 // 添加一个tag（计数器加一）
-exports.add = function (tag_, callback_) {
+exports.add = function (code_, tag_, callback_) {
 
-  var tag = model();
+  var tag = model(code_);
   var condition = {name: tag_.name};
 
   // 用名称检索，如有则计数器加一，否则新建
@@ -42,8 +41,7 @@ exports.add = function (tag_, callback_) {
     // add
     else {
       var object = {
-          company: tag_.company
-        , scope: tag_.scope
+          scope: tag_.scope
         , name: tag_.name
         , counter: 1
         , valid: 1
@@ -61,12 +59,11 @@ exports.add = function (tag_, callback_) {
 };
 
 // 删除一个tag（计数器减一）
-exports.remove = function (tag_, callback_) {
+exports.remove = function (code_, tag_, callback_) {
 
-  var tag = model();
+  var tag = model(code_);
   var condition = {
-      company: tag_.company
-    , scope: tag_.scope
+      scope: tag_.scope
     , name: tag_.name
   };
 
@@ -84,18 +81,16 @@ exports.remove = function (tag_, callback_) {
 };
 
 // 获取一览
-exports.list = function(condition_, start_, limit_, callback_){
+exports.list = function(code_, condition_, start_, limit_, callback_){
 
-  var tag = model();
+  var tag = model(code_);
 
-  console.log(condition_);
   tag.find(condition_)
     .skip(start_ || 0)
     .limit(limit_ || 20)
     .sort({counter: -1})
     .exec(function(err, result){
 
-      console.log(result);
       callback_(err, result);
     });
 };

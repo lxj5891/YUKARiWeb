@@ -413,9 +413,9 @@
         <div class="modal-header">
           <h3><%= i('html.label.layout.contents.title') %><!-- ネタ選択--></h3>
         </div>
-        <div class="modal-body" style="padding-bottom: 0px">
+        <div class="modal-body" style="padding-bottom: 0px;">
           <table class="table table-hover" style="margin-bottom: 0px">
-            <thead>
+            <thead >
             <tr>
               <th>#</th>
               <th><%= i('html.label.layout.contents.sheet') %><!-- 表紙--></th>
@@ -427,8 +427,12 @@
               <th><%= i('html.label.layout.contents.select') %><!-- 選択--></th>
             </tr>
             </thead>
-            <tbody id="synthetic_list"></tbody>
           </table>
+          <div style="max-height: 335px;overflow-y: auto">
+            <table class="table table-hover" style="margin-bottom: 0px">
+                  <tbody id="synthetic_list"></tbody>
+            </table>
+          </div>
         </div>
         <div class="modal-footer" style="margin-top: 0px">
           <button class="btn btn-default btn-sm" id="selectedContents"><%= i('html.button.layout.contents.select') %><!-- 選択--></button>

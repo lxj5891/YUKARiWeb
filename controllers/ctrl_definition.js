@@ -7,21 +7,21 @@ var async     = require('async')
   , cutil  = require('../core/contentutil')
   , errors  = lib.core.errors;
 
-exports.get = function(company_, uid_, target_, isPublish, callback_) {
+exports.get = function(code, uid_, target_, isPublish, callback_) {
   var data = {};
 
   var tasks = [];
   // Get Layout data
   tasks.push(function(cb) {
     if(isPublish) {
-      layout_publish.get({company: company_, _id:target_}, function (err, layout) {
+      layout_publish.get(code, {_id:target_}, function (err, layout) {
         if (err || !layout || !layout.active)
           return cb(new errors.InternalServer(__("api.layout.id.error") + target_), null);
         setLayout(data, layout.active);
         cb(err, data);
       });
     } else {
-      ctl_layout.get(company_, uid_, target_, function(err, layout) {
+      ctl_layout.get(code, uid_, target_, function(err, layout) {
         if (err || !layout)
           return cb(new errors.InternalServer(__("api.layout.id.error") + target_), null);
         setLayout(data, layout);

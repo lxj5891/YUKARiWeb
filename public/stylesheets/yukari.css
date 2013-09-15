@@ -388,12 +388,10 @@ input[type="color"] {
 }
 .tableheader {
   color: #000000;
-  font-size: 24px;
   padding-top: 5px;
   padding-right: 5px;
   margin-bottom: 1px;
   border-bottom: 5px solid #92d43e;
-  font-family: Georgia;
 }
 h4 {
   font-size: 24px;
@@ -586,28 +584,38 @@ ol.popular-tags li a {
   margin-top: 0px;
 }
 .wsicon {
-  width: 8%;
+  width: 60px;
   padding-left: 5px;
-  padding-right: 5px;
+  text-align: center;
 }
 .wsname {
-  width: 27%;
+  width: 200px;
   padding-right: 5px;
+  text-align: center;
 }
 .wstype {
-  width: 10%;
+  width: 60px;
   padding-right: 5px;
+  text-align: center;
 }
 .wsurl {
-  width: 50%;
+  width: 400px;
   padding-right: 5px;
+  text-align: center;
+}
+.wsopen {
+  width: 65px;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: center;
 }
 .wsoper {
-  width: 3%;
+  width: 45px;
+  text-align: center;
 }
 .dropdown-menu {
   float: left;
-  min-width: 100px;
+  min-width: 350px;
   padding: 0px 0;
   margin: 0px 0 0;
 }
@@ -777,7 +785,6 @@ ol.popular-tags li a {
   background-color: #92d43e;
   border-color: #92d43e;
   font-weight: 900;
-  font-size: 20px;
 }
 a:hover,
 a:focus {
@@ -887,4 +894,45 @@ fieldset[disabled] .btn-default.active {
   color: #858585;
   background-color: #fff;
   border-color: #e3e3e3;
+}
+.form-control:focus {
+  border-color: #92d43e;
+}
+.alertify-button-cancel,
+.alertify-button-cancel:hover,
+.alertify-button-cancel:focus,
+.alertify-button-cancel:active {
+  background-color: #92d43e;
+}
+.alertify-button,
+.alertify-button:hover,
+.alertify-button:focus,
+.alertify-button:active {
+  border-radius: 0px;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0), 0 1px 2px rgba(0, 0, 0, 0);
+}
+.alertify-button-ok,
+.alertify-button-ok:hover,
+.alertify-button-ok:focus,
+.alertify-button-ok:active {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0);
+  background-color: #92d43e;
+  border: 1px solid #92d43e;
+  border-color: #92d43e #92d43e #92d43e;
+}
+.alertify-button-cancel,
+.alertify-button-cancel:hover,
+.alertify-button-cancel:focus,
+.alertify-button-cancel:active {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0);
+  background-color: #92d43e;
+  background-image: -webkit-linear-gradient(top, #92d43e, #92d43e);
+  background-image: -moz-linear-gradient(top, #92d43e, #92d43e);
+  background-image: -ms-linear-gradient(top, #92d43e, #92d43e);
+  background-image: -o-linear-gradient(top, #92d43e, #92d43e);
+  background-image: linear-gradient(top, #92d43e, #92d43e);
+  color: #FFF;
+}
+.alertify-dialog {
+  border-radius: 0px;
 }
