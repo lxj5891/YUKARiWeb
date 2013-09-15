@@ -43,9 +43,9 @@ exports.update = function (code, uid_, layout_, callback_) {
 
     setSyntheticIntoLayout(result, function(e){
       // Merge TopMenu picture
-      mergeTopMenuImage(result);
+      mergeTopMenuImage(code, result);
       // Merge CaseMenu picture
-      mergeCaseMenuImage(result);
+      mergeCaseMenuImage(code, result);
 
       return callback_(e, result);
     });
@@ -342,9 +342,10 @@ exports.history = function(code_, start_, limit_, callback_) {
  * @param layout
  * @returns {{id: *, collection: string, key: string, files: Array}}
  */
-var mergeTopMenuImage = function(layout) {
+var mergeTopMenuImage = function(code, layout) {
   var result = {
     id: layout._id               // layoutId
+    , code: code                 // 数据库名
     , collection: "layouts"      // 数据库中的表名
     , key: "layout.image.imageH" // 放到表中的这个结构中
     , files: []
@@ -390,9 +391,10 @@ var mergeTopMenuImage = function(layout) {
  * @param layout
  * @returns {*}
  */
-var mergeCaseMenuImage = function(layout) {
+var mergeCaseMenuImage = function(code, layout) {
   var result = {
     id: layout._id               // layoutId
+    , code: code                 // 数据库名
     , collection: "layouts"      // 数据库中的表名
     , key: "layout.image.imageV" // 放到表中的这个结构中
     , files: []
