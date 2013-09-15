@@ -13,13 +13,12 @@ var ph        = require('path')
   , util     = lib.core.util;
 
 
-//var mime = require('mime-magic');根据文件头信息判断文件类型
 var EventProxy = require('eventproxy');
-exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, callback_) {
+exports.list = function(code_, contentType_, keyword_, tags_, start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
-    , condition = { company: company_ };
+    , condition = {};
 
   // 指定的Tag
   if (tags_){
@@ -43,12 +42,12 @@ exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, c
     condition.filename = new RegExp(keyword_.toLowerCase(),"i");
   }
 
-  material.total(condition, function(err, count){
+  material.total(code_, condition, function(err, count){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
 
-    material.list(condition, start, limit, function(err, result){
+    material.list(code_, condition, start, limit, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
@@ -61,27 +60,7 @@ exports.list = function(contentType_,company_,keyword_, tags_, start_, limit_, c
   });
 };
 
-/**
- * 保存文件
- */
-
-/**
- 根据文件头信息判断文件类型
-mime(path, function (err, type) {
-    if (err) {
-        return callback(new error.InternalServer(err));
-    } else {
-        var temptype = type.split("/");
-        if(temptype[0] != "image"  &&  !(temptype[0] == "video" && temptype[1] == "mp4")){
-            result.push("path:" + file.name);
-            return callback(null,{});
-        }
-    }
- });
-*/
-
-
-exports.add = function(company_, uid_, files_, callback_) {
+exports.add = function(code_, uid_, files_, callback_) {
 
   var result = [];
 
@@ -90,58 +69,56 @@ exports.add = function(company_, uid_, files_, callback_) {
     var name = ph.basename(file.name);
     var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
     var metadata = {
-            "author": uid_
-            , "company": company_
-            , "tags": types(file.type)
-        };
+      "author": uid_
+      , "tags": types(file.type)
+    };
 
-        // To save the file to GridFS
-        gridfs.save(name, path, metadata, file.type, function(err, doc){
+    // To save the file to GridFS
+    gridfs.save(code_, name, path, metadata, file.type, function(err, doc){
 
-          if (err) {
-              return callback(new error.InternalServer(err));
-          }
+      if (err) {
+          return callback(new error.InternalServer(err));
+      }
 
-          var detail = {};
-          detail["company"] = company_;
-          detail["fileid"] = doc._id;
-          detail["filename"] = doc.filename;
-          detail["chunkSize"] = doc.chunkSize;
-          detail["contentType"] = doc.contentType;
-          detail["length"] = doc.length;
-          detail["editat"] = doc.uploadDate;
-          detail["editby"] = uid_;
+      var detail = {};
+      detail["fileid"] = doc._id;
+      detail["filename"] = doc.filename;
+      detail["chunkSize"] = doc.chunkSize;
+      detail["contentType"] = doc.contentType;
+      detail["length"] = doc.length;
+      detail["editat"] = doc.uploadDate;
+      detail["editby"] = uid_;
 
-          material.save(detail, function(err, info){
-           result.push(info);
-           // create thumbs
-           mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
-           return callback(err);
-         });
+      material.save(code_, detail, function(err, info){
+       result.push(info);
 
+       // create thumbs
+       mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
+         return callback(err);
+       });
     });
+
   },function(err){
     return callback_(err, result);
-});
+  });
 
 };
 
 /**
  * 更新文件
- * @param company_
+ * @param code_
  * @param uid_
  * @param fid_
  * @param file_
  * @param callback_
  */
-exports.updatefile = function(company_, uid_, fid_, file_, callback_) {
+exports.updatefile = function(code_, uid_, fid_, file_, callback_) {
 
   var name = ph.basename(file_.name);
   var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file_.path)));
 
   var metadata = {
     "author": uid_
-    , "company": company_
     , "tags": types(file_.type)
   };
 
@@ -152,7 +129,6 @@ exports.updatefile = function(company_, uid_, fid_, file_, callback_) {
     }
 
     var detail = {};
-    detail["company"] = company_;
     detail["filename"] = doc.filename;
     detail["fileid"] = doc._id;
     detail["chunkSize"] = doc.chunkSize;
@@ -161,7 +137,7 @@ exports.updatefile = function(company_, uid_, fid_, file_, callback_) {
     detail["editat"] = doc.uploadDate;
     detail["editby"] = uid_;
 
-    material.update(fid_, detail, function(err, info){
+    material.update(code_, fid_, detail, function(err, info){
 
       // create thumbs
       mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
@@ -177,22 +153,21 @@ exports.updatefile = function(company_, uid_, fid_, file_, callback_) {
 
 /**
  * 更新详细信息
- * @param company_
+ * @param code_
  * @param uid_
  * @param fid_
  * @param detail_
  * @param callback_
  */
-exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
+exports.updatetag = function(code_, uid_, fid_, detail_, callback_) {
 
   detail_["editat"] = new Date();
   detail_["editby"] = uid_;
 
   var tasks = [];
-  //console.log("----------------------------------------");
   // 获取原来的tag一览
   tasks.push(function(cb) {
-    material.get(fid_, function(err, data) {
+    material.get(code_, fid_, function(err, data) {
       cb(err, data.tags);
     });
   });
@@ -201,11 +176,8 @@ exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
   tasks.push(function(data, cb) {
     var add = _.difference(detail_.tags, data);
 
-    //console.log(data);
-   //console.log(detail_.tags);
-    //console.log(add);
     if (add && add.length > 0) {
-      tag.add(company_, uid_, add, function(err, result){
+      tag.add(code_, uid_, add, function(err, result){
         cb(err, data);
       });
     } else {
@@ -216,9 +188,9 @@ exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
   // 删除的tag，从tag表移除
   tasks.push(function(data, cb) {
     var remove = _.difference(data, detail_.tags);
-    //console.log(remove);
+
     if (remove && remove.length > 0) {
-      tag.remove(company_, uid_, remove, function(err, result){
+      tag.remove(code_, uid_, remove, function(err, result){
         cb(err, data);
       });
     } else {
@@ -228,14 +200,12 @@ exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
 
   // 更新素材表
   tasks.push(function(data, cb){
-    material.replace(fid_, detail_, function(err, info){
-      //console.log(info);
+    material.replace(code_, fid_, detail_, function(err, info){
       return callback_(err, info);
     });
   });
 
   async.waterfall(tasks, function(err, result){
-    //console.log(result);
     return callback_(err, result);
   });
 
@@ -243,17 +213,16 @@ exports.updatetag = function(company_, uid_, fid_, detail_, callback_) {
 
 /**
  * 删除
- * @param company_
+ * @param code_
  * @param uid_
  * @param fid_
  * @param callback_
  */
-exports.remove = function(company_, uid_, fid_, callback_) {
+exports.remove = function(code_, uid_, fid_, callback_) {
 
   // 保留GridFS中的文件，而不删除
-  checkMaterialHasUse(fid_,function(err,count){
+  checkMaterialHasUse(code_, fid_,function(err,count){
     if(count>0){
-      //console.log("已经使用");
       return callback_(new error.BadRequest(__("js.ctr.material.used.error")));
     } else {
       material.remove(fid_, function(err, info){
@@ -262,21 +231,23 @@ exports.remove = function(company_, uid_, fid_, callback_) {
 
     }
   });
-
 }
-function checkMaterialHasUse(material_id,callback){
+
+function checkMaterialHasUse(code_, material_id,callback){
   var ep = EventProxy.create('pic_use','txt_use','widget_use',function(pic_use,txt_use,widget_use){
     var count = pic_use + txt_use + widget_use;
-    console.log("count  ,  %s  :" , count);
     callback(null,count)
   });
-  synthetic.count({"metadata.material_id":material_id},function(err,count){
+
+  synthetic.count(code_, {"metadata.material_id":material_id},function(err,count){
     ep.emit('pic_use',count);
   });
-  synthetic.count({"metadata.txtmaterial_id":material_id},function(err,count){
+
+  synthetic.count(code_, {"metadata.txtmaterial_id":material_id},function(err,count){
     ep.emit('txt_use',count);
   });
-  synthetic.count({"metadata.widget.action.material_id":material_id},function(err,count){
+
+  synthetic.count(code_, {"metadata.widget.action.material_id":material_id},function(err,count){
     ep.emit('widget_use',count);
   });
 }

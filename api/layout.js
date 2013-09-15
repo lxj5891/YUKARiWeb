@@ -6,9 +6,9 @@ var json = lib.core.json
 exports.add = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = req_.session.user.companyid;
+  var code = req_.session.user.companycode;
 
-  layout.add(company, uid, req_.body, function (err, result) {
+  layout.add(code, uid, req_.body, function (err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -20,10 +20,10 @@ exports.add = function (req_, res_) {
 exports.get = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = req_.session.user.companyid;
+  var code = req_.session.user.companycode;
   var layoutId = req_.query.id;
 
-  layout.get(company, uid, layoutId, function (err, result) {
+  layout.get(code, uid, layoutId, function (err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -35,13 +35,13 @@ exports.get = function (req_, res_) {
 exports.update = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = req_.session.user.companyid;
+  var code = req_.session.user.companycode;
   var layout_ =  req_.body;
   layout_.status = req_.body.status || 1;
   layout_.editat = new Date();
   layout_.editby = uid;
 
-  layout.update(company, uid, layout_, function (err, result) {
+  layout.update(code, uid, layout_, function (err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -53,7 +53,7 @@ exports.update = function (req_, res_) {
 exports.apply = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = req_.session.user.companyid;
+  var code = req_.session.user.companycode;
   var layout_ = {
     _id: req_.body.id,
     status: 2,
@@ -62,7 +62,7 @@ exports.apply = function (req_, res_) {
     confirmby: req_.body.confirmby || uid
   };
 
-  layout.updateStatus(company, uid, layout_, function (err, result) {
+  layout.updateStatus(code, uid, layout_, function (err, result) {
       if (err) {
           return res_.send(err.code, json.errorSchema(err.code, err.message));
       } else {
@@ -74,7 +74,7 @@ exports.apply = function (req_, res_) {
 exports.confirm = function (req_, res_) {
 
   var uid = req_.session.user._id;
-  var company = req_.session.user.companyid;
+  var code = req_.session.user.companycode;
   var layout_ = {
     _id: req_.body.id,
     confirmby : uid,
@@ -89,7 +89,7 @@ exports.confirm = function (req_, res_) {
   }
 
   // update layout table
-  layout.updateStatus(company, uid, layout_, function (err, result) {
+  layout.updateStatus(code, uid, layout_, function (err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -100,12 +100,12 @@ exports.confirm = function (req_, res_) {
 };
 
 exports.remove = function(req_, res_) {
-  var company = req_.session.user.companyid;
+  var code = req_.session.user.companycode;
   var uid = req_.session.user._id
     , id = req_.body.id
     , layoutId = req_.body.layoutId;      // remove publishLayout
 
-  layout.remove(company, uid, id, layoutId, function(err, result) {
+  layout.remove(code, uid, id, layoutId, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -119,7 +119,7 @@ exports.remove = function(req_, res_) {
 
 exports.list = function(req_, res_) {
 
-  var company = req_.session.user.companyid
+  var code = req_.session.user.companycode
     , start = req_.query.start
     , limit = req_.query.count
     , publish = req_.query.publish
@@ -127,7 +127,7 @@ exports.list = function(req_, res_) {
     , status = req_.query.status;
 
     if (publish == 1) {
-        layout.publishList(keyword,company, start, limit, function(err, result) {
+        layout.publishList(code,keyword, start, limit, function(err, result) {
             if (err) {
                 return res_.send(err.code, json.errorSchema(err.code, err.message));
             } else {
@@ -136,7 +136,7 @@ exports.list = function(req_, res_) {
         });
     } else {
         var uid = req_.session.user._id;
-        layout.list(keyword,company, start, limit, uid, status, function(err, result) {
+        layout.list(code,keyword, start, limit, uid, status, function(err, result) {
             if (err) {
                 return res_.send(err.code, json.errorSchema(err.code, err.message));
             } else {
@@ -148,12 +148,12 @@ exports.list = function(req_, res_) {
 
 exports.history = function(req_, res_) {
 
-  var company = req_.session.user.companyid
+  var code = req_.session.user.companycode
     , start = req_.query.start
     , limit = req_.query.count
     , publish = req_.query.publish;
 
-  layout.history(company, start, limit, publish, function(err, result) {
+  layout.history(code, start, limit, publish, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {

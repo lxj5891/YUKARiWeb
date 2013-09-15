@@ -15,10 +15,11 @@ exports.editSynthetic = function(req_,res_){
 }
 exports.getStoreById = function(req_,res_){
   var synthetic_id = req_.body.synthetic_id;
+  var code = req_.session.user.companycode;
   //console.log("synthetic_id :%s",synthetic_id);
   if(synthetic_id){
     //console.log("success");
-    synthetic.getSyntheticById(synthetic_id,function(err,result){
+    synthetic.getSyntheticById(code, synthetic_id,function(err,result){
       return res_.send(json.dataSchema({items:result}));
     });
   }else{
@@ -29,9 +30,10 @@ exports.saveDescription = function(req_,res_){
   var company = req_.session.user.companyid
     , uid = req_.session.user._id;
   var synthetic_id = req_.body.synthetic_id;
+  var code = req_.session.user.companycode;
   var comment = req_.body.comment;
   var name = req_.body.name;
-  synthetic.saveNameAndComment(synthetic_id,name,comment,uid, function(err,result){
+  synthetic.saveNameAndComment(code, synthetic_id,name,comment,uid, function(err,result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -44,6 +46,7 @@ exports.saveAll = function(req_,res_){
   var company = req_.session.user.companyid
     , uid = req_.session.user._id
     , user = req_.session.user;
+  var code = req_.session.user.companycode;
   var synthetic_id = req_.body.synthetic_id;
   var cover = req_.body.cover;
   var metadata = req_.body.metadata;
@@ -52,7 +55,7 @@ exports.saveAll = function(req_,res_){
   var syntheticName = req_.body.syntheticName;
   var syntheticComment = req_.body.syntheticComment;
 
-  synthetic.saveThumbAndMatedata(synthetic_id,cover,metadata,coverrows,covercols,syntheticName,syntheticComment,user, function(err,result){
+  synthetic.saveThumbAndMatedata(code, synthetic_id,cover,metadata,coverrows,covercols,syntheticName,syntheticComment,user, function(err,result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -64,8 +67,9 @@ exports.save = function (req_, res_) {
 
   var company = req_.session.user.companyid
     , uid = req_.session.user._id;
+  var code = req_.session.user.companycode;
 
-  synthetic.save(company, uid, req_.body, function (err, result) {
+  synthetic.save(code, company, uid, req_.body, function (err, result) {
     console.log(result);
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
@@ -79,12 +83,13 @@ exports.save = function (req_, res_) {
 exports.list = function(req_, res_) {
 
   var company = req_.session.user.companyid
+    , code = req_.session.user.companycode
     , start = req_.query.start
     , limit = req_.query.count
     , keyword = req_.query.keyword
     , type = req_.query.type;
 
-  synthetic.list(keyword,type,company, start, limit, function(err, result) {
+  synthetic.list(code, keyword,type,company, start, limit, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -98,8 +103,9 @@ exports.remove = function(req_, res_) {
 
   var uid = req_.session.user._id
     , syntheticId = req_.body.id
+    , code = req_.session.user.companycode;
 
-  synthetic.remove(uid, syntheticId, function(err, result) {
+  synthetic.remove(code, uid, syntheticId, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -112,9 +118,10 @@ exports.remove = function(req_, res_) {
 exports.copy = function(req_, res_) {
 
   var syntheticId = req_.body.id
+    , code = req_.session.user.companycode
     , uid = req_.session.user._id;
 
-  synthetic.copy(uid, syntheticId, function(err, result) {
+  synthetic.copy(code, uid, syntheticId, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
