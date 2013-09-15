@@ -14,7 +14,7 @@ exports.getNoticeById = function(code_, notice_id, callback){
 };
 
 // get list
-exports.list = function(code_, keyword_,company_, start_, limit_, callback_) {
+exports.list = function(code_, keyword_, start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20

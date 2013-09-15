@@ -11,9 +11,10 @@ var json = lib.core.json
 
 exports.add = function(req_, res_) {
 
-  var uid = req_.session.user._id;
+  var code = req_.session.user.companycode
+    , uid = req_.session.user._id;
 
-  notice.add(uid, req_.body, function(err, result) {
+  notice.add(code, uid, req_.body, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -25,12 +26,12 @@ exports.add = function(req_, res_) {
 // notice list
 exports.list = function(req_, res_) {
 
-  var company = req_.session.user.companyid
+  var code = req_.session.user.companycode
     , keyword = req_.query.keyword
     , start = req_.query.start
     , limit = req_.query.count;
 
-  notice.list(keyword,company, start, limit, function(err, result) {
+  notice.list(code, keyword, start, limit, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
