@@ -89,38 +89,6 @@
                       <i class="icon-group"></i>&nbsp; <span class="caret"></span>
                     </label>
                     <ul class="dropdown-menu" id="icon_menu">
-                      <li class="pull-left"><a tabindex="1" href="#"><i class="icon-volume-up"></i></a></li>
-                      <li class="pull-left"><a tabindex="2" href="#"><i class="icon-calendar"></i></a></li>
-                      <li class="pull-left"><a tabindex="3" href="#"><i class="icon-envelope"></i></a></li>
-                      <li class="pull-left"><a tabindex="4" href="#"><i class="icon-group"></i></a></li>
-                      <li class="pull-left"><a tabindex="5" href="#"><i class="icon-bar-chart"></i></a></li>
-                      <li class="pull-left"><a tabindex="6" href="#"><i class="icon-pencil"></i></a></li>
-                      <li class="pull-left"><a tabindex="7" href="#"><i class="icon-paste"></i></a></li>
-                      <li class="pull-left"><a tabindex="8" href="#"><i class="icon-search"></i></a></li>
-                      <li class="pull-left"><a tabindex="9" href="#"><i class="icon-briefcase"></i></a></li>
-                      <li class="pull-left"><a tabindex="10" href="#"><i class="icon-bookmark"></i></a></li>
-
-                      <li class="pull-left"><a tabindex="11" href="#"><i class="icon-book"></i></a></li>
-                      <li class="pull-left"><a tabindex="12" href="#"><i class="icon-comments"></i></a></li>
-                      <li class="pull-left"><a tabindex="13" href="#"><i class="icon-file-text-alt"></i></a></li>
-                      <li class="pull-left"><a tabindex="14" href="#"><i class="icon-calendar-empty"></i></a></li>
-                      <li class="pull-left"><a tabindex="15" href="#"><i class="icon-archive"></i></a></li>
-                      <li class="pull-left"><a tabindex="16" href="#"><i class="icon-desktop"></i></a></li>
-                      <li class="pull-left"><a tabindex="17" href="#"><i class="icon-microphone"></i></a></li>
-                      <li class="pull-left"><a tabindex="18" href="#"><i class="icon-magic"></i></a></li>
-                      <li class="pull-left"><a tabindex="19" href="#"><i class="icon-gear"></i></a></li>
-                      <li class="pull-left"><a tabindex="20" href="#"><i class="icon-tags"></i></a></li>
-
-                      <li class="pull-left"><a tabindex="21" href="#"><i class="icon-folder-open"></i></a></li>
-                      <li class="pull-left"><a tabindex="22" href="#"><i class="icon-globe"></i></a></li>
-                      <li class="pull-left"><a tabindex="23" href="#"><i class="icon-home"></i></a></li>
-                      <li class="pull-left"><a tabindex="24" href="#"><i class="icon-download-alt"></i></a></li>
-                      <li class="pull-left"><a tabindex="25" href="#"><i class="icon-bell"></i></a></li>
-                      <li class="pull-left"><a tabindex="26" href="#"><i class="icon-check"></i></a></li>
-                      <li class="pull-left"><a tabindex="27" href="#"><i class="icon-cogs"></i></a></li>
-                      <li class="pull-left"><a tabindex="28" href="#"><i class="icon-cloud-upload"></i></a></li>
-                      <li class="pull-left"><a tabindex="29" href="#"><i class="icon-edit"></i></a></li>
-                      <li class="pull-left"><a tabindex="30" href="#"><i class="icon-camera"></i></a></li>
                     </ul>
                   </li>
                 </ul>
@@ -174,6 +142,10 @@
   <!-- /.modal-dialog -->
 </div>
 
+<script type="text/template" id="tmpl_iocn">
+  <li class="pull-left"><a tabindex="{{idx}}" href="#"><i class="{{icon}}"></i></a></li>
+</script>
+
 <script type="text/template" id="tmpl_sortable">
   <li class="ui-state-default">
     <div class="wsicon pull-left">
@@ -186,7 +158,7 @@
       </ul>
     </div>
     <div class="wsname pull-left">
-      <input class="form-control" type="text" value="{{name}}">
+      <input class="form-control" name="inputTitle" type="text" value="{{name}}">
     </div>
     <div class="wsurl pull-left">
       <input class="form-control" type="text" value="{{url}}">
