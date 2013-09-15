@@ -6,7 +6,9 @@ var mongo = require('mongoose')
 var Device = new schema({
 
     companyid: {type: String}
+
   , companycode : {type:String,description:"公司CODE"}
+  , devicetoken :{type:String,description:"ipad  设备的 apn token"}
   , deviceid: {type: String}
   , deviceType: {type:String}
   , devstatus : {type:String,description: "1:使用中 0:使用不可"}
