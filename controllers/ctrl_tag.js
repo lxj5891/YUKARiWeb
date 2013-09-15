@@ -8,20 +8,19 @@ var _         = require('underscore')
  */
 var default_scope = "default";
 
-exports.add = function (company_, uid_, name_, callback_) {
+exports.add = function (code_, uid_, name_, callback_) {
 
   var tags = _.isArray(name_) ? name_ : [name_];
 
   async.forEach(tags, function(data, cb){
 
     var object = {
-      company: company_
-      , uid: uid_
+        uid: uid_
       , scope: default_scope
       , name: data
     }
 
-    tag.add(object, function(err, result){
+    tag.add(code_, object, function(err, result){
       cb(err, result);
     });
 
@@ -31,20 +30,19 @@ exports.add = function (company_, uid_, name_, callback_) {
 
 }
 
-exports.remove = function (company_, uid_, name_, callback_) {
+exports.remove = function (code_, uid_, name_, callback_) {
 
   var tags = _.isArray(name_) ? name_ : [name_];
 
   async.forEach(tags, function(data, cb){
 
     var object = {
-      company: company_
-      , uid: uid_
+        uid: uid_
       , scope: default_scope
       , name: data
     }
 
-    tag.remove(object, function(err, result){
+    tag.remove(code_, object, function(err, result){
       cb(err, result);
     });
 
@@ -53,18 +51,15 @@ exports.remove = function (company_, uid_, name_, callback_) {
   });
 }
 
-exports.search = function(company_, keywords_, start_, limit_, callback_){
+exports.search = function(code_, keywords_, start_, limit_, callback_){
 
-  var object = {
-      company: company_
-    , scope: default_scope
-  };
+  var object = { scope: default_scope };
 
   if (keywords_) {
     object.name = new RegExp("^" + keywords_.toLowerCase() + ".*$", "i");
   }
 
-  tag.list(object, start_, limit_, function(err, result){
+  tag.list(code_, object, start_, limit_, function(err, result){
     callback_(err, result);
   });
 }

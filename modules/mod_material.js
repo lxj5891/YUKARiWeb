@@ -15,7 +15,6 @@ var mongo = require('mongoose')
  */
 
 var Material = new schema({
-  company: {type: String, description: ""},
   fileid: {type: String, description: "GridFSのID"},
   thumb: {
     big: {type: String},
@@ -31,17 +30,19 @@ var Material = new schema({
   tags: [String]
 });
 
-function model() {
-  return conn().model('Material', Material);
+function model(code_) {
+  return conn(code_).model('Material', Material);
 }
-exports.count = function(query,callback){
-  var file = model();
+
+exports.count = function(code_, query,callback){
+  var file = model(code_);
   file.count(query,callback);
 }
-// 添加
-exports.save = function(file_, callback_){
 
-  var file = model();
+// 添加
+exports.save = function(code_, file_, callback_){
+
+  var file = model(code_);
 
   new file(file_).save(function(err, result){
     callback_(err, result);
@@ -49,27 +50,27 @@ exports.save = function(file_, callback_){
 };
 
 // 更新
-exports.update = function(fileid_, update_, callback_){
+exports.update = function(code_, fileid_, update_, callback_){
 
-  var file = model();
+  var file = model(code_);
   file.findByIdAndUpdate(fileid_, update_, function(err, result){
     callback_(err, result);
   });
 };
 
 // 替换更新
-exports.replace = function(fileid_, update_, callback_){
+exports.replace = function(code_, fileid_, update_, callback_){
 
-  var file = model();
+  var file = model(code_);
   file.findByIdAndUpdate(fileid_, {$set: update_}, function(err, result){
     callback_(err, result);
   });
 };
 
 // 用ID取值
-exports.get = function(fileid_, callback_){
+exports.get = function(code_, fileid_, callback_){
 
-  var file = model();
+  var file = model(code_);
   file.findById(fileid_, function(err, result){
     callback_(err, result);
   });
@@ -77,20 +78,18 @@ exports.get = function(fileid_, callback_){
 
 
 // 删除
-exports.remove = function(fileid_, callback_){
+exports.remove = function(code_, fileid_, callback_){
 
-  var file = model();
-
+  var file = model(code_);
   file.findByIdAndRemove(fileid_, function(err, result){
     callback_(err, result);
   });
 }
 
 // 获取一览
-exports.list = function(condition_, start_, limit_, callback_){
+exports.list = function(code_, condition_, start_, limit_, callback_){
 
-  var file = model();
-
+  var file = model(code_);
   file.find(condition_)
     .skip(start_ || 0)
     .limit(limit_ || 20)
@@ -101,8 +100,8 @@ exports.list = function(condition_, start_, limit_, callback_){
 };
 
 // 获取件数
-exports.total = function(condition_, callback_){
-  var file = model();
+exports.total = function(code_, condition_, callback_){
+  var file = model(code_);
   file.count(condition_).exec(function(err, count){
     callback_(err, count);
   });
