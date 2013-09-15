@@ -146,7 +146,7 @@ exports.updateStatus = function (code, uid_, layout_, callback_) {
             return callback_(new error.InternalServer(err));
           }
           // ADD PublishLayout
-          publishLayout(condition, function(e) { callback_(e, result); });
+          publishLayout(code, condition, function(e) { callback_(e, result); });
 
         });
       }
