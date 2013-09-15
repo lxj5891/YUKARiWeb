@@ -84,6 +84,16 @@ exports.getByPath = function( path, callback_) {
   });
 
 };
+// 通过公司Code获取指定公司
+exports.getByCode = function( code, callback_) {
+  company.getByCode(code, function(err, result){
+    if (err) {
+      return callback_(new error.InternalServer(err));
+    }
+    return callback_(err, result);
+  });
+
+};
 
 /**
  * 添加公司

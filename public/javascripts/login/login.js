@@ -51,7 +51,7 @@ function login() {
         }
         var error = (data && data.error) ? data.error: undefined;
         if(error) {
-          if(error.code == 1000) {// 公司不存在
+          if(error.code == 1020) {// 公司不存在
             alert(error.message);
             $('#path').focus();
           } else if(error.code) {
