@@ -213,9 +213,14 @@
   "html.label.workstation.icon":"图标",
   "html.label.workstation.name":"标题",
   "html.label.workstation.type":"类别",
+  "html.label.workstation.oper":"操作",
+  "html.label.workstation.pub":"公开",
+  "html.label.workstation.opener":"+ 公開者",
   "html.select.workstation.type.link":"链接",
   "html.select.workstation.type.app":"应用",
   "html.label.workstation.url":"链接到",
+  "html.button.workstation.add":"追加工作站",
+  "html.button.workstation.conf":"详细",
   "===================appimage=================":"",
   "html.label.appicon":"app启动图片",
   "html.label.appsplash01":"启动画面01",
@@ -385,5 +390,6 @@
   "===================api=================":"",
   "api.param.error":"请求参数不正确，请输入参数【%s】。",
   "api.layout.id.error":"布局不存在。布局ID：",
-  "api.file.name.error":"文件不存在。文件名："
+  "api.file.name.error":"文件不存在。文件名：",
+  "error.company.noexist":"公司ID不存在！"
 }

@@ -39,34 +39,34 @@ var Layout = new schema({
   valid: {type: Number, default: 1}
 });
 
-function model() {
-  return conn().model('Layout', Layout);
+function model(dbname) {
+  return conn(dbname).model('Layout', Layout);
 }
-exports.count = function(query,callback){
-  model().count(query,callback);
+exports.count = function(code, query,callback){
+  model(code).count(query,callback);
 }
 // 添加
-exports.add = function(layout_, callback_){
+exports.add = function(code, layout_, callback_){
 
-  var layout = model();
+  var layout = model(code);
 
   new layout(layout_).save(function(err, result){
     callback_(err, result);
   });
 };
 
-exports.update = function (condition_, layout_, callback_) {
-  var layout = model();
+exports.update = function (code, layoutId_, layout_, callback_) {
+  var layout = model(code);
 //  layout.findOneAndUpdate(condition_, layout_, function(err, result){
 //    callback_(err, result);
 //  });
-  layout.findByIdAndUpdate(condition_._id, layout_, function(err, result){
+  layout.findByIdAndUpdate(layoutId_, layout_, function(err, result){
     callback_(err, result);
   });
 };
 
-exports.get = function (condition_,callback_){
-  var layout = model();
+exports.get = function (code, condition_,callback_){
+  var layout = model(code);
   layout.findOne(condition_,function(err,result){
     callback_(err, result);
   });
@@ -74,9 +74,9 @@ exports.get = function (condition_,callback_){
 
 
 // DELETE
-exports.remove = function (uid_, id_, callback_) {
+exports.remove = function (code, uid_, id_, callback_) {
 
-    var layout = model();
+    var layout = model(code);
 
     layout.findByIdAndUpdate(id_, {valid: 0, editat: new Date, editby: uid_}, function(err, result){
         callback_(err, result);
@@ -84,9 +84,9 @@ exports.remove = function (uid_, id_, callback_) {
 };
 
 // COPY
-exports.copy = function (uid_, id_, callback_) {
+exports.copy = function (code, uid_, id_, callback_) {
 
-    var layout = model();
+    var layout = model(code);
 
     layout.findById(id_, function(err, result) {
 
@@ -106,9 +106,9 @@ exports.copy = function (uid_, id_, callback_) {
 
 //////////////////////////////////////////////////
 // 获取一览
-exports.list = function(condition_, start_, limit_, callback_){
+exports.list = function(code, condition_, start_, limit_, callback_){
 
-  var layout = model();
+  var layout = model(code);
 
   layout.find(condition_)
     .skip(start_ || 0)
@@ -120,8 +120,8 @@ exports.list = function(condition_, start_, limit_, callback_){
 };
 
 // 获取件数
-exports.total = function(condition, callback_){
-  var layout = model();
+exports.total = function(code, condition, callback_){
+  var layout = model(code);
 
   layout.count(condition).exec(function(err, count){
     callback_(err, count);

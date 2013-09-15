@@ -214,8 +214,13 @@
   "html.label.workstation.name":"タイトル",
   "html.label.workstation.type":"タイプ",
   "html.select.workstation.type.link":"タイプ",
+  "html.label.workstation.oper":"操作",
+  "html.label.workstation.pub":"公開",
+  "html.label.workstation.opener":"+ 公開先",
   "html.select.workstation.type.app":"アプリ",
   "html.label.workstation.url":"リンク先",
+  "html.button.workstation.add":"ワークステーション追加",
+  "html.button.workstation.conf":"設定",
   "===================appimage=================":"",
   "html.label.appicon":"アプリ起動画像",
   "html.label.appsplash01":"スプラッシュ画面０１",
@@ -385,5 +390,6 @@
   "===================api=================":"",
   "api.param.error":"パラメータが正しくありません、パラメータ「%s」を指定してください。",
   "api.layout.id.error":"レイアウトが存在しません。レイアウトID：",
-  "api.file.name.error":"ファイルが存在しません。ファイル名："
+  "api.file.name.error":"ファイルが存在しません。ファイル名：",
+  "error.company.noexist":"公司ID不存在！"
 }

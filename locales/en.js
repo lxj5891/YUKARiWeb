@@ -211,9 +211,14 @@
   "html.label.workstation.icon":"Icon",
   "html.label.workstation.name":"Title",
   "html.label.workstation.type":"Type",
+  "html.label.workstation.oper":"Operation",
+  "html.label.workstation.pub":"Publish",
+  "html.label.workstation.opener":"+ Publish to",
   "html.select.workstation.type.link":"WEB",
   "html.select.workstation.type.app":"APP",
   "html.label.workstation.url":"URL",
+  "html.button.workstation.add":"Add",
+  "html.button.workstation.conf":"Config",
   "===================appimage=================":"",
   "html.label.appicon":"Start image",
   "html.label.appsplash01":"Slash image1",
@@ -383,5 +388,6 @@
   "===================api=================":"",
   "api.param.error":"Incorrect parameter. Please input parameter「%s」",
   "api.layout.id.error":"Not found layout.Layout ID:",
-  "api.file.name.error":"Not found file. Filename:"
+  "api.file.name.error":"Not found file. Filename:",
+  "error.company.noexist":"Company ID does not exist！"
 }

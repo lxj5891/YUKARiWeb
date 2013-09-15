@@ -202,30 +202,30 @@ var PublishLayout = new schema({
 
 //////////////////////////////////////////////////
 
-function model() {
-  return conn().model('PublishLayout', PublishLayout);
+function model(code) {
+  return conn(code).model('PublishLayout', PublishLayout);
 }
 
-exports.get = function (condition_,callback_){
+exports.get = function (code, condition_,callback_){
 
-  var publishLayout = model();
+  var publishLayout = model(code);
 
   publishLayout.findOne(condition_,function(err,result){
     callback_(err, result);
   });
 };
 
-exports.add = function(publishLayout_, callback_){
+exports.add = function(code, publishLayout_, callback_){
 
-  var publishLayout = model();
+  var publishLayout = model(code);
 
   new publishLayout(publishLayout_).save(function(err, result){
     callback_(err, result);
   });
 };
 
-exports.update = function (id_, layout_, callback_) {
-  var publishLayout = model();
+exports.update = function (code, id_, layout_, callback_) {
+  var publishLayout = model(code);
 
   publishLayout.findByIdAndUpdate(id_, {$addToSet: {history: layout_}, $set: {active: layout_, valid: 1}}, function(err, result){
     callback_(err, result);
@@ -233,9 +233,9 @@ exports.update = function (id_, layout_, callback_) {
 };
 
 // DELETE
-exports.remove = function (uid_, id_, callback_) {
+exports.remove = function (code, uid_, id_, callback_) {
 
-  var publishLayout = model();
+  var publishLayout = model(code);
 
   publishLayout.findByIdAndUpdate(id_, {valid: 0}, function(err, result){
     callback_(err, result);
@@ -243,9 +243,9 @@ exports.remove = function (uid_, id_, callback_) {
 };
 
 // 获取一览
-exports.list = function(condition_, start_, limit_, callback_){
+exports.list = function(code, condition_, start_, limit_, callback_){
 
-  var publishLayout = model();
+  var publishLayout = model(code);
 
   publishLayout.find(condition_)
     .skip(start_ || 0)
@@ -257,17 +257,17 @@ exports.list = function(condition_, start_, limit_, callback_){
 };
 
 // 获取件数
-exports.total = function(condition_, callback_){
-  var publishLayout = model();
+exports.total = function(code, condition_, callback_){
+  var publishLayout = model(code);
   publishLayout.count(condition_).exec(function(err, count){
     callback_(err, count);
   });
 };
 
 // 获取一览
-exports.activeList = function(condition_, start_, limit_, callback_){
+exports.activeList = function(code, condition_, start_, limit_, callback_){
 
-  var publishLayout = model();
+  var publishLayout = model(code);
 
   publishLayout.find(condition_).select('_id layoutId active')
     .skip(start_ || 0)
