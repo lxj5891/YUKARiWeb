@@ -22,7 +22,7 @@ exports.execute = function(err, callback) {
  * 生成系统管理员帐号的Filter
  */
 function create_admin_filter() {
-	user.find({type: 1}, function(err, result){
+	user.find(undefined, {type: 1}, function(err, result){
 		if(result && result != "")
 			return;
 
