@@ -218,7 +218,7 @@ exports.download = function(req_, res_, isPublish) {
     }
 
     if(isPublish) { // 公开Layout的取得
-      layout_publish.get({_id: target}, function (err, result) {
+      layout_publish.get(code, {_id: target}, function (err, result) {
         if (err) {
           var err = new errors.InternalServer(__("api.file.name.error") + file_name);
           return res_.send(err.code, json.errorSchema(err.code, err.message));

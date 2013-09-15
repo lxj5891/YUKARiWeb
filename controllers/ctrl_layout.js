@@ -12,7 +12,7 @@ var async     = require('async')
   , util     = lib.core.util;
 
 
-exports.add = function(dbname_,uid_,layout_,callback_){
+exports.add = function(code_,uid_,layout_,callback_){
   layout_.createat = new Date();
   layout_.createby = uid_;
   layout_.editat = new Date();
@@ -21,12 +21,12 @@ exports.add = function(dbname_,uid_,layout_,callback_){
   layout_.publish = 0;
   layout_.status = 1;
 
-  layout.add(dbname_,layout_,function(err, result){
+  layout.add(code_,layout_,function(err, result){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
 
-    setSyntheticIntoLayout(result, function(e){
+    setSyntheticIntoLayout(code_, result, function(e){
       return callback_(e, result);
     });
   });
@@ -41,11 +41,11 @@ exports.update = function (code, uid_, layout_, callback_) {
       return callback_(new error.InternalServer(err));
     }
 
-    setSyntheticIntoLayout(result, function(e){
+    setSyntheticIntoLayout(code, result, function(e){
       // Merge TopMenu picture
-      mergeTopMenuImage(result);
+      mergeTopMenuImage(code, result);
       // Merge CaseMenu picture
-      mergeCaseMenuImage(result);
+      mergeCaseMenuImage(code, result);
 
       return callback_(e, result);
     });
@@ -64,16 +64,16 @@ exports.get = function (code, uid_, layoutId_, callback_) {
 //    return callback_(err, result);
 //    console.log(result.page);
 
-    setSyntheticIntoLayout(result, function(e){
+    setSyntheticIntoLayout(code, result, function(e){
       return callback_(e, result);
     });
   });
 };
 
-function setSyntheticIntoLayout(layout_, callback_){
+function setSyntheticIntoLayout(code_, layout_, callback_){
   var mainTask = function(page, mainCB){
     var subTask = function(tile, subCB){
-       synthetic.getSyntheticById(tile.syntheticId, function(_err, _synthetic){
+       synthetic.getSyntheticById(code_, tile.syntheticId, function(_err, _synthetic){
         tile._doc.synthetic = _synthetic;
         subCB(_err);
       });
@@ -146,7 +146,7 @@ exports.updateStatus = function (code, uid_, layout_, callback_) {
             return callback_(new error.InternalServer(err));
           }
           // ADD PublishLayout
-          publishLayout(condition, function(e) { callback_(e, result); });
+          publishLayout(code, condition, function(e) { callback_(e, result); });
 
         });
       }
@@ -293,7 +293,7 @@ exports.publishList = function(code_, keyword_,start_, limit_, callback_) {
 
       var subTask = function(item, subCB){
 
-        user.getUserById(item.active.editby, function(err, u_result) {
+        user.searchOneByDBName(code_, item.active.editby, function(err, u_result) {
           item._doc.active.user = u_result;
           subCB(err);
         });
@@ -325,7 +325,7 @@ exports.history = function(code_, start_, limit_, callback_) {
 
       var subTask = function(item, subCB){
 
-        user.getUserById(item.active.editby, function(err, u_result) {
+        user.searchOneByDBName(code_, item.active.editby, function(err, u_result) {
           item._doc.active.user = u_result;
           subCB(err);
         });
@@ -342,9 +342,10 @@ exports.history = function(code_, start_, limit_, callback_) {
  * @param layout
  * @returns {{id: *, collection: string, key: string, files: Array}}
  */
-var mergeTopMenuImage = function(layout) {
+var mergeTopMenuImage = function(code, layout) {
   var result = {
     id: layout._id               // layoutId
+    , code: code                 // 数据库名
     , collection: "layouts"      // 数据库中的表名
     , key: "layout.image.imageH" // 放到表中的这个结构中
     , files: []
@@ -390,9 +391,10 @@ var mergeTopMenuImage = function(layout) {
  * @param layout
  * @returns {*}
  */
-var mergeCaseMenuImage = function(layout) {
+var mergeCaseMenuImage = function(code, layout) {
   var result = {
     id: layout._id               // layoutId
+    , code: code                 // 数据库名
     , collection: "layouts"      // 数据库中的表名
     , key: "layout.image.imageV" // 放到表中的这个结构中
     , files: []

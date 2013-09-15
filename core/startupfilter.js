@@ -22,7 +22,7 @@ exports.execute = function(err, callback) {
  * 生成系统管理员帐号的Filter
  */
 function create_admin_filter() {
-	user.find(undefined, {type: 1}, function(err, result){
+	user.find(undefined, {type: 3}, function(err, result){
 		if(result && result != "")
 			return;
 
@@ -41,7 +41,7 @@ function create_admin() {
 	var info = {"uid": userid
 	, "name": {"name_zh": userid}
 	, "password": auth.sha256(password)
-	, "type": 1                         // 系统管理员
+	, "type": 3                         // 系统管理员
 	, "email": {
 	  "email1": email
 	}
