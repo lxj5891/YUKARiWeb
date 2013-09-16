@@ -24,7 +24,7 @@ function login() {
   if (client.browser.ie >=9 || client.browser.chrome !=0 || client.browser.safari !=0) {
 
   } else {
-    Alertify.log.info("browser: chrome,safari,IE9,IE10");
+    Alertify.log.info("supported Browsers: chrome,safari,IE9,IE10");
     return;
   }
 
