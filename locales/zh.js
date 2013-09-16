@@ -96,6 +96,8 @@
   "html.label.layout.applyrequest":"提出申请",
   "html.label.layout.approver":"批准者",
   "html.input.layout.approver":"＋批准者",
+  "html.label.layout.viewer":"公开对象",
+  "html.input.layout.viewer":"＋公开对象",
   "html.button.layout.appply":"申请",
   "html.button.layout.approve":"批准",
   "html.button.layout.deny":"否认",

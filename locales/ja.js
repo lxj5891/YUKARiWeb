@@ -96,6 +96,8 @@
   "html.label.layout.applyrequest":"申請提出",
   "html.label.layout.approver":"承認者",
   "html.input.layout.approver":"＋承認者",
+  "html.label.layout.viewer":"公開先",
+  "html.input.layout.viewer":"＋公開先",
   "html.button.layout.appply":"申請",
   "html.button.layout.approve":"承認",
   "html.button.layout.deny":"否認",

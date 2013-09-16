@@ -96,6 +96,8 @@
   "html.label.layout.applyrequest":"Application",
   "html.label.layout.approver":"Approver",
   "html.input.layout.approver":"＋Approverr",
+  "html.label.layout.viewer":"Viewer",
+  "html.input.layout.viewer":"＋Viewer",
   "html.button.layout.appply":"Apply",
   "html.button.layout.approve":"Confirm",
   "html.button.layout.deny":"Deny",
