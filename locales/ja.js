@@ -96,6 +96,8 @@
   "html.label.layout.applyrequest":"申請提出",
   "html.label.layout.approver":"承認者",
   "html.input.layout.approver":"＋承認者",
+  "html.label.layout.viewer":"公開先",
+  "html.input.layout.viewer":"＋公開先",
   "html.button.layout.appply":"申請",
   "html.button.layout.approve":"承認",
   "html.button.layout.deny":"否認",
@@ -241,6 +243,7 @@
   "html.label.user.role":"役職",
   "html.label.user.tel":"電話番号",
   "html.label.user.comment":"コメント",
+  "html.label.user.contents":"コンテンツ作成者",
   "html.label.user.approved":"承認者",
   "html.label.user.notice":"通知者",
   "html.label.user.active":"有効",
@@ -391,6 +394,6 @@
   "api.param.error":"パラメータが正しくありません、パラメータ「%s」を指定してください。",
   "api.layout.id.error":"レイアウトが存在しません。レイアウトID：",
   "api.file.name.error":"ファイルが存在しません。ファイル名：",
-  "error.company.noexist":"公司ID不存在！",
-  "error.company.code.noexist":"公司Code不存在！"
+  "error.company.noexist":"顧客IDが存在しません。",
+  "error.company.code.noexist":"顧客コードが存在しません。"
 }

@@ -58,6 +58,7 @@
             <th><%= i('html.label.user.role') %><!-- 役職--></th>
             <th><%= i('html.label.user.tel') %><!-- 電話番号--></th>
             <th><%= i('html.label.user.comment') %><!-- コメント--></th>
+            <th><%= i('html.label.user.contents') %><!-- コンテンツ作成者--></th>
             <th><%= i('html.label.user.approved') %><!-- 承認者--></th>
             <th><%= i('html.label.user.notice') %><!-- 通知者--></th>
             <th><%= i('html.label.user.active') %><!-- 有効--></th>
@@ -86,6 +87,11 @@
     <td>{{title}}</td>
     <td>{{telephone}}</td>
     <td style="word-break:break-all;word-wrap:break-word">{{description}}</td>
+    <$ if (contents == 1) {$>
+    <td><i class="icon-ok"></i></td>
+    <$ } else {$>
+    <td></td>
+    <$ } $>
     <$ if (approved == 1) {$>
     <td><i class="icon-ok"></i></td>
     <$ } else {$>

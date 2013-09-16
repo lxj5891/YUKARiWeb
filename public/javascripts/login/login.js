@@ -24,7 +24,7 @@ function login() {
   if (client.browser.ie >=9 || client.browser.chrome !=0 || client.browser.safari !=0) {
 
   } else {
-    Alertify.log.info("browser: chrome,safari,IE9,IE10");
+    Alertify.log.info("supported Browsers: chrome,safari,IE9,IE10");
     return;
   }
 
@@ -47,17 +47,17 @@ function login() {
       }
       , success: function(data, textStatus, jqXHR) {
         if (jqXHR.status != 200) {
-          alert(data);
+          Alertify.log.info(data);
         }
         var error = (data && data.error) ? data.error: undefined;
         if(error) {
           if(error.code == 1020) {// 公司不存在
-            alert(error.message);
+            Alertify.log.error(error.message);
             $('#path').focus();
           } else if(error.code) {
-            alert(error.message);
+            Alertify.log.error(error.message);
           } else {
-            alert(data);
+            Alertify.log.info(data);
           }
         } else {
           window.location = "/yukari";

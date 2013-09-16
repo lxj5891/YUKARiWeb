@@ -18,6 +18,7 @@ $(function () {
   // 初始化承认者
   var view = smart.view("user").view;
   view.initialize("textBoxConfirm", "", {search_target: "user", target_limit: 1, search_auth: "approve"});
+  view.initialize("textBoxViewer", "", {search_target: "all", target_limit: 20});
 
   $("#applyButton").bind("click", function(event){
 

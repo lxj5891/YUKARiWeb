@@ -43,6 +43,8 @@ function render(userid) {
         new ButtonGroup("inputLang", inputLang).init();
         var inputTimezone = result.timezone;
         new ButtonGroup("inputTimezone", inputTimezone).init();
+        var inputContents = result.authority && result.authority.contents == 1 ? "1" : "0";
+        new ButtonGroup("inputContents", inputContents).init();
         var inputNotice = result.authority && result.authority.notice == 1 ? "1" : "0";
         new ButtonGroup("inputNotice", inputNotice).init();
         var inputApproved = result.authority && result.authority.approve == 1 ? "1" : "0";
@@ -55,6 +57,7 @@ function render(userid) {
     //初期值:日语,东九区,承认权限,通知权限没有
     new ButtonGroup("inputLang", "ja").init();
     new ButtonGroup("inputTimezone", "GMT+09:00").init();
+    new ButtonGroup("inputContents", "0").init();
     new ButtonGroup("inputNotice", "0").init();
     new ButtonGroup("inputApproved", "0").init();
     new ButtonGroup("inputActive", "0").init();
@@ -82,13 +85,15 @@ function getUserData(userid) {
   if ($("#inputPassword").val() != $("#inputPassword").attr("oldpass")) {
     user.password = $("#inputPassword").val();
   }
-  //自己编辑自己信息时,承认者,通知者,有效 不能指定.
-  if ($("#inputNotice").size() > 0 && $("#inputApproved").size() > 0) {
+  //自己编辑自己信息时,承认者,通知者,Contents作成者有效 不能指定.
+  if ($("#inputNotice").size() > 0 && $("#inputApproved").size() > 0 && $("#inputContents").size() > 0) {
     var notice =  $("#inputNotice").attr('value');
     var approved = $("#inputApproved").attr('value');
+    var contents =  $("#inputContents").attr('value');
     user.authority = {
         notice : notice
       , approve : approved
+      , contents: contents
     };
   }
   if ($("#inputActive").size() > 0) {
