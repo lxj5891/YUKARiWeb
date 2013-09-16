@@ -213,7 +213,7 @@
   "html.label.workstation.type":"Type",
   "html.label.workstation.oper":"Operation",
   "html.label.workstation.pub":"Publish",
-  "html.label.workstation.opener":"+ Publish to",
+  "html.label.workstation.opento":"+ Publish to",
   "html.select.workstation.type.link":"WEB",
   "html.select.workstation.type.app":"APP",
   "html.label.workstation.url":"URL",

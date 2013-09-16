@@ -215,7 +215,7 @@
   "html.label.workstation.type":"类别",
   "html.label.workstation.oper":"操作",
   "html.label.workstation.pub":"公开",
-  "html.label.workstation.opener":"+ 公開者",
+  "html.label.workstation.opento":"+ 公開者",
   "html.select.workstation.type.link":"链接",
   "html.select.workstation.type.app":"应用",
   "html.label.workstation.url":"链接到",

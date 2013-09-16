@@ -216,7 +216,7 @@
   "html.select.workstation.type.link":"タイプ",
   "html.label.workstation.oper":"操作",
   "html.label.workstation.pub":"公開",
-  "html.label.workstation.opener":"+ 公開先",
+  "html.label.workstation.opento":"+ 公開先",
   "html.select.workstation.type.app":"アプリ",
   "html.label.workstation.url":"リンク先",
   "html.button.workstation.add":"ワークステーション追加",

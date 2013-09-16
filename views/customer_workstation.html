@@ -43,7 +43,7 @@
       <div class="row box-border">
         <div class="wsbackcolor" style="width:860px;margin-left:15px;">
           <div>
-            <ul style="border-bottom-color:1px solid #DCDCDC;">
+            <ul style="border-bottom-color:#DCDCDC;border:1px;">
               <li class="ui-state-default">
                 <div class="wsicon pull-left"><label><%= i('html.label.workstation.icon') %><!-- アイコン--></label></div>
                 <div class="wsname pull-left"><label><%= i('html.label.workstation.name') %><!-- タイトル--></label></div>
@@ -55,14 +55,13 @@
                 </div>
               </li>
             </ul>
-            <div style="background-color:#DCDCDC;height:1px;margin-bottom:5px;"></div>
             <ul id="sortable"></ul>
             <div style="height:10px;"></div>
           </div>
         </div>
       </div>
       <div class="col-lg-8 row">
-        <button type="submit" class="col-lg-4 btn btn-warning btn-lg"><%= i('html.button.common.save') %><!-- 保存--></button>
+        <button type="submit" class="col-lg-4 btn btn-warning btn-lg" id="saveWS"><%= i('html.button.common.save') %><!-- 保存--></button>
       </div>
     </div>
   </div>
@@ -78,63 +77,66 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal" role="form">
+          <input type="hidden" class="form-control" id="inputId">
           <div class="form-group">
-            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.icon') %><!-- アイコン--></label>
+            <label class="col-xs-3 control-label"><%= i('html.label.workstation.icon') %><!-- アイコン--></label>
             <div class="col-xs-8">
-              <input type="hidden" class="form-control" id="inputIcon">
+              <input type="hidden" class="form-control" id="inputIcon" value="1">
               <div class="wsicon pull-left">
                 <ul class="nav nav-pills">
                   <li class="dropdown">
                     <label class="dropdown-toggle" data-toggle="dropdown" href="#">
-                      <i class="icon-group"></i>&nbsp; <span class="caret"></span>
+                      <i class="icon-group" id="icon_select"></i>&nbsp; <span class="caret"></span>
                     </label>
-                    <ul class="dropdown-menu" id="icon_menu">
-                    </ul>
+                    <ul class="dropdown-menu" id="icon_menu"></ul>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.name') %><!-- タイトル--></label>
+            <label class="col-xs-3 control-label"><%= i('html.label.workstation.name') %><!-- タイトル--></label>
             <div class="col-xs-8">
               <input type="text" class="form-control" id="inputTitle" placeholder="<%= i('html.label.workstation.name') %>">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.url') %><!-- URL--></label>
+            <label class="col-xs-3 control-label"><%= i('html.label.workstation.url') %><!-- URL--></label>
             <div class="col-xs-8">
               <input type="text" class="form-control" id="inputUrl" placeholder="<%= i('html.label.workstation.url') %>">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.type') %><!-- タイプ--></label>
-            <div class="col-xs-8 btn-group">
-              <button value="url" class="btn btn-sm btn-default btn-white" type="button" active="on" style="height:34px;">URL</button>
-              <button value="app" class="btn btn-sm btn-default btn-info" type="button" style="height:34px;">APP</button>
+            <label class="col-xs-3 control-label"><%= i('html.label.workstation.type') %><!-- タイプ--></label>
+            <div class="col-xs-8">
+              <div id="inputType" class=" btn-group" value="url">
+              <button value="url" class="btn btn-sm btn-default btn-white" type="button">URL</button>
+              <button value="app" class="btn btn-sm btn-default btn-info" type="button">APP</button>
+              </div>
             </div>
           </div>
           <div class="form-group">
-            <label for="inputName" class="col-xs-3 control-label"><%= i('html.label.workstation.pub') %><!-- 公開--></label>
+            <label class="col-xs-3 control-label"><%= i('html.label.workstation.pub') %><!-- 公開--></label>
             <div class="col-xs-8">
-              <div class="btn-group" id="inputType" value="open">
-                <button value="url" class="btn btn-sm btn-default btn-white" type="button" active="on" style="height:34px;">
+              <div id="inputOpen" class="btn-group" value="0">
+                <button value="0" class="btn btn-sm btn-default btn-white" type="button">
                   <i class="icon-unlock"></i>
                 </button>
-                <button value="app" class="btn btn-sm btn-default btn-info" type="button" style="height:34px;margin-bottom:10px;">
+                <button value="1" class="btn btn-sm btn-default btn-info" type="button">
                   <i class="icon-lock"></i>
                 </button>
               </div>
-              <div id="textBoxTag" class="incrementBox">
-                <input id="inputTag" scope="1" placeholder="<%= i('html.label.workstation.opener') %>" style="width: 130px;" />
+              <div id="textBoxTag" class="incrementBox" style="margin-top: 10px;">
+                <input type="text" class="form-control" id="inputTag" readonly="readonly"
+                       placeholder="<%= i('html.label.workstation.opento') %>"/>
               </div>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" name="okSetting" class="btn btn-warning cancel">
-          <span> <%= i('html.button.common.save') %><!-- 次へ--></span></button>
+        <button type="button" name="okSetting" id="saveWorkstation" class="btn btn-warning cancel">
+          <span> <%= i('html.button.common.save') %></span></button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -142,8 +144,8 @@
   <!-- /.modal-dialog -->
 </div>
 
-<script type="text/template" id="tmpl_iocn">
-  <li class="pull-left"><a tabindex="{{idx}}" href="#"><i class="{{icon}}"></i></a></li>
+<script type="text/template" id="tmpl_icon">
+  <li class="pull-left"><i class="{{icon}}" tabindex="{{idx}}"></i></li>
 </script>
 
 <script type="text/template" id="tmpl_sortable">
@@ -152,22 +154,22 @@
       <ul>
         <li>
           <label class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="icon-{{icon}}"></i>
+            <i class="{{icon}}"></i>
           </label>
         </li>
       </ul>
     </div>
     <div class="wsname pull-left">
-      <input class="form-control" name="inputTitle" type="text" value="{{name}}">
+      <!--input class="form-control" name="inputTitle" type="text" value="{{title}}"--> {{title}}
     </div>
     <div class="wsurl pull-left">
-      <input class="form-control" type="text" value="{{url}}">
+        {{url}}
     </div>
     <div class="wstype pull-left">
-      <input class="form-control" type="text" value="APP">
+        {{type}}
     </div>
     <div class="wsopen pull-left btn-group" style="height:34px;margin-top:5px;">
-      <a operation="config" class="btn btn-default btn-sm" href="#settingModal" data-toggle="modal">
+      <a operation="config" rowid={{sort}} wsid={{wsid}} class="btn btn-default btn-sm" href="#" data-toggle="modal">
         <%= i('html.button.workstation.conf') %><!-- 設定-->
       </a>
     </div>
@@ -175,7 +177,7 @@
       <i class="icon-move"></i>
     </div>
     <div class="pull-left">
-      <i class="icon-trash"></i>
+      <i class="icon-trash" style="padding:5px;" tabindex="{{sort}}" wsid={{wsid}} operation="delete"></i>
     </div>
   </li>
 </script>
