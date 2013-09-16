@@ -93,7 +93,13 @@ exports.add = function(code_, uid_, files_, callback_) {
        result.push(info);
 
        // create thumbs
-       mq.thumb({id: info._id, fid: doc._id, collection: "materials", x: "0", y: "0", width: "0"});
+       mq.thumb({code: code_
+         , id: info._id
+         , fid: doc._id
+         , collection: "materials"
+         , x: "0", y: "0"
+         , width: "0"});
+
          return callback(err);
        });
     });
