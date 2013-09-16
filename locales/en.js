@@ -39,6 +39,7 @@
   "js.common.dialog.ok":"OK",
   "js.common.dialog.cancel":"Cancel",
   "js.common.access.check":"アクセス権限がありません。",
+  "js.common.update.check":"No update permit",
   "===================sidebar":"",
   "html.label.sidebar.content":"Contents",
   "html.label.sidebar.content.material":"Material",

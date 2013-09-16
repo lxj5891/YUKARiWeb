@@ -9,6 +9,9 @@ $(function () {
   // 获取Tag一览
   smart.doget("/tag/search.json?count=20&start=0", function(err, result){
 
+    if(err){
+      return;
+    }
     var tmpl = $('#tmpl_tag_item').html()
       , container = $("#taglist");
 
@@ -99,8 +102,8 @@ function events() {
 
         // OK
         smart.dodelete("/material/remove.json", {"fid": row._id}, function(err, result){
-          if(err){
-            Alertify.log.error( i18n["js.public.check.material.delete"]); console.log(err);
+          if(smart.error(err,i18n["js.public.check.material.delete"],false)){
+            return;
           } else {
             render(0, 20);
             Alertify.log.success(i18n["js.common.delete.success"]);
@@ -134,8 +137,8 @@ function events() {
       , row = _materialList[index - 1];
 
     smart.doput("/material/updatetag.json", {fid: row._id, tags: tag.join(",")}, function(err, result) {
-      if(err){
-        Alertify.log.error(i18n["js.common.update.error"]); console.log(err);
+      if(smart.error(err, i18n["js.common.search.error"], false)){
+
       } else {
         smart.paginationInitalized = false;
         render(0, 20);
@@ -187,7 +190,11 @@ function render(start, count,keyword) {
 
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword=" + keyword, function (e, result) {
+  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword=" + keyword, function (error, result) {
+
+    if (smart.error(error, i18n["js.common.search.error"], true)) {
+      return;
+    }
 
     _materialList = result.items;
 
@@ -287,8 +294,8 @@ function uploadFiles(files) {
     function(err, result){
 
       $("#upload_progress_dlg").modal("hide");
-      if(err){
-        Alertify.log.error(i18n["js.common.upload.error"]); console.log(err);
+      if(smart.error(err, i18n["js.common.upload.error"], false)){
+        return;
       } else {
           render(0, 20);
           Alertify.log.success(i18n["js.common.upload.success"]);
@@ -320,8 +327,8 @@ function updateFiles(index, files) {
     function(err, result){
 
       $("#upload_progress_dlg").modal("hide");
-      if (err) {
-        Alertify.log.error(i18n["js.common.replace.error"]); console.log(err);
+      if (smart.error(err, i18n["js.common.replace.error"], false)) {
+
       } else {
 
         render(0, 20);
