@@ -10,15 +10,10 @@ var companyList;
 function render(start, count, keyword) {
 
   keyword = keyword ? encodeURIComponent(keyword) : "";
-  smart.doget("/company/list.json?type=all&count=" + count + "&start=" + start +"&keyword=" + keyword, function(error, result){
+  smart.doget("/company/list.json?type=all&count=" + count + "&start=" + start +"&keyword=" + keyword, function(err, result){
 
-    if (error) {
-      if (error.responseJSON.error.code == 403) {
-        window.location = "/error/403";
-        return;
-      } else {
-        Alertify.log.error(i18n["js.common.search.error"]);
-      }
+    if (err) {
+      smart.error(err,i18n["js.common.search.error"],false);
     } else {
       companyList = result.items;
       var tmpl = $('#tmpl_company_list').html()
@@ -41,7 +36,7 @@ function render(start, count, keyword) {
           , "code" : row.code
         }));
       });
-      if(result.items.length == 0) {
+      if(companyList.length == 0) {
         container.html(i18n["js.common.list.empty"]);
       }
       // 设定翻页
@@ -87,12 +82,7 @@ function events() {
       };
       smart.doput("/company/active.json",company, function(err, result){
         if (err) {
-          if (err.responseJSON.error.code == 403) {
-            window.location = "/error/403";
-            return;
-          } else {
-            Alertify.log.error(i18n["js.common.update.error"]);
-          }
+          smart.error(err,i18n["js.common.update.error"],false);
         } else {
           render(0, 15);
         }

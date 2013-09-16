@@ -238,8 +238,15 @@ exports.guiding = function (app) {
       , user: req_.session.user
     });
   });
+  //error
+  app.get('/error/400', function (req, res) {
+    res.render("error_400",{user: req.session.user});
+  });
   app.get('/error/403', function (req, res) {
     res.render("error_403",{user: req.session.user});
+  });
+  app.get('/error/500', function (req, res) {
+    res.render("error_500",{user: req.session.user});
   });
   // ----------------------------------
   app.get('*', function (req, res) {

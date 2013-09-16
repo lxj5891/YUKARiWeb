@@ -28,30 +28,35 @@ var userType = 0;
 function render(userid) {
   userType =  $('#userType').val();
   if (userid) {
-    smart.doget("/user/findOne.json?userid=" + userid , function(e, result) {
-      if (result) {
-        $("#inputUserID").val(result.uid);
-        $("#inputUserID").attr("disabled","disabled");
-        $("#inputPassword").val(result.password);
-        $("#inputPassword").attr("oldpass",result.password);
-        $("#inputName").val(result.name ? result.name.name_zh:"");
-        $("#inputRole").val(result.title);
-        $("#inputPhone").val(result.tel ? result.tel.telephone:"");
-        $("#inputComment").val(result.description);
+    smart.doget("/user/findOne.json?userid=" + userid , function(err, result) {
+      if (err) {
+        smart.error(err,i18n["js.common.search.error"],false);
+      } else {
+        if (result) {
+          $("#inputUserID").val(result.uid);
+          $("#inputUserID").attr("disabled","disabled");
+          $("#inputPassword").val(result.password);
+          $("#inputPassword").attr("oldpass",result.password);
+          $("#inputName").val(result.name ? result.name.name_zh:"");
+          $("#inputRole").val(result.title);
+          $("#inputPhone").val(result.tel ? result.tel.telephone:"");
+          $("#inputComment").val(result.description);
 
-        var inputLang = result.lang;
-        new ButtonGroup("inputLang", inputLang).init();
-        var inputTimezone = result.timezone;
-        new ButtonGroup("inputTimezone", inputTimezone).init();
-        var inputContents = result.authority && result.authority.contents == 1 ? "1" : "0";
-        new ButtonGroup("inputContents", inputContents).init();
-        var inputNotice = result.authority && result.authority.notice == 1 ? "1" : "0";
-        new ButtonGroup("inputNotice", inputNotice).init();
-        var inputApproved = result.authority && result.authority.approve == 1 ? "1" : "0";
-        new ButtonGroup("inputApproved", inputApproved).init();
-        var inputActive = result.active == 1 ? "1" : "0";
-        new ButtonGroup("inputActive", inputActive).init();
+          var inputLang = result.lang;
+          new ButtonGroup("inputLang", inputLang).init();
+          var inputTimezone = result.timezone;
+          new ButtonGroup("inputTimezone", inputTimezone).init();
+          var inputContents = result.authority && result.authority.contents == 1 ? "1" : "0";
+          new ButtonGroup("inputContents", inputContents).init();
+          var inputNotice = result.authority && result.authority.notice == 1 ? "1" : "0";
+          new ButtonGroup("inputNotice", inputNotice).init();
+          var inputApproved = result.authority && result.authority.approve == 1 ? "1" : "0";
+          new ButtonGroup("inputApproved", inputApproved).init();
+          var inputActive = result.active == 1 ? "1" : "0";
+          new ButtonGroup("inputActive", inputActive).init();
+        }
       }
+
     });
   } else {
     //初期值:日语,东九区,承认权限,通知权限没有
@@ -107,11 +112,7 @@ function getUserData(userid) {
 function addUser(user) {
   smart.dopost("/user/add.json", user, function(err, result) {
     if (err) {
-      if (result.responseJSON.error.code) {
-        Alertify.log.error(result.responseJSON.error.message);
-      } else {
-        Alertify.log.error(i18n["js.common.add.error"]);
-      }
+      smart.error(err,i18n["js.common.add.error"],false);
     } else {
       window.location = "/customer/user";
     }
@@ -122,11 +123,7 @@ function addUser(user) {
 function updateUser(user) {
   smart.doput("/user/update.json", user, function(err, result){
     if (err) {
-      if (err.responseJSON.error.code) {
-        Alertify.log.error(err.responseJSON.error.message);
-      } else {
-        Alertify.log.error(i18n["js.common.update.error"]);
-      }
+      smart.error(err,i18n["js.common.update.error"],false);
     } else {
      //管理员时,迁移到用户一览,普通用户,迁移到yukari主页.
      if (userType == 1) {

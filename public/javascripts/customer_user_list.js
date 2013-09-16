@@ -12,38 +12,43 @@ var userList;
 function render(start, count ,keyword) {
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function (e, result) {
+  smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function (err, result) {
 
-    userList = result.items;
+    if (err) {
+      smart.error(err,i18n["js.common.search.error"],false);
+    } else {
+      userList = result.items;
 
-    var tmpl = $('#tmpl_user_list').html()
-      , container = $("#user_list")
-      , index = 1;
+      var tmpl = $('#tmpl_user_list').html()
+        , container = $("#user_list")
+        , index = 1;
 
-    container.html("");
-    _.each(result.items, function (row) {
-      container.append(_.template(tmpl, {
-        "index": index++ + start,
-        "id": row._id,
-        "uid": row.uid,
-        "name": row.name ? row.name.name_zh : "",
-        "title": row.title,
-        "telephone": row.tel ? row.tel.telephone : "",
-        "description": row.description,
-        "contents": row.authority ? row.authority.contents : "0",
-        "notice": row.authority ? row.authority.notice : "0",
-        "approved": row.authority ? row.authority.approve : "0",
-        "active": row.active,
-        "type": row.type
-      }));
-    });
-    if (result.items.length == 0) {
-      container.html(i18n["js.common.list.empty"]);
+      container.html("");
+      _.each(result.items, function (row) {
+        container.append(_.template(tmpl, {
+          "index": index++ + start,
+          "id": row._id,
+          "uid": row.uid,
+          "name": row.name ? row.name.name_zh : "",
+          "title": row.title,
+          "telephone": row.tel ? row.tel.telephone : "",
+          "description": row.description,
+          "contents": row.authority ? row.authority.contents : "0",
+          "notice": row.authority ? row.authority.notice : "0",
+          "approved": row.authority ? row.authority.approve : "0",
+          "active": row.active,
+          "type": row.type
+        }));
+      });
+      if (result.items.length == 0) {
+        container.html(i18n["js.common.list.empty"]);
+      }
+      // 设定翻页
+      smart.pagination($("#pagination_area"), result.totalItems, count, function (active, rowCount) {
+        render.apply(window, [active, count]);
+      });
     }
-    // 设定翻页
-    smart.pagination($("#pagination_area"), result.totalItems, count, function (active, rowCount) {
-      render.apply(window, [active, count]);
-    });
+
   });
 }
 
@@ -87,7 +92,7 @@ function events() {
             };
             smart.doput("/user/update.json",userinfo, function(err, result){
                 if (err) {
-                    console.log(err);
+                  smart.error(err,i18n["js.common.update.error"],false);
                 } else {
                     render(0, 15);
                 }

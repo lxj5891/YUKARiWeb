@@ -26,23 +26,27 @@ $(function () {
 //画面表示
 function render(compid) {
   if (compid) {
-    smart.doget("/company/findOne.json?compid=" + compid , function(e, result) {
-      var inputCompanyType = result.companyType == 1 ? "1" : "0";
-      new ButtonGroup("inputCompanyType", inputCompanyType).init();
-      $("#inputContract").attr('disabled','disabled');
-      $("#inputDemo").attr('disabled','disabled');
-      $("#inputAdmin").val(result.mail);
-      $("#inputAdmin").attr('disabled','disabled')
-      $("#inputPassword").attr('type',"hidden");
-      $("#labelInputPass").css("display","none");
-      $("#inputNameEn").val(result.name);
-      $("#inputNameJp").val(result.kana);
-      $("#inputAddress").val(result.address);
-      $("#inputTel").val(result.tel);
-      $("#inputComPath").val(result.path);
-      var inputActive = result.active == 1 ? "1" : "0";
-      new ButtonGroup("inputActive", inputActive).init();
-      $("#inputActive").attr('disabled','disabled');
+    smart.doget("/company/findOne.json?compid=" + compid , function(err, result) {
+      if (err) {
+        smart.error(err,i18n["js.common.search.error"],false);
+      } else {
+        var inputCompanyType = result.companyType == 1 ? "1" : "0";
+        new ButtonGroup("inputCompanyType", inputCompanyType).init();
+        $("#inputContract").attr('disabled','disabled');
+        $("#inputDemo").attr('disabled','disabled');
+        $("#inputAdmin").val(result.mail);
+        $("#inputAdmin").attr('disabled','disabled')
+        $("#inputPassword").attr('type',"hidden");
+        $("#labelInputPass").css("display","none");
+        $("#inputNameEn").val(result.name);
+        $("#inputNameJp").val(result.kana);
+        $("#inputAddress").val(result.address);
+        $("#inputTel").val(result.tel);
+        $("#inputComPath").val(result.path);
+        var inputActive = result.active == 1 ? "1" : "0";
+        new ButtonGroup("inputActive", inputActive).init();
+        $("#inputActive").attr('disabled','disabled');
+      }
     });
   } else {
     new ButtonGroup("inputCompanyType", "1").init();
@@ -85,12 +89,8 @@ function addCompany(company,user) {
   };
   smart.dopost("/company/add.json", body, function(err, result) {
     if (err) {
-      if (result.responseJSON.error.code) {
-        Alertify.log.error(result.responseJSON.error.message);
-      } else {
-        Alertify.log.error(i18n["js.common.add.error"]);
-      }
-    }else {
+      smart.error(err,i18n["js.common.add.error"],false);
+    } else {
       window.location = "/admin/company";
     }
 
@@ -105,11 +105,7 @@ function updateCompany(company,user) {
   };
   smart.doput("/company/update.json", body, function(err, result){
     if (err) {
-      if (err.responseJSON.error.code) {
-        Alertify.log.error(err.responseJSON.error.message);
-      } else {
-        Alertify.log.error(i18n["js.common.update.error"]);
-      }
+      smart.error(err,i18n["js.common.update.error"],false);
     } else {
       window.location = "/admin/company";
     }
