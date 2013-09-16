@@ -39,6 +39,7 @@
   "js.common.dialog.ok":"確定",
   "js.common.dialog.cancel":"キャンセル",
   "js.common.access.check":"アクセス権限がありません。",
+  "js.common.update.check":"更新権限がありません。",
   "===================sidebar":"",
   "html.label.sidebar.content":"コンテンツ",
   "html.label.sidebar.content.material":"素材",

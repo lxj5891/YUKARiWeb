@@ -39,6 +39,7 @@
   "js.common.dialog.ok":"确定",
   "js.common.dialog.cancel":"取消",
   "js.common.access.check":"访问权限没有",
+  "js.common.update.check":"没有编集权限",
   "===================sidebar":"",
   "html.label.sidebar.content":"内容",
   "html.label.sidebar.content.material":"素材",
