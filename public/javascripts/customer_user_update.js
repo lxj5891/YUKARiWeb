@@ -85,7 +85,7 @@ function getUserData(userid) {
   if ($("#inputPassword").val() != $("#inputPassword").attr("oldpass")) {
     user.password = $("#inputPassword").val();
   }
-  //自己编辑自己信息时,承认者,通知者,Contents作成者有效 不能指定.
+  //自己编辑自己信息时,承认者,通知者,Contents作成者,有效 不能指定.
   if ($("#inputNotice").size() > 0 && $("#inputApproved").size() > 0 && $("#inputContents").size() > 0) {
     var notice =  $("#inputNotice").attr('value');
     var approved = $("#inputApproved").attr('value');

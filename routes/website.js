@@ -128,15 +128,21 @@ exports.guiding = function (app) {
 //  });
 
   // 公司一览
-    app.get('/admin/company/add', function (req, res) {
-        res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_add.title"), user: req.session.user,compId:""});
-    });
-    app.get('/admin/company/edit/:id', function (req, res) {
-        res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_update.title"), user: req.session.user,compId:req.params.id});
-    });
-    app.get('/admin/company', function (req, res) {
-        res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
-    });
+  app.get('/admin/company/add', function (req, res) {
+    var userType = req.session.user.type;
+    //DA系统管理员,开发人员以外的场合,不能访问.
+    if (userType !=2 && userType !=3) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_add.title"), user: req.session.user,compId:""});
+    }
+  });
+  app.get('/admin/company/edit/:id', function (req, res) {
+      res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_update.title"), user: req.session.user,compId:req.params.id});
+  });
+  app.get('/admin/company', function (req, res) {
+      res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
+  });
 
   // 运营情报
   app.get('/admin/operated', function (req, res) {
@@ -172,11 +178,14 @@ exports.guiding = function (app) {
       , user: req_.session.user
     });
   });
-
+  app.get('/error/403', function (req, res) {
+    res.render("error_403",{user: req.session.user});
+  });
   // ----------------------------------
   app.get('*', function (req, res) {
     res.send("404");
   });
+
 
 };
 
