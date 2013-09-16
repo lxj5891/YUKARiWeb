@@ -1,23 +1,28 @@
 var json = lib.core.json
-  , company = require('../controllers/ctrl_company');
+  , company = require('../controllers/ctrl_company')
+  , util = require('../core/utils');
 
 //权限check
 function commonCheck(req_, res_) {
-  var userType = req_.session.user.type;
+  var user =  req_.session.user;
   //DA系统管理员,开发人员以外的场合,不能访问.
-  if (userType !=2 && userType !=3) {
+  if (!util.isSystemAdmin(user)  && !util.isSuperAdmin(user)) {
     var err= {
       code : 403,
       message:__("js.common.access.check")
     };
-    return res_.send(err.code, json.errorSchema(err.code, err.message));
+    res_.send(err.code, json.errorSchema(err.code, err.message));
+    return false;
   }
+  return true;
 }
 
 // 获取公司一览
 exports.list = function(req_, res_) {
   //权限check
-  commonCheck(req_, res_);
+  if (!commonCheck(req_, res_)) {
+      return;
+  };
 
   var start = req_.query.start
     , limit = req_.query.count
@@ -35,7 +40,9 @@ exports.list = function(req_, res_) {
 // 获取指定公司
 exports.searchOne = function(req_, res_) {
   //权限check
-  commonCheck(req_, res_);
+  if (!commonCheck(req_, res_)) {
+    return;
+  };
 
   var compid = req_.query.compid;
 
@@ -49,8 +56,6 @@ exports.searchOne = function(req_, res_) {
 };
 // 获取指定公司ID
 exports.getByPath = function(req_, res_) {
-  //权限check
-  commonCheck(req_, res_);
 
   var getPath = req_.query.getPath;
 
@@ -65,7 +70,9 @@ exports.getByPath = function(req_, res_) {
 // 添加公司
 exports.add = function(req_, res_) {
   //权限check
-  commonCheck(req_, res_);
+  if (!commonCheck(req_, res_)) {
+    return;
+  };
 
   var uid = req_.session.user._id;
 
@@ -80,7 +87,9 @@ exports.add = function(req_, res_) {
 // 更新公司
 exports.update = function(req_, res_) {
   //权限check
-  commonCheck(req_, res_);
+  if (!commonCheck(req_, res_)) {
+    return;
+  };
 
   var uid = req_.session.user._id;
 
@@ -95,7 +104,9 @@ exports.update = function(req_, res_) {
 // 无效指定公司
 exports.active = function(req_, res_) {
   //权限check
-  commonCheck(req_, res_);
+  if (!commonCheck(req_, res_)) {
+    return;
+  };
 
   var uid = req_.session.user._id;
 

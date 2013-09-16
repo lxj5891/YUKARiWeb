@@ -1,5 +1,5 @@
-var i        = require("i18n");
-
+var i        = require("i18n")
+    , util = require('../core/utils');
 exports.guiding = function (app) {
 
   app.get('/', function (req, res) {
@@ -19,13 +19,31 @@ exports.guiding = function (app) {
   // ----------------------
   // 用户
   app.get('/customer/user/add', function (req, res) {
-    res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:""});
+    var sessionuser = req.session.user;
+    //客户管理员,开发人员以外,不能访问.
+    if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser)) ) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:""});
+    }
   });
   app.get('/customer/user/edit/:id', function (req, res) {
-    res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+    var sessionuser = req.session.user;
+    //客户管理员,开发人员以外,不能访问.
+    if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+    }
   });
   app.get('/customer/user', function (req, res) {
-    res.render("customer_user_list", {"title": i.__("js.routes.website.customer_user_list.title"), user: req.session.user});
+    var sessionuser = req.session.user;
+    //客户管理员,开发人员以外,不能访问.
+    if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("customer_user_list", {"title": i.__("js.routes.website.customer_user_list.title"), user: req.session.user});
+    }
   });
   //一括登录
   app.get('/customer/user/import', function (req, res) {
@@ -38,21 +56,51 @@ exports.guiding = function (app) {
 
   //组
     app.get('/customer/group', function (req, res) {
+      var sessionuser = req.session.user;
+      //客户管理员,DA管理员,不能访问.
+      if (util.isAdmin(sessionuser) || util.isSystemAdmin(sessionuser)) {
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("customer_group_list", {"title": i.__("js.routes.website.customer_group_list.title"), user: req.session.user});
+      }
     });
     app.get('/customer/group/add', function (req, res) {
-      res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_add.title"), user: req.session.user,groupId:""});
+      var sessionuser = req.session.user;
+      //客户管理员,DA管理员,不能访问.
+      if (util.isAdmin(sessionuser) || util.isSystemAdmin(sessionuser)) {
+        res.render("error_403", {user: req.session.user});
+      } else {
+        res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_add.title"), user: req.session.user,groupId:""});
+      }
     });
     app.get('/customer/group/edit/:id', function (req, res) {
+      var sessionuser = req.session.user;
+      //客户管理员,DA管理员,不能访问.
+      if (util.isAdmin(sessionuser) || util.isSystemAdmin(sessionuser)) {
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_update.title"), user: req.session.user,groupId:req.params.id});
+      }
     });
 
   //通知
     app.get('/customer/notice', function (req, res) {
+      var sessionuser = req.session.user;
+      //通知者,开发人员以外,不能访问.
+      if (!util.hasNoticePermit(sessionuser)) {
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("customer_notice", {"title": i.__("js.routes.website.customer_notice.title"), user: req.session.user});
+      }
     });
     app.get('/customer/notice/add', function (req, res) {
+      var sessionuser = req.session.user;
+      //通知者,开发人员以外,不能访问.
+      if (!util.hasNoticePermit(sessionuser)) {
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("customer_notice_add", {"title": i.__("js.routes.website.customer_notice_add.title"), user: req.session.user});
+      }
     });
 
   //workstation
@@ -129,19 +177,31 @@ exports.guiding = function (app) {
 
   // 公司一览
   app.get('/admin/company/add', function (req, res) {
-    var userType = req.session.user.type;
+    var sessionuser = req.session.user;
     //DA系统管理员,开发人员以外的场合,不能访问.
-    if (userType !=2 && userType !=3) {
+    if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
       res.render("error_403", {user: req.session.user});
     } else {
       res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_add.title"), user: req.session.user,compId:""});
     }
   });
   app.get('/admin/company/edit/:id', function (req, res) {
+    var sessionuser = req.session.user;
+    //DA系统管理员,开发人员以外的场合,不能访问.
+    if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
+      res.render("error_403", {user: req.session.user});
+    } else {
       res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_update.title"), user: req.session.user,compId:req.params.id});
+    }
   });
   app.get('/admin/company', function (req, res) {
+    var sessionuser = req.session.user;
+    //DA系统管理员,开发人员以外的场合,不能访问.
+    if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
+      res.render("error_403", {user: req.session.user});
+    } else {
       res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
+    }
   });
 
   // 运营情报
