@@ -391,6 +391,6 @@
   "api.param.error":"パラメータが正しくありません、パラメータ「%s」を指定してください。",
   "api.layout.id.error":"レイアウトが存在しません。レイアウトID：",
   "api.file.name.error":"ファイルが存在しません。ファイル名：",
-  "error.company.noexist":"公司ID不存在！",
-  "error.company.code.noexist":"公司Code不存在！"
+  "error.company.noexist":"顧客IDが存在しません。",
+  "error.company.code.noexist":"顧客コードが存在しません。"
 }

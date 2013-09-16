@@ -35,6 +35,8 @@
   "js.common.save.success":"Saved successfully.",
   "js.common.save.error":"Failed to save.",
   "js.common.list.empty":"No data.",
+  "js.common.dialog.ok":"OK",
+  "js.common.dialog.cancel":"Cancel",
   "===================sidebar":"",
   "html.label.sidebar.content":"Contents",
   "html.label.sidebar.content.material":"Material",

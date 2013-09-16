@@ -47,17 +47,17 @@ function login() {
       }
       , success: function(data, textStatus, jqXHR) {
         if (jqXHR.status != 200) {
-          alert(data);
+          Alertify.log.info(data);
         }
         var error = (data && data.error) ? data.error: undefined;
         if(error) {
           if(error.code == 1020) {// 公司不存在
-            alert(error.message);
+            Alertify.log.error(error.message);
             $('#path').focus();
           } else if(error.code) {
-            alert(error.message);
+            Alertify.log.error(error.message);
           } else {
-            alert(data);
+            Alertify.log.info(data);
           }
         } else {
           window.location = "/yukari";
