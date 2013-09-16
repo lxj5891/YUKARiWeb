@@ -287,7 +287,7 @@ var smart = {
           }
         }
       , error: function(err) {
-          callback_(1, err);
+          callback_(err);
         }
     });
   },
@@ -313,7 +313,7 @@ var smart = {
         }
       , error: function(err) {
         console.log("do ajax " + url_ + "   error");
-          callback_(1, err);
+          callback_(err);
         }
     });
   },
@@ -369,13 +369,15 @@ var smart = {
 
   error: function(err,defaultMsg,moveToErrPage){
     if(err){
-      // TODO errPage 404,500...
-      if (err.responseJSON.error.code == 403) {
+      if(err.status == 403 || err.status == 400 || err.status == 500){
         if(moveToErrPage){
-          window.location = "/error/403";
-        } else {
-          Alertify.log.error(err.responseJSON.error.message);
+          window.location = "/error/"+err.status;
+          return true;
         }
+      }
+
+      if(err.responseJSON && err.responseJSON.error && err.responseJSON.error.message){
+        Alertify.log.error(err.responseJSON.error.message);
       } else {
         Alertify.log.error(defaultMsg);
         console.log(err);
