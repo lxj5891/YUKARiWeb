@@ -311,7 +311,7 @@ function appendCoverImage1(code, docs, callback) {
 
 // 删除
 exports.remove = function (code, uid_, id_, callback_) {
-  checkLayoutUse(id_,function(err,count){
+  checkLayoutUse(code,id_,function(err,count){
     if(count==0){
       synthetic.remove(code, uid_, id_, function (err, result) {
         callback_(err, result);
