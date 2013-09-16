@@ -1,16 +1,14 @@
 var json = lib.core.json
   , company = require('../controllers/ctrl_company')
-  , util = require('../core/utils');
+  , errors  = lib.core.errors
+  , util    = require('../core/utils');
 
 //权限check
 function commonCheck(req_, res_) {
   var user =  req_.session.user;
   //DA系统管理员,开发人员以外的场合,不能访问.
   if (!util.isSystemAdmin(user)  && !util.isSuperAdmin(user)) {
-    var err= {
-      code : 403,
-      message:__("js.common.access.check")
-    };
+    var err= new errors.Forbidden(__("js.common.access.check"));
     res_.send(err.code, json.errorSchema(err.code, err.message));
     return false;
   }
