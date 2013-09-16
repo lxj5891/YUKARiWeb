@@ -367,6 +367,25 @@ var smart = {
     });
   },
 
+  error: function(err,defaultMsg,moveToErrPage){
+    if(err){
+      // TODO errPage 404,500...
+      if (err.responseJSON.error.code == 403) {
+        if(moveToErrPage){
+          window.location = "/error/403";
+        } else {
+          Alertify.log.error(err.responseJSON.error.message);
+        }
+      } else {
+        Alertify.log.error(defaultMsg);
+        console.log(err);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  },
+
   /**
    * 通过HTML5的FileAPI，实现本地照片文件的预览
    */
