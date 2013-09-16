@@ -243,6 +243,7 @@
   "html.label.user.role":"役職",
   "html.label.user.tel":"電話番号",
   "html.label.user.comment":"コメント",
+  "html.label.user.contents":"コンテンツ作成者",
   "html.label.user.approved":"承認者",
   "html.label.user.notice":"通知者",
   "html.label.user.active":"有効",
