@@ -85,7 +85,7 @@ exports.add = function(code_, uid_, notice_, callback_) {
     // send apn notice
     _.each(result.touser, function(u){
       mq.pushApnMessage({
-          code: coee_
+          code: code_
         , target: u
         , body: result.title
       });
