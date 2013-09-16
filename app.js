@@ -37,7 +37,7 @@ i18n.configure({"locales": ["en", "ja", "zh"]
   , "register": global
   , "updateFiles": false
 });
-i18n.setLocale("zh");
+i18n.setLocale("ja");
 
 var app = express();
 

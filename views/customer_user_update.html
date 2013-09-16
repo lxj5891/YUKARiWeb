@@ -101,10 +101,19 @@
           </div>
           <% if (user.type == 3 || user.type == 1) {%>
           <div class="form-group">
+            <label class="col-lg-2 control-label"><%= i('html.label.user.contents') %><!-- コンテンツ作成者--></label>
+            <div class="col-lg-8">
+              <div class="btn-group" value="0" id="inputContents">
+                <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
+                <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-lg-2 control-label"><%= i('html.label.user.approved') %><!-- 承認者--></label>
             <div class="col-lg-8">
               <!--<input type="checkbox" style="vertical-align: middle" id="inputApproved">-->
-              <div class="btn-group" value="1" id="inputApproved">
+              <div class="btn-group" value="0" id="inputApproved">
                 <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
                 <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
               </div>
@@ -114,7 +123,7 @@
             <label class="col-lg-2 control-label"><%= i('html.label.user.notice') %><!-- 通知者--></label>
             <div class="col-lg-8">
               <!--<input type="checkbox" style="vertical-align: middle" id="inputNotice">-->
-              <div class="btn-group" value="1" id="inputNotice">
+              <div class="btn-group" value="0" id="inputNotice">
                 <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
                 <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
               </div>
