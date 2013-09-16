@@ -23,7 +23,18 @@ function render(start, count ,keyword) {
     container.html("");
     _.each(result.items, function (row) {
       container.append(_.template(tmpl, {
-        "index": index++ + start, "id": row._id, "uid": row.uid, "name": row.name ? row.name.name_zh : "", "title": row.title, "telephone": row.tel ? row.tel.telephone : "", "description": row.description, "notice": row.authority ? row.authority.notice : "", "approved": row.authority ? row.authority.approve : "", "active": row.active, "type": row.type
+        "index": index++ + start,
+        "id": row._id,
+        "uid": row.uid,
+        "name": row.name ? row.name.name_zh : "",
+        "title": row.title,
+        "telephone": row.tel ? row.tel.telephone : "",
+        "description": row.description,
+        "contents": row.authority ? row.authority.contents : "0",
+        "notice": row.authority ? row.authority.notice : "0",
+        "approved": row.authority ? row.authority.approve : "0",
+        "active": row.active,
+        "type": row.type
       }));
     });
     if (result.items.length == 0) {

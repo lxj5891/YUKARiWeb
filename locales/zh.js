@@ -241,6 +241,7 @@
   "html.label.user.role":"职务",
   "html.label.user.tel":"电话号码",
   "html.label.user.comment":"描述",
+  "html.label.user.contents":"内容作成者",
   "html.label.user.approved":"批准者",
   "html.label.user.notice":"通知者",
   "html.label.user.active":"有效",

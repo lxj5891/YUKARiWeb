@@ -241,6 +241,7 @@
   "html.label.user.role":"Role",
   "html.label.user.tel":"Tel",
   "html.label.user.comment":"Comment",
+  "html.label.user.contents":"Contents Creator",
   "html.label.user.approved":"Approver",
   "html.label.user.notice":"Noticer",
   "html.label.user.active":"Active",
