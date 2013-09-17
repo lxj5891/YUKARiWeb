@@ -15,10 +15,13 @@ $(function () {
   // get the events for buttons
   events();
 
-  // 初始化承认者
-  var view = smart.view("user").view;
-  view.initialize("textBoxConfirm", "", {search_target: "user", target_limit: 1, search_auth: "approve"});
-  view.initialize("textBoxViewer", "", {search_target: "all", target_limit: 20});
+  // 初始化承认者，公开对象
+  new userbox(smart.view("user1")).view.initialize(
+    "textBoxConfirm", "", {search_target: "user", target_limit: 1, search_auth: "approve"}
+  );
+  new userbox(smart.view("user2")).view.initialize(
+    "textBoxViewer", "", {search_target: "all", target_limit: 20}
+  );
 
   $("#applyButton").bind("click", function(event){
 

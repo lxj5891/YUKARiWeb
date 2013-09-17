@@ -34,11 +34,12 @@
   </div><!--/.navbar-inner-->
 </div>
 
-<div id="_findresult" style="z-index: 2000; ">
-  <ul class="search">
-    <li class="bottom"><i class="icon-search"></i><%= i('navbar.search.moreResult')%></li>
-  </ul>
-</div>
+<!-- 检索结果 -->
+<script type="text/template" id="tmpl_findresult">
+  <div id="{{id}}" class="findresult">
+    <ul class="search"></ul>
+  </div>
+</script>
 
 <!-- 翻页 -->
 <script type="text/template" id="tmpl_pagination">
