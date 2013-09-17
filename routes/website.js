@@ -172,7 +172,11 @@ exports.guiding = function (app) {
 
   // 布局
   app.get('/content/layout', function (req, res) {
-    res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:0});
+    if(util.hasContentPermit(req.session.user) || util.hasApprovePermit(req.session.user)){
+      res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:0});
+    } else {
+      res.render("error_403", {user: req.session.user});
+    }
   });
 
     // 公式
@@ -181,11 +185,19 @@ exports.guiding = function (app) {
     });
     //申請中
     app.get('/content/layout/apply', function (req, res) {
+      if(!util.hasContentPermit(req.session.user)){
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:21});
+    }
     });
     //承認待ち
     app.get('/content/layout/confirm', function (req, res) {
+      if(!util.hasApprovePermit(req.session.user)){
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:22});
+      }
     });
 
   app.get('/content/layout/add', function (req, res) {

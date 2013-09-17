@@ -87,6 +87,10 @@ function render(start, count,keyword) {
   }
   smart.doget(jsonUrl, function(e, result){
 
+    if (smart.error(e, i18n["js.common.search.error"], true)) {
+      return;
+    }
+
     var layoutList = result.items;
     var container = $("#layout_list")
       , index = 1;
