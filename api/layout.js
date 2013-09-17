@@ -10,6 +10,10 @@ exports.add = function (req_, res_) {
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
 
+  if(!canUpdate(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
+
   layout.add(code, uid, req_.body, function (err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
@@ -21,6 +25,9 @@ exports.add = function (req_, res_) {
 
 exports.get = function (req_, res_) {
 
+  if(!canUpdate(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
   var layoutId = req_.query.id;
@@ -35,6 +42,10 @@ exports.get = function (req_, res_) {
 };
 
 exports.update = function (req_, res_) {
+
+  if(!canUpdate(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
 
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
@@ -56,6 +67,10 @@ exports.apply = function (req_, res_) {
 
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
+
+  if(!canApply(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
   var layout_ = {
     _id: req_.body.id,
     status: 2,
@@ -77,6 +92,10 @@ exports.confirm = function (req_, res_) {
 
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
+
+  if(!canConfirm(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
   var layout_ = {
     _id: req_.body.id,
     confirmby : uid,
@@ -102,6 +121,9 @@ exports.confirm = function (req_, res_) {
 };
 
 exports.remove = function(req_, res_) {
+  if(!canUpdate(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
   var code = req_.session.user.companycode;
   var uid = req_.session.user._id
     , id = req_.body.id
@@ -191,3 +213,12 @@ function canViewPublishLayout(user_, publishLayout_){
 
 }
 
+function noAccessResponse(res_){
+  var err= new errors.Forbidden(__("js.common.access.check"));
+  return res_.send(err.code, json.errorSchema(err.code, err.message));
+}
+
+function noUpdateResponse(res_){
+  var err= new errors.Forbidden(__("js.common.update.check"));
+  return res_.send(err.code, json.errorSchema(err.code, err.message));
+}

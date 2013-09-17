@@ -189,15 +189,27 @@ exports.guiding = function (app) {
     });
 
   app.get('/content/layout/add', function (req, res) {
-    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_add.title"), user: req.session.user, layoutId:0, isCopy:"false"});
+    if(!util.hasContentPermit(req.session.user)){
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_add.title"), user: req.session.user, layoutId:0, isCopy:"false"});
+    }
   });
 
   app.get('/content/layout/edit/:id', function (req, res) {
-    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_update.title"), user: req.session.user, layoutId:req.params.id, isCopy:"false"});
+    if(!util.hasContentPermit(req.session.user)){
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_update.title"), user: req.session.user, layoutId:req.params.id, isCopy:"false"});
+    }
   });
 
   app.get('/content/layout/copy/:id', function (req, res) {
-    res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_copy.title"), user: req.session.user, layoutId:req.params.id, isCopy:"true"});
+    if(!util.hasContentPermit(req.session.user)){
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_copy.title"), user: req.session.user, layoutId:req.params.id, isCopy:"true"});
+    }
   });
 
 
