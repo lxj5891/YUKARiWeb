@@ -53,6 +53,7 @@
           <thead>
           <tr>
             <th>#</th>
+            <th><%= i('html.label.company.path') %></th>
             <th><%= i('html.label.user.id') %><!-- ユーザID--></th>
             <th><%= i('html.label.user.name') %><!-- 名前--></th>
             <th><%= i('html.label.user.role') %><!-- 役職--></th>
@@ -80,6 +81,7 @@
 <script type="text/template" id="tmpl_user_list">
   <tr>
     <td>{{index}}</td>
+    <td>{{path}}</td>
     <td>{{uid}}</td>
     <td>{{name}}</td>
     <td>{{title}}</td>
