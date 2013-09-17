@@ -6,7 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var json = lib.core.json
+var json      = lib.core.json
+  , utils     = require('../core/utils')
+  , errors    = lib.core.errors
   , synthetic = require('../controllers/ctrl_synthetic');
 
 exports.editSynthetic = function(req_,res_){
@@ -16,6 +18,10 @@ exports.editSynthetic = function(req_,res_){
 exports.getStoreById = function(req_,res_){
   var synthetic_id = req_.body.synthetic_id;
   var code = req_.session.user.companycode;
+  var user = req_.session.user;
+  if(!canUpdate(user)){
+    return noAccessResponse(res_);
+  }
   //console.log("synthetic_id :%s",synthetic_id);
   if(synthetic_id){
     //console.log("success");
@@ -33,6 +39,10 @@ exports.saveDescription = function(req_,res_){
   var code = req_.session.user.companycode;
   var comment = req_.body.comment;
   var name = req_.body.name;
+  var user = req_.session.user;
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
   synthetic.saveNameAndComment(code, synthetic_id,name,comment,uid, function(err,result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
@@ -54,6 +64,9 @@ exports.saveAll = function(req_,res_){
   var covercols = req_.body.covercols;
   var syntheticName = req_.body.syntheticName;
   var syntheticComment = req_.body.syntheticComment;
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
 
   synthetic.saveThumbAndMatedata(code, synthetic_id,cover,metadata,coverrows,covercols,syntheticName,syntheticComment,user, function(err,result){
     if (err) {
@@ -68,6 +81,10 @@ exports.save = function (req_, res_) {
   var company = req_.session.user.companyid
     , uid = req_.session.user._id;
   var code = req_.session.user.companycode;
+  var user = req_.session.user;
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
 
   synthetic.save(code, company, uid, req_.body, function (err, result) {
     console.log(result);
@@ -88,6 +105,10 @@ exports.list = function(req_, res_) {
     , limit = req_.query.count
     , keyword = req_.query.keyword
     , type = req_.query.type;
+  var user = req_.session.user;
+  if(!canUpdate(user)){
+    return noAccessResponse(res_);
+  }
 
   synthetic.list(code, keyword,type,company, start, limit, function(err, result) {
     if (err) {
@@ -105,6 +126,11 @@ exports.remove = function(req_, res_) {
     , syntheticId = req_.body.id
     , code = req_.session.user.companycode;
 
+  var user = req_.session.user;
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
+
   synthetic.remove(code, uid, syntheticId, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
@@ -121,6 +147,11 @@ exports.copy = function(req_, res_) {
     , code = req_.session.user.companycode
     , uid = req_.session.user._id;
 
+  var user = req_.session.user;
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
+
   synthetic.copy(code, uid, syntheticId, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
@@ -129,3 +160,21 @@ exports.copy = function(req_, res_) {
     }
   });
 };
+
+
+// author check
+
+// 元素的增删改查都只有content作成者有权限，增删改查暂用一个check
+function canUpdate(user_){
+  return utils.hasContentPermit(user_);
+}
+
+function noAccessResponse(res_){
+  var err= new errors.Forbidden(__("js.common.access.check"));
+  return res_.send(err.code, json.errorSchema(err.code, err.message));
+}
+
+function noUpdateResponse(res_){
+  var err= new errors.Forbidden(__("js.common.update.check"));
+  return res_.send(err.code, json.errorSchema(err.code, err.message));
+}

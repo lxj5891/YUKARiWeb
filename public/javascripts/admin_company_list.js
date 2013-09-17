@@ -10,38 +10,40 @@ var companyList;
 function render(start, count, keyword) {
 
   keyword = keyword ? encodeURIComponent(keyword) : "";
-  smart.doget("/company/list.json?type=all&count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
+  smart.doget("/company/list.json?type=all&count=" + count + "&start=" + start +"&keyword=" + keyword, function(err, result){
 
-    companyList = result.items;
+    if (err) {
+      smart.error(err,i18n["js.common.search.error"],false);
+    } else {
+      companyList = result.items;
+      var tmpl = $('#tmpl_company_list').html()
+        , container = $("#company_list")
+        , index = 1;
 
-    var tmpl = $('#tmpl_company_list').html()
-      , container = $("#company_list")
-      , index = 1;
-
-    container.html("");
-    _.each(result.items, function(row){
-      container.append(_.template(tmpl, {
+      container.html("");
+      _.each(result.items, function(row){
+        container.append(_.template(tmpl, {
           "index": index++ + start
-        , "type": row.companyType
-        , "_id": row.path
-        , "name": row.name
-        , "kana": row.kana
-        , "tel": row.tel
-        , "address": row.address
-        , "mail": row.mail
-        , "createat": smart.date(row.createat)
-        , "active": row.active
-        , "code" : row.code
-      }));
-    });
-    if(result.items.length == 0)
-    {
+          , "type": row.companyType
+          , "_id": row.path
+          , "name": row.name
+          , "kana": row.kana
+          , "tel": row.tel
+          , "address": row.address
+          , "mail": row.mail
+          , "createat": smart.date(row.createat)
+          , "active": row.active
+          , "code" : row.code
+        }));
+      });
+      if(companyList.length == 0) {
         container.html(i18n["js.common.list.empty"]);
-    }
+      }
       // 设定翻页
       smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
-          render.apply(window, [active, count]);
+        render.apply(window, [active, count]);
       });
+    }
   });
 }
 
@@ -80,7 +82,7 @@ function events() {
       };
       smart.doput("/company/active.json",company, function(err, result){
         if (err) {
-          Alertify.log.error(i18n["js.common.update.error"]);
+          smart.error(err,i18n["js.common.update.error"],false);
         } else {
           render(0, 15);
         }

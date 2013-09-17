@@ -42,47 +42,153 @@ $(function () {
     helper: "clone",
     revert: "invalid"
   });
-  $( "ul, li" ).disableSelection();
-
-  $('#setting_add').on('click', function () {
-    var li;
-    li = $("#sortable").children("li").last().clone();
-    $("#sortable").append(li);
-  });
+  //$( "ul, li" ).disableSelection();
 
   render();
 
+  events();
+
   function render(){
-    var icon_tmpl = $( "#tmpl_iocn").html();
+    var icon_tmpl = $( "#tmpl_icon").html();
     var iconContainer = $( "#icon_menu");
-    for(var i = 1; i < 31; i ++){
-      iconContainer.append(_.template(icon_tmpl, {idx:i,icon:iconMap[i]}));
+    // icon list menu
+    if (iconContainer.html()) {
+    } else {
+      for(var i = 1; i < 31; i ++){
+        iconContainer.append(_.template(icon_tmpl, {idx:i,icon:iconMap[i]}));
+      }
     }
 
-    $( "#sortable").html();
+    $( "#sortable").html("");
 
-    var list = [];
-    list.push({name: "連絡・通達", url: "http://moe.dreamarts.co.jp/", icon: "volume-up"});
-    list.push({name: "行動予定", url: "http://moe.dreamarts.co.jp/", icon: "calendar"});
-    list.push({name: "メール", url: "http://moe.dreamarts.co.jp/", icon: "envelope"});
-    list.push({name: "社内SNS", url: "http://moe.dreamarts.co.jp/", icon: "group"});
-    list.push({name: "問合せDB", url: "http://moe.dreamarts.co.jp/", icon: "bar-chart"});
-    list.push({name: "営業レポート作成", url: "http://moe.dreamarts.co.jp/", icon: "pencil"});
-    list.push({name: "営業レポート一覧", url: "http://moe.dreamarts.co.jp/", icon: "paste"});
-    list.push({name: "顧客情報検索", url: "http://moe.dreamarts.co.jp/", icon: "search"});
-    list.push({name: "案件情報検索", url: "http://moe.dreamarts.co.jp/", icon: "briefcase"});
-    list.push({name: "営業予算管理", url: "http://moe.dreamarts.co.jp/", icon: "bookmark"});
-    list.push({name: "営業資料・My書庫", url: "http://moe.dreamarts.co.jp/", icon: "book"});
+    smart.doget("/workstation/list.json", function(err, result){
+        if (err) {
+          Alertify.log.error(i18n["js.common.list.empty"]); console.log(err);
+        } else {
+          var tmpl = $("#tmpl_sortable").html();
+          _.each(result.items, function(item){
 
-    list.push({name: "VOCお客様の声", url: "http://moe.dreamarts.co.jp/", icon: "comments"});
-    list.push({name: "電子稟議決裁", url: "http://moe.dreamarts.co.jp/", icon: "file-text-alt"});
-    list.push({name: "アンケート調査", url: "http://moe.dreamarts.co.jp/", icon: "building"});
-    list.push({name: "見積り作成", url: "http://moe.dreamarts.co.jp/", icon: "calendar-empty"});
-
-    var tmpl = $("#tmpl_sortable").html();
-    _.each(list, function(item){
-      $( "#sortable").append(_.template(tmpl, item));
+            $( "#sortable").append(_.template(tmpl, {
+              icon: iconMap[item.icon],
+              title: item.title,
+              url: item.url,
+              type: item.type,
+              sort: item.sort_level,
+              wsid: item._id
+            }));
+          });
+        }
     });
+
+  }
+
+  function events() {
+
+    $('#setting_add').on('click', function () {
+
+      setWSData({icon:1, type:"url", open: 0});
+      $("#settingModal").modal("show");
+    });
+
+    // list events
+    $("#sortable").on("click", "a", function(event){
+      var target = $(event.target);
+      var operation = target.attr("operation")
+        , wsid = target.attr("wsid");
+
+      if (operation == "config") {
+
+        smart.doget("/workstation/findOne.json?id="+wsid, function(err, result){
+          if (result) {
+
+            setWSData(result);
+            $("#settingModal").modal("show");
+          }
+        });
+
+      }
+    });
+
+    $("#sortable").on("click", "i", function(event){
+        var target = $(event.target);
+        var operation = target.attr("operation")
+            , wsid= target.attr("wsid");
+
+      if (operation == "delete") {
+
+        Alertify.dialog.labels.ok = i18n["js.common.dialog.ok"];
+        Alertify.dialog.labels.cancel = i18n["js.common.dialog.cancel"];
+        Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
+
+          smart.dodelete("/workstation/remove.json", {"id": wsid}, function(err, result){
+            if (err) {
+              Alertify.log.error(i18n["js.common.delete.error"]); console.log(err);
+            } else {
+              render();
+              Alertify.log.success(i18n["js.common.delete.success"]);
+            }
+          });
+        }, function () {
+          // Cancel
+        });
+      }
+      return false;
+    });
+
+    $("#icon_menu").on("click", "i", function(event) {
+        var target = $(event.target);
+        var idx = target.attr("tabindex");
+
+        $("#icon_select").removeClass();
+        $("#icon_select").addClass(iconMap[idx]);
+        $("#inputIcon").val(idx);
+    });
+
+    $('#saveWorkstation').on('click', function () {
+
+      var ws = getWSData();
+
+      smart.dopost("/workstation/update.json", ws, function(err, result){
+          if (err) {
+              Alertify.log.error(i18n["js.common.save.error"]); console.log(err);
+          } else {
+            $("#settingModal").modal("hide");
+            render();
+            Alertify.log.success(i18n["js.common.save.success"]);
+          }
+      });
+
+    });
+  }
+
+  function getWSData() {
+
+    var ws = {
+      "id":  $("#inputId").val(),
+      "icon" : $("#inputIcon").val(),
+      "title": $("#inputTitle").val(),
+      "url"  : $("#inputUrl").val(),
+      "type" : $("#inputType").attr('value'),
+      "open" : $("#inputOpen").attr('value')
+    };
+
+    return ws;
+  }
+
+  function setWSData(ws) {
+    $("#inputId").val(ws._id);
+
+    $("#icon_select").removeClass();
+    $("#icon_select").addClass(iconMap[ws.icon]);
+    $("#inputIcon").val(ws.icon);
+
+    $("#inputTitle").val(ws.title);
+    $("#inputUrl").val(ws.url)
+
+    new ButtonGroup("inputType", ws.type).init();
+    new ButtonGroup("inputOpen", ws.open).init();
+
+    //opener??
   }
 
 });

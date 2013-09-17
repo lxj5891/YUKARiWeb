@@ -577,7 +577,7 @@ ol.popular-tags li a {
   height: 45px;
   border-right-width: 0px;
   border-left-width: 0px;
-  border-top-width: 0px;
+  border-top-width: 1px;
   border-bottom-width: 0px;
 }
 .wsbackcolor ul li div {
@@ -615,9 +615,12 @@ ol.popular-tags li a {
 }
 .dropdown-menu {
   float: left;
-  min-width: 350px;
+  min-width: 200px;
   padding: 0px 0;
   margin: 0px 0 0;
+}
+.dropdown-menu > li > i {
+  padding: 5px 5px 5px 5px;
 }
 /**workstation end*/
 /* 用户搜索结果 */

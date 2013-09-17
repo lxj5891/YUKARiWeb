@@ -3,6 +3,7 @@ var async           = require('async')
   , json            = lib.core.json
   , dbfile          = lib.ctrl.dbfile
   , errors          = lib.core.errors
+  , utils           = require('../core/utils')
   , material        = require('../controllers/ctrl_material')
   , layout_publish  = require('../modules/mod_layout_publish')
   , ctl_layout      = require('../controllers/ctrl_layout');
@@ -15,11 +16,16 @@ var async           = require('async')
 exports.list = function(req_, res_) {
 
   var code = req_.session.user.companycode
+    , user = req_.session.user
     , keyword = req_.query.keyword          // 检索用关键字
     , tags = req_.query.tags                // 选中的tag
     , start = req_.query.start
     , limit = req_.query.count
     , contentType = req_.query.contentType;
+
+  if(!canUpdate(user)){
+    return noAccessResponse(res_);
+  }
 
 
   material.list(code, contentType, keyword, tags, start, limit, function(err, result) {
@@ -35,7 +41,12 @@ exports.list = function(req_, res_) {
 exports.add = function(req_, res_) {
 
   var uid = req_.session.user._id
+    , user = req_.session.user
     , code = req_.session.user.companycode;
+
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
 
   // Get file list from the request
   var files = [];
@@ -59,8 +70,13 @@ exports.add = function(req_, res_) {
 exports.updatefile = function(req_, res_) {
 
   var uid = req_.session.user._id
+    , user = req_.session.user
     , fid = req_.body.fid
     , code = req_.session.user.companycode;
+
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
 
   material.updatefile(code, uid, fid, req_.files.files, function(err, result){
     if (err) {
@@ -75,9 +91,14 @@ exports.updatefile = function(req_, res_) {
 exports.updatetag = function(req_, res_) {
 
   var uid = req_.session.user._id
+    , user = req_.session.user
     , fid = req_.body.fid
     , tags = req_.body.tags.split(",")
     , code = req_.session.user.companycode;
+
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
 
   var object = {
     "tags": tags
@@ -94,6 +115,8 @@ exports.updatetag = function(req_, res_) {
 
 // Download a file
 exports.download = function(req_, res_, isPublish) {
+
+  // TODO 权限check
 
   var uid = req_.session.user._id
     , target = req_.query.target // temp
@@ -284,7 +307,12 @@ exports.remove = function(req_, res_) {
 
   var uid = req_.session.user._id
     , fid = req_.body.fid
+    , user = req_.session.user
     , code = req_.session.user.companycode;
+
+  if(!canUpdate(user)){
+    return noUpdateResponse(res_);
+  }
 
   material.remove(code, uid, fid, function(err, result){
     if (err) {
@@ -294,3 +322,21 @@ exports.remove = function(req_, res_) {
     }
   });
 };
+
+
+// author check
+
+// 素材的增删改查都只有content作成者有权限，增删改查暂用一个check
+function canUpdate(user_){
+  return utils.hasContentPermit(user_);
+}
+
+function noAccessResponse(res_){
+  var err= new errors.Forbidden(__("js.common.access.check"));
+  return res_.send(err.code, json.errorSchema(err.code, err.message));
+}
+
+function noUpdateResponse(res_){
+  var err= new errors.Forbidden(__("js.common.update.check"));
+  return res_.send(err.code, json.errorSchema(err.code, err.message));
+}

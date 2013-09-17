@@ -15,6 +15,7 @@ var user        = lib.api.user
   , tag         = require("../api/tag")
   , notice      = require("../api/notice")
   , device      = require("../api/device")
+  , workstation = require("../api/workstation")
   , errorsExt  = require("../core/errorsExt");
 
 exports.guiding = function(app){
@@ -269,5 +270,19 @@ exports.guiding = function(app){
   });
   app.post('/synthetic/copy.json', function (req, res) {
     synthetic.copy(req,res);
+  });
+
+  // Workstation
+  app.get('/workstation/list.json', function (req, res) {
+    workstation.list(req,res);
+  });
+  app.get('/workstation/findOne.json', function (req, res) {
+    workstation.findOne(req,res);
+  });
+  app.delete('/workstation/remove.json', function (req, res) {
+    workstation.remove(req,res);
+  });
+  app.post('/workstation/update.json', function (req, res) {
+    workstation.update(req,res);
   });
 };
