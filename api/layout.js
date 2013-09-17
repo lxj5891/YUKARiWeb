@@ -1,6 +1,8 @@
 var json = lib.core.json
   , amqp = require('amqp')
   , mq_join = require('config').mq_join
+  , errors = lib.core.errors
+  , utils = require('../core/utils')
   , layout = require('../controllers/ctrl_layout');
 
 exports.add = function (req_, res_) {
@@ -161,3 +163,31 @@ exports.history = function(req_, res_) {
     }
   });
 };
+
+
+function canUpdate(user_){
+  return utils.hasContentPermit(user_);
+}
+
+function canApply(user_){
+  return utils.hasContentPermit(user_);
+}
+
+function canConfirm(user_){
+  return utils.hasApprovePermit(user_);
+}
+
+function canView(user_, layout_){
+  if(utils.hasContentPermit(user_)){
+    return true;
+  }
+  if(canConfirm(user_) && layout_.status === 2){//申请中的承认者可看
+    return true;
+  }
+  return false;
+}
+
+function canViewPublishLayout(user_, publishLayout_){
+
+}
+
