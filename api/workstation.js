@@ -16,6 +16,21 @@ exports.update = function(req_, res_){
   });
 };
 
+exports.updateList = function(req_, res_){
+  var uid = req_.session.user._id;
+  var code = req_.session.user.companycode;
+
+  var workstationList_ = req_.body;
+
+  workstation.saveList(code, uid, workstationList_, function(err, result){
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+};
+
 exports.list = function(req_, res_) {
 
   var code = req_.session.user.companycode

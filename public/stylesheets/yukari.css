@@ -592,6 +592,10 @@ ol.popular-tags li a {
   width: 200px;
   padding-right: 5px;
   text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
 }
 .wstype {
   width: 60px;
@@ -602,6 +606,10 @@ ol.popular-tags li a {
   width: 400px;
   padding-right: 5px;
   text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
 }
 .wsopen {
   width: 65px;

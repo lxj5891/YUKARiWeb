@@ -149,13 +149,44 @@ $(function () {
       var ws = getWSData();
 
       smart.dopost("/workstation/update.json", ws, function(err, result){
-          if (err) {
-              Alertify.log.error(i18n["js.common.save.error"]); console.log(err);
-          } else {
-            $("#settingModal").modal("hide");
-            render();
-            Alertify.log.success(i18n["js.common.save.success"]);
-          }
+        if (err) {
+            Alertify.log.error(i18n["js.common.save.error"]); console.log(err);
+        } else {
+          $("#settingModal").modal("hide");
+          render();
+          Alertify.log.success(i18n["js.common.save.success"]);
+        }
+      });
+
+    });
+
+    $("#inputOpen").on("click", "button", function(event){
+      var target = $(event.target);
+      if (target.attr("value") == 1) {
+        $("#textBoxTag").show();
+      } else {
+        $("#textBoxTag").hide();
+      }
+    });
+
+    $("#saveList").on('click', function(){
+      var wsList =  $("#sortable").find("li.ui-state-default");
+      var sortList = [];
+      var cnt = 1;
+
+      _.each(wsList, function(ws){
+        var wsid = ws.getAttribute("wsid");
+        sortList.push(cnt + ":" + wsid)
+        cnt++;
+      });
+
+      smart.dopost("/workstation/updateList.json", sortList, function(err, result){
+        if (err) {
+          Alertify.log.error(i18n["js.common.save.error"]); console.log(err);
+        } else {
+          //render();
+          Alertify.log.success(i18n["js.common.save.success"]);
+        }
       });
 
     });
@@ -171,7 +202,20 @@ $(function () {
       "type" : $("#inputType").attr('value'),
       "open" : $("#inputOpen").attr('value')
     };
-
+    // opento
+    if (ws.open) {
+      var uids = [], gids = [];
+      $("#textBoxTag ol li").each(function() {
+        if ("user" == $(this).attr("type")) {
+          uids.push($(this).attr("uid"));
+        }
+        if ("group" == $(this).attr("type")) {
+          gids.push($(this).attr("uid"));
+        }
+      });
+      ws.user = uids.join(",");
+      ws.group= gids.join(",");
+    }
     return ws;
   }
 
@@ -186,9 +230,46 @@ $(function () {
     $("#inputUrl").val(ws.url)
 
     new ButtonGroup("inputType", ws.type).init();
-    new ButtonGroup("inputOpen", ws.open).init();
 
-    //opener??
+    // opento init start
+    var view = smart.view("user").view;
+    view.initialize("textBoxTag", null, {search_target: "all"});
+    var defaultList= [];
+    if (ws.to) {
+
+      _.each(ws.to.user, function(row){
+        if (row.valid == 1) {
+          defaultList.push({
+            uid : row._id,
+            uname: row.name ? row.name.name_zh : "",
+            type : "user"
+          }) ;
+        }
+      });
+      _.each(ws.to.group, function(row){
+        if (row.valid == 1) {
+          defaultList.push({
+            uid : row._id,
+            uname: row.name ? row.name.name_zh : "",
+            type : "group"
+          }) ;
+        }
+      });
+    } else {
+
+    }
+    view.setDefaults(defaultList);
+    // init end
+
+    var toggleOpento = function(val) {
+      if (val == 1) {
+        $("#textBoxTag").show();
+      } else {
+        $("#textBoxTag").hide();
+      }
+    }
+    new ButtonGroup("inputOpen", ws.open, toggleOpento).init(toggleOpento);
+
   }
 
 });

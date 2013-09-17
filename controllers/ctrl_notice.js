@@ -73,8 +73,8 @@ exports.add = function(code_, uid_, notice_, callback_) {
     , createby: uid_
     , notice: notice_.notice
     , title: notice_.title
-    , touser: notice_.user ? notice_.user.split(",") : undefined
-    , togroup: notice_.group ? notice_.group.split(",") : undefined
+    , touser: notice_.user ? notice_.user.split(",") : []
+    , togroup: notice_.group ? notice_.group.split(",") : []
   }
 
   notice.add(code_, obj, function(err, result){
