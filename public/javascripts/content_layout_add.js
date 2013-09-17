@@ -898,7 +898,7 @@ $(function () {
 
     var url = '/synthetic/list.json?type='+type;
     smart.doget(url,function(err, result){
-      if(err){
+      if(smart.error(err, i18n["js.common.search.error"], false)){
         return;
       }
       var syntheticList = result.items;
