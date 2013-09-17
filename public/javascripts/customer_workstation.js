@@ -42,7 +42,9 @@ $(function () {
     helper: "clone",
     revert: "invalid"
   });
-  //$( "ul, li" ).disableSelection();
+  //$( "ul, li" ).disableSelection();  ??
+  var open_view = new userbox(smart.view("user1")).view
+  open_view.initialize("textBoxTag", "", {search_target: "all"});
 
   render();
 
@@ -232,8 +234,6 @@ $(function () {
     new ButtonGroup("inputType", ws.type).init();
 
     // opento init start
-    var view = smart.view("user").view;
-    view.initialize("textBoxTag", null, {search_target: "all"});
     var defaultList= [];
     if (ws.to) {
 
@@ -255,10 +255,9 @@ $(function () {
           }) ;
         }
       });
-    } else {
-
     }
-    view.setDefaults(defaultList);
+    open_view.setDefaults(defaultList);
+
     // init end
 
     var toggleOpento = function(val) {

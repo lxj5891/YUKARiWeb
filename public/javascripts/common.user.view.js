@@ -13,6 +13,7 @@ var userbox = function(User) {
     tmplRow: undefined,
     tmplBox: undefined,
     tmplFinder: undefined,
+    config:{},
 
     /**
      * 初始化
@@ -114,7 +115,6 @@ var userbox = function(User) {
     setConfig: function(conf) {
       var self = this;
       if (!conf) {
-        self.config = {};
         return;
       }
 
@@ -137,6 +137,10 @@ var userbox = function(User) {
     setDefaults: function(defaults) {
 
       var self = this;
+
+      // clear items
+      self.itemInputContainer.children("ol").remove();
+
       _.each(defaults, function(item){
         self.onRowSelected(item.uid, item.uname, item.type);
       });

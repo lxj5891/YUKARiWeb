@@ -36,15 +36,16 @@ exports.save = function(code_, uid_, workstation_, callback_){
     ws.createby = uid_;
 
     workstation.total(code_, {valid: 1}, function(err, count){
+
       ws.sort_level = count + 1;
-    });
 
-    workstation.add(code_, ws, function(err, result){
-      if (err) {
-        return callback_(new error.InternalServer(err));
-      }
+      workstation.add(code_, ws, function(err, result){
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
 
-      callback_(err, result);
+        callback_(err, result);
+      });
     });
   }
 };
@@ -124,6 +125,10 @@ exports.list = function(code_, user, callback_) {
 };
 
 function check_auth(user) {
-  //権限チェック TODO
-
+  //権限チェック
+  if (user.authority.contents == 1) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
