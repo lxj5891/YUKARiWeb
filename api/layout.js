@@ -144,6 +144,7 @@ exports.remove = function(req_, res_) {
 exports.list = function(req_, res_) {
 
   var code = req_.session.user.companycode
+    , user = req_.session.user
     , start = req_.query.start
     , limit = req_.query.count
     , publish = req_.query.publish
@@ -159,14 +160,18 @@ exports.list = function(req_, res_) {
             }
         });
     } else {
+      if(canUpdate(user) || canConfirm(user) || canApply(user)){
         var uid = req_.session.user._id;
         layout.list(code,keyword, start, limit, uid, status, function(err, result) {
-            if (err) {
-                return res_.send(err.code, json.errorSchema(err.code, err.message));
-            } else {
-                return res_.send(json.dataSchema(result));
-            }
+          if (err) {
+            return res_.send(err.code, json.errorSchema(err.code, err.message));
+          } else {
+            return res_.send(json.dataSchema(result));
+          }
         });
+      } else {
+        return noUpdateResponse(res_);
+      }
     }
 };
 

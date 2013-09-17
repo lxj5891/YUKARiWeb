@@ -66,20 +66,16 @@ exports.guiding = function (app) {
     if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser)) ) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("admin_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:""});
+      res.render("admin_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:"",code:""});
     }
   });
-  app.get('/admin/user/edit/:id', function (req, res) {
+  app.get('/admin/user/edit/:code/:id', function (req, res) {
     var sessionuser = req.session.user;
-    //客户管理员,开发人员,自己以外,不能访问.
-    if (req.params.id == req.session.user._id) {
-      res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+    //客户管理员,开发人员,不能访问.
+    if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
+      res.render("error_403", {user: req.session.user});
     } else {
-      if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
-        res.render("error_403", {user: req.session.user});
-      } else {
-        res.render("admin_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
-      }
+      res.render("admin_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id,code:req.params.code});
     }
 
   });
@@ -172,7 +168,11 @@ exports.guiding = function (app) {
 
   // 布局
   app.get('/content/layout', function (req, res) {
-    res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:0});
+    if(util.hasContentPermit(req.session.user) || util.hasApprovePermit(req.session.user)){
+      res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:0});
+    } else {
+      res.render("error_403", {user: req.session.user});
+    }
   });
 
     // 公式
@@ -181,11 +181,19 @@ exports.guiding = function (app) {
     });
     //申請中
     app.get('/content/layout/apply', function (req, res) {
+      if(!util.hasContentPermit(req.session.user)){
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:21});
+    }
     });
     //承認待ち
     app.get('/content/layout/confirm', function (req, res) {
+      if(!util.hasApprovePermit(req.session.user)){
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:22});
+      }
     });
 
   app.get('/content/layout/add', function (req, res) {

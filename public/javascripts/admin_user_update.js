@@ -3,6 +3,7 @@ $(function () {
 
   //取得用户ID
   var userid =  $('#userId').val();
+  var code =  $('#code').val();
   //画面表示
   render(userid);
   //事件追加
@@ -21,12 +22,53 @@ $(function () {
     }
     return false;
   });
+  $('#inputCompanyCode').on('click', function(){
+
+    $('#selectCompanyPath').modal("show");
+    smart.doget('/company/list.json',function(err, result){
+      if (err) {
+        smart.error(err,i18n["js.common.search.error"],false);
+      } else {
+        var tmpl = $('#tmpl_company_list').html()
+          , container = $("#company_list")
+          , index = 1;
+
+        container.html("");
+        _.each(result.items, function(row){
+          container.append(_.template(tmpl, {
+            "index": index++
+            , "type": row.companyType
+            , "id" : row._id
+            , "companypath": row.path
+            , "name": row.name
+            , "code" : row.code
+            , "createat": smart.date(row.createat)
+          }));
+        });
+
+        container.find('input[name=company_radio]').each(function(){
+          $(this).on('click', function(){
+            var companypath = $(this).attr('companypath');
+            var code = $(this).attr('companycode');
+            $('#inputCompanyCode').val(companypath);
+            $('#inputCompanyCode').attr('code',code);
+            $('#selectCompanyPath').modal("hide");
+          });
+        });
+      }
+
+    });
+  });
+
+  $('#selectedCompany').click(
+    function () {
+      $('#selectCompanyPath').modal("hide");
+    }
+  );
 });
-//用户类型
-var userType = 0;
+
 //画面表示
 function render(userid) {
-  userType =  $('#userType').val();
   if (userid) {
     smart.doget("/user/findOne.json?userid=" + userid , function(err, result) {
       if (err) {
