@@ -46,7 +46,11 @@ $contents.view = {
       }
     }
     var textImageListener = function () {
-      smart.doget("/material/list.json?type=image&&start=0&count=500", function (e, result) {
+      smart.doget("/material/list.json?type=image&&start=0&count=500", function (err, result) {
+        if (smart.error(err, i18n["js.common.search.error"], false)) {
+          return;
+        }
+
         new jModal("pickThumbPic", tpl_materialPopupImage, result.items);
         $("#pickThumbPic").unbind('click').on("click", "img", function (e) {
           var $target = $($(e.target).parent().find('div'));

@@ -330,6 +330,9 @@ function ImagePopup(opt, callback) {
 
     smart.doget(url, function (err, result) {
       console.log(url);
+      if (smart.error(err, i18n["js.common.search.error"], false)) {
+        return;
+      }
       console.log(result);
       _initStore(result);
       var total = that._total;

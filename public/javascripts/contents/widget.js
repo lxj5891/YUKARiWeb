@@ -142,7 +142,11 @@ WidgetFace.prototype.setActionChange = function(init){
     if(_this.action&&(_this.action.type!=store._action_type.image))
     _this.action = undefined;
     var _loadMaterialFn = function(start){
-      smart.doget("/material/list.json?type=image&&start=0&count=500", function (e, result) {
+      smart.doget("/material/list.json?type=image&&start=0&count=500", function (err, result) {
+        if (smart.error(err, i18n["js.common.search.error"], false)) {
+          return;
+        }
+
         new loadModal("pickThumbPic", tpl_materialPopupImage, result.items,'single',function(event){
           $(".action_widget_image_preview img").attr("src",event.src);
           _this.action = {};
@@ -207,7 +211,10 @@ WidgetFace.prototype.setActionChange = function(init){
       _this.action = undefined;
 
     var _loadMaterialFn = function(start){
-      smart.doget("/material/list.json?type=image&&start=0&count=500", function (e, result) {
+      smart.doget("/material/list.json?type=image&&start=0&count=500", function (err, result) {
+        if (smart.error(err, i18n["js.common.search.error"], false)) {
+          return;
+        }
         new loadModal("pickThumbPic", tpl_materialPopupVideo, result.items,'video',function(event){
           $(".action_widget_moive_preview video").attr("src",event.src);
 //          _this.action = _this.action ||{};
