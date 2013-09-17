@@ -8,7 +8,7 @@
 </head>
 <body>
 <input type="hidden" id="userId" name="userId" value="<%= userId %>">
-<input type="hidden" id="userType" name="userType" value="<%= user.type %>">
+<input type="hidden" id="code" name="code" value="<%= code %>">
 <% include common/navbar.html %>
 
 <div class="main-container container-fluid">
@@ -46,7 +46,7 @@
           <div class="form-group">
             <label for="inputCompanyCode" class="col-lg-2 control-label">顧客コード</label>
             <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputCompanyCode" placeholder="顧客コード" maxlength="30">
+              <input type="text" class="form-control" id="inputCompanyCode" placeholder="顧客コード" maxlength="30" code="" value="">
             </div>
           </div>
           <div class="form-group">
@@ -133,5 +133,54 @@
     </div>
   </div>
 </div><!--/.main-container-->
+<div class="modal fade" id="selectCompanyPath" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="width: 800px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>顧客選択</h3>
+      </div>
+      <div class="modal-body" style="padding-bottom: 0px;">
+        <table class="table table-hover" style="margin-bottom: 0px">
+          <thead >
+          <tr>
+            <th>#</th>
+            <th>会社ID</th>
+            <th>顧客タイプ</th>
+            <th>顧客名称</th>
+            <th>登録日</th>
+            <th>選択</th>
+          </tr>
+          </thead>
+        </table>
+        <div style="max-height: 335px;overflow-y: auto">
+          <table class="table table-hover" style="margin-bottom: 0px;word-break:break-all;word-wrap:break-word">
+            <tbody id="company_list"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 0px">
+        <button class="btn btn-default btn-sm" id="selectedCompany"><%= i('html.button.layout.contents.select') %><!-- 選択--></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/template" id="tmpl_company_list">
+  <tr>
+    <td>{{index}}</td>
+    <td style="word-break:break-all;word-wrap:break-word">{{companypath}}</td>
+    <$ if (type == 2) {$>
+    <td><%= i('html.label.company.type.self') %></td>
+    <$ } else if(type == 1) {$>
+    <td><%= i('html.label.company.type.contract') %></td>
+    <$ } else {$>
+    <td><%= i('html.label.company.type.demo') %></td>
+    <$ } $>
+    <td style="word-break:break-all;word-wrap:break-word">{{name}}</td>
+    <td>{{createat}}</td>
+    <td>
+      <input companypath="{{companypath}}" companycode="{{code}}" type="radio" name="company_radio">
+    </td>
+  </tr>
+</script>
 </body>
 </html>
