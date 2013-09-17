@@ -6,11 +6,12 @@ var mongo = require('mongoose')
 
 var Workstation = new schema({
   title: {type: String, description: "title"},
-  type: {type: String, description: "类型"},
+  type: {type: String, description: "app or url"},
   url: {type: String, description: "url"},
   icon: {type: String, description: "icon"},
   open: {type: Number, description: "0:open,1:not open"},
-  opento: [String],      //公開先
+  touser: [ String ],
+  togroup: [ String ],
   sort_level: {type:Number, default: 1}, //ソートレベル
   editat: {type: Date, default: Date.now},
   editby: {type: String},
@@ -80,4 +81,12 @@ exports.list = function(code_, condition_, callback_){
     .exec(function(err, result){
       callback_(err, result);
     });
+};
+
+exports.total = function(code_, condition, callback_){
+  var workstation = model(code_);
+
+  workstation.count(condition).exec(function(err, count){
+    callback_(err, count);
+  });
 };

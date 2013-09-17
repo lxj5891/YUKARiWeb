@@ -617,7 +617,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
  * @param value
  * @constructor
  */
-var ButtonGroup = function(id, value) {
+var ButtonGroup = function(id, value, clickCallback) {
   this.id = $("#" + id);
   this.value = value;
 
@@ -626,10 +626,14 @@ var ButtonGroup = function(id, value) {
   this.id.on("click", "button", function(){
     self.value = $(this).attr("value");
     self.init();
+
+    if (clickCallback) {
+      clickCallback(this.value);
+    }
   });
 };
 
-ButtonGroup.prototype.init = function() {
+ButtonGroup.prototype.init = function(initCallback) {
 
   // set default value
   this.id.attr("value", this.value);
@@ -648,6 +652,10 @@ ButtonGroup.prototype.init = function() {
       $(item).removeAttr("active");
     }
   });
+
+  if (initCallback) {
+    initCallback(self.value);
+  }
 };
 
 ButtonGroup.prototype.set = function(value) {

@@ -4,6 +4,7 @@
   <title><%= title %></title>
   <% include common/required.html %>
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
   <script type="text/javascript" src="/javascripts/customer_workstation.js"></script>
   <style>
     .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
@@ -61,7 +62,7 @@
         </div>
       </div>
       <div class="col-lg-8 row">
-        <button type="submit" class="col-lg-4 btn btn-warning btn-lg" id="saveWS"><%= i('html.button.common.save') %><!-- 保存--></button>
+        <button type="submit" class="col-lg-4 btn btn-warning btn-lg" id="saveList"><%= i('html.button.common.save') %><!-- 保存--></button>
       </div>
     </div>
   </div>
@@ -119,16 +120,15 @@
             <label class="col-xs-3 control-label"><%= i('html.label.workstation.pub') %><!-- 公開--></label>
             <div class="col-xs-8">
               <div id="inputOpen" class="btn-group" value="0">
-                <button value="0" class="btn btn-sm btn-default btn-white" type="button">
+                <button value="0" class="btn btn-sm btn-default btn-white" type="button" style="width: 45px;">
                   <i class="icon-unlock"></i>
                 </button>
-                <button value="1" class="btn btn-sm btn-default btn-info" type="button">
+                <button value="1" class="btn btn-sm btn-default btn-info" type="button" style="width: 45px;">
                   <i class="icon-lock"></i>
                 </button>
               </div>
               <div id="textBoxTag" class="incrementBox" style="margin-top: 10px;">
-                <input type="text" class="form-control" id="inputTag" readonly="readonly"
-                       placeholder="<%= i('html.label.workstation.opento') %>"/>
+                <input scope="1" id="viewerText" placeholder="<%= i('html.label.workstation.opento') %>" />
               </div>
             </div>
           </div>
@@ -149,7 +149,7 @@
 </script>
 
 <script type="text/template" id="tmpl_sortable">
-  <li class="ui-state-default">
+  <li class="ui-state-default" wsid={{wsid}}>
     <div class="wsicon pull-left">
       <ul>
         <li>
@@ -159,15 +159,9 @@
         </li>
       </ul>
     </div>
-    <div class="wsname pull-left">
-      <!--input class="form-control" name="inputTitle" type="text" value="{{title}}"--> {{title}}
-    </div>
-    <div class="wsurl pull-left">
-        {{url}}
-    </div>
-    <div class="wstype pull-left">
-        {{type}}
-    </div>
+    <div class="wsname pull-left">{{title}}</div>
+    <div class="wsurl pull-left">{{url}}</div>
+    <div class="wstype pull-left">{{type}}</div>
     <div class="wsopen pull-left btn-group" style="height:34px;margin-top:5px;">
       <a operation="config" rowid={{sort}} wsid={{wsid}} class="btn btn-default btn-sm" href="#" data-toggle="modal">
         <%= i('html.button.workstation.conf') %><!-- 設定-->
