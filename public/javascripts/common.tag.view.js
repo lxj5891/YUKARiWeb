@@ -11,6 +11,7 @@
     itemContainer: undefined,     // 检索结果显示框
     tmplRow: undefined,
     tmplBox: undefined,
+    tmplFinder: undefined,
 
     /**
      * 初始化
@@ -21,8 +22,11 @@
 
       this.tmplRow = $("#_tag_list_template");
       this.tmplBox = $("#_tag_box_template");
-      this.itemFinder = $("#_findresult");
-      this.itemFinderContainer = $("#_findresult ul");
+      this.tmplFinder = $("#tmpl_findresult");
+
+      this.addFinder(box + "_finder");
+      this.itemFinder = $("#" + box + "_finder");
+      this.itemFinderContainer = $("#" + box + "_finder ul");
       this.itemInputContainer = $("#" + box);
       this.active = $("#" + box + " input");
 
@@ -77,6 +81,13 @@
       this.itemFinder.css("top", self.active.offset().top + 31);
       this.itemFinder.css("left", self.active.offset().left);
       this.itemFinder.show();
+    },
+
+    /**
+     * 添加容器
+     */
+    addFinder: function(id) {
+      $("body").append(_.template(this.tmplFinder.html(), {"id": id}));
     },
 
     /**

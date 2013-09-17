@@ -28,6 +28,11 @@ function render(start, count,keyword) {
 
   smart.doget("/synthetic/list.json?count=" + count + "&start=" + start + "&keyword=" + keyword, function (e, result) {
 
+
+    if (smart.error(e, i18n["js.common.search.error"], true)) {
+      return;
+    }
+
     var syntheticList = result.items;
 
     // 一览表示
@@ -116,8 +121,8 @@ function events() {
 
         // OK
         smart.dodelete("/synthetic/remove.json", {"id": rowid}, function(err, result){
-          if (err) {
-            Alertify.log.error(i18n["js.common.delete.error"]); console.log(err);
+          if(smart.error(err,i18n["js.common.delete.error"],false)){
+            return;
           } else {
             render(0, 20);
             Alertify.log.success(i18n["js.common.delete.success"]);
@@ -130,6 +135,10 @@ function events() {
 
     if (operation == "preview") {
        smart.dopost("/content/synthetic/getstore.json", {synthetic_id: rowid}, function(err, result){
+         if(smart.error(err, i18n["js.common.search.error"], false)){
+           return;
+         }
+
          var files = [];
          _.each(result.data.items.metadata, function(item) {
            if (item && item.material && item.material.thumb && item.material.thumb.big) {
@@ -150,8 +159,8 @@ function events() {
 
     if (operation == "copy") {
       smart.dopost("/synthetic/copy.json", {"id": rowid}, function(err, result){
-        if (err) {
-          Alertify.log.error(i18n["js.common.copy.error"]); console.log(err);
+        if (smart.error(err, i18n["js.common.copy.error"], false)) {
+          return;
         } else {
           render(0, 20);
           Alertify.log.success(i18n["js.common.copy.success"]);

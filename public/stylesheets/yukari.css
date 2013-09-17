@@ -632,17 +632,18 @@ ol.popular-tags li a {
 }
 /**workstation end*/
 /* 用户搜索结果 */
-#_findresult {
+.findresult {
   top: 0px;
   left: 0px;
   position: absolute;
+  z-index: 2000;
   background-color: #fff;
   display: none;
 }
-#_findresult a {
+.findresult a {
   text-decoration: none;
 }
-#_findresult span {
+.findresult span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -652,20 +653,20 @@ ol.popular-tags li a {
   font-size: 11px;
   margin-top: 1px;
 }
-#_findresult span.addition {
+.findresult span.addition {
   color: #999;
 }
-#_findresult ul {
+.findresult ul {
   list-style-type: none;
   margin: 0px;
 }
-#_findresult img {
+.findresult img {
   display: block;
   width: 30px;
   position: absolute;
   margin-top: 1px;
 }
-#_findresult ul.search {
+.findresult ul.search {
   background: #fff;
   border: solid;
   border-width: 1px 1px 1px;
@@ -677,7 +678,7 @@ ol.popular-tags li a {
   max-height: none;
   text-align: inherit;
 }
-#_findresult ul.search li.user {
+.findresult ul.search li.user {
   border: solid #fff;
   border-width: 1px 0;
   color: #333;
@@ -689,11 +690,11 @@ ol.popular-tags li a {
   border-bottom: 1px solid #f5f5f5;
   line-height: 15px;
 }
-#_findresult ul.search li.user:hover {
+.findresult ul.search li.user:hover {
   background-color: #b561de;
   color: #fff;
 }
-#_findresult ul.search .bottom {
+.findresult ul.search .bottom {
   min-height: 20px;
   line-height: 15px;
   padding: 2px 15px 2px 6px;

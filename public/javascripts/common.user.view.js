@@ -1,17 +1,18 @@
 /**
  * 搜索用户，组
  */
-(function(User) {
+var userbox = function(User) {
 
   User.view = {
 
     model: undefined,
     active: undefined,            // 现在活动的输入框
-    activeTotal: undefined,      // 選択される対象数
+    activeTotal: undefined,       // 选择可能的人数
     itemInputContainer: undefined,// 输入框外围的容器（DIV）
     itemContainer: undefined,     // 检索结果显示框
     tmplRow: undefined,
     tmplBox: undefined,
+    tmplFinder: undefined,
 
     /**
      * 初始化
@@ -22,8 +23,11 @@
 
       this.tmplRow = $("#_user_list_template");
       this.tmplBox = $("#_user_box_template");
-      this.itemFinder = $("#_findresult");
-      this.itemFinderContainer = $("#_findresult ul");
+      this.tmplFinder = $("#tmpl_findresult");
+
+      this.addFinder(box + "_finder");
+      this.itemFinder = $("#" + box + "_finder");
+      this.itemFinderContainer = $("#" + box + "_finder ul");
       this.itemInputContainer = $("#" + box);
       this.active = $("#" + box + " input");
 
@@ -64,6 +68,13 @@
         return false;
       });
 
+    },
+
+    /**
+     * 添加容器
+     */
+    addFinder: function(id) {
+      $("body").append(_.template(this.tmplFinder.html(), {"id": id}));
     },
 
     /**
@@ -193,25 +204,28 @@
     }
   },
 
-    // Define a Finder
-    User.model = {
+  // Define a Finder
+  User.model = {
 
-      initialize: function(options) {
-      },
+    initialize: function(options) {
+    },
 
-      fetch: function(conf, callback) {
-        conf.start = 0;
-        conf.count = 5;
-        var url = "/user/search.json?"+ $.param(conf);
+    fetch: function(conf, callback) {
+      conf.start = 0;
+      conf.count = 5;
+      var url = "/user/search.json?"+ $.param(conf);
 
-        smart.doget(url, function(err, result){
-          callback(err, result.items.user, result.items.group);
-        });
-      },
+      smart.doget(url, function(err, result){
+        callback(err, result.items.user, result.items.group);
+      });
+    },
 
-      save: function() {
-      }
+    save: function() {
     }
+  }
 
-})(smart.view("user"));
+  this.view = User.view;
+  this.model = User.model;
+
+};//)(smart.view("user"));
 

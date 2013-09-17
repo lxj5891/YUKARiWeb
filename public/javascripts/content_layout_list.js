@@ -15,10 +15,13 @@ $(function () {
   // get the events for buttons
   events();
 
-  // 初始化承认者
-  var view = smart.view("user").view;
-  view.initialize("textBoxConfirm", "", {search_target: "user", target_limit: 1, search_auth: "approve"});
-  view.initialize("textBoxViewer", "", {search_target: "all", target_limit: 20});
+  // 初始化承认者，公开对象
+  new userbox(smart.view("user1")).view.initialize(
+    "textBoxConfirm", "", {search_target: "user", target_limit: 1, search_auth: "approve"}
+  );
+  new userbox(smart.view("user2")).view.initialize(
+    "textBoxViewer", "", {search_target: "all", target_limit: 20}
+  );
 
   $("#applyButton").bind("click", function(event){
 
@@ -36,9 +39,8 @@ $(function () {
       var confirmId = $("#confirmId").val();
 
       smart.dopost("/layout/apply.json", {"id": confirmId, confirmby: confirmby}, function(err, result){
-        if (err) {
-          var mess = result.message || i18n["js.public.error.layoutlist.apply"];
-          Alertify.log.error(mess); console.log(err);
+        if (smart.error(err, i18n["js.public.error.layoutlist.apply"], false)) {
+          return;
         } else {
           render(0, 20);
           Alertify.log.success(i18n["js.public.success.layoutlist.apply"]);
@@ -250,8 +252,8 @@ function events() {
 
             // OK
             smart.dodelete("/layout/remove.json", {"id": rowid, "layoutId": layoutId}, function(err, result){
-                if (err) {
-                    Alertify.log.error(i18n["js.common.delete.error"]); console.log(err);
+                if (smart.error(err,i18n["js.common.delete.error"], false)) {
+
                 } else {
                     render(0, 20);
                     Alertify.log.success(i18n["js.common.delete.success"]);
@@ -280,8 +282,8 @@ function events() {
     }
     if (operation == "confirm") {
         smart.dopost("/layout/confirm.json", {"id": rowid, "confirm": 1}, function(err, result){
-            if (err) {
-                Alertify.log.error(i18n["js.public.error.layoutlist.confirm"]); console.log(err);
+            if (smart.error(err,i18n["js.public.error.layoutlist.confirm"],false)) {
+
             } else {
                 render(0, 20);
                 Alertify.log.success(i18n["js.public.success.layoutlist.confirm"]);
@@ -291,8 +293,8 @@ function events() {
 
     if (operation == "deny") {
         smart.dopost("/layout/confirm.json", {"id": rowid, "confirm": 2}, function(err, result){
-            if (err) {
-                Alertify.log.error(i18n["js.public.error.layoutlist.deny"]); console.log(err);
+            if (smart.error(err,i18n["js.public.error.layoutlist.deny"],false)) {
+
             } else {
                 render(0, 20);
                 Alertify.log.success(i18n["js.public.success.layoutlist.deny"]);

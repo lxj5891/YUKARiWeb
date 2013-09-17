@@ -12,7 +12,7 @@ var mongo = require('mongoose')
 var Company = new schema({
     code : {type: String ,description:"公司CODE"}
   , path : {type: String, description:"登陆url用的path，对应顾客编集画面的公司ID"}
-  , companyType: {type: String,description: "0:demo 1:正式客户"}
+  , companyType: {type: String,description: "0:提案客户 1:委托客户 2:自营客户"}
   , mail: {type: String,description: "管理员ID"}
   , name: {type: String}
   , kana: {type: String}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/admin_user_update.js"></script>
+</head>
+<body>
+<input type="hidden" id="userId" name="userId" value="<%= userId %>">
+<input type="hidden" id="userType" name="userType" value="<%= user.type %>">
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+
+  <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <% if (user.type != 0) {%>
+        <li style="width:90px">
+          <i class="icon-male icon-large"></i>
+          <a href="/customer/user"><%= i('html.label.user') %><!-- ユーザ一覧--></a>
+          <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
+        </li>
+        <% } %>
+        <li class="active" style="width:86px"><%= title %></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row tableheader col-lg-8">
+        <div class="pull-left">
+          <h4><%= i('html.label.user.basicinfo') %><!-- 基本情報--></h4>
+        </div>
+      </div>
+      <div class="row col-lg-8 box-border">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputCompanyCode" class="col-lg-2 control-label">顧客コード</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputCompanyCode" placeholder="顧客コード" maxlength="30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputUserID" class="col-lg-2 control-label"><%= i('html.label.user.id') %><!-- ユーザID--></label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputUserID" placeholder="<%= i('html.label.user.id') %>" maxlength="30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label"><%= i('html.label.user.password') %><!-- パスワード--></label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" id="inputPassword" placeholder="<%= i('html.label.user.password') %>" maxlength="20">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputName" class="col-lg-2 control-label"><%= i('html.label.user.name') %><!-- 名前--></label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputName" placeholder="<%= i('html.label.user.name') %>" maxlength="20">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputRole" class="col-lg-2 control-label"><%= i('html.label.user.role') %><!-- 役職--></label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputRole" placeholder="<%= i('html.label.user.role') %>" maxlength="20">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPhone" class="col-lg-2 control-label"><%= i('html.label.user.tel') %><!-- 電話番号--></label>
+            <div class="col-lg-8">
+              <input type="tel" class="form-control" id="inputPhone" placeholder="<%= i('html.label.user.tel') %>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputLang" class="col-lg-2 control-label"><%= i('html.label.user.lang') %><!-- 言語--></label>
+            <div class="col-lg-8">
+              <div class="btn-group" value="ja" id="inputLang">
+                <button type="button" class="btn btn-sm btn-info" value="ja">日本語</button>
+                <button type="button" class="btn btn-sm btn-default" value="en">English</button>
+                <button type="button" class="btn btn-sm btn-default" value="zh">中国语</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputTimezone" class="col-lg-2 control-label"><%= i('html.label.user.timezone') %><!-- 时区--></label>
+            <div class="col-lg-8">
+              <div class="btn-group" value="GMT+08:00" id="inputTimezone">
+                <button type="button" class="btn btn-sm btn-default" value="GMT+09:00">日本(GMT+09)</button>
+                <button type="button" class="btn btn-sm btn-default" value="GMT-05:00">東部(GMT-05)</button>
+                <button type="button" class="btn btn-sm btn-info" value="GMT+08:00">中国(GMT+08)</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputComment" class="col-lg-2 control-label"><%= i('html.label.user.comment') %><!-- コメント--></label>
+            <div class="col-lg-8">
+              <textarea class="form-control" id="inputComment" placeholder="<%= i('html.label.user.comment') %>"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label"><%= i('html.label.user.contents') %><!-- コンテンツ作成者--></label>
+            <div class="col-lg-8">
+              <div class="btn-group" value="0" id="inputContents">
+                <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
+                <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label"><%= i('html.label.user.active') %><!-- 有効--></label>
+            <div class="col-lg-8">
+              <div class="btn-group" value="1" id="inputActive">
+                <button type="button" class="btn btn-sm btn-info" value="1">ON</button>
+                <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
+        <div id="updateUser" class="col-lg-4 btn btn-warning btn-lg">
+          <%= i('html.button.common.add') %><!-- 登録-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!--/.main-container-->
+</body>
+</html>

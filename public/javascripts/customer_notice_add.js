@@ -23,8 +23,12 @@ $(function () {
 
     if (!check_notice(notice)) {
 
-      smart.dopost("/notice/add.json", notice, function(e, result) {
-        window.location = "/customer/notice";
+      smart.dopost("/notice/add.json", notice, function(err, result) {
+        if (err) {
+          smart.error(err,i18n["js.common.add.error"],false);
+        } else {
+          window.location = "/customer/notice";
+        }
       });
 
     }

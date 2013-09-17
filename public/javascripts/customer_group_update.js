@@ -29,22 +29,25 @@ $(function () {
 //画面表示
 function render(groupid,view) {
   if (groupid) {
-    smart.doget("/group/groupWithMember.json?gid=" + groupid , function(e, result) {
-      console.log(result);
-      $("#inputName").val(result.name ?result.name.name_zh: "");
-      $("#inputComment").val(result.description);
-      var userNameList = [];
+    smart.doget("/group/groupWithMember.json?gid=" + groupid , function(err, result) {
+      if (err) {
+        smart.error(err,i18n["js.common.search.error"],false);
+      } else {
+        $("#inputName").val(result.name ?result.name.name_zh: "");
+        $("#inputComment").val(result.description);
+        var userNameList = [];
         _.each(result.users, function(row){
-             if (row.valid == 1) {
-               var displayData = {
-                   uid : row._id,
-                   uname: row.name ? row.name.name_zh : "",
-                   type : "user"
-               };
-               userNameList.push(displayData) ;
-             }
+          if (row.valid == 1) {
+            var displayData = {
+              uid : row._id,
+              uname: row.name ? row.name.name_zh : "",
+              type : "user"
+            };
+            userNameList.push(displayData) ;
+          }
         });
-      view.setDefaults(userNameList);
+        view.setDefaults(userNameList);
+      }
     });
   }
 }
@@ -73,11 +76,7 @@ function getGroupData() {
 function addGroup(group) {
   smart.dopost("/group/add.json", group, function(err, result) {
     if (err) {
-      if (result.code) {
-        Alertify.log.error(result.message);
-      } else {
-        Alertify.log.error(i18n["js.common.add.error"]);
-      }
+      smart.error(err,i18n["js.common.add.error"],false);
     } else {
       window.location = "/customer/group";
     }
@@ -88,11 +87,7 @@ function addGroup(group) {
 function updateGroup(group) {
   smart.doput("/group/update.json", group, function(err, result){
     if (err) {
-      if (err.responseJSON.error.code) {
-        Alertify.log.error(err.responseJSON.error.message);
-      } else {
-        Alertify.log.error(i18n["js.common.update.error"]);
-      }
+      smart.error(err,i18n["js.common.update.error"],false);
     } else {
       window.location = "/customer/group";
     }

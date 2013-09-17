@@ -1,8 +1,170 @@
 <div class="sidebar" id="sidebar">
   <ul class="nav nav-list">
-    <% if (user.type == 3 || user.type == 0) {%>
+    <% if (user.type == 0) {%>
+      <% if (user.authority && user.authority.contents ==1) {%>
+        <li>
+        <a href="#">
+          <span class="menu-text"><%= i('html.label.sidebar.content') %></span>
+        </a>
+        <ul class="submenu" style="display: block;">
+          <li>
+            <a href="/content/material" class="dropdown-toggle">
+              <i class="icon-picture"></i>&nbsp;<%= i('html.label.sidebar.content.material') %>
+            </a>
+          </li>
+          <li>
+            <a href="/content/synthetic" class="dropdown-toggle">
+              <i class="icon-unlink"></i>&nbsp;<%= i('html.label.sidebar.content.synthetic') %>
+            </a>
+          </li>
+          <li>
+            <a href="/content/layout" class="dropdown-toggle">
+              <i class="icon-th"></i>&nbsp;<%= i('html.label.sidebar.content.layout') %>
+            </a>
+            <ul class="submenu" style="display: block;">
+              <li>
+                <a href="/content/layout/publish"><%= i('html.label.sidebar.content.layout.publish') %></a>
+              </li>
+              <li>
+                <a href="/content/layout/apply"><%= i('html.label.sidebar.content.layout.apply') %></a>
+              </li>
+              <% if (user.authority && user.authority.approve ==1) {%>
+              <li>
+                <a href="/content/layout/confirm"><%= i('html.label.sidebar.content.layout.confirm') %></a>
+              </li>
+              <% }%>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <% } else if (user.authority && user.authority.approve ==1) {%>
+        <li>
+        <a href="#">
+          <span class="menu-text"><%= i('html.label.sidebar.content') %></span>
+        </a>
+        <ul class="submenu" style="display: block;">
+          <li>
+            <a href="/content/layout" class="dropdown-toggle">
+              <i class="icon-th"></i>&nbsp;<%= i('html.label.sidebar.content.layout') %>
+            </a>
+            <ul class="submenu" style="display: block;">
+              <li>
+                <a href="/content/layout/publish"><%= i('html.label.sidebar.content.layout.publish') %></a>
+              </li>
+              <li>
+                <a href="/content/layout/confirm"><%= i('html.label.sidebar.content.layout.confirm') %></a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <% } %>
+      <li>
+        <a href="#" class="dropdown-toggle">
+          <span class="menu-text"><%= i('html.label.sidebar.personal.setup') %></span>
+        </a>
+        <ul class="submenu" style="display: block;">
+          <li>
+            <a href="/customer/group" class="dropdown-toggle">
+              <i class="icon-group"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.group') %>
+            </a>
+          </li>
+          <% if (user.authority && user.authority.notice ==1) {%>
+          <li>
+            <a href="/customer/notice" class="dropdown-toggle">
+              <i class="icon-bullhorn"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.notice') %>
+            </a>
+          </li>
+          <% }%>
+        </ul>
+      </li>
+      <% if (user.authority && user.authority.contents ==1) {%>
+        <li>
+        <a href="#" class="dropdown-toggle">
+          <span class="menu-text"><%= i('html.label.sidebar.appset') %></span>
+        </a>
+        <ul class="submenu" style="display: block;">
+          <li>
+            <a href="/customer/appimage" class="dropdown-toggle">
+              <i class="icon-tablet "></i>&nbsp;<%= i('html.label.sidebar.appset.icon') %>
+            </a>
+          </li>
+          <li>
+            <a href="/customer/workstation" class="dropdown-toggle">
+              <i class="icon-th-list"></i>&nbsp;<%= i('html.label.sidebar.appset.workstation') %>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <% }%>
+    <% }%>
+    <% if (user.type == 1) {%>
+      <li>
+        <a href="/customer/user" class="dropdown-toggle">
+          <span class="menu-text"><%= i('html.label.sidebar.system') %></span>
+        </a>
+        <ul class="submenu" style="display: block;">
+          <li>
+            <a href="/customer/user" class="dropdown-toggle">
+              <i class="icon-male"></i>&nbsp;<%= i('html.label.sidebar.system.user') %>
+            </a>
+            <ul class="submenu" style="display: block;">
+              <li>
+                <a href="/customer/user/import"><%= i('html.label.sidebar.system.user.import') %></a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="/customer/device" class="dropdown-toggle">
+              <i class="icon-tablet"></i>&nbsp;<%= i('html.label.sidebar.system.device') %>
+            </a>
+          </li>
+          <!--
+          <li>
+            <a href="/customer/setup" class="dropdown-toggle">
+              <i class="icon-cog"></i>&nbsp;システム設定
+            </a>
+          </li>
+          -->
+        </ul>
+      </li>
+    <% }%>
+
+    <% if (user.type == 2) {%>
     <li>
-      <a href="/content/layout">
+      <a href="#" class="dropdown-toggle">
+        <span class="menu-text"><%= i('html.label.sidebar.da.system') %></span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/admin/user" class="dropdown-toggle">
+            <i class="icon-male"></i>&nbsp;<%= i('html.label.sidebar.system.user') %>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" class="dropdown-toggle">
+        <span class="menu-text"><%= i('html.label.sidebar.company.manager') %></span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/admin/company" class="dropdown-toggle">
+            <i class="icon-briefcase"></i>&nbsp;<%= i('html.label.sidebar.company.manager.customer') %>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="dropdown-toggle">
+            <i class="icon-truck"></i>&nbsp;<%= i('html.label.sidebar.company.manager.operated')%> <!--運行情報 -->
+          </a>
+        </li>
+      </ul>
+    </li>
+    <% }%>
+
+    <% if (user.type == 3) {%>
+    <li>
+      <a href="#">
         <span class="menu-text"><%= i('html.label.sidebar.content') %></span>
       </a>
       <ul class="submenu" style="display: block;">
@@ -27,11 +189,9 @@
             <li>
               <a href="/content/layout/apply"><%= i('html.label.sidebar.content.layout.apply') %></a>
             </li>
-            <% if (user.authority && user.authority.approve ==1) {%>
             <li>
               <a href="/content/layout/confirm"><%= i('html.label.sidebar.content.layout.confirm') %></a>
             </li>
-            <% }%>
           </ul>
         </li>
       </ul>
@@ -46,34 +206,13 @@
             <i class="icon-group"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.group') %>
           </a>
         </li>
-        <% if (user.authority && user.authority.notice ==1) {%>
         <li>
           <a href="/customer/notice" class="dropdown-toggle">
             <i class="icon-bullhorn"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.notice') %>
           </a>
         </li>
-        <% }%>
       </ul>
     </li>
-    <% }%>
-    <li>
-      <a href="#" class="dropdown-toggle">
-        <span class="menu-text"><%= i('html.label.sidebar.appset') %></span>
-      </a>
-      <ul class="submenu" style="display: block;">
-        <li>
-          <a href="/customer/appimage" class="dropdown-toggle">
-            <i class="icon-tablet "></i>&nbsp;<%= i('html.label.sidebar.appset.icon') %>
-          </a>
-        </li>
-        <li>
-          <a href="/customer/workstation" class="dropdown-toggle">
-            <i class="icon-th-list"></i>&nbsp;<%= i('html.label.sidebar.appset.workstation') %>
-          </a>
-        </li>
-      </ul>
-    </li>
-    <% if (user.type == 3 || user.type == 1) {%>
     <li>
       <a href="/customer/user" class="dropdown-toggle">
         <span class="menu-text"><%= i('html.label.sidebar.system') %></span>
@@ -103,11 +242,20 @@
         -->
       </ul>
     </li>
-    <% }%>
-
-    <% if (user.type == 3 || user.type == 2) {%>
     <li>
-      <a href="/admin/company" class="dropdown-toggle">
+      <a href="/admin/user" class="dropdown-toggle">
+        <span class="menu-text"><%= i('html.label.sidebar.da.system') %></span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/admin/user" class="dropdown-toggle">
+            <i class="icon-male"></i>&nbsp;<%= i('html.label.sidebar.system.user') %>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" class="dropdown-toggle">
         <span class="menu-text"><%= i('html.label.sidebar.company.manager') %></span>
       </a>
       <ul class="submenu" style="display: block;">

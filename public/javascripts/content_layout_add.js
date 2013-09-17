@@ -31,6 +31,10 @@ $(function () {
     console.log(layoutId);
     var url = '/layout/get.json?id=' + layoutId;
     smart.doget(url, function (err, result) {
+      if(smart.error(err,'',true)){
+        return;
+      }
+
       layoutData = result;
       if(isCopy == "true"){
         delete layoutData._id;
@@ -188,10 +192,9 @@ $(function () {
     console.log('screenSort',screenSort);
     console.log('caseMenuSort',caseMenuSort);
 
-    smart.dopost(url, layoutData, function (e, result) {
-      if (e) {
+    smart.dopost(url, layoutData, function (err, result) {
+      if (smart.error(err,i18n["js.common.save.error"],false)) {
         render();
-        Alertify.log.error(i18n["js.common.save.error"]);
         return;
       }
       layoutData = result.data;
@@ -898,7 +901,7 @@ $(function () {
 
     var url = '/synthetic/list.json?type='+type;
     smart.doget(url,function(err, result){
-      if(err){
+      if(smart.error(err, i18n["js.common.search.error"], false)){
         return;
       }
       var syntheticList = result.items;

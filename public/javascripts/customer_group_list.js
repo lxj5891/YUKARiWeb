@@ -14,33 +14,36 @@ function render(start, count , keyword) {
 
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/group/list.json?count=" + count + "&start=" + start +"&keyword=" + keyword, function(e, result){
+  smart.doget("/group/list.json?count=" + count + "&start=" + start +"&keyword=" + keyword, function(err, result){
 
-    groupList = result.items;
+    if (err) {
+      smart.error(err,i18n["js.common.search.error"],false);
+    } else {
+      groupList = result.items;
 
-    // 一览表示
-    var tmpl = $('#tmpl_group_list').html()
-      , container = $("#group_list")
-      , index = 1;
-    container.html("");
-    _.each(groupList, function(row){
+      // 一览表示
+      var tmpl = $('#tmpl_group_list').html()
+        , container = $("#group_list")
+        , index = 1;
+      container.html("");
+      _.each(groupList, function(row){
 
-      container.append(_.template(tmpl, {
+        container.append(_.template(tmpl, {
           "id": row._id
-        , "index": index++ + start
-        , "name": row.name.name_zh
-        , "members": row.member.length
-        , "description": row.description
-        , "editat": smart.date(row.editat)
-      }));
-    });
-    if(groupList.length == 0)
+          , "index": index++ + start
+          , "name": row.name.name_zh
+          , "members": row.member.length
+          , "description": row.description
+          , "editat": smart.date(row.editat)
+        }));
+      });
+      if(groupList.length == 0)
         container.html(i18n["js.common.list.empty"]);
-    // 设定翻页
-    smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
-      render.apply(window, [active, count]);
-    });
-
+      // 设定翻页
+      smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
+        render.apply(window, [active, count]);
+      });
+    }
   });
 
 }
