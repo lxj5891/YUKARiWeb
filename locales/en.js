@@ -335,6 +335,7 @@
   "js.public.info.page.prev":"Pre",
   "js.public.info.page.next":"Next",
   "js.public.check.layoutlist.apply":"Please choose a approver",
+  "js.public.check.layoutlist.apply.viewer":"Please choose a viewer",
   "js.public.success.layoutlist.apply":"Approved successfully.",
   "js.public.error.layoutlist.apply":"Failed to approve.",
   "js.public.info.layoutlist.title.publish":"Publish layout",

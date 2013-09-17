@@ -4,7 +4,7 @@ $(function () {
   //取得URL参数
   var groupid = $('#groupId').val();;
   // 初始化用户
-  var view = smart.view("user").view;
+  var view = new userbox(smart.view("user")).view;
   view.initialize("textBoxMember", "", {search_target: "user"});
   //画面表示
   render(groupid,view);

@@ -335,6 +335,7 @@
   "js.public.info.page.prev":"前へ",
   "js.public.info.page.next":"次へ",
   "js.public.check.layoutlist.apply":"承認者を指定してください。",
+  "js.public.check.layoutlist.apply.viewer":"公開先を指定してください。",
   "js.public.success.layoutlist.apply":"申請しました。",
   "js.public.error.layoutlist.apply":"申請に失敗しました。",
   "js.public.info.layoutlist.title.publish":"公式中 レイアウト",

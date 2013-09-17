@@ -15,10 +15,11 @@ $(function () {
   // get the events for buttons
   events();
 
-  // 初始化承认者，公开对象
+  // 初始化承认者
   new userbox(smart.view("user1")).view.initialize(
     "textBoxConfirm", "", {search_target: "user", target_limit: 1, search_auth: "approve"}
   );
+  // 初始化公開先
   new userbox(smart.view("user2")).view.initialize(
     "textBoxViewer", "", {search_target: "all", target_limit: 20}
   );
@@ -33,12 +34,32 @@ $(function () {
       }
       //last;
     });
+
+    // 公開先セット
+    var viewerUsers = [];
+    var viewerGroups = [];
+    $("#textBoxViewer li").each(function() {
+      if ("user" == $(this).attr("type")) {
+        viewerUsers.push($(this).attr("uid"));
+      } else if ("group" == $(this).attr("type")) {
+        viewerGroups.push($(this).attr("uid"));
+      }
+    });
+
     if (!confirmby) {
       Alertify.log.error(i18n["js.public.check.layoutlist.apply"]);
+    } else if(viewerUsers.length <= 0 && viewerGroups <= 0) {
+      Alertify.log.error(i18n["js.public.check.layoutlist.apply.viewer"]);
     } else {
       var confirmId = $("#confirmId").val();
+      var params = {
+        "id": confirmId
+        , confirmby: confirmby
+        , viewerUsers: viewerUsers
+        , viewerGroups: viewerGroups
+      };
 
-      smart.dopost("/layout/apply.json", {"id": confirmId, confirmby: confirmby}, function(err, result){
+      smart.dopost("/layout/apply.json", params, function(err, result){
         if (smart.error(err, i18n["js.public.error.layoutlist.apply"], false)) {
           return;
         } else {

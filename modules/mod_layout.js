@@ -32,6 +32,8 @@ var Layout = new schema({
   publish: {type:Number, description:"1:未申請 2:申請中 3:否認 4:承認済み"},
   confirmby: {type:String, description:"承認者"},
   confirmat: {type: Date, description: "承認時間"},
+  viewerUsers: [{type:String, description:"公開先User"}],
+  viewerGroups: [{type:String, description:"公開先Group"}],
   editat: {type: Date, default: Date.now},
   editby: {type: String},
   createat: { type: Date, default: Date.now },

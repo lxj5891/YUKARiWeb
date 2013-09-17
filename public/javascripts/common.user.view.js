@@ -88,7 +88,7 @@ var userbox = function(User) {
       this.itemFinder.hide();
 
       // 没有数据
-      if ((!users || users.length <= 0) && (!groups || groups.length)) {
+      if ((!users || users.length <= 0) && (!groups || groups.length <= 0)) {
         return false;
       }
 

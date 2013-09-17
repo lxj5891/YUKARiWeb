@@ -76,7 +76,9 @@ exports.apply = function (req_, res_) {
     status: 2,
     editby: uid,
     editat: new Date(),
-    confirmby: req_.body.confirmby || uid
+    confirmby: req_.body.confirmby || uid,
+    viewerUsers: req_.body.viewerUsers || [],
+    viewerGroups: req_.body.viewerGroups || []
   };
 
   layout.updateStatus(code, uid, layout_, function (err, result) {
