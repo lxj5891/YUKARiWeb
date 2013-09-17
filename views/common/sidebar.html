@@ -133,6 +133,18 @@
     <% if (user.type == 2) {%>
     <li>
       <a href="#" class="dropdown-toggle">
+        <span class="menu-text"><%= i('html.label.sidebar.da.system') %></span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/admin/user" class="dropdown-toggle">
+            <i class="icon-male"></i>&nbsp;<%= i('html.label.sidebar.system.user') %>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" class="dropdown-toggle">
         <span class="menu-text"><%= i('html.label.sidebar.company.manager') %></span>
       </a>
       <ul class="submenu" style="display: block;">
@@ -228,6 +240,18 @@
           </a>
         </li>
         -->
+      </ul>
+    </li>
+    <li>
+      <a href="/admin/user" class="dropdown-toggle">
+        <span class="menu-text"><%= i('html.label.sidebar.da.system') %></span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/admin/user" class="dropdown-toggle">
+            <i class="icon-male"></i>&nbsp;<%= i('html.label.sidebar.system.user') %>
+          </a>
+        </li>
       </ul>
     </li>
     <li>

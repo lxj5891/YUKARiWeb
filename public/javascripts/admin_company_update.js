@@ -30,7 +30,7 @@ function render(compid) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
-        var inputCompanyType = result.companyType == 1 ? "1" : "0";
+        var inputCompanyType = result.companyType;
         new ButtonGroup("inputCompanyType", inputCompanyType).init();
         $("#inputContract").attr('disabled','disabled');
         $("#inputDemo").attr('disabled','disabled');

@@ -83,8 +83,10 @@
 <script type="text/template" id="tmpl_company_list">
 <tr>
   <td>{{index}}</td>
-  <$ if (type == 1) {$>
-  <td><%= i('html.label.company.type.contract') %><!--契約顧客 --></td>
+  <$ if (type == 2) {$>
+  <td><%= i('html.label.company.type.self') %><!--契約顧客 --></td>
+  <$ } else if(type == 1) {$>
+  <td><%= i('html.label.company.type.contract') %><!--体験顧客 --></td>
   <$ } else {$>
   <td><%= i('html.label.company.type.demo') %><!--体験顧客 --></td>
   <$ } $>

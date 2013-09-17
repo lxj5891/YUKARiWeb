@@ -29,12 +29,17 @@ exports.guiding = function (app) {
   });
   app.get('/customer/user/edit/:id', function (req, res) {
     var sessionuser = req.session.user;
-    //客户管理员,开发人员以外,不能访问.
-    if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
-      res.render("error_403", {user: req.session.user});
-    } else {
+    //客户管理员,开发人员,自己以外,不能访问.
+    if (req.params.id == req.session.user._id) {
       res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+    } else {
+      if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
+        res.render("error_403", {user: req.session.user});
+      } else {
+        res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+      }
     }
+
   });
   app.get('/customer/user', function (req, res) {
     var sessionuser = req.session.user;
@@ -53,7 +58,40 @@ exports.guiding = function (app) {
   app.get('/customer/download/template', function(req, res){
     res.render("customer_user_import", {"title": i.__("js.routes.website.customer_user_import.title"), user: req.session.user});
   });
+  //
+  // DA管理员 创建用户
+  app.get('/admin/user/add', function (req, res) {
+    var sessionuser = req.session.user;
+    //客户管理员,开发人员以外,不能访问.
+    if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser)) ) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("admin_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:""});
+    }
+  });
+  app.get('/admin/user/edit/:id', function (req, res) {
+    var sessionuser = req.session.user;
+    //客户管理员,开发人员,自己以外,不能访问.
+    if (req.params.id == req.session.user._id) {
+      res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+    } else {
+      if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
+        res.render("error_403", {user: req.session.user});
+      } else {
+        res.render("admin_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+      }
+    }
 
+  });
+  app.get('/admin/user', function (req, res) {
+    var sessionuser = req.session.user;
+    //客户管理员,开发人员以外,不能访问.
+    if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("admin_user_list", {"title": i.__("js.routes.website.customer_user_list.title"), user: req.session.user});
+    }
+  });
   //组
     app.get('/customer/group', function (req, res) {
       var sessionuser = req.session.user;

@@ -200,6 +200,19 @@ exports.guiding = function(app){
     user.import(req, res);
   });
 
+  //DA 管理员创建用户
+  app.get('/admin/user/list.json', function(req, res){
+    user.adminlist(req, res);
+  });
+  app.get('/admin/user/findOne.json', function(req, res){
+    user.adminsearchOne(req, res);
+  });
+  app.post('/admin/user/add.json', function(req, res){
+    user.adminadd(req, res);
+  });
+  app.put('/admin/user/update.json', function(req, res){
+    user.adminupdate(req, res);
+  });
   // ----------------------------------
   // Group
   app.get('/group/list.json', function(req, res){
