@@ -4,6 +4,7 @@ var async           = require('async')
   , dbfile          = lib.ctrl.dbfile
   , errors          = lib.core.errors
   , utils           = require('../core/utils')
+  , mod_group       = lib.mod.group
   , material        = require('../controllers/ctrl_material')
   , layout_publish  = require('../modules/mod_layout_publish')
   , ctl_layout      = require('../controllers/ctrl_layout');
@@ -121,6 +122,7 @@ exports.download = function(req_, res_, isPublish) {
   var uid = req_.session.user._id
     , target = req_.query.target // temp
     , file_name = req_.query.file // temp
+    , user_ = req_.session.user
     , code = req_.session.user.companycode;
 
     if(target == null) {
@@ -246,9 +248,26 @@ exports.download = function(req_, res_, isPublish) {
           var err = new errors.InternalServer(__("api.file.name.error") + file_name);
           return res_.send(err.code, json.errorSchema(err.code, err.message));
         }
-        getLayout(err, (result && result.active) ? result.active : null);
+
+        mod_group.getAllGroupByUid(code, uid, function(err, groups){
+          if(err){
+            var error = new errors.InternalServer(err);
+            return res_.send(error.code, json.errorSchema(error.code, error.message));
+          }
+
+          // 公开先check
+          if(!canDownloadPublishContents(user_, groups, result)){
+            return noAccessResponse(res_);
+          } else {
+            getLayout(err, (result && result.active) ? result.active : null);
+          }
+        });
       });
     } else { // 非公开Layout的取得
+      if(!canDownloadDraftContents(user_)){
+        return noAccessResponse(res_);
+      }
+
       ctl_layout.get(code, uid, target, function(err, layout) {
         getLayout(err, layout);
       });
@@ -329,6 +348,35 @@ exports.remove = function(req_, res_) {
 // 素材的增删改查都只有content作成者有权限，增删改查暂用一个check
 function canUpdate(user_){
   return utils.hasContentPermit(user_);
+}
+
+function canDownloadDraftContents(user_){
+  return utils.hasApprovePermit(user_);
+}
+
+function canDownloadPublishContents(user_, joinGroup, publishLayout_){
+
+  // 承认者可以下载
+  if(publishLayout_.active.confirmby == user_._id)
+  {
+    return true;
+  }
+
+  // 公开先 人
+  if(_.contains(publishLayout_.active.viewerUsers, user_._id)){
+    return true;
+  }
+
+  // 公开先 组
+  var viewGroups = publishLayout_.active.viewerGroups;
+  for(var i = 0; i < joinGroup.length; i ++){
+    var gid = joinGroup[i]._id.toString();
+    if(_.contains(viewGroups, gid)){
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function noAccessResponse(res_){

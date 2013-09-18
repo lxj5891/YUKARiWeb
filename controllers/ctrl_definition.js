@@ -5,11 +5,13 @@ var async     = require('async')
   , layout_publish   = require('../modules/mod_layout_publish')
   , synthetic = require('./ctrl_synthetic')
   , cutil  = require('../core/contentutil')
+  , mod_group       = lib.mod.group
+  , utils           = require('../core/utils')
   , errors  = lib.core.errors;
 
-exports.get = function(code, uid_, target_, isPublish, callback_) {
+exports.get = function(code, user_, target_, isPublish, callback_) {
   var data = {};
-
+  var uid = user_._id;
   var tasks = [];
   // Get Layout data
   tasks.push(function(cb) {
@@ -17,11 +19,28 @@ exports.get = function(code, uid_, target_, isPublish, callback_) {
       layout_publish.get(code, {_id:target_}, function (err, layout) {
         if (err || !layout || !layout.active)
           return cb(new errors.InternalServer(__("api.layout.id.error") + target_), null);
-        setLayout(data, layout.active);
-        cb(err, data);
+
+        mod_group.getAllGroupByUid(code, uid, function(err, groups){
+          if(err){
+            var error = new errors.InternalServer(err);
+            cb(error);
+          }
+
+          // 公开先check
+          if(!canDownloadPublishContents(user_, groups, layout)){
+            return cb(new errors.Forbidden(__("js.common.access.check")));
+          } else {
+            setLayout(data, layout.active);
+            cb(err, data);
+          }
+        });
+
       });
     } else {
-      ctl_layout.get(code, uid_, target_, function(err, layout) {
+      if(!canDownloadDraftContents(user_)){
+        return cb(new errors.Forbidden(__("js.common.access.check")));
+      }
+      ctl_layout.get(code, uid, target_, function(err, layout) {
         if (err || !layout)
           return cb(new errors.InternalServer(__("api.layout.id.error") + target_), null);
         setLayout(data, layout);
@@ -198,3 +217,31 @@ function fixDoc(data) {
   return data._doc ? data._doc : data;
 }
 
+function canDownloadDraftContents(user_){
+  return utils.hasApprovePermit(user_);
+}
+
+function canDownloadPublishContents(user_, joinGroup, publishLayout_){
+
+  // 承认者可以下载
+  if(publishLayout_.active.confirmby == user_._id)
+  {
+    return true;
+  }
+
+  // 公开先 人
+  if(_.contains(publishLayout_.active.viewerUsers, user_._id)){
+    return true;
+  }
+
+  // 公开先 组
+  var viewGroups = publishLayout_.active.viewerGroups;
+  for(var i = 0; i < joinGroup.length; i ++){
+    var gid = joinGroup[i]._id.toString();
+    if(_.contains(viewGroups, gid)){
+      return true;
+    }
+  }
+
+  return false;
+}
