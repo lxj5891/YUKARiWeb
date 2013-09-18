@@ -6,6 +6,7 @@ var async     = require('async')
   , synthetic = require('../controllers/ctrl_synthetic')
   , mq        = require('../controllers/ctrl_mq')
   , user      = lib.ctrl.user
+  , group     = lib.ctrl.group
   , error     = lib.core.errors
   , log       = lib.core.log
   , cutil     = require('../core/contentutil')
@@ -257,15 +258,46 @@ exports.list = function(code, keyword_,start_, limit_, uid, status, callback_) {
         return callback_(new error.InternalServer(err));
       }
 
-      if (status == 21) {
-        user.appendUser(code, result1, "confirmby", function(err, result){
-          return callback_(err, {totalItems: count, items:result1});
+      var subTask = function(item, subCB) {
+        var tasks = [];
+        tasks.push(function(cb) {
+          user.listByUids(code, item.viewerUsers, undefined, undefined, function(err, users){
+            if(err)
+              return cb(err, data);
+
+            fixDoc(item).viewerUsersList = users;
+            cb(err);
+          });
         });
-      } else {
-        user.appendUser(code, result1, "editby", function(err, result){
-          return callback_(err, {totalItems: count, items:result1});
+        tasks.push(function(cb) {
+          group.listByGids(code, item.viewerGroups, undefined, undefined, function(err, groups){
+            if(err)
+              return cb(err);
+
+            fixDoc(item).viewerGroupsList = groups;
+            cb(err);
+          });
+        });
+        async.waterfall(tasks,function(err){
+          return subCB(err);
         });
       }
+
+      async.forEach(result1, subTask, function(err_){
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
+
+        if (status == 21) {
+          user.appendUser(code, result1, "confirmby", function(err, result){
+            return callback_(err, {totalItems: count, items:result1});
+          });
+        } else {
+          user.appendUser(code, result1, "editby", function(err, result){
+            return callback_(err, {totalItems: count, items:result1});
+          });
+        }
+      });
     });
   });
 };
@@ -294,10 +326,35 @@ exports.publishList = function(code_, keyword_,start_, limit_, callback_) {
       }
 
       var subTask = function(item, subCB){
+        var tasks = [];
+        tasks.push(function(cb) {
+          user.searchOneByDBName(code_, item.active.editby, function(err, u_result) {
+            if(err)
+              return cb(err, data);
+            fixDoc(item).active.user = u_result;
+            cb(err);
+          });
+        });
+        tasks.push(function(cb) {
+          user.listByUids(code_, item.active.viewerUsers, undefined, undefined, function(err, users){
+            if(err)
+              return cb(err);
 
-        user.searchOneByDBName(code_, item.active.editby, function(err, u_result) {
-          item._doc.active.user = u_result;
-          subCB(err);
+            fixDoc(item).active.viewerUsersList = users;
+            cb(err);
+          });
+        });
+        tasks.push(function(cb) {
+          group.listByGids(code_, item.active.viewerGroups, undefined, undefined, function(err, groups){
+            if(err)
+              return cb(err);
+
+            fixDoc(item).active.viewerGroupsList = groups;
+            cb(err);
+          });
+        });
+        async.waterfall(tasks,function(err){
+          return subCB(err);
         });
       };
       async.forEach(result, subTask, function(err_){

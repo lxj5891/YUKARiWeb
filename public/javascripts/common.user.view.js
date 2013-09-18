@@ -233,3 +233,31 @@ var userbox = function(User) {
 
 };//)(smart.view("user"));
 
+
+var UserView = function() {
+    var render_ = {
+      cellHtml: function(users, nowrap) {
+        var list = new Array();
+
+        // Render group
+        if(users && users.group) {
+          _.each(users.group, function(group) {
+            list.push("<i class=\"icon-group\"></i>&nbsp;&nbsp;" +  _.escape(group.name.name_zh));
+          });
+        }
+
+        // Render user
+        if(users && users.user) {
+          _.each(users.user, function(user) {
+            list.push("<i class=\"icon-male\"></i>&nbsp;&nbsp;" + _.escape(user.name.name_zh));
+          });
+        }
+
+        return nowrap? list.join("") : list.join("<br>");
+      }
+    }
+
+  this.render = render_;
+};
+
+

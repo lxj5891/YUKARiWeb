@@ -58,6 +58,7 @@
               <th><%= i('html.label.layout.name') %><!--名称 --></th>
               <th><%= i('html.label.layout.status') %><!--ステータス --></th>
               <th><%= i('html.label.layout.public') %><!--公式 --></th>
+              <th><%= i('html.label.layout.viewer') %><!--公开先 --></th>
               <th><%= i('html.label.layout.updateby') %><!--更新者 --></th>
               <th><%= i('html.label.layout.updateat') %><!--更新日 --></th>
               <th><%= i('html.label.common.operation') %><!--操作 --></th>
@@ -119,6 +120,7 @@
     <td>{{name}}</td>
     <td>{{status}}</td>
     <td>{{publish}}</td>
+    <td>{{viewer}}</td>
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>
@@ -135,6 +137,7 @@
   <tr>
     <td>{{index}}</td>
     <td>{{name}}</td>
+    <td>{{viewer}}</td>
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>
@@ -150,6 +153,7 @@
     <td>{{index}}</td>
     <td>{{name}}</td>
     <td>{{confirmby}}</td>
+    <td>{{viewer}}</td>
     <td>{{editat}}</td>
     <td>
        <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="preview" imageH = {{preview_image}} ><%= i('html.button.common.preview') %><!--プレビュー --></a>
@@ -161,6 +165,7 @@
   <tr>
     <td>{{index}}</td>
     <td>{{name}}</td>
+    <td>{{viewer}}</td>
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>

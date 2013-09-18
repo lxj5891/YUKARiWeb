@@ -110,9 +110,10 @@ exports.add = function(code_, uid_, notice_, callback_) {
           , body: result.title
         });
       });
+      return callback_(err, result);
     });
 
-      return callback_(err, result);
+
     });
 
 
