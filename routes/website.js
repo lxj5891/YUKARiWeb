@@ -160,10 +160,14 @@ exports.guiding = function (app) {
   // ----------------------
   // 素材
   app.get('/content/material', function (req, res) {
-    res.render("content_material", {
-        title: i.__("js.routes.website.content_material.title")
-      , user: req.session.user
-    });
+    if(!util.hasContentPermit(req.session.user)){
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("content_material", {
+          title: i.__("js.routes.website.content_material.title")
+        , user: req.session.user
+      });
+    }
   });
 
   // 布局
@@ -268,33 +272,48 @@ exports.guiding = function (app) {
   });
   // 元素
   app.get('/content/synthetic', function (req, res) {
-    res.render("content_synthetic", {
-      title: i.__("js.routes.synthetic.content_synthetic.title") , user: req.session.user
-    });
+    if(!util.hasContentPermit(req.session.user)){
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("content_synthetic", {
+        title: i.__("js.routes.synthetic.content_synthetic.title") , user: req.session.user
+      });
+    }
   });
   // 元素
   app.get('/content/synthetic/add', function (req, res) {
-    res.render("content_synthetic_add", {
-      title: i.__("js.routes.synthetic.content_synthetic_add.title") , synthetic_id:'' , user: req.session.user
-    });
+    if(!util.hasContentPermit(req.session.user)){
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("content_synthetic_add", {
+        title: i.__("js.routes.synthetic.content_synthetic_add.title") , synthetic_id:'' , user: req.session.user
+      });
+    }
   });
   app.get('/content/synthetic/add/:type', function (req_, res_) {
-    var type = req_.params.type;
-    res_.render("content_synthetic_add", {
-      title: i.__("js.routes.synthetic.content_synthetic_add.title")
-      , synthetic_id : type
-      , user: req_.session.user
-    });
-
+    if(!util.hasContentPermit(req_.session.user)){
+      res_.render("error_403", {user: req_.session.user});
+    } else {
+      var type = req_.params.type;
+      res_.render("content_synthetic_add", {
+        title: i.__("js.routes.synthetic.content_synthetic_add.title")
+        , synthetic_id : type
+        , user: req_.session.user
+      });
+    }
   });
   //元素
   app.get('/content/synthetic/edit/:synthetic_id', function (req_, res_) {
-    var id = req_.params.synthetic_id;
-    res_.render("content_synthetic_add", {
-      title: i.__("js.routes.synthetic.content_synthetic_update.title")
-      , synthetic_id : id
-      , user: req_.session.user
-    });
+    if(!util.hasContentPermit(req_.session.user)){
+      res_.render("error_403", {user: req_.session.user});
+    } else {
+      var id = req_.params.synthetic_id;
+      res_.render("content_synthetic_add", {
+        title: i.__("js.routes.synthetic.content_synthetic_update.title")
+        , synthetic_id : id
+        , user: req_.session.user
+      });
+    }
   });
   //error
   app.get('/error/400', function (req, res) {
