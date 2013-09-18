@@ -25,21 +25,34 @@ function render(start, count ,keyword) {
 
       container.html("");
       _.each(result.items, function (row) {
-        container.append(_.template(tmpl, {
-          "index": index++ + start,
-          "id": row._id,
-          "uid": row.uid,
-          "name": row.name ? row.name.name_zh : "",
-          "title": row.title,
-          "telephone": row.tel ? row.tel.telephone : "",
-          "description": row.description,
-          "contents": row.authority ? row.authority.contents : "0",
-          "notice": row.authority ? row.authority.notice : "0",
-          "approved": row.authority ? row.authority.approve : "0",
-          "active": row.active,
-          "type": row.type,
-          "companycode":row.companycode
-        }));
+        smart.doget("/user/findOne.json?userid=" + row.editby , function(err, userinfo) {
+           if (err) {
+             smart.error(err,i18n["js.common.search.error"],false);
+           } else {
+             var companycode;
+             if (userinfo) {
+               companycode = userinfo.companycode;
+             } else {
+               companycode = "";
+             }
+             container.append(_.template(tmpl, {
+               "index": index++ + start,
+               "id": row._id,
+               "uid": row.uid,
+               "name": row.name ? row.name.name_zh : "",
+               "title": row.title,
+               "telephone": row.tel ? row.tel.telephone : "",
+               "description": row.description,
+               "contents": row.authority ? row.authority.contents : "0",
+               "notice": row.authority ? row.authority.notice : "0",
+               "approved": row.authority ? row.authority.approve : "0",
+               "active": row.active,
+               "type": row.type,
+               "companycode":companycode
+             }));
+           }
+        });
+
       });
       if (result.items.length == 0) {
         container.html(i18n["js.common.list.empty"]);
