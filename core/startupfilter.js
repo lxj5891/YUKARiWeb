@@ -41,7 +41,7 @@ function create_admin() {
 	var info = {"uid": userid
 	, "name": {"name_zh": userid}
 	, "password": auth.sha256(password)
-	, "type": 3                         // 系统管理员
+	, "type": 2                         // 系统管理员
 	, "email": {
 	  "email1": email
 	}
@@ -50,6 +50,7 @@ function create_admin() {
 	, createby: userid
 	, updateat: date
 	, updateby: userid
+  , active: 1
 	};
 
 	user.createByDBName(undefined, info, function(err, result){
