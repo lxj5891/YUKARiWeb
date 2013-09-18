@@ -1,7 +1,14 @@
 var json = lib.core.json
+  , errors = lib.core.errors
+  , utils = require('../core/utils')
   , workstation = require('../controllers/ctrl_workstation');
 
 exports.update = function(req_, res_){
+
+  if(!canUpdate(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
+
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
 
@@ -17,6 +24,10 @@ exports.update = function(req_, res_){
 };
 
 exports.updateList = function(req_, res_){
+
+  if(!canUpdate(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
 
@@ -60,6 +71,10 @@ exports.findOne = function(req_, res_){
 };
 
 exports.remove = function(req_, res_) {
+  return noUpdateResponse(res_);
+  if(!canUpdate(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
   var code = req_.session.user.companycode
     , uid = req_.session.user._id
     , workstationId = req_.body.id;
@@ -72,3 +87,13 @@ exports.remove = function(req_, res_) {
     }
   });
 };
+
+function canUpdate(user_){
+  return utils.hasContentPermit(user_) || utils.isAdmin(user_);
+}
+
+function noUpdateResponse(res_){
+  var err= new errors.Forbidden(__("js.common.update.check"));
+  return res_.send(err.code, json.errorSchema(err.code, err.message));
+}
+

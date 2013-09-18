@@ -3,6 +3,8 @@ var _         = require('underscore')
   , async     = require('async')
   , user      = lib.ctrl.user
   , group     = lib.ctrl.group
+  , mod_group = lib.mod.group
+  , utils     = require('../core/utils')
   , error     = lib.core.errors;
 
 exports.save = function(code_, uid_, workstation_, callback_){
@@ -81,21 +83,31 @@ exports.get = function(code_, user_, workstationId_, callback_){
       return callback_(new error.InternalServer(err));
     }
 
-    async.parallel({
-      user: function (callback2) {
-
-        user.listByUids(code_, result.touser, 0, 20, function(err, u_result) {
-          callback2(err, u_result);
-        });
-      },
-      group: function (callback2) {
-        group.listByGids(code_, result.togroup, 0, 20, function(err, g_result) {
-          callback2(err, g_result);
-        });
+    mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
+      if(err){
+        return callback_(new error.InternalServer(err));
       }
-    }, function(errs, results) {
-      result._doc.to = results;
-      callback_(errs, result);
+
+      if(!canView(user_,groups,result)){
+        return callback_(new error.Forbidden(__("js.common.access.check")));
+      }
+
+      async.parallel({
+        user: function (callback2) {
+
+          user.listByUids(code_, result.touser, 0, 20, function(err, u_result) {
+            callback2(err, u_result);
+          });
+        },
+        group: function (callback2) {
+          group.listByGids(code_, result.togroup, 0, 20, function(err, g_result) {
+            callback2(err, g_result);
+          });
+        }
+      }, function(errs, results) {
+        result._doc.to = results;
+        callback_(errs, result);
+      });
     });
 
   });
@@ -111,16 +123,37 @@ exports.remove = function(code_, user_, workstationId_ , callback_){
   });
 };
 
-exports.list = function(code_, user, callback_) {
+exports.list = function(code_, user_, callback_) {
 
   var condition = {valid: 1};
 
-  workstation.list(code_, condition, function(err, result){
-    if (err) {
+  mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
+    if(err){
       return callback_(new error.InternalServer(err));
     }
 
-    callback_(err, {items:result});
+
+    if(utils.hasContentPermit(user_)||utils.isAdmin(user_)){
+
+    } else {
+      var or = [];
+      or.push({"open":0});
+      if(groups.length > 0){
+        _.each(groups, function(g){
+          or.push({"togroup":g._id.toString()});
+        });
+      }
+      or.push({"touser":user_._id});
+      condition.$or = or;
+    }
+
+    workstation.list(code_, condition, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      callback_(err, {items:result});
+    });
   });
 };
 
@@ -131,4 +164,26 @@ function check_auth(user) {
   } else {
     return 0;
   }
+}
+
+function canView(user_, joinGroup_, workstation_){
+  if(utils.hasContentPermit(user_)||utils.isAdmin(user_)){
+    return true;
+  }
+  if(workstation_.open == 0){
+    return true;
+  }
+
+  if(_.contains(workstation_.touser, user_._id)){
+    return true;
+  }
+
+  for(var i = 0; i < joinGroup_.length; i ++){
+    var gid = joinGroup_[i]._id.toString();
+    if(_.contains(workstation_.togroup, gid)){
+      return true;
+    }
+  }
+
+  return false;
 }
