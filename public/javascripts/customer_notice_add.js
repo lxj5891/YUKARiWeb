@@ -35,7 +35,7 @@ $(function () {
   });
 
   // 初始化承认者
-  var view = smart.view("user").view;
+  var view = new userbox(smart.view("user")).view;
   //view.initialize("textBoxNotice");
   view.initialize("textBoxNotice", "", {search_target: "all"});
 });
