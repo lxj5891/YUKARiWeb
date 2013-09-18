@@ -46,6 +46,7 @@ function create_admin() {
 	  "email1": email
 	}
 	, lang : "zh"
+	, timezone: "GMT+09:00"
 	, createat: date
 	, createby: userid
 	, updateat: date
