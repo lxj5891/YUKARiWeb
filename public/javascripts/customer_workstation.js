@@ -101,6 +101,10 @@ $(function () {
       if (operation == "config") {
 
         smart.doget("/workstation/findOne.json?id="+wsid, function(err, result){
+          if(smart.error(err,i18n["js.common.access.check"],false)){
+            return;
+          }
+
           if (result) {
 
             setWSData(result);
@@ -123,8 +127,8 @@ $(function () {
         Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
           smart.dodelete("/workstation/remove.json", {"id": wsid}, function(err, result){
-            if (err) {
-              Alertify.log.error(i18n["js.common.delete.error"]); console.log(err);
+            if (smart.error(err,i18n["js.common.save.error"],false)) {
+              return;
             } else {
               render();
               Alertify.log.success(i18n["js.common.delete.success"]);
@@ -151,8 +155,8 @@ $(function () {
       var ws = getWSData();
 
       smart.dopost("/workstation/update.json", ws, function(err, result){
-        if (err) {
-            Alertify.log.error(i18n["js.common.save.error"]); console.log(err);
+        if (smart.error(err,i18n["js.common.save.error"],false)) {
+            return;
         } else {
           $("#settingModal").modal("hide");
           render();
@@ -183,8 +187,8 @@ $(function () {
       });
 
       smart.dopost("/workstation/updateList.json", sortList, function(err, result){
-        if (err) {
-          Alertify.log.error(i18n["js.common.save.error"]); console.log(err);
+        if (smart.error(err,i18n["js.common.save.error"],false)) {
+          return;
         } else {
           //render();
           Alertify.log.success(i18n["js.common.save.success"]);
