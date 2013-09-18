@@ -15,13 +15,13 @@ exports.isSuperAdmin = function(user_){// dev
 }
 
 exports.hasContentPermit = function(user_){
-  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority.contents === 1);
+  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority && user_.authority.contents === 1);
 }
 
 exports.hasNoticePermit = function(user_){
-  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority.notice === 1);
+  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority && user_.authority.notice === 1);
 }
 
 exports.hasApprovePermit = function(user_){
-  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority.approve === 1);
+  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority &&  user_.authority.approve === 1);
 }

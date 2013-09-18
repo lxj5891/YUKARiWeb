@@ -11,6 +11,12 @@ var sync     = require('async')
 
 var EventProxy = require('eventproxy');
 var that_device = device;
+var lang = '';
+var timezone = '';
+exports.setUserDefault = function(lang_,timezone_){
+  this.lang = lang_;
+  this.timezone = timezone_;
+};
 /**
  * 获取设备一览
  * @param start_
@@ -76,10 +82,13 @@ function updateUserFn(code , session_uid , user_,device_id,pass,callback_){
     type : 0 ,
     name : {name_zh : user_},
     companycode: code,
-    "lang" : "ja" ,
-    "timezone" : "GMT+08:00",
+    "lang" : this.lang ,
+    "timezone" : this.timezone,
     "valid" : 1,
-    "active" : 1
+    "active" : 1,
+    "authority" : {
+      notice: 1
+    }
   };
 
   user.addByDBName(code , session_uid ,userinfo_ ,function(err,result){
@@ -185,8 +194,22 @@ exports.allow = function(code, session_uid, device_, user_id, allow_,callback_) 
    设备不许可错误	             √	       √	           ×	      -	       -	       -	       ×	     62		     √
    用户失效	                   √	       √	           √	      √	       √	       √	       ×	     63		     ×
  */
+exports.deviceRegister =  function (deviceid,devicetoken, userid, code, devicetype ,callback_) {
+  checkDeviceUser(deviceid,devicetoken, userid, code, devicetype ,function(err,result){
+    var permission_list = ["2001","3001","3002" ,"3003" ,"4001" ,"4002"];
+    var permission_userid = "";
 
-exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callback_) {
+    permission_userid = permission_list.indexOf(result.status) > -1 ? userid : null;
+
+    exports.setDeviceUser(code,permission_userid,deviceid,function(){
+      console.log("设置deivce  uid  " + permission_userid);
+      return ;
+    });
+    callback_(err,result)
+  });
+};
+
+function checkDeviceUser (deviceid,devicetoken, userid, code, devicetype ,callback_) {
 
   var ep = EventProxy.create("device", "user", "company","apply", function (device_docs, user_docs, company_docs,apply_docs) {
 
@@ -321,7 +344,7 @@ function checkApply(code, deviceid, userid, code, callback_) {
 
 function checkUserByUid(code, userid, callback) {
   //TODO:
-  mod_user.find({uid: userid}, function (err, result) {
+  mod_user.findOneUser(code,{uid: userid}, function (err, result) {
     if (result && result.length > 0) {
       callback(null, result[0]);
     } else {

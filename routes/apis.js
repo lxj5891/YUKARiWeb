@@ -269,10 +269,11 @@ exports.guiding = function(app){
   app.put('/device/add.json', function(req, res){
     device.add(req, res);
   });
-  app.get("/device/login.json", function(req, res){
-    device.login(req, res);
+  app.get("/device/register.json", function(req, res){
+
+    device.deviceRegister(req, res);
   });
-  app.get("/device/setUid.json" ,function(req,res){
+  app.get("/device/clear.json" ,function(req,res){
     device.setDeviceUser(req,res);
   });
 
