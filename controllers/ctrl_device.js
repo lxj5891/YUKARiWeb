@@ -11,11 +11,13 @@ var sync     = require('async')
 
 var EventProxy = require('eventproxy');
 var that_device = device;
-var lang = '';
-var timezone = '';
+
+exports.lang = '';
+exports.timezone = '';
+
 exports.setUserDefault = function(lang_,timezone_){
-  this.lang = lang_;
-  this.timezone = timezone_;
+  exports.lang = lang_;
+  exports.timezone = timezone_;
 };
 /**
  * 获取设备一览
@@ -82,8 +84,8 @@ function updateUserFn(code , session_uid , user_,device_id,pass,callback_){
     type : 0 ,
     name : {name_zh : user_},
     companycode: code,
-    "lang" : this.lang ,
-    "timezone" : this.timezone,
+    "lang" : exports.lang ,
+    "timezone" : exports.timezone,
     "valid" : 1,
     "active" : 1,
     "authority" : {

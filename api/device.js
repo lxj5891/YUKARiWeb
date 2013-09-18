@@ -66,7 +66,7 @@ exports.allow = function(req_, res_) {
     , devid = req_.body.device
     , userid = req_.body.user
     , code = req_.session.user.companycode;
-
+  device.setUserDefault(req_.session.user.lang,req_.session.user.timezone);
   device.allow (code, uid, devid, userid, true, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
@@ -81,7 +81,6 @@ exports.deny = function(req_, res_) {
     , devid = req_.body.device
     , userid = req_.body.user
     , code = req_.session.user.companycode;
-
   device.allow (code, uid, devid, userid, false, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
@@ -163,7 +162,7 @@ exports.deviceRegister = function(req_, res_) {
     if(!deviceid){
       return res_.send(json.dataSchema({status:"6007"}));
     }
-    device.setUserDefault(req_.session.user.lang,req_.session.user.timezone);
+
     device.deviceRegister(deviceid,devicetoken, userid, code , devicetype , function(err, result) {
       if (err) {
         return res_.send(err.code, json.errorSchema(err.code, err.message));

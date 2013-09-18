@@ -323,4 +323,5 @@ exports.guiding = function(app){
   app.post('/workstation/updateList.json', function (req, res) {
     workstation.updateList(req,res);
   });
+
 };

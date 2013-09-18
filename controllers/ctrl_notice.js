@@ -67,23 +67,30 @@ exports.list = function(code_, keyword_, start_, limit_, callback_) {
     });
   });
 };
-function getUidByUserid(code,userIds,callback){
+function getUidByUserid(code, userIds, callback) {
+
   var ep = new EventProxy();
   var uid_list = [];
+
   ep.after('user_ready', userIds.length, function () {
     return callback(null, uid_list);
   });
+
   ep.fail(callback);
+
   userIds.forEach(function (u_id, i) {
-    mod_user.get(code,u_id,function(err,user_docs){
+
+    mod_user.get(code, u_id, function (err, user_docs) {
       uid_list[i] = user_docs.uid;
-      console.log( user_docs.uid);
+      console.log(user_docs.uid);
       ep.emit('user_ready');
     });
+
   });
+
 };
 
-exports.add = function(code_, uid_, notice_, callback_) {
+exports.add = function (code_, uid_, notice_, callback_) {
 
   var useridlist = notice_.user.split(",");
   getUidByUserid(code_,useridlist ,function(err,notice_userUids){
@@ -97,23 +104,25 @@ exports.add = function(code_, uid_, notice_, callback_) {
       , togroup: notice_.group ? notice_.group.split(",") : []
     }
 
-    notice.add(code_, obj, function(err, result){
+    notice.add(code_, obj, function (err, result) {
       if (err) {
         return callback_(new error.InternalServer(err));
       }
 
       // send apn notice
-      _.each(notice_userUids, function(u){
+      _.each(notice_userUids, function (u) {
         mq.pushApnMessage({
           code: code_
           , target: u
           , body: result.title
+          , type : "notice"
         });
       });
-    });
 
       return callback_(err, result);
     });
+
+  });
 
 
 };

@@ -7,6 +7,7 @@ var mongo = require('mongoose')
 var Workstation = new schema({
   title: {type: String, description: "title"},
   type: {type: String, description: "app or url"},
+  authType : {type: String,default:"INSUITEPageWithAuth" ,description: "app or url WebPage,INSUITEPageWithAuth,INSUITEPage,SDBPageWithAuth"},
   url: {type: String, description: "url"},
   icon: {type: String, description: "icon"},
   open: {type: Number, description: "0:open,1:not open"},
