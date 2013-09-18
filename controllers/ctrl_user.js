@@ -29,7 +29,7 @@ exports.listByDBName = function(dbName_,start_, limit_, keyword_, callback_) {
         return callback_(new error.InternalServer(err_));
       } else {
         var compFunc = function(user_,sub_callback){
-          user.searchOneByDBName(dbName,user_._doc.editby,function(err_c,edituser){
+          user.searchOneByDBName(dbName,user_._doc.createby,function(err_c,edituser){
             if(err_c) {
               sub_callback(err_c);
             } else {
