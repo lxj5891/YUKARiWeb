@@ -107,7 +107,7 @@
     <$ } else {$>
     <td></td>
     <$ } $>
-    <$ if("<%= user.companycode%>" == companycode) { $>
+    <$ if("<%= user.companycode%>" == code) { $>
     <td>
       <a href="/customer/user/edit/{{id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
       <$ if (type == 0) {$>

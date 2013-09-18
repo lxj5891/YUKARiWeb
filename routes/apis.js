@@ -17,6 +17,7 @@ var user        = lib.api.user
   , device      = require("../api/device")
   , workstation = require("../api/workstation")
   , admin_user = require("../api/admin_user")
+  , yi_user = require("../api/user")
   , errorsExt  = require("../core/errorsExt");
 
 exports.guiding = function(app){
@@ -210,6 +211,13 @@ exports.guiding = function(app){
   });
   app.post('/user/import/import.json', function(req, res){
     user.import(req, res);
+  });
+  // yi User
+  app.get('/yiuser/list.json', function(req, res){
+    yi_user.list(req, res);
+  });
+  app.get('/yiuser/findOne.json', function(req, res){
+    yi_user.searchOne(req, res);
   });
 
   //DA 管理员创建用户
