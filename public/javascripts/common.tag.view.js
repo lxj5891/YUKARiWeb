@@ -58,6 +58,18 @@
         return false;
       });
 
+      // 点击显示全结果
+      this.active.bind("click", function(){
+        self.model.fetch(null, function(err, result){
+          self.render(result);
+        });
+      });
+
+      // 点击输入框其他地方，则关闭
+      $(document).bind("click", function(event){
+        self.itemFinder.hide();
+      });
+
     },
 
     /**
@@ -87,7 +99,7 @@
      * 添加容器
      */
     addFinder: function(id) {
-      $("body").append(_.template(this.tmplFinder.html(), {"id": id}));
+      $("body").append(_.template(this.tmplFinder.html(), {"id": id, "classname": "tagboxresult"}));
     },
 
     /**
@@ -183,7 +195,9 @@
     },
 
     fetch: function(keyword, callback) {
-      smart.doget("/tag/search.json?keywords=" + keyword + "&start=0&count=5", function(err, result){
+
+      var param = keyword ? "&keywords=" + keyword : "";
+      smart.doget("/tag/search.json?start=0&count=5" + param, function(err, result){
         callback(err, result);
       });
     },

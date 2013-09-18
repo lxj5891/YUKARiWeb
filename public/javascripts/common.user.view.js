@@ -69,13 +69,31 @@ var userbox = function(User) {
         return false;
       });
 
+      // 点击显示全结果
+      this.active.bind("click", function(){
+        var conf = self.config
+        conf.scope = $(this).attr("scope");
+        self.model.fetch(conf, function(err, users, groups){
+          self.render(users, groups);
+        });
+      });
+
+      // 点击输入框其他地方，则关闭
+      $(document).bind("click", function(event){
+        self.itemFinder.hide();
+      });
+
+      $(document).bind("keyup", function(event){
+        console.log(1);
+      });
+
     },
 
     /**
      * 添加容器
      */
     addFinder: function(id) {
-      $("body").append(_.template(this.tmplFinder.html(), {"id": id}));
+      $("body").append(_.template(this.tmplFinder.html(), {"id": id, "classname": "userboxresult"}));
     },
 
     /**
