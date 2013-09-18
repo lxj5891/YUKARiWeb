@@ -5,11 +5,13 @@ var async     = require('async')
   , layout_publish   = require('../modules/mod_layout_publish')
   , synthetic = require('./ctrl_synthetic')
   , cutil  = require('../core/contentutil')
+  , mod_group       = lib.mod.group
+  , utils           = require('../core/utils')
   , errors  = lib.core.errors;
 
-exports.get = function(code, uid_, target_, isPublish, callback_) {
+exports.get = function(code, user_, target_, isPublish, callback_) {
   var data = {};
-
+  var uid = user_._id;
   var tasks = [];
   // Get Layout data
   tasks.push(function(cb) {
@@ -17,11 +19,28 @@ exports.get = function(code, uid_, target_, isPublish, callback_) {
       layout_publish.get(code, {_id:target_}, function (err, layout) {
         if (err || !layout || !layout.active)
           return cb(new errors.InternalServer(__("api.layout.id.error") + target_), null);
-        setLayout(data, layout.active);
-        cb(err, data);
+
+        mod_group.getAllGroupByUid(code, uid, function(err, groups){
+          if(err){
+            var error = new errors.InternalServer(err);
+            cb(error);
+          }
+
+          // 公开先check
+          if(!utils.canDownloadPublishContents(user_, groups, layout)){
+            return cb(new errors.Forbidden(__("js.common.access.check")));
+          } else {
+            setLayout(data, layout.active);
+            cb(err, data);
+          }
+        });
+
       });
     } else {
-      ctl_layout.get(code, uid_, target_, function(err, layout) {
+      if(!utils.canDownloadDraftContents(user_)){
+        return cb(new errors.Forbidden(__("js.common.access.check")));
+      }
+      ctl_layout.get(code, uid, target_, function(err, layout) {
         if (err || !layout)
           return cb(new errors.InternalServer(__("api.layout.id.error") + target_), null);
         setLayout(data, layout);
@@ -197,4 +216,3 @@ function fixDoc(data) {
     return;
   return data._doc ? data._doc : data;
 }
-

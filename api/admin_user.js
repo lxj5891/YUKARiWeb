@@ -62,3 +62,19 @@ exports.adminupdate = function(req_, res_) {
     }
   });
 };
+exports.adminsearchOne = function(req_, res_) {
+  //权限check
+  if (!commonCheck(req_, res_)) {
+    return;
+  };
+  var code = req_.query.code;
+  var userid = req_.query.userid;
+
+  adminuser.adminsearchOne(code, userid, function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+};

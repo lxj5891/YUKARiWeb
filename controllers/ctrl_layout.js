@@ -7,9 +7,11 @@ var async     = require('async')
   , mq        = require('../controllers/ctrl_mq')
   , user      = lib.ctrl.user
   , group     = lib.ctrl.group
+  , mod_group       = lib.mod.group
   , error     = lib.core.errors
   , log       = lib.core.log
   , cutil     = require('../core/contentutil')
+  , utils     = require('../core/utils')
   , util     = lib.core.util;
 
 
@@ -72,6 +74,9 @@ exports.get = function (code, uid_, layoutId_, callback_) {
 };
 
 function setSyntheticIntoLayout(code_, layout_, callback_){
+  if(!layout_){
+    callback_(null,layout_);
+  }
   var mainTask = function(page, mainCB){
     var subTask = function(tile, subCB){
        synthetic.getSyntheticById(code_, tile.syntheticId, function(_err, _synthetic){
@@ -302,7 +307,7 @@ exports.list = function(code, keyword_,start_, limit_, uid, status, callback_) {
   });
 };
 
-exports.publishList = function(code_, keyword_,start_, limit_, callback_) {
+exports.publishList = function(code_, user_, keyword_,start_, limit_, callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -314,54 +319,86 @@ exports.publishList = function(code_, keyword_,start_, limit_, callback_) {
     condition["active.layout.name"] = new RegExp(keyword.toLowerCase(), "i");
   }
 
+  var or = [];
+  if(utils.hasApprovePermit(user_)){
+    var confirm = {};
+    confirm["active.confirmby"] = user_._id;
+    or.push(confirm);
+  }
 
-  history.total(code_, condition, function(err, count){
-    if (err) {
+  var touser = {};
+  touser["active.viewerUsers"] = user_._id;
+  or.push(touser);
+
+
+
+  mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
+    if(err){
       return callback_(new error.InternalServer(err));
     }
 
-    history.activeList(code_, condition, start, limit, function(err, result){
+    if(groups.length > 0){
+      _.each(groups, function(g){
+        var togroup = {};
+        togroup["active.viewerGroups"] = g._id.toString();
+        or.push(togroup);
+      });
+
+    }
+    condition.$or = or;
+
+    history.total(code_, condition, function(err, count){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
 
-      var subTask = function(item, subCB){
-        var tasks = [];
-        tasks.push(function(cb) {
-          user.searchOneByDBName(code_, item.active.editby, function(err, u_result) {
-            if(err)
-              return cb(err, data);
-            fixDoc(item).active.user = u_result;
-            cb(err);
-          });
-        });
-        tasks.push(function(cb) {
-          user.listByUids(code_, item.active.viewerUsers, undefined, undefined, function(err, users){
-            if(err)
-              return cb(err);
+      history.activeList(code_, condition, start, limit, function(err, result){
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
 
-            fixDoc(item).active.viewerUsersList = users;
-            cb(err);
+        var subTask = function(item, subCB){
+          var tasks = [];
+          tasks.push(function(cb) {
+            user.searchOneByDBName(code_, item.active.editby, function(err, u_result) {
+              if(err)
+                return cb(err, data);
+              fixDoc(item).active.user = u_result;
+              cb(err);
+            });
           });
-        });
-        tasks.push(function(cb) {
-          group.listByGids(code_, item.active.viewerGroups, undefined, undefined, function(err, groups){
-            if(err)
-              return cb(err);
+          tasks.push(function(cb) {
+            user.listByUids(code_, item.active.viewerUsers, undefined, undefined, function(err, users){
+              if(err)
+                return cb(err);
 
-            fixDoc(item).active.viewerGroupsList = groups;
-            cb(err);
+              fixDoc(item).active.viewerUsersList = users;
+              cb(err);
+            });
           });
+          tasks.push(function(cb) {
+            group.listByGids(code_, item.active.viewerGroups, undefined, undefined, function(err, groups){
+              if(err)
+                return cb(err);
+
+              fixDoc(item).active.viewerGroupsList = groups;
+              cb(err);
+            });
+          });
+          async.waterfall(tasks,function(err){
+            return subCB(err);
+          });
+        };
+
+        async.forEach(result, subTask, function(err_){
+          return callback_(err, {totalItems: count, items:result});
         });
-        async.waterfall(tasks,function(err){
-          return subCB(err);
-        });
-      };
-      async.forEach(result, subTask, function(err_){
-        return callback_(err, {totalItems: count, items:result});
       });
     });
+
   });
+
+
 };
 
 exports.history = function(code_, start_, limit_, callback_) {

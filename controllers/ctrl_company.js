@@ -233,7 +233,8 @@ exports.update = function(uid_, data_, callback_) {
   comp_.editby = uid_;
 
   // path check
-  company.find({path:comp_.path}, function(err, coms){
+  var pathcheck = comp_.path  ? comp_.path : "";
+  company.find({path:pathcheck}, function(err, coms){
     if (err) {
       return  callback_(new error.InternalServer(__("js.ctr.common.system.error")));
     }
