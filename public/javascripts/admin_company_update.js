@@ -43,6 +43,8 @@ function render(compid) {
         $("#inputAddress").val(result.address);
         $("#inputTel").val(result.tel);
         $("#inputComPath").val(result.path);
+        $("#inputComPath").attr("oldpath",result.path);
+        $("#inputComPath").attr("code",result.code);
         var inputActive = result.active == 1 ? "1" : "0";
         new ButtonGroup("inputActive", inputActive).init();
         $("#inputActive").attr('disabled','disabled');
@@ -64,8 +66,12 @@ function getCompanyData() {
     , address: $("#inputAddress").val()
     , tel: $("#inputTel").val()
     , active: $("#inputActive").attr('value')
-    , path: $("#inputComPath").val()
   };
+  //编集时,如果会社ID没有变更,不提交.
+  if ($("#inputComPath").val() != $("#inputComPath").attr("oldpath")) {
+    company.path = $("#inputComPath").val();
+  }
+  company.code = $("#inputComPath").attr("code");
   return company;
 }
 //取得用户信息

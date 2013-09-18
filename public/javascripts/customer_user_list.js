@@ -12,7 +12,7 @@ var userList;
 function render(start, count ,keyword) {
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/user/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function (err, result) {
+  smart.doget("/yiuser/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function (err, result) {
 
     if (err) {
       smart.error(err,i18n["js.common.search.error"],false);
@@ -25,21 +25,22 @@ function render(start, count ,keyword) {
 
       container.html("");
       _.each(result.items, function (row) {
-        container.append(_.template(tmpl, {
-          "index": index++ + start,
-          "id": row._id,
-          "uid": row.uid,
-          "name": row.name ? row.name.name_zh : "",
-          "title": row.title,
-          "telephone": row.tel ? row.tel.telephone : "",
-          "description": row.description,
-          "contents": row.authority ? row.authority.contents : "0",
-          "notice": row.authority ? row.authority.notice : "0",
-          "approved": row.authority ? row.authority.approve : "0",
-          "active": row.active,
-          "type": row.type,
-          "companycode":row.companycode
-        }));
+         container.append(_.template(tmpl, {
+           "index": index++ + start,
+           "id": row._id,
+           "uid": row.uid,
+           "name": row.name ? row.name.name_zh : "",
+           "title": row.title,
+           "telephone": row.tel ? row.tel.telephone : "",
+           "description": row.description,
+           "contents": row.authority ? row.authority.contents : "0",
+           "notice": row.authority ? row.authority.notice : "0",
+           "approved": row.authority ? row.authority.approve : "0",
+           "active": row.active,
+           "type": row.type,
+           "companycode":row.companycode,
+           "code":row.code
+         }));
       });
       if (result.items.length == 0) {
         container.html(i18n["js.common.list.empty"]);

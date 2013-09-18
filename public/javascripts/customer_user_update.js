@@ -28,37 +28,56 @@ var userType = 0;
 function render(userid) {
   userType =  $('#userType').val();
   if (userid) {
-    smart.doget("/user/findOne.json?userid=" + userid , function(err, result) {
+    smart.doget("/yiuser/findOne.json?userid=" + userid , function(err, result) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
         if (result) {
-          $("#inputUserID").val(result.uid);
-          $("#inputUserID").attr("disabled","disabled");
-          $("#inputPassword").val(result.password);
-          $("#inputPassword").attr("oldpass",result.password);
-          $("#inputName").val(result.name ? result.name.name_zh:"");
-          $("#inputRole").val(result.title);
-          $("#inputPhone").val(result.tel ? result.tel.telephone:"");
-          $("#inputComment").val(result.description);
+          if (result.comp) {
+            //契约客户时,没有contents权限
+            if(result.comp.companyType !=2) {
+              $("#contents").css("display","none");
+            }
+          }
+          if (result.item) {
+            $("#inputUserID").val(result.item.uid);
+            $("#inputUserID").attr("disabled","disabled");
+            $("#inputPassword").val(result.item.password);
+            $("#inputPassword").attr("oldpass",result.item.password);
+            $("#inputName").val(result.item.name ? result.item.name.name_zh:"");
+            $("#inputRole").val(result.item.title);
+            $("#inputPhone").val(result.item.tel ? result.item.tel.telephone:"");
+            $("#inputComment").val(result.item.description);
 
-          var inputLang = result.lang;
-          new ButtonGroup("inputLang", inputLang).init();
-          var inputTimezone = result.timezone;
-          new ButtonGroup("inputTimezone", inputTimezone).init();
-          var inputContents = result.authority && result.authority.contents == 1 ? "1" : "0";
-          new ButtonGroup("inputContents", inputContents).init();
-          var inputNotice = result.authority && result.authority.notice == 1 ? "1" : "0";
-          new ButtonGroup("inputNotice", inputNotice).init();
-          var inputApproved = result.authority && result.authority.approve == 1 ? "1" : "0";
-          new ButtonGroup("inputApproved", inputApproved).init();
-          var inputActive = result.active == 1 ? "1" : "0";
-          new ButtonGroup("inputActive", inputActive).init();
+            var inputLang = result.item.lang;
+            new ButtonGroup("inputLang", inputLang).init();
+            var inputTimezone = result.item.timezone;
+            new ButtonGroup("inputTimezone", inputTimezone).init();
+            var inputContents = result.item.authority && result.item.authority.contents == 1 ? "1" : "0";
+            new ButtonGroup("inputContents", inputContents).init();
+            var inputNotice = result.item.authority && result.item.authority.notice == 1 ? "1" : "0";
+            new ButtonGroup("inputNotice", inputNotice).init();
+            var inputApproved = result.item.authority && result.item.authority.approve == 1 ? "1" : "0";
+            new ButtonGroup("inputApproved", inputApproved).init();
+            var inputActive = result.item.active == 1 ? "1" : "0";
+            new ButtonGroup("inputActive", inputActive).init();
+          }
         }
       }
-
     });
   } else {
+    smart.doget("/yiuser/findOne.json?userid=" + "" , function(err, result) {
+      if (err) {
+        smart.error(err,i18n["js.common.search.error"],false);
+      } else {
+        if (result.comp) {
+           //契约客户时,没有contents权限
+           if(result.comp.companyType !=2) {
+             $("#contents").css("display","none");
+           }
+        }
+      }
+    });
     //初期值:日语,东九区,承认权限,通知权限没有
     new ButtonGroup("inputLang", "ja").init();
     new ButtonGroup("inputTimezone", "GMT+09:00").init();

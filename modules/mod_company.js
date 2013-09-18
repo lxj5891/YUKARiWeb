@@ -50,7 +50,7 @@ exports.find = function(query,callback_){
 
   comp.find(query, function(err, result){
     callback_(err, result);
-  });
+  }).sort({createat: 'desc'});
 };
 // 通过公司ID获取一个公司
 exports.getByPath = function(path,callback_){

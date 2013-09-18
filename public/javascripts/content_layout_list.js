@@ -120,7 +120,11 @@ function render(start, count,keyword) {
 
     // publish list
     if (publish == 1) {
-      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["html.label.common.updateby"] + "</th><th>" + i18n["html.label.common.updateat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
+        + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["html.label.common.updateby"]
+        + "</th><th>" + i18n["html.label.common.updateat"]
+        + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
       $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_publishlayout_list').html();
@@ -135,6 +139,7 @@ function render(start, count,keyword) {
           , "name": active.layout.name
           , "editat": smart.date(active.editat)
           , "editby": active.user.name.name_zh
+          , "viewer": get_viewerHtml(row)
           , "class3": (active&&active.layout&&active.layout.image&& !_.isEmpty(active.layout.image.imageH)) ? "" : "disabled"
           , "preview_image" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : null
         }));
@@ -143,7 +148,11 @@ function render(start, count,keyword) {
 
     // apply list
     } else if (status == 21) {
-      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.approveby"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
+        + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.approveby"]
+        + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"]
+        + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
       $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_applylayout_list').html();
@@ -155,6 +164,7 @@ function render(start, count,keyword) {
           , "name": row.layout.name
           , "editat": smart.date(row.editat)
           , "confirmby": row.user.name.name_zh
+          , "viewer": get_viewerHtml(row)
           , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
           , "preview_image" : (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? row.layout.image.imageH : null
         }));
@@ -162,7 +172,11 @@ function render(start, count,keyword) {
 
     //
     } else if (status == 22) {
-      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyby"] + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"] + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
+      var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
+        + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyby"]
+        + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"]
+        + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
       $('#layout_header').html(headerHtml);
 
       var tmpl = $('#tmpl_confirmlayout_list').html();
@@ -172,6 +186,7 @@ function render(start, count,keyword) {
           "id": row._id
           , "index": index++ + start
           , "name": row.layout.name
+          , "viewer": get_viewerHtml(row)
           , "editat": smart.date(row.editat)
           , "editby": row.user.name.name_zh
           , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
@@ -191,6 +206,7 @@ function render(start, count,keyword) {
           , "name": row.layout.name
           , "status": get_status(row.status)
           , "publish": get_publish(row.publish)
+          , "viewer": get_viewerHtml(row)
           , "editat": smart.date(row.editat)
           , "editby": row.user.name.name_zh
           , "class1": (row.status == 2) ? "disabled" : ""
@@ -209,6 +225,15 @@ function render(start, count,keyword) {
       render.apply(window, [active, count]);
     });
   });
+
+  function get_viewerHtml(layout) {
+    layout = layout.active ? layout.active: layout;
+
+    return new UserView().render.cellHtml({
+          group: layout.viewerGroupsList,
+          user: layout.viewerUsersList
+        });
+  }
 
   function get_status (status_) {
       var status_title;

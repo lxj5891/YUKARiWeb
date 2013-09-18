@@ -69,13 +69,31 @@ var userbox = function(User) {
         return false;
       });
 
+      // 点击显示全结果
+      this.active.bind("click", function(){
+        var conf = self.config
+        conf.scope = $(this).attr("scope");
+        self.model.fetch(conf, function(err, users, groups){
+          self.render(users, groups);
+        });
+      });
+
+      // 点击输入框其他地方，则关闭
+      $(document).bind("click", function(event){
+        self.itemFinder.hide();
+      });
+
+      $(document).bind("keyup", function(event){
+        console.log(1);
+      });
+
     },
 
     /**
      * 添加容器
      */
     addFinder: function(id) {
-      $("body").append(_.template(this.tmplFinder.html(), {"id": id}));
+      $("body").append(_.template(this.tmplFinder.html(), {"id": id, "classname": "userboxresult"}));
     },
 
     /**
@@ -232,4 +250,32 @@ var userbox = function(User) {
   this.model = User.model;
 
 };//)(smart.view("user"));
+
+
+var UserView = function() {
+    var render_ = {
+      cellHtml: function(users, nowrap) {
+        var list = new Array();
+
+        // Render group
+        if(users && users.group) {
+          _.each(users.group, function(group) {
+            list.push("<i class=\"icon-group\"></i>&nbsp;&nbsp;" +  _.escape(group.name.name_zh));
+          });
+        }
+
+        // Render user
+        if(users && users.user) {
+          _.each(users.user, function(user) {
+            list.push("<i class=\"icon-male\"></i>&nbsp;&nbsp;" + _.escape(user.name.name_zh));
+          });
+        }
+
+        return nowrap? list.join("") : list.join("<br>");
+      }
+    }
+
+  this.render = render_;
+};
+
 

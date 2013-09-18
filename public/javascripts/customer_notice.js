@@ -21,20 +21,9 @@ function render(start, count,keyword) {
       container.html("");
 
       _.each(result.items, function(row){
-
-        var sendto = new Array();
-
-        _.each(row.sendto.user, function(user) {
-          sendto.push("<i class=\"icon-male\"></i>&nbsp;&nbsp;"+user.name.name_zh);
-        });
-
-        _.each(row.sendto.group, function(group) {
-          sendto.push("<i class=\"icon-group\"></i>&nbsp;&nbsp;"+group.name.name_zh);
-        });
-
         container.append(_.template(tmpl, {
           "index": index++ + start
-          , "sendto": sendto.join("<br>")
+          , "sendto": new UserView().render.cellHtml(row.sendto)
           , "title": row.title
           , "notice": row.notice.replace('\n','<br>')
           , "createat": smart.date(row.createat)
