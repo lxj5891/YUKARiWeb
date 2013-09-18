@@ -184,6 +184,8 @@ function publishLayout(code_, layout_, callback_) {
     var layout_ = {
       confirmat : result1.confirmat,
       confirmby : result1.confirmby,
+      viewerUsers : result1.viewerUsers,
+      viewerGroups : result1.viewerGroups,
       editat :  result1.editat,
       editby :  result1.editby,
       createat :  result1.createat,
