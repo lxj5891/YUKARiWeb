@@ -154,7 +154,7 @@ exports.list = function(req_, res_) {
     , status = req_.query.status;
 
     if (publish == 1) {
-        layout.publishList(code,keyword, start, limit, function(err, result) {
+        layout.publishList(code, user, keyword, start, limit, function(err, result) {
             if (err) {
                 return res_.send(err.code, json.errorSchema(err.code, err.message));
             } else {
