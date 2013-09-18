@@ -116,9 +116,6 @@ exports.updatetag = function(req_, res_) {
 
 // Download a file
 exports.download = function(req_, res_, isPublish) {
-
-  // TODO 权限check
-
   var uid = req_.session.user._id
     , target = req_.query.target // temp
     , file_name = req_.query.file // temp
@@ -256,7 +253,7 @@ exports.download = function(req_, res_, isPublish) {
           }
 
           // 公开先check
-          if(!canDownloadPublishContents(user_, groups, result)){
+          if(!utils.canDownloadPublishContents(user_, groups, result)){
             return noAccessResponse(res_);
           } else {
             getLayout(err, (result && result.active) ? result.active : null);
@@ -264,7 +261,7 @@ exports.download = function(req_, res_, isPublish) {
         });
       });
     } else { // 非公开Layout的取得
-      if(!canDownloadDraftContents(user_)){
+      if(!utils.canDownloadDraftContents(user_)){
         return noAccessResponse(res_);
       }
 
@@ -348,35 +345,6 @@ exports.remove = function(req_, res_) {
 // 素材的增删改查都只有content作成者有权限，增删改查暂用一个check
 function canUpdate(user_){
   return utils.hasContentPermit(user_);
-}
-
-function canDownloadDraftContents(user_){
-  return utils.hasApprovePermit(user_);
-}
-
-function canDownloadPublishContents(user_, joinGroup, publishLayout_){
-
-  // 承认者可以下载
-  if(publishLayout_.active.confirmby == user_._id)
-  {
-    return true;
-  }
-
-  // 公开先 人
-  if(_.contains(publishLayout_.active.viewerUsers, user_._id)){
-    return true;
-  }
-
-  // 公开先 组
-  var viewGroups = publishLayout_.active.viewerGroups;
-  for(var i = 0; i < joinGroup.length; i ++){
-    var gid = joinGroup[i]._id.toString();
-    if(_.contains(viewGroups, gid)){
-      return true;
-    }
-  }
-
-  return false;
 }
 
 function noAccessResponse(res_){

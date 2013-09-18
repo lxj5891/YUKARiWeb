@@ -27,7 +27,7 @@ exports.get = function(code, user_, target_, isPublish, callback_) {
           }
 
           // 公开先check
-          if(!canDownloadPublishContents(user_, groups, layout)){
+          if(!utils.canDownloadPublishContents(user_, groups, layout)){
             return cb(new errors.Forbidden(__("js.common.access.check")));
           } else {
             setLayout(data, layout.active);
@@ -37,7 +37,7 @@ exports.get = function(code, user_, target_, isPublish, callback_) {
 
       });
     } else {
-      if(!canDownloadDraftContents(user_)){
+      if(!utils.canDownloadDraftContents(user_)){
         return cb(new errors.Forbidden(__("js.common.access.check")));
       }
       ctl_layout.get(code, uid, target_, function(err, layout) {
@@ -215,33 +215,4 @@ function fixDoc(data) {
   if(!data)
     return;
   return data._doc ? data._doc : data;
-}
-
-function canDownloadDraftContents(user_){
-  return utils.hasApprovePermit(user_);
-}
-
-function canDownloadPublishContents(user_, joinGroup, publishLayout_){
-
-  // 承认者可以下载
-  if(publishLayout_.active.confirmby == user_._id)
-  {
-    return true;
-  }
-
-  // 公开先 人
-  if(_.contains(publishLayout_.active.viewerUsers, user_._id)){
-    return true;
-  }
-
-  // 公开先 组
-  var viewGroups = publishLayout_.active.viewerGroups;
-  for(var i = 0; i < joinGroup.length; i ++){
-    var gid = joinGroup[i]._id.toString();
-    if(_.contains(viewGroups, gid)){
-      return true;
-    }
-  }
-
-  return false;
 }
