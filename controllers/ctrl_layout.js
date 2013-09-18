@@ -71,6 +71,9 @@ exports.get = function (code, uid_, layoutId_, callback_) {
 };
 
 function setSyntheticIntoLayout(code_, layout_, callback_){
+  if(!layout_){
+    callback_(null,layout_);
+  }
   var mainTask = function(page, mainCB){
     var subTask = function(tile, subCB){
        synthetic.getSyntheticById(code_, tile.syntheticId, function(_err, _synthetic){

@@ -4,6 +4,7 @@ var async           = require('async')
   , dbfile          = lib.ctrl.dbfile
   , errors          = lib.core.errors
   , utils           = require('../core/utils')
+  , mod_group       = lib.mod.group
   , material        = require('../controllers/ctrl_material')
   , layout_publish  = require('../modules/mod_layout_publish')
   , ctl_layout      = require('../controllers/ctrl_layout');
@@ -115,12 +116,10 @@ exports.updatetag = function(req_, res_) {
 
 // Download a file
 exports.download = function(req_, res_, isPublish) {
-
-  // TODO 权限check
-
   var uid = req_.session.user._id
     , target = req_.query.target // temp
     , file_name = req_.query.file // temp
+    , user_ = req_.session.user
     , code = req_.session.user.companycode;
 
     if(target == null) {
@@ -246,9 +245,26 @@ exports.download = function(req_, res_, isPublish) {
           var err = new errors.InternalServer(__("api.file.name.error") + file_name);
           return res_.send(err.code, json.errorSchema(err.code, err.message));
         }
-        getLayout(err, (result && result.active) ? result.active : null);
+
+        mod_group.getAllGroupByUid(code, uid, function(err, groups){
+          if(err){
+            var error = new errors.InternalServer(err);
+            return res_.send(error.code, json.errorSchema(error.code, error.message));
+          }
+
+          // 公开先check
+          if(!utils.canDownloadPublishContents(user_, groups, result)){
+            return noAccessResponse(res_);
+          } else {
+            getLayout(err, (result && result.active) ? result.active : null);
+          }
+        });
       });
     } else { // 非公开Layout的取得
+      if(!utils.canDownloadDraftContents(user_)){
+        return noAccessResponse(res_);
+      }
+
       ctl_layout.get(code, uid, target, function(err, layout) {
         getLayout(err, layout);
       });
