@@ -15,6 +15,8 @@ var PublishLayout = new schema({
     version: {type:Number},
     confirmat: {type: Date},
     confirmby: {type: String, description:"承認者"},
+    viewerUsers: [{type:String, description:"公開先User"}],
+    viewerGroups: [{type:String, description:"公開先Group"}],
     editat: {type: Date, default: Date.now, description: "更新時間"},
     editby: {type: String},
     createat: { type: Date, default: Date.now },
