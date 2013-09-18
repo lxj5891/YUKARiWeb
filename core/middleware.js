@@ -73,6 +73,7 @@ exports.authenticate = function(req, res, next) {
   // Register
   safety = safety || req.url.match(/^\/register.*/i);
   safety = safety || req.url.match(/^\/download.*/i);
+  safety = safety || req.url.match(/^\/device\/login.json.*/i);
 
   if (safety) {
     return next();

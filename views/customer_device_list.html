@@ -94,9 +94,9 @@
     <td class="col-lg-2" style="border-top: 0;">{{userCount}}</td>
     <td style="text-align: left;border-top: 0;" class="col-lg-2">
     <$ if (devstatus == 1) {$>
-      <a href="#" class="btn btn-default btn-sm"><%= i('html.button.device.status.deny') %><!-- 禁止--></a>
+      <a name="device" href="#" class="btn btn-default btn-sm" dev_id="{{dev_id}}" operation="deny"><%= i('html.button.device.status.deny') %><!-- 禁止--></a>
     <$ } else {$>
-      <a href="#" class="btn btn-default btn-sm"><%= i('html.button.device.status.allow') %><!-- 許可--></a>
+      <a name="device" href="#" class="btn btn-default btn-sm" dev_id="{{dev_id}}" operation="allow"><%= i('html.button.device.status.allow') %><!-- 許可--></a>
     <$ } $>
     </td>
   </tr>
@@ -117,9 +117,9 @@
     <td>{{user_lastat}}</td>
     <td style="text-align: left">
       <$ if (user_status == 1) {$>
-      <a href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="deny"><%= i('html.button.device.status.deny') %><!-- 禁止--></a>
+      <a name="user" href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="deny"><%= i('html.button.device.status.deny') %><!-- 禁止--></a>
       <$ } else {$>
-      <a href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="allow"><%= i('html.button.device.status.allow') %><!-- 許可--></a>
+      <a name="user" href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="allow"><%= i('html.button.device.status.allow') %><!-- 許可--></a>
       <$ } $>
     </td>
   </tr>

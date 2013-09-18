@@ -8,7 +8,8 @@ var Device = new schema({
     companyid: {type: String}
 
   , companycode : {type:String,description:"公司CODE"}
-  , devicetoken :{type:String,description:"ipad  设备的 apn token"}
+  , devicetoken : {type:String,description:"ipad  设备的 apn token"}
+  , deviceuid : {type:String,description:"正在使用device的 用户uid" }
   , deviceid: {type: String}
   , deviceType: {type:String}
   , devstatus : {type:String,description: "1:使用中 0:使用不可"}
@@ -109,6 +110,15 @@ exports.deviceTotalByComId = function(code,comid_, callback_) {
     callback_(err, count);
   });
 };
+
+exports.findAndModify = function (code,query_, device_info_, callback_) {
+  var dev = model(code);
+
+  dev.findOneAndUpdate(query_,device_info_,function(err,result){
+    callback_(err, result);
+  });
+
+}
 
 
 

@@ -29,7 +29,32 @@ exports.countcompanyid = function(req_, res_) {
     }
   });
 };
+exports.deviceAllow = function(req_, res_) {
+  var uid = req_.session.user._id
+    , devid = req_.body.device
+    , code = req_.session.user.companycode;
 
+  device.deviceallow (code, uid, devid, true, function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+}
+exports.deviceDeny = function(req_, res_) {
+  var uid = req_.session.user._id
+    , devid = req_.body.device
+    , code = req_.session.user.companycode;
+
+  device.deviceallow (code, uid, devid, false, function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+}
 /**
  * 允许使用设备
  * @param req_
@@ -93,6 +118,19 @@ exports.add = function(req_, res_) {
     }
   });
 };
+exports.setDeviceUser = function(req_, res_){
+  var deviceid = req_.query.deviceid
+    , code = req_.query.code
+    , userid = req_.query.userid;
+  device.setDeviceUser(code,userid,deviceid,function(err,result){
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+
+};
 
 exports.login = function(req_, res_) {
   var deviceid = req_.query.deviceid
@@ -100,12 +138,20 @@ exports.login = function(req_, res_) {
     , code = req_.query.code
     , devicetype = req_.query.devicetype
     , userid = req_.query.userid;
-
-  device.create(deviceid,devicetoken, userid, code , devicetype , function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
+    if(!userid){
+      return res_.send(json.dataSchema({status:"6009"}));
     }
-  });
+    if(!code){
+      return res_.send(json.dataSchema({status:"6008"}));
+    }
+    if(!deviceid){
+      return res_.send(json.dataSchema({status:"6007"}));
+    }
+    device.create(deviceid,devicetoken, userid, code , devicetype , function(err, result) {
+      if (err) {
+        return res_.send(err.code, json.errorSchema(err.code, err.message));
+      } else {
+        return res_.send(json.dataSchema(result));
+      }
+    });
 };
