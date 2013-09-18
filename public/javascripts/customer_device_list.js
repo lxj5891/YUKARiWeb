@@ -64,9 +64,34 @@ function render(start, count) {
 }
 
 function events() {
+  $("#deviceAndUser_list").on("click", "a[name=device]", function(event){
+    var operation = $(event.target).attr("operation")
+      , dev_id = $(event.target).attr("dev_id");
+    if (operation == "deny") {
+      smart.doput("/device/denyDeivce.json", {device: dev_id}, function(err, result){
+        if (err) {
+          Alertify.log.error(i18n["js.public.error.device.operation"]); console.log(err);
+        } else {
+          Alertify.log.info(i18n["js.public.info.device.deny"]);
+          render(0, 15);
+        }
+      });
+    }
+    if (operation == "allow") {
+      smart.doput("/device/allowDevice.json", {device: dev_id}, function(err, result){
+        if (err) {
+          Alertify.log.error(i18n["js.public.error.device.operation"]); console.log(err);
+        } else {
+          Alertify.log.info(i18n["js.public.info.device.allow"]);
+          render(0, 15);
+        }
+      });
+    }
+
+  });
 
   // 一览按钮事件
-  $("#deviceAndUser_list").on("click", "a", function(event){
+  $("#deviceAndUser_list").on("click", "a[name=user]", function(event){
     var operation = $(event.target).attr("operation")
       , user_id = $(event.target).attr("user_id")
       , dev_id = $(event.target).attr("dev_id");

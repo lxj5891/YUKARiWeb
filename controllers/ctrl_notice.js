@@ -3,9 +3,12 @@ var _         = require('underscore')
   , notice    = require('../modules/mod_notice.js')
   , mq        = require('./ctrl_mq')
   , user      = lib.ctrl.user
+  , mod_user  = lib.mod.user
   , group     = lib.ctrl.group
   , error     = lib.core.errors
   , util      = lib.core.util;
+
+var EventProxy = require('eventproxy');
 
 exports.getNoticeById = function(code_, notice_id, callback){
   notice.findOne(code_, notice_id, function(err,docs){
@@ -64,34 +67,53 @@ exports.list = function(code_, keyword_, start_, limit_, callback_) {
     });
   });
 };
+function getUidByUserid(code,userIds,callback){
+  var ep = new EventProxy();
+  var uid_list = [];
+  ep.after('user_ready', userIds.length, function () {
+    return callback(null, uid_list);
+  });
+  ep.fail(callback);
+  userIds.forEach(function (u_id, i) {
+    mod_user.get(code,u_id,function(err,user_docs){
+      uid_list[i] = user_docs.uid;
+      console.log( user_docs.uid);
+      ep.emit('user_ready');
+    });
+  });
+};
 
 exports.add = function(code_, uid_, notice_, callback_) {
 
-  var obj = {
+  var useridlist = notice_.user.split(",");
+  getUidByUserid(code_,useridlist ,function(err,notice_userUids){
+    var obj = {
       valid: 1
-    , createat: new Date()
-    , createby: uid_
-    , notice: notice_.notice
-    , title: notice_.title
-    , touser: notice_.user ? notice_.user.split(",") : []
-    , togroup: notice_.group ? notice_.group.split(",") : []
-  }
-
-  notice.add(code_, obj, function(err, result){
-    if (err) {
-      return callback_(new error.InternalServer(err));
+      , createat: new Date()
+      , createby: uid_
+      , notice: notice_.notice
+      , title: notice_.title
+      , touser: notice_.user ? notice_.user.split(",") : []
+      , togroup: notice_.group ? notice_.group.split(",") : []
     }
 
-    // send apn notice
-    _.each(result.touser, function(u){
-      mq.pushApnMessage({
+    notice.add(code_, obj, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      // send apn notice
+      _.each(notice_userUids, function(u){
+        mq.pushApnMessage({
           code: code_
-        , target: u
-        , body: result.title
+          , target: u
+          , body: result.title
+        });
       });
     });
 
-    return callback_(err, result);
-  });
+      return callback_(err, result);
+    });
+
 
 };

@@ -23,9 +23,12 @@ exports.guiding = function(app){
 
   // 登陆
   app.get('/simplelogin', function (req, res) {
+    var deivceId = req.query.deviceid;
     var logined = function() {
       if (req.session.user.type == 1) // 重新设定管理员画面
         req.query.home = "/admin";
+
+      //
     };
 
     var path = req.query.path; // 公司ID, Web登陆用
@@ -42,6 +45,7 @@ exports.guiding = function(app){
       })
     // iPad登陆
     } else if(code) {
+      //添加 deviceUserId
       ctrl_company.getByCode(code, function(err, comp){
         if(err)
           return errorsExt.sendJSON(res, err);
@@ -49,7 +53,8 @@ exports.guiding = function(app){
           return errorsExt.sendJSON(res, errorsExt.NoCompanyCode);
         var companyDB = comp.code;
         user.login(req, res, logined, companyDB);
-      })
+      });
+
     // 登陆主DB进行Login
     } else {
       user.login(req, res, logined);
@@ -59,6 +64,9 @@ exports.guiding = function(app){
   // 注销
   app.get("/simplelogout", function (req, res) {
     req.query.home = "/top/login";
+    var uid = req.session.user._id;
+    //清楚token 和 deviceUserid
+//    , device.removeDeviceUserId()
     user.logout(req, res);
   });
 
@@ -188,6 +196,9 @@ exports.guiding = function(app){
   app.post('/user/add.json', function(req, res){
     user.add(req, res);
   });
+  app.post('/user/updatePassword.json', function(req, res){
+    user.updatePassword(req, res);
+  });
   app.put('/user/update.json', function(req, res){
     user.update(req, res);
   });
@@ -240,6 +251,12 @@ exports.guiding = function(app){
   app.get('/device/list.json', function(req, res){
     device.list(req, res);
   });
+  app.put('/device/denyDeivce.json', function(req, res){
+    device.deviceDeny(req, res);
+  });
+  app.put('/device/allowDevice.json', function(req, res){
+    device.deviceAllow(req, res);
+  });
   app.put('/device/allow.json', function(req, res){
     device.allow(req, res);
   });
@@ -254,6 +271,9 @@ exports.guiding = function(app){
   });
   app.get("/device/login.json", function(req, res){
     device.login(req, res);
+  });
+  app.get("/device/setUid.json" ,function(req,res){
+    device.setDeviceUser(req,res);
   });
 
   // 运营情报

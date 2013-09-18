@@ -7,6 +7,7 @@ var sync     = require('async')
   , mod_user     = lib.mod.user
   , error     = lib.core.errors
   , passutil      = lib.core.util
+  , mq        = require('./ctrl_mq')
 
 var EventProxy = require('eventproxy');
 var that_device = device;
@@ -37,47 +38,71 @@ exports.list = function(code, start_, limit_, company_, callback_) {
   });
 };
 
+//许可
 function updateAllow(code, session_uid, device_id, user_id, allow_, pass, callbak_) {
-//  var allow_ = 1;
+
   var update_ep = EventProxy.create("update_apply", "update_user", function (update_apply, update_user) {
     callbak_(null,"allow");
   });
+
   update_ep.fail(function (err) {
     callbak_(err);
   });
+
+
   updateApplyFn(code, session_uid , device_id , user_id , allow_ , update_ep.done("update_apply"));
-  updateUserFn(code, session_uid, user_id, pass, update_ep.done("update_user"));
+  updateUserFn(code, session_uid, user_id,device_id, pass, update_ep.done("update_user"));
+
 };
+
+//调用许可设备接口
 function updateApplyFn(code, session_uid , device_id , user_id , allow_ ,callback_){
+
+
   device.allow(code, session_uid, device_id, user_id, allow_, function(err, result){
     if (!err) {
-      // TODO: add apn push
     }
-    console.log(result);
     return callback_(err, result);
   });
+
+
 }
-function updateUserFn(code , session_uid , user_,pass,callback_){
+//创建新用户  并发送密码
+function updateUserFn(code , session_uid , user_,device_id,pass,callback_){
+
   var userinfo_ = {
     userid : user_,
     password : pass,
     type : 0 ,
-    name : {name_zh : "ipad user"},
+    name : {name_zh : user_},
     companycode: code,
     "lang" : "ja" ,
-    "timezone" : "GMT+08:00"
+    "timezone" : "GMT+08:00",
+    "valid" : 1,
+    "active" : 1
+  };
 
-  }
   user.addByDBName(code , session_uid ,userinfo_ ,function(err,result){
     if(!err){
+      //apn发送密码
+      mq.pushApnMessage({
+          code: code
+        , target: user_
+        , body: pass
+        , type : "password"
+      });
       console.log("ipad创建用户密码为 : " + pass);
+      return callback_(null,{debug:"ipad创建用户密码为 : " + pass});
     }else{
       console.log("用户已存在");
+      return callback_(null,{debug:"用户已存在"});
     }
 
-    callback_(null,result)
-  })
-}
+
+  });
+};
+
+//查找用户的申请
 function findApply(code,deviceid,userid,callback_){
   var query  = {deviceid: deviceid, "userinfo.userid": userid, companycode: code ,valid : 1};
   console.log(query);
@@ -89,23 +114,53 @@ function findApply(code,deviceid,userid,callback_){
     }
   });
 }
-// 允许，禁用设备
+
+//允许禁止  设备
+exports.deviceallow = function(code, session_uid, device_, allow_,callback_) {
+  checkDeviceId(code,device_,function(err,device_docs){
+    var docs = undefined;
+    if(err){
+      return callback_(null,0);
+    }
+    if(device_docs){
+      docs = device_docs instanceof Array ? device_docs[0]:docs;
+    }else{
+      return callback_(null,0);
+    }
+
+
+    var device_update = {
+      devstatus : allow_?"1":"0"
+    }
+
+    device.update(code,docs._id,device_update,function(err,result){
+      callback_(err,result);
+    });
+
+
+  });
+}
+
+// 允许，禁用设备用户
 exports.allow = function(code, session_uid, device_, user_id, allow_,callback_) {
   var pass = passutil.randomGUID4();
 
   //判断用户状态
   var ep = EventProxy.create("apply_ep","user_ep",function(apply_ep,user_ep){
-    updateAllow(code, session_uid, apply_ep.deviceid, user_id, allow_,pass,  function(err,result){
-      console.log("allow");
-      console.log(err);
 
+    updateAllow(code, session_uid, apply_ep.deviceid, user_id, allow_,pass,  function(err,result){
       callback_(err, result);
     });
+
   });
+
   ep.fail(function(err){
     console.log("// 允许，禁用设备  error");
-    callback_(0);
+    callback_(err);
   });
+
+
+
   findApply(code,device_,user_id, ep.done("apply_ep"));
   checkUserByUid(code, user_id, ep.done("user_ep"));
   //不存在
@@ -135,24 +190,24 @@ exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callb
 
   var ep = EventProxy.create("device", "user", "company","apply", function (device_docs, user_docs, company_docs,apply_docs) {
 
-    var status = "61";
+    var status = "6001";
     var user_status = "2";
     //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
     //公司不存在错误	             ×	       -	           -	      -	       -	       -	       ×	     61		     √
     if(!company_docs){
-      status = "61";
+      status = "6001";
       return callback_(null, {status: status, debug:"公司不存在错误"});
     }
     //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
     //设备不许可错误	             √	       √	           ×	      -	       -	       -	       ×	     62		     √
     if(device_docs && device_docs.length>0 && device_docs[0].devstatus == "0"){
-      status = "62";
+      status = "6002";
       return callback_(null, {status: status, debug:"设备不许可错误"});
     }
     //状态	                   公司存在	   设备存在	      设备许可	用户存在 	 申请用户存在 	用户有效	是否LOGIN	status		error
     //用户失效	                   √	       √	           √	      √	       √	       √	       ×	     63		     ×
     if(user_docs && user_docs.valid == 0){
-      status = "63";
+      status = "6003";
       return callback_(null, {status: status, debug:"用户失效"});
     }
 
@@ -163,20 +218,19 @@ exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callb
     //设备许可申请存在用户申请失败 √ 	       √	           √	      √	       ×	       -	       ×	     52		     ×
     //许可申请不存在用户申请失败   √ 	       √	           √	      √	       ×	       -	       ×	     53		     ×
     if (apply_docs&&apply_docs.length > 0) {
-      console.log(apply_docs);
-      status = "42";
+      status = "4002";
       for (var i in apply_docs[0].userinfo) {
         var _userinfo = apply_docs[0].userinfo[i];
 
         if (_userinfo.userid == userid && _userinfo.status == "1" ) {
-          status = "21";
+          status = "2001";
           return callback_(null, {status: status, debug: "申请成功"});
         }
         if (_userinfo.userid == userid && _userinfo.status == "0" ) {
           if(!user_docs){
-            status = "52";
+            status = "5002";
           } else {
-            status = "53";
+            status = "5003";
           }
           return callback_(null, {status: status, debug: "设备禁用申请失败"});
         }
@@ -195,10 +249,10 @@ exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callb
 
     //用户不存在
     if (!user_docs) {
-      status = "32";
+      status = "3002";
       user_status = "3";
     } else {
-      status = "31";
+      status = "3001";
     }
 //    console.log(device_docs)
 //    console.log(user_docs);
@@ -225,13 +279,13 @@ exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callb
         , editby: userid
       }
       device.add(code, object, function(err, result){
-        console.log("device.add");
-        console.log(result);
+//        console.log("device.add");
+//        console.log(result);
         return callback_(null, {status: status});
       });
     } else {
       // 否则给设备添加一个用户
-      status = "33";
+      status = "3003";
       var object = {
         $push: {"userinfo": {"userid": userid, "status": user_status}}
         , editat: new Date()
@@ -239,8 +293,8 @@ exports.create = function (deviceid,devicetoken, userid, code, devicetype ,callb
       }
       // 更新
       device.update(code, device_docs[0]._id, object, function(err, result){
-        console.log("device.update");
-        console.log(result);
+//        console.log("device.update");
+//        console.log(result);
         return callback_(err, {status: status});
       });
     }
@@ -373,6 +427,17 @@ exports.deviceTotalByComId = function(code, compId_, callback_) {
   });
 };
 
+exports.setDeviceUser = function(code_,userid_,deviceid_,callback_){
+  var query = {deviceid: deviceid_};
+  var obj = {
+    deviceid : deviceid_ ,
+    deviceuid : userid_
+  };
 
+  device.findAndModify(code_, query , obj , function(err,result){
+    callback_(err,result);
+  });
+
+}
 
 
