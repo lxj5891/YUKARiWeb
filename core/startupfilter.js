@@ -15,7 +15,7 @@ var password ="admin";
  * 执行Filter
  */
 exports.execute = function(err, callback) {
-	create_admin_filter();
+	//create_admin_filter();
 }
 
 /**
