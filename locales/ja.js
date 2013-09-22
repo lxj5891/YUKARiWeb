@@ -70,6 +70,7 @@
   "html.label.company.name":"会社名(英語)",
   "html.label.company.kana":"会社名(かな)",
   "html.label.company.path":"会社ID",
+  "html.label.company.code":"会社Code",
   "html.label.company.address":"会社住所",
   "html.label.company.tel":"電話番号",
   "html.label.company.adminid":"管理者ID",
