@@ -28,7 +28,7 @@ $(function () {
     "24":"icon-download-alt",
     "25":"icon-bell",
     "26":"icon-check",
-    "27":"icon-cogs",
+    "27":"icon-film",
     "28":"icon-cloud-upload",
     "29":"icon-edit",
     "30":"icon-camera"
