@@ -34,6 +34,13 @@ $(function () {
     "30":"icon-camera"
   };
 
+  var typeMap = {
+    "ise" : "INSUITE",
+    "sdb" : "SmartDB",
+    "web" : "WEB",
+    "app" : "APP"
+  };
+
   $( "#sortable" ).sortable({
     revert: true
   });
@@ -74,7 +81,7 @@ $(function () {
               icon: iconMap[item.icon],
               title: item.title,
               url: item.url,
-              type: item.type,
+              type: typeMap[item.type],
               sort: item.sort_level,
               wsid: item._id
             }));
@@ -88,7 +95,7 @@ $(function () {
 
     $('#setting_add').on('click', function () {
 
-      setWSData({icon:1, type:"url", open: 0});
+      setWSData({icon:1, type:"ise", open: 0});
       $("#settingModal").modal("show");
     });
 
