@@ -15,7 +15,7 @@ var password ="admin";
  * 执行Filter
  */
 exports.execute = function(err, callback) {
-	create_admin_filter();
+	//create_admin_filter();
 }
 
 /**
@@ -41,15 +41,17 @@ function create_admin() {
 	var info = {"uid": userid
 	, "name": {"name_zh": userid}
 	, "password": auth.sha256(password)
-	, "type": 3                         // 系统管理员
+	, "type": 2                         // 系统管理员
 	, "email": {
 	  "email1": email
 	}
 	, lang : "zh"
+	, timezone: "GMT+09:00"
 	, createat: date
 	, createby: userid
 	, updateat: date
 	, updateby: userid
+  , active: 1
 	};
 
 	user.createByDBName(undefined, info, function(err, result){
