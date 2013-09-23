@@ -125,6 +125,8 @@ function ImagePopup(opt, callback) {
 
   this.init = function(){
     that.template.image = $("#tmpl_popup_image").html();
+    that.template.video = $("#tmpl_popup_video").html();
+
     that.template.tags = $("#tmpl_tag_item").html();
     that.template.tagsall = $("#tmpl_tag_item_all").html();
     var localLoad = i18n["js.public.info.detaillist.load"];
@@ -156,7 +158,7 @@ function ImagePopup(opt, callback) {
     that._store = data.items;
     if(opt.tpl == that._tpltype.image){
       for(var i in that._store){
-        if(that._store[i].contentType.indexOf('image') > -1){
+        if(true){
           var f = that._store[i].thumb ? that._store[i].thumb.middle : that._store[i].fileid
           tmp.push({
             material_id:that._store[i]._id ,
@@ -177,7 +179,13 @@ function ImagePopup(opt, callback) {
 
   var _render = function (listener) {
     for (var i in that._store) {
-      var _tpl = _.template(that.template.image,that._store[i]);
+      var _tpl = undefined;
+      if(opt.type == "video"){
+        _tpl = _.template(that.template.video,that._store[i]);
+      }else{
+        _tpl = _.template(that.template.image,that._store[i]);
+      }
+
       $("#hook").before(_tpl);
     }
     listener();
@@ -204,11 +212,11 @@ function ImagePopup(opt, callback) {
     var max_scroll = 0;
 
     //单选
-    if(type == _type.single){
+    if(type == _type.single || type == _type.video){
       $("#" + el + " button[action=ok]").unbind("click").bind("click", function () {
-        var _src = $($("#" + el + " div[checked]").parent().find("img[class=material_thumb]")).attr("src");
-        var _fileid = $($("#" + el + " div[checked]").parent().find("img[class=material_thumb]")).attr("data");
-        var _material_id = $($("#" + el + " div[checked]").parent().find("img[class=material_thumb]")).attr("material_id");
+        var _src = $($("#" + el + " div[checked]").parent().find(opt.type == "video"?"video": "img" +"[class=material_thumb]")).attr("src");
+        var _fileid = $($("#" + el + " div[checked]").parent().find(opt.type == "video"?"video": "img" +"[class=material_thumb]")).attr("data");
+        var _material_id = $($("#" + el + " div[checked]").parent().find(opt.type == "video"?"video": "img" +"[class=material_thumb]")).attr("material_id");
         $("#" + el).modal('hide');
         var event = {
           image: _src,
@@ -217,7 +225,7 @@ function ImagePopup(opt, callback) {
         };
         callback(event);
       });
-      $("#" + el).unbind('click').on("click", "img", function (e) {
+      $("#" + el).unbind('click').on("click", opt.type == "video"?"video": "img", function (e) {
         var $target = $($(e.target).parent().find('div'));
         $("#" + el + " div[checked]").removeClass("checked");
         $("#" + el + " div[checked]").removeAttr("checked");
@@ -242,7 +250,7 @@ function ImagePopup(opt, callback) {
         $("#" + el).modal('hide');
         callback(event);
       });
-      $("#" + el).unbind('click').on("click", "img", function (e) {
+      $("#" + el).unbind('click').on("click", opt.type == "video" ? "video" : "img", function (e) {
         var $target = $($(e.target).parent().find('div'));
         $target.toggleClass("checked");
         if (!$target.attr("checked")) {
@@ -252,8 +260,7 @@ function ImagePopup(opt, callback) {
         }
       });
     }
-
-    $("#" + el).unbind('mouseover').on("mouseover", "img", function (e) {
+    $("#" + el).unbind('mouseover').on("mouseover",opt.type == "video"?"video": "img", function (e) {
       var $target = $(e.target);
       if ($target.attr('src') == '/images/img_check.png') {
         return;
@@ -277,7 +284,7 @@ function ImagePopup(opt, callback) {
       $target.css("min-height", "120px");
       $target.css("border", "2px solid #e3e3e3");
     });
-    $("#" + el).unbind("mouseout").on("mouseout", "img", function (e) {
+    $("#" + el).unbind("mouseout").on("mouseout", opt.type == "video"?"video": "img", function (e) {
 
       var $target = $(e.target);
       if ($target.attr('src') == '/images/img_check.png') {
@@ -327,7 +334,9 @@ function ImagePopup(opt, callback) {
     ajaxStatus = 1 ;
     $("#hook").html(i18n["js.public.info.detaillist.loading"]);
     var url = $tplUtil.format('/material/list.json?type=image&&tags={0}&&start={1}&count={2}&&contentType=image',[cur_tags,start,count]);
-
+    if(opt.type == "video"){
+      url = $tplUtil.format('/material/list.json?type=image&&tags={0}&&start={1}&count={2}&&contentType=video',[cur_tags,start,count]);
+    }
     smart.doget(url, function (err, result) {
       console.log(url);
       if (smart.error(err, i18n["js.common.search.error"], false)) {

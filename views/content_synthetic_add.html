@@ -290,7 +290,6 @@
         </ol>
       </div>
       <div class="modal-footer">
-        <span id="input_filter">フィルター:<input type="text" name="txt_tag"></span>
         <button type="button" action="ok" name="okPickThumb" class="btn btn-warning">
           <i class="icon-ok icon-white"></i><span> <%= i('html.button.synthetic.setting') %><!-- 設定--></span></button>
       </div>
@@ -301,6 +300,12 @@
 </div>
 <!-- /. pickThumb modal -->
 
+<script type="text/template" id="tmpl_popup_video">
+  <div class="modalfix_box">
+    <video src="{{image}}" class="material_thumb" data="{{fileid}}" material_id="{{material_id}}"></video>
+    <div class="modalfix_checkbox" num="{{num}}"><img src="/images/img_check.png"></div>
+  </div>
+</script>
 
 <!-- popup tmpl_popup_image template -->
 <script type="text/template" id="tmpl_popup_image">
