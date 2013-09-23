@@ -107,14 +107,14 @@ WidgetFace.prototype.setResizable = function () {
         _this.self.height(store.fixScaleHeightToWeb(723) - pos.top);
         return false;
       }
-      _this.itemWidth.val(store.fixScaleWidthToIpad(_this.self.width()));
-      _this.itemHeight.val(store.fixScaleHeightToIpad(_this.self.height()));
+      _this.itemWidth.val(parseInt(store.fixScaleWidthToIpad(_this.self.width())));
+      _this.itemHeight.val(parseInt(store.fixScaleHeightToIpad(_this.self.height())));
 
     },
     stop: function () {
       var pos = _this.self.position();
-      _this.itemWidth.val(store.fixScaleWidthToIpad(_this.self.width()));
-      _this.itemHeight.val(store.fixScaleHeightToIpad(_this.self.height()));
+      _this.itemWidth.val(parseInt(store.fixScaleWidthToIpad(_this.self.width())));
+      _this.itemHeight.val(parseInt(store.fixScaleHeightToIpad(_this.self.height())));
       _this.width = store.fixScaleWidthToIpad(_this.self.width());
       _this.height = store.fixScaleHeightToIpad(_this.self.height());
       if (store.fixScaleWidthToIpad(pos.left + _this.self.width()) > 1024) {
@@ -366,13 +366,14 @@ WidgetFace.prototype.setDraggable = function () {
     },
     drag: function () {
       var pos = _this.self.position();
-      _this.itemLeft.val(store.fixScaleWidthToIpad(pos.left));
-      _this.itemTop.val(store.fixScaleHeightToIpad(pos.top));
+
+      _this.itemLeft.val(parseInt(store.fixScaleWidthToIpad(pos.left)));
+      _this.itemTop.val(parseInt(store.fixScaleHeightToIpad(pos.top)));
     },
     stop: function () {
       var pos = _this.self.position();
-      _this.itemLeft.val(store.fixScaleWidthToIpad(pos.left));
-      _this.itemTop.val(store.fixScaleHeightToIpad(pos.top));
+      _this.itemLeft.val(parseInt(store.fixScaleWidthToIpad(pos.left)));
+      _this.itemTop.val(parseInt(store.fixScaleHeightToIpad(pos.top)));
       _this.left = store.fixScaleWidthToIpad(pos.left);
       _this.top = store.fixScaleHeightToIpad(pos.top);
       store.setWidget(_this.metadata_id,_this);
@@ -409,10 +410,10 @@ WidgetFace.prototype.setSelect =  function () {
       store.activeWidget.border.removeClass("widget_border_selected");
     }
 
-    _this.itemLeft.val(store.fixScaleWidthToIpad(_this.self.position().left));
-    _this.itemTop.val(store.fixScaleHeightToIpad(_this.self.position().top));
-    _this.itemWidth.val(store.fixScaleWidthToIpad(_this.self.width()));
-    _this.itemHeight.val(store.fixScaleHeightToIpad(_this.self.height()));
+    _this.itemLeft.val(parseInt(store.fixScaleWidthToIpad(_this.self.position().left)));
+    _this.itemTop.val(parseInt(store.fixScaleHeightToIpad(_this.self.position().top)));
+    _this.itemWidth.val(parseInt(store.fixScaleWidthToIpad(_this.self.width())));
+    _this.itemHeight.val(parseInt(store.fixScaleHeightToIpad(_this.self.height())));
     _this.itemName.val(_this.name);
 
 

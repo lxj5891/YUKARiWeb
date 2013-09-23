@@ -130,10 +130,10 @@
                 <div class="col-lg-7">
                   <div class="row">
                     <div class="col-lg-6">
-                      <input id="txt_width" type="text" name="widget_width" class="form-control" placeholder="width" readonly>
+                      <input id="txt_width" type="text" name="widget_width" class="form-control" placeholder="width" readonly style="width: 60px;">
                     </div>
                     <div class="col-lg-6">
-                      <input id="txt_height" type="text" name="widget_height" class="form-control" placeholder="height" readonly>
+                      <input id="txt_height" type="text" name="widget_height" class="form-control" placeholder="height" readonly style="width: 60px;">
                     </div>
                   </div>
                 </div>
@@ -144,10 +144,10 @@
                 <div class="col-lg-7">
                   <div class="row">
                     <div class="col-lg-6">
-                      <input id="txt_x" type="text" name="widget_left" class="form-control" placeholder="top" readonly>
+                      <input id="txt_x" type="text" name="widget_left" class="form-control" placeholder="top" readonly style="width: 60px;">
                     </div>
-                    <div class="col-lg-6">
-                      <input id="txt_y" type="text" name="widget_top" class="form-control" placeholder="left" readonly>
+                    <div class="col-lg-6">  
+                      <input id="txt_y" type="text" name="widget_top" class="form-control" placeholder="left" readonly style="width: 60px;">
                     </div>
                   </div>
                 </div>
@@ -322,7 +322,8 @@
   <div id="cellTools_{{num}}" class="tools tools-right">
     <a><i class="icon-double-angle-left" option="left" num="{{num}}"></i></a>
     <a><i class="icon-double-angle-right" option="right" num="{{num}}"></i></a>
-    <a><i class="icon-remove red" option="remove" num="{{num}}"></i></a>
+    <a><i class="icon-pencil" option="edit" num="{{num}}"></i></a>
+    <a><i class="icon-remove red" option="remove" num="{{num}}" style="color:red;"></i></a>
   </div>
 </script>
 <!-- 提示工具的template -->
@@ -331,7 +332,7 @@
     <a><i class="icon-double-angle-left" option="left" num="{{num}}"></i></a>
     <a><i class="icon-double-angle-right" option="right" num="{{num}}"></i></a>
     <a><i class="icon-pencil" option="edit" num="{{num}}"></i></a>
-    <a><i class="icon-remove red" option="remove" num="{{num}}"></i></a>
+    <a><i class="icon-remove red" option="remove" num="{{num}}" style="color:red;"></i></a>
   </div>
 </script>
 <!-- 封面的Block模板 -->

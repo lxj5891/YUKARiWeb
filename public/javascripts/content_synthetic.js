@@ -129,6 +129,7 @@ function events() {
           if(smart.error(err,i18n["js.common.delete.error"],false)){
             return;
           } else {
+            smart.paginationInitalized = false;
             render(0, 20);
             Alertify.log.success(i18n["js.common.delete.success"]);
           }
@@ -167,6 +168,7 @@ function events() {
         if (smart.error(err, i18n["js.common.copy.error"], false)) {
           return;
         } else {
+          smart.paginationInitalized = false;
           render(0, 20);
           Alertify.log.success(i18n["js.common.copy.success"]);
         }
