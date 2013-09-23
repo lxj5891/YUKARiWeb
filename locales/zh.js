@@ -408,5 +408,14 @@
   "api.layout.id.error":"布局不存在。布局ID：",
   "api.file.name.error":"文件不存在。文件名：",
   "error.company.noexist":"公司ID不存在！",
-  "error.company.code.noexist":"公司Code不存在！"
+  "error.company.code.noexist":"公司Code不存在！",
+  "===============元素==================":"",
+  "html.select.synthetic.effect.zoom":"放大",
+  "html.select.synthetic.effect.zoomOut":"缩小",
+  "html.select.synthetic.effect.none":"无效果",
+  "html.select.synthetic.effect.up":"向上移动",
+  "html.select.synthetic.effect.moveRightUp":"向右上移动",
+  "html.select.synthetic.effect.moveLeftDown":"向左下移动",
+  "html.select.synthetic.effect.zoomAndMoveRightUp":"放大并向右上移动",
+  "html.select.synthetic.effect.zoomAndMoveRightDown":"放大并向左下移动"
 }

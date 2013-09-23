@@ -408,5 +408,14 @@
   "api.layout.id.error":"Not found layout.Layout ID:",
   "api.file.name.error":"Not found file. Filename:",
   "error.company.id.noexist":"Company ID does not exist！",
-  "error.company.code.noexist":"Company Code does not exist！"
+  "error.company.code.noexist":"Company Code does not exist！",
+  "===============元素==================":"",
+  "html.select.synthetic.effect.zoom":"zoom",
+  "html.select.synthetic.effect.zoomOut":"zoomOut",
+  "html.select.synthetic.effect.none":"none",
+  "html.select.synthetic.effect.up":"up",
+  "html.select.synthetic.effect.moveRightUp":"moveRightUp",
+  "html.select.synthetic.effect.moveLeftDown":"moveLeftDown",
+  "html.select.synthetic.effect.zoomAndMoveRightUp":"zoomAndMoveRightUp",
+  "html.select.synthetic.effect.zoomAndMoveRightDown":"zoomAndMoveRightDown"
 }
