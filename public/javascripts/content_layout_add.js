@@ -4,7 +4,8 @@ $(function () {
   var layoutData = {};
 
   var rowMax = 3, colMax = 3;
-  var tileWidth = 340 * 0.5, tileHeight = 239 * 0.5;
+//  var tileWidth = 340 * 0.5, tileHeight = 239 * 0.5;
+  var tileWidth = 180, tileHeight = 136;
   var borderWidth = 10;
   var screenSort = [];
   var screenCounter = 0;

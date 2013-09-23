@@ -104,6 +104,7 @@ $(function () {
            store.removeMetadata(index);
            $(this).remove();
            _this.resetSize();
+           $(".material_cell .cover_add").show();
            return false;
          }
       });

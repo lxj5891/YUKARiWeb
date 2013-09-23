@@ -32,6 +32,10 @@ var store = {
   _action_type: {image: "image", movie: "movie", jump: "jump", urlScheme: "urlScheme",none:"none"},
   _effect_type: {zoomAndMoveRightDown: "zoomAndMoveRightDown", zoom: "zoom", zoomOut: "zoomOut", moveRightUp: "moveRightUp", up: "up"},
   _synthetic_type: {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"},
+  setCover : function(index , material_event){
+    this.cover[index].material_id = material_event.material_id;
+    this.cover[index].image = material_event.image;
+  },
   addCover: function (image, material_id) {
     var that = this;
     var obj = {
