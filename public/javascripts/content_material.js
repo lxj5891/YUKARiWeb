@@ -128,10 +128,23 @@ function events() {
   // 保存文件
   $("#btnSave").bind("click", function(event){
 
-    var tag = [];
+    var tag = []
+      , inputTag = $("#inputTag");
+
+    // 输入框输入的文字，也直接变成Tag
+    if (inputTag.val().length > 0) {
+      tag.push(inputTag.val());
+    }
+
     $("#textBoxTag li").each(function(index){
-      tag.push($(this).attr("tagname"));
+      if ($(this).attr("tagname").length > 0) {
+        tag.push($(this).attr("tagname"));
+      }
     });
+
+    if (tag.length <= 0) {
+      return;
+    }
 
     var index = $(this).attr("index")
       , row = _materialList[index - 1];
