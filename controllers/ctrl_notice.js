@@ -10,8 +10,8 @@ var _ = require('underscore')
 
 var EventProxy = require('eventproxy');
 
-exports.getNoticeById = function (code_, notice_id, callback) {
-  notice.findOne(code_, notice_id, function (err, docs) {
+exports.getNoticeById = function(code_, notice_id, callback){
+  notice.findOne(code_, notice_id, function(err,docs){
     callback(err, docs);
   });
 };
@@ -67,52 +67,61 @@ exports.list = function (code_, keyword_, start_, limit_, callback_) {
     });
   });
 };
-function getUidByUserid(code, userIds, callback) {
 
-  var ep = new EventProxy();
-  var uid_list = [];
+exports.add = function(code_, uid_, notice_, callback_) {
+  var obj = {
+    valid: 1
+    , createat: new Date()
+    , createby: uid_
+    , notice: notice_.notice
+    , title: notice_.title
+    , touser: notice_.user ? notice_.user.split(",") : []
+    , togroup: notice_.group ? notice_.group.split(",") : []
+  };
 
-  ep.after('user_ready', userIds.length, function () {
-    return callback(null, uid_list);
-  });
+  var userList = [];
 
-  ep.fail(callback);
-
-  userIds.forEach(function (u_id, i) {
-
-    mod_user.get(code, u_id, function (err, user_docs) {
-      uid_list[i] = user_docs.uid;
-
-      ep.emit('user_ready');
+  var subTask = function(id, subCB){
+    group.getGroupWithMemberByGid(code_, id, function(err_, result_) {
+      userList = _.union(userList, result_._doc.users);
+      subCB(err_);
     });
+  };
 
-  });
+  async.forEach(obj.togroup, subTask, function(err_){
 
-};
-
-exports.add = function (code_, uid_, notice_, callback_) {
-
-  var useridlist = notice_.user.split(",");
-  getUidByUserid(code_, useridlist, function (err, notice_userUids) {
-    var obj = {
-      valid: 1,
-      createat: new Date(),
-      createby: uid_,
-      notice: notice_.notice,
-      title: notice_.title,
-      touser: notice_.user ? notice_.user.split(",") : [],
-      togroup: notice_.group ? notice_.group.split(",") : []
+    if (err_) {
+      return callback_(new error.InternalServer(err_));
     }
 
-    notice.add(code_, obj, function (err, result) {
+    if (obj.touser) {
+      user.listByUids(code_, obj.touser, 0, 0, function(err, u_result) {
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
+
+        userList = _.union(userList, u_result);
+      });
+    }
+
+    var toList = [];
+    _.each(userList, function(user) {
+      toList.push(user.uid);
+    });
+    toList = _.uniq(toList);
+
+    notice.add(code_, obj, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
 
       // send apn notice
-      _.each(notice_userUids, function (u) {
+      _.each(toList, function(uid){
         mq.pushApnMessage({
-          code: code_, target: u, body: result.title, type: "notice"
+          code: code_
+          , target: uid
+          , body: result.title
+          , type : "notice"
         });
       });
       return callback_(err, result);
@@ -120,6 +129,4 @@ exports.add = function (code_, uid_, notice_, callback_) {
 
 
   });
-
-
 };

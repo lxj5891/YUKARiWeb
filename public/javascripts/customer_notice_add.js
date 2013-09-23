@@ -45,12 +45,10 @@ function check_notice (notice_) {
   if (notice_.title == "") {
     Alertify.log.error(i18n["js.public.check.notice.title"]);
     flag = 1;
-  }
-  if (notice_.user == "" && notice_.group == "") {
+  } else if (notice_.user == "" && notice_.group == "") {
     Alertify.log.error(i18n["js.public.check.notice.user"]);
     flag = 1;
-  }
-  if (notice_.notice == "") {
+  } else if (notice_.notice == "") {
     Alertify.log.error(i18n["js.public.check.notice.message"]);
     flag = 1;
   }
