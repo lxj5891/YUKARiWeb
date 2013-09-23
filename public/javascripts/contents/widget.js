@@ -141,28 +141,35 @@ WidgetFace.prototype.setActionChange = function(init){
   var setImageAction = function() {
     if(_this.action&&(_this.action.type!=store._action_type.image))
     _this.action = undefined;
-    var _loadMaterialFn = function(start){
-      smart.doget("/material/list.json?type=image&&start=0&count=500", function (err, result) {
-        if (smart.error(err, i18n["js.common.search.error"], false)) {
-          return;
-        }
-
-        new loadModal("pickThumbPic", tpl_materialPopupImage, result.items,'single',function(event){
-          $(".action_widget_image_preview img").attr("src",event.src);
+//    var _loadMaterialFn = function(start){
+//      smart.doget("/material/list.json?type=image&&start=0&count=500", function (err, result) {
+//        if (smart.error(err, i18n["js.common.search.error"], false)) {
+//          return;
+//        }
+//
+//        new loadModal("pickThumbPic", tpl_materialPopupImage, result.items,'single',function(event){
+//          $(".action_widget_image_preview img").attr("src",event.src);
+//          _this.action = {};
+//          _this.action.type= store._action_type.image;
+//          _this.action.material_id = event.material_id;
+//          _this.action.image = event.src;
+//        });
+//      });
+//      //_loadMaterialFn 的callback  启动显示窗口
+//      start();
+//    };
+    var _fn = function(){
+      var selectedEvent = function(event){
+        if (event.material_id != undefined) {
+          $(".action_widget_image_preview img").attr("src",event.image);
           _this.action = {};
           _this.action.type= store._action_type.image;
           _this.action.material_id = event.material_id;
-          _this.action.image = event.src;
-        });
-      });
-      //_loadMaterialFn 的callback  启动显示窗口
-      start();
-    };
-    var _fn = function(){
-      _loadMaterialFn(function(){
-        $("#pickThumbPic").modal('show');
-
-      });
+          _this.action.image = event.image;
+        }
+      };
+      var _popup = new ImagePopup({ type: 'single', tpl: 'image', el: 'pickThumbPic' }, selectedEvent);
+      _popup.show();
     };
     $("a[name=btnSelectWidgetImage]").unbind("click").bind("click",_fn);
   };
