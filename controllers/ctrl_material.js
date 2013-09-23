@@ -14,6 +14,7 @@ var ph        = require('path')
 
 
 var EventProxy = require('eventproxy');
+
 exports.list = function(code_, contentType_, keyword_, tags_, start_, limit_, callback_) {
 
   var start = start_ || 0
@@ -226,12 +227,14 @@ exports.updatetag = function(code_, uid_, fid_, detail_, callback_) {
  */
 exports.remove = function(code_, uid_, fid_, callback_) {
 
+  console.log(111111);
+
   // 保留GridFS中的文件，而不删除
-  checkMaterialHasUse(code_, fid_,function(err,count){
+  checkMaterialHasUse(code_, fid_, function(err, count){
     if(count>0){
       return callback_(new error.BadRequest(__("js.ctr.material.used.error")));
     } else {
-      material.remove(fid_, function(err, info){
+      material.remove(code_, fid_, function(err, info){
         return callback_(err, info);
       });
 
@@ -239,22 +242,33 @@ exports.remove = function(code_, uid_, fid_, callback_) {
   });
 }
 
-function checkMaterialHasUse(code_, material_id,callback){
-  var ep = EventProxy.create('pic_use','txt_use','widget_use',function(pic_use,txt_use,widget_use){
-    var count = pic_use + txt_use + widget_use;
-    callback(null,count)
+
+/**
+ * 检查是否有元素被使用
+ * @param code_
+ * @param material_id
+ * @param callback
+ */
+function checkMaterialHasUse(code_, material_id, callback){
+
+  var ep = EventProxy.create('cover_use', 'pic_use','txt_use','widget_use', function(cover_use, pic_use, txt_use, widget_use){
+    return callback(null, cover_use + pic_use + txt_use + widget_use);
   });
 
-  synthetic.count(code_, {"metadata.material_id":material_id},function(err,count){
-    ep.emit('pic_use',count);
+  synthetic.count(code_, {"cover.material_id": material_id, valid: 1}, function(err,count){
+    ep.emit('cover_use', count);
   });
 
-  synthetic.count(code_, {"metadata.txtmaterial_id":material_id},function(err,count){
-    ep.emit('txt_use',count);
+  synthetic.count(code_, {"metadata.material_id": material_id, valid: 1}, function(err,count){
+    ep.emit('pic_use', count);
   });
 
-  synthetic.count(code_, {"metadata.widget.action.material_id":material_id},function(err,count){
-    ep.emit('widget_use',count);
+  synthetic.count(code_, {"metadata.txtmaterial_id":material_id, valid: 1}, function(err,count){
+    ep.emit('txt_use', count);
+  });
+
+  synthetic.count(code_, {"metadata.widget.action.material_id":material_id, valid: 1}, function(err,count){
+    ep.emit('widget_use', count);
   });
 }
 
