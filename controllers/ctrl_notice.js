@@ -83,7 +83,6 @@ exports.add = function(code_, uid_, notice_, callback_) {
 
   var subTask = function(id, subCB){
     group.getGroupWithMemberByGid(code_, id, function(err_, result_) {
-      console.log(result_);
       userList = _.union(userList, result_._doc.users);
       subCB(err_);
     });
@@ -105,16 +104,22 @@ exports.add = function(code_, uid_, notice_, callback_) {
       });
     }
 
+    var toList = [];
+    _.each(userList, function(user) {
+      toList.push(user.uid);
+    });
+    toList = _.uniq(toList);
+
     notice.add(code_, obj, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
 
       // send apn notice
-      _.each(userList, function(user){
+      _.each(toList, function(uid){
         mq.pushApnMessage({
           code: code_
-          , target: user.uid
+          , target: uid
           , body: result.title
           , type : "notice"
         });
