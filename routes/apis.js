@@ -65,9 +65,6 @@ exports.guiding = function(app){
   // 注销
   app.get("/simplelogout", function (req, res) {
     req.query.home = "/top/login";
-    var uid = req.session.user._id;
-    //清楚token 和 deviceUserid
-//    , device.removeDeviceUserId()
     user.logout(req, res);
   });
 

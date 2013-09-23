@@ -589,9 +589,9 @@ ol.popular-tags li a {
   text-align: center;
 }
 .wsname {
+  padding-left: 10px;
   width: 200px;
   padding-right: 5px;
-  text-align: center;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -600,12 +600,10 @@ ol.popular-tags li a {
 .wstype {
   width: 60px;
   padding-right: 5px;
-  text-align: center;
 }
 .wsurl {
   width: 400px;
   padding-right: 5px;
-  text-align: center;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -615,7 +613,6 @@ ol.popular-tags li a {
   width: 65px;
   padding-right: 10px;
   padding-left: 10px;
-  text-align: center;
 }
 .wsoper {
   width: 45px;
@@ -1010,4 +1007,8 @@ fieldset[disabled] .btn-default.active {
 }
 .alertify-dialog {
   border-radius: 0px;
+}
+table {
+  word-break: break-all;
+  word-wrap: break-word;
 }

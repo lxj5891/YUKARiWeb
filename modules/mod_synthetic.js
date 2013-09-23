@@ -61,8 +61,8 @@ var Synthetic = new schema({
 function model(code) {
   return conn(code).model('Synthetic', Synthetic);
 }
-exports.count = function (query, callback) {
-  model().count(query, callback);
+exports.count = function (code, query, callback) {
+  model(code).count(query, callback);
 }
 // 获取一览
 exports.list = function (code, condition_, start_, limit_, callback_) {
