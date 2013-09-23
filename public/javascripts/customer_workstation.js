@@ -79,8 +79,8 @@ $(function () {
 
             $( "#sortable").append(_.template(tmpl, {
               icon: iconMap[item.icon],
-              title: item.title,
-              url: item.url,
+              title: item.title || "　",
+              url: item.url || "　",
               type: typeMap[item.type],
               sort: item.sort_level,
               wsid: item._id
@@ -161,16 +161,19 @@ $(function () {
 
       var ws = getWSData();
 
-      smart.dopost("/workstation/update.json", ws, function(err, result){
-        if (smart.error(err,i18n["js.common.save.error"],false)) {
-            return;
-        } else {
-          $("#settingModal").modal("hide");
-          render();
-          Alertify.log.success(i18n["js.common.save.success"]);
-        }
-      });
-
+      if (ws.title && ws.url) {
+        smart.dopost("/workstation/update.json", ws, function(err, result){
+          if (smart.error(err,i18n["js.common.save.error"],false)) {
+              return;
+          } else {
+            $("#settingModal").modal("hide");
+            render();
+            Alertify.log.success(i18n["js.common.save.success"]);
+          }
+        });
+      } else {
+        Alertify.log.error(i18n["js.public.check.workstation.add"]);
+      }
     });
 
     $("#inputOpen").on("click", "button", function(event){
