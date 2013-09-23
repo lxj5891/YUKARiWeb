@@ -316,7 +316,7 @@ exports.publishList = function(code_, user_, keyword_,start_, limit_, callback_)
     };
   if (keyword_ && keyword_.length > 0) {
     keyword_ = util.quoteRegExp(keyword_);
-    condition["active.layout.name"] = new RegExp(keyword.toLowerCase(), "i");
+    condition["active.layout.name"] = new RegExp(keyword_.toLowerCase(), "i");
   }
 
   var or = [];

@@ -408,5 +408,14 @@
   "api.layout.id.error":"レイアウトが存在しません。レイアウトID：",
   "api.file.name.error":"ファイルが存在しません。ファイル名：",
   "error.company.noexist":"顧客IDが存在しません。",
-  "error.company.code.noexist":"顧客コードが存在しません。"
+  "error.company.code.noexist":"顧客コードが存在しません。",
+  "===============元素==================":"",
+  "html.select.synthetic.effect.zoom":"拡大",
+  "html.select.synthetic.effect.zoomOut":"縮小",
+  "html.select.synthetic.effect.none":"なし",
+  "html.select.synthetic.effect.up":"上へ移動",
+  "html.select.synthetic.effect.moveRightUp":"右上へ移動",
+  "html.select.synthetic.effect.moveLeftDown":"左下へ移動",
+  "html.select.synthetic.effect.zoomAndMoveRightUp":"拡大且つ右上へ",
+  "html.select.synthetic.effect.zoomAndMoveRightDown":"拡大且つ左下へ"
 }
