@@ -29,7 +29,7 @@ var Layout = new schema({
       }]
   },
   status: {type:Number, description:"1:未申請 2:申請中 3:否認 4:承認済み"},
-  publish: {type:Number, description:"1:未申請 2:申請中 3:否認 4:承認済み"},
+  publish: {type:Number, description:"1:あり 0:なし"},
   confirmby: {type:String, description:"承認者"},
   confirmat: {type: Date, description: "承認時間"},
   viewerUsers: [{type:String, description:"公開先User"}],
