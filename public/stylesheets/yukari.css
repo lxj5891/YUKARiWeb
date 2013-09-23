@@ -1008,3 +1008,7 @@ fieldset[disabled] .btn-default.active {
 .alertify-dialog {
   border-radius: 0px;
 }
+table {
+  word-break: break-all;
+  word-wrap: break-word;
+}

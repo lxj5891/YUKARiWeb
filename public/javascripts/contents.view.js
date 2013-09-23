@@ -247,7 +247,6 @@ $contents.view = {
       }
       if (store.type == store._synthetic_type.CaseView) {
         $("#cover_setting").css("display", "block");
-        $("#main_panel").css("height", "1020px");
         $("#main_panel").css("overflow-y", "scroll");
         $("#main_panel img").css("width", "100%");
         $("#main_panel img").css("height", "auto");
