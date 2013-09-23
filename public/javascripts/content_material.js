@@ -142,10 +142,6 @@ function events() {
       }
     });
 
-    if (tag.length <= 0) {
-      return;
-    }
-
     var index = $(this).attr("index")
       , row = _materialList[index - 1];
 
@@ -156,6 +152,7 @@ function events() {
         smart.paginationInitalized = false;
         render(0, 20);
         Alertify.log.success(i18n["js.common.update.success"]);
+        $('#material_detail_dlg').modal("hide");
       }
     });
   });
@@ -283,6 +280,7 @@ function render(start, count,keyword) {
      }
  }
  */
+
 function uploadFiles(files) {
   if (!files || files.length <= 0) {
     return false;
@@ -290,13 +288,7 @@ function uploadFiles(files) {
 
   var fd = new FormData();
   for (var i = 0; i < files.length; i++) {
-      var filetype = files[i].type.split("/");
-      var typecount = new Array("mp4","png","jpg","jpeg","jpe","gif","bmp");
-      if(typecount.indexOf(filetype[1].toLowerCase()) < 0){
-          Alertify.log.error(files[i].name + i18n["js.common.upload.error"]);
-      }else{
-        fd.append("files", files[i]);
-      }
+    fd.append("files", files[i]);
   }
 
   // 显示进度条
