@@ -198,7 +198,7 @@ function render(start, count,keyword) {
     } else {
 
       var tmpl = $('#tmpl_layout_list').html()
-        , canedit = "", canapply = "", cancopy = "", candelete = "", canPreview = ""
+        , canedit = "", canapply = "", cancopy = "", candelete = ""
         , canMakeContents = parseInt($("#authorityContents").val())
         , canApplyContents = parseInt($("#authorityApprove").val());
 
@@ -211,7 +211,6 @@ function render(start, count,keyword) {
         if (row.status == 2) {canedit = "disabled"}
         if (row.status != 1) {canapply = "disabled"} // 不是未申请，则不可用
         if (row.publish == 1 || row.status == 2) {candelete = "disabled"};
-        if (!(row && row.layout && row.layout.image && !_.isEmpty(row.layout.image.imageH))) {canPreview = "disabled"}
 
         container.append(_.template(tmpl, {
           "id": row._id
@@ -226,7 +225,7 @@ function render(start, count,keyword) {
           , "class2": canapply
           , "class3": cancopy
           , "class4": candelete
-          , "class5": canPreview
+          , "class5": (row && row.layout && row.layout.image && !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
           , "preview_image" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
       }));
     });
