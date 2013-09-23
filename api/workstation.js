@@ -71,7 +71,7 @@ exports.findOne = function(req_, res_){
 };
 
 exports.remove = function(req_, res_) {
-  return noUpdateResponse(res_);
+
   if(!canUpdate(req_.session.user)){
     return noUpdateResponse(res_);
   }

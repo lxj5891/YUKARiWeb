@@ -157,15 +157,6 @@ exports.list = function(code_, user_, callback_) {
   });
 };
 
-function check_auth(user) {
-  //権限チェック
-  if (user.authority.contents == 1) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
 function canView(user_, joinGroup_, workstation_){
   if(utils.hasContentPermit(user_)||utils.isAdmin(user_)){
     return true;
