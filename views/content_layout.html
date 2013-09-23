@@ -8,8 +8,12 @@
   <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
 </head>
 <body>
+
 <input type="hidden" name="publishFlag" id="publishFlag" value=<%=publishFlag%> >
 <input type="hidden" name="statusFlag" id="statusFlag" value=<%=statusFlag%> >
+<input type="hidden" id="authorityContents" value="<%= user.authority.contents %>" >
+<input type="hidden" id="authorityApprove" value="<%= user.authority.approve %>" >
+
 <% include common/navbar.html %>
 <div class="main-container container-fluid">
   <% include common/sidebar.html %>
@@ -126,7 +130,7 @@
     <td>
       <a href="#" class="btn btn-default btn-sm {{class1}}" rowid="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>
       <a href="#" class="btn btn-default btn-sm {{class2}}" rowid="{{id}}" operation="apply"><%= i('html.button.layout.appply') %><!--申請 --></a>
-      <a href="#" class="btn btn-default btn-sm" rowid={{id}} operation="copy"><%= i('html.button.common.copy') %><!--コピー --></a>
+      <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="copy"><%= i('html.button.common.copy') %><!--コピー --></a>
       <a href="#" class="btn btn-default btn-sm {{class4}}" rowid="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
       <a href="#" class="btn btn-default btn-sm {{class5}}" rowid="{{id}}" operation="preview" imageH = "{{preview_image}}" ><%= i('html.button.common.preview') %><!--プレビュー --></a>
     </td>
@@ -182,7 +186,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><%= i('html.label.layout.imagepreview') %><!--画面プレビュー --></h4>
             </div>
-            <div class="modal-body" id="slide" style="background-image: url('/images/ipad.jpg');background-repeat:no-repeat">
+            <div class="modal-body" id="slide" style="background-image: url('/images/x.png'); background-repeat:no-repeat; background-size: 548px 376px;">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" data-dismiss="modal"><%= i('html.button.common.close') %></button>
