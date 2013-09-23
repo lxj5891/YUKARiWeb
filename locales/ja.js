@@ -107,7 +107,7 @@
   "html.button.layout.appply":"申請",
   "html.button.layout.approve":"承認",
   "html.button.layout.deny":"否認",
-  "html.label.layout.imagepreview":"画面プレビュー",
+  "html.label.layout.imagepreview":"レイアウトプレビュー",
   "html.label.layout.info":"情報入力",
   "html.label.layout.info.title":"タイトル",
   "html.label.layout.info.comment":"コメント",

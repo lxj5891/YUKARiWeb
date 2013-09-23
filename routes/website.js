@@ -154,7 +154,10 @@ exports.guiding = function (app) {
 
   // 设备
   app.get('/customer/device', function (req, res) {
-    res.render("customer_device_list", {"title": i.__("js.routes.website.customer_device_list.title"), user: req.session.user});
+    if (!(util.isAdmin(req.session.user)))
+      res.render("error_403", {user: req.session.user});
+    else
+      res.render("customer_device_list", {"title": i.__("js.routes.website.customer_device_list.title"), user: req.session.user});
   });
 
   // ----------------------
