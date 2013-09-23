@@ -41,7 +41,7 @@ function render(start, count, keyword) {
       }
       // 设定翻页
       smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
-        render.apply(window, [active, count]);
+        render.apply(window, [active, count,keyword]);
       });
     }
   });
@@ -54,14 +54,14 @@ function events() {
     var _keyword = '';
     _keyword =  $("#company_search").val();
     smart.paginationInitalized = false;
-    render(0, 20,_keyword);
+    render(0, 15,_keyword);
   });
 
   $("#company_search").bind("change",function(){
     var _keyword = '';
     _keyword =  $("#company_search").val();
     smart.paginationInitalized = false;
-    render(0, 20,_keyword);
+    render(0, 15,_keyword);
   });
 
   // 一览按钮
