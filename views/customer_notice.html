@@ -58,7 +58,7 @@
               <th>#</th>
               <th><%= i('html.label.notice.recipient') %><!-- 宛先--></th>
               <th><%= i('html.label.notice.title') %><!-- タイトル--></th>
-              <th style="word-break:break-all;word-wrap:break-word"><%= i('html.label.notice.message') %><!-- メッセージ--></th>
+              <th><%= i('html.label.notice.message') %><!-- メッセージ--></th>
               <th><%= i('html.label.notice.sendby') %><!-- 送信者--></th>
               <th><%= i('html.label.notice.sendat') %><!-- 送信日--></th>
             </tr>
@@ -78,8 +78,8 @@
     <tr>
         <td>{{index}}</td>
         <td>{{sendto}}</td>
-        <td>{{title}}</td>
-        <td>{{notice}}</td>
+        <td style="word-break:break-all;word-wrap:break-word">{{title}}</td>
+        <td style="word-break:break-all;word-wrap:break-word">{{notice}}</td>
         <td>{{createby}}</td>
         <td>{{createat}}</td>
     </tr>
