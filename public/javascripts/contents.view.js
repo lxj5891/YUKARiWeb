@@ -274,6 +274,13 @@ $contents.view = {
             var i = store.addMetadata(event.fileid, event.material_id);
           }
           self.didRenderMaterialImagePanel(self.didListenerMaterialImagePanel);
+          $("#cover_setting").css("display", "block");
+          $("#main_panel").css("overflow-y", "scroll");
+          $("#main_panel img").css("width", "100%");
+          $("#main_panel img").css("height", "auto");
+          $("#widget_panel").css("display", "none");
+          $("#metadata_panel").css("display", "none");
+          $(".material_cell .cover_add").hide();
           return;
         }
         for(var i in event){
@@ -343,10 +350,14 @@ $contents.view = {
         var params = { material_cell: material_cell, image: metadata.image, fileid: metadata.fileid, metadata_id: metadata.metadata_id };
         $contents.view.material.insertCell(params);
       }
+      //当CaseView 类型是 隐藏
+      if(store.type == store._synthetic_type.CaseView)
+        $(".material_cell .cover_add").hide();
+
     } else {
       $contents.view.material.resetSize();
-    }
 
+    }
     if ((typeof listener != "undefined") && _.isFunction(listener)) {
       listener.apply();
     }
@@ -462,7 +473,6 @@ $contents.view = {
           obj_metadata.widget = tmp_metadata_widget;
           tmp_metadata[i] = obj_metadata;
         }
-        console.log();
         var _data = {
           synthetic_id: synthetic_id,
           coverrows: store.coverrows,
@@ -474,7 +484,6 @@ $contents.view = {
         };
 
         var save_valida = store.validatorSava();
-        console.log(save_valida);
         if (!save_valida.valide && store.type == store._synthetic_type.imageWithThumb) {
           Alertify.log.error(save_valida.err);
         } else {
@@ -662,6 +671,7 @@ $contents.view = {
 
     // Append cell
     if (store.cover.length > 0) {
+
       if (isInit) {
         for (var index in store.cover) {
           var thumb = store.cover[index];
@@ -677,6 +687,10 @@ $contents.view = {
         $contents.view.cover.insertCell(params);
         $("#thumb_panel .thumb img").attr("src", thumb.image);
       }
+      if(store.type ==  store._synthetic_type.CaseView){
+        $(".cover_cell .cover_add").hide();
+      }
+
     }
 
     // Reset all cell size
