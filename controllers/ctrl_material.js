@@ -227,8 +227,6 @@ exports.updatetag = function(code_, uid_, fid_, detail_, callback_) {
  */
 exports.remove = function(code_, uid_, fid_, callback_) {
 
-  console.log(111111);
-
   // 保留GridFS中的文件，而不删除
   checkMaterialHasUse(code_, fid_, function(err, count){
     if(count>0){
