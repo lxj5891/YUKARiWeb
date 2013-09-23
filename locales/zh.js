@@ -70,6 +70,7 @@
   "html.label.company.name":"公司名(英语)",
   "html.label.company.kana":"公司名(汉语)",
   "html.label.company.path":"公司ID",
+  "html.label.company.code":"公司Code",
   "html.label.company.address":"公司住址",
   "html.label.company.tel":"电话号码",
   "html.label.company.adminid":"管理员ID",

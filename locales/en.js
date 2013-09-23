@@ -70,6 +70,7 @@
   "html.label.company.name":"Company name(English)",
   "html.label.company.kana":"Company name(Kana)",
   "html.label.company.path":"Company ID",
+  "html.label.company.code":"Company Code",
   "html.label.company.address":"Address",
   "html.label.company.tel":"Tel",
   "html.label.company.adminid":"Admin ID",
