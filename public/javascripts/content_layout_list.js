@@ -197,9 +197,22 @@ function render(start, count,keyword) {
 
     } else {
 
-      var tmpl = $('#tmpl_layout_list').html();
+      var tmpl = $('#tmpl_layout_list').html()
+        , canedit = "", canapply = "", cancopy = "", candelete = "", canPreview = ""
+        , canMakeContents = parseInt($("#authorityContents").val())
+        , canApplyContents = parseInt($("#authorityApprove").val());
+
+      if (!canMakeContents) {
+        canedit = canapply = cancopy = candelete = "disabled";
+      }
 
       _.each(layoutList, function(row){
+
+        if (row.status == 2) {canedit = "disabled"}
+        if (row.status != 1) {canapply = "disabled"} // 不是未申请，则不可用
+        if (row.publish == 1 || row.status == 2) {candelete = "disabled"};
+        if (!(row && row.layout && row.layout.image && !_.isEmpty(row.layout.image.imageH))) {canPreview = "disabled"}
+
         container.append(_.template(tmpl, {
           "id": row._id
           , "index": index++ + start
@@ -209,10 +222,11 @@ function render(start, count,keyword) {
           , "viewer": get_viewerHtml(row)
           , "editat": smart.date(row.editat)
           , "editby": row.user.name.name_zh
-          , "class1": (row.status == 2) ? "disabled" : ""
-          , "class2": (row.status != 1) ? "disabled" : ""
-          , "class4": (row.publish == 1 || row.status == 2) ? "disabled" : ""
-          , "class5": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
+          , "class1": canedit
+          , "class2": canapply
+          , "class3": cancopy
+          , "class4": candelete
+          , "class5": canPreview
           , "preview_image" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
       }));
     });
