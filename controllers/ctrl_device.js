@@ -1,13 +1,14 @@
-var sync     = require('async')
-  , _         = require('underscore')
-  , check     = require('validator').check
-  , device   = require('../modules/mod_device.js')
-  , company   = require('../modules/mod_company.js')
-  , user     = lib.ctrl.user
-  , mod_user     = lib.mod.user
-  , error     = lib.core.errors
-  , passutil      = lib.core.util
-  , mq        = require('./ctrl_mq')
+var sync       = require('async')
+  , _          = require('underscore')
+  , check      = require('validator').check
+  , device     = require('../modules/mod_device.js')
+  , company    = require('../modules/mod_company.js')
+  , user       = lib.ctrl.user
+  , mod_user   = lib.mod.user
+  , error      = lib.core.errors
+  , passutil   = lib.core.util
+  , mq         = require('./ctrl_mq')
+  , auth       = lib.core.auth;
 
 var EventProxy = require('eventproxy');
 var that_device = device;
@@ -154,7 +155,10 @@ exports.deviceallow = function(code, session_uid, device_, allow_,callback_) {
 
 // 允许，禁用设备用户
 exports.allow = function(code, session_uid, device_, user_id, allow_,callback_) {
-  var pass = passutil.randomGUID4();
+  // 初始化密码为邮件(user_id) 中"@"之前的字符
+  /^(.*)@.*$/.test(user_id);
+  var pass = RegExp.$1 == "" ? user_id : RegExp.$1;
+  pass = auth.sha256(pass);
 
   //判断用户状态
   var ep = EventProxy.create("apply_ep","user_ep",function(apply_ep,user_ep){

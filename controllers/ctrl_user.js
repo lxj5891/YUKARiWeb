@@ -1,5 +1,6 @@
 var json = lib.core.json
   , user = lib.mod.user
+  , util = lib.core.util
   , _ = require('underscore')
   , sync     = require('async')
   , company = require('../modules/mod_company');

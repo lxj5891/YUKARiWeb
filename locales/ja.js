@@ -365,6 +365,7 @@
   "js.public.info.layoutlist.tableheader.applyat":"申請日",
   "js.public.error.store.effect":"アクションを選択してください。",
   "js.public.error.store.txtfileid":"スライドの文字画像を選択してください。",
+  "js.public.check.workstation.add":"タイトルとリンク先を指定してください。",
   "===================modules=================":"",
   "js.mod.copy.title":"コピー",
   "===================controllers=================":"",

@@ -365,6 +365,7 @@
   "js.public.info.layoutlist.tableheader.applyat":"Apply date",
   "js.public.error.store.effect":"Please set the effect.",
   "js.public.error.store.txtfileid":"Please set the character image.",
+  "js.public.check.workstation.add":"Please input the title and url.",
   "===================modules=================":"",
   "js.mod.copy.title":"Copy",
   "===================controllers=================":"",
