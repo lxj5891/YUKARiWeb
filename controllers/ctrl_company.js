@@ -24,7 +24,7 @@ exports.list = function(start_, limit_, keyword ,callback_) {
       condition.$or = [
         {"name": new RegExp( keyword.toLowerCase(), "i")}]
     }
-    company.total(function(err, count){
+    company.total(condition,function(err, count){
         if (err) {
             return callback_(new error.InternalServer(err));
         }
