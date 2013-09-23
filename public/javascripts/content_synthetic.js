@@ -82,6 +82,11 @@ function render(start, count,keyword) {
  * 注册事件
  */
 function events() {
+  $(".panel-heading").on("click","a",function(e){
+    var _num  =  $(e.target).attr("num");
+    $("input[type=radio]").attr("checked",false);
+    $("input[type=radio]").eq(parseInt(_num)).click();
+  });
   $("#txt_search").bind("change",function(){
     var _keyword = '';
     _keyword =  $("#txt_search").val();
