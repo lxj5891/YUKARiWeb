@@ -107,7 +107,7 @@
   "html.button.layout.appply":"申请",
   "html.button.layout.approve":"批准",
   "html.button.layout.deny":"否认",
-  "html.label.layout.imagepreview":"画面预览",
+  "html.label.layout.imagepreview":"布局预览",
   "html.label.layout.info":"信息入力",
   "html.label.layout.info.title":"标题",
   "html.label.layout.info.comment":"注释",
