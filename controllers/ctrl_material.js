@@ -170,8 +170,10 @@ exports.updatetag = function(code_, uid_, fid_, detail_, callback_) {
 
   detail_["editat"] = new Date();
   detail_["editby"] = uid_;
+  detail_.tags = _.compact(detail_.tags);
 
   var tasks = [];
+
   // 获取原来的tag一览
   tasks.push(function(cb) {
     material.get(code_, fid_, function(err, data) {
