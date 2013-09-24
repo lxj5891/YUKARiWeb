@@ -120,9 +120,10 @@ exports.update = function(compid, comp_, callback_){
 };
 
 // 获取公司有效件数
-exports.total = function(callback_){
+exports.total = function(condition,callback_){
     var comp = model();
-    comp.count({valid:1}).exec(function(err, count){
+    condition.valid = 1;
+    comp.count(condition).exec(function(err, count){
         callback_(err, count);
     });
 };

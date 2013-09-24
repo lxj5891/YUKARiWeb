@@ -590,7 +590,7 @@ ol.popular-tags li a {
 }
 .wsname {
   padding-left: 10px;
-  width: 200px;
+  width: 150px;
   padding-right: 5px;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -602,7 +602,7 @@ ol.popular-tags li a {
   padding-right: 5px;
 }
 .wsurl {
-  width: 400px;
+  width: 350px;
   padding-right: 5px;
   text-overflow: ellipsis;
   overflow: hidden;

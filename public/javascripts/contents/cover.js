@@ -115,6 +115,32 @@ $(function () {
         if(opt == 'left' || opt == 'right'){
           _this.moveCell(num, opt);
         }
+        if(opt == 'edit'){
+          _this.editCell(num, opt);
+        }
+      });
+    }
+    ,editCell: function(num){
+      var _this = this;
+      var thumb_blocks = $('.cover_block');
+
+      thumb_blocks.each(function(index){
+        var cur_num = $(this).attr('num');
+        if(cur_num == num) {
+          console.log( "cur_num :" + num );
+          var selectedEvent = function(event){
+            if (event.material_id != undefined) {
+              var _img = $("#cell_block_" + num + " .cover_block_img");
+              _img.hide();
+              _img.attr("src",event.image);
+              _img.fadeIn(1500);
+              store.setCover(index , event);
+            }
+          };
+          var _popup = new ImagePopup({ type: 'single', tpl: 'image', el: 'pickThumbPic' }, selectedEvent);
+          _popup.show();
+          return false;
+        }
       });
     }
     // 移除图片
@@ -125,6 +151,9 @@ $(function () {
          if(cur_num == num) {
            store.removeCover(index);
            $(this).remove();
+
+           $(".cover_cell .cover_add").show();
+
            return false;
          }
       });

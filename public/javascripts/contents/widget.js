@@ -107,14 +107,14 @@ WidgetFace.prototype.setResizable = function () {
         _this.self.height(store.fixScaleHeightToWeb(723) - pos.top);
         return false;
       }
-      _this.itemWidth.val(store.fixScaleWidthToIpad(_this.self.width()));
-      _this.itemHeight.val(store.fixScaleHeightToIpad(_this.self.height()));
+      _this.itemWidth.val(parseInt(store.fixScaleWidthToIpad(_this.self.width())));
+      _this.itemHeight.val(parseInt(store.fixScaleHeightToIpad(_this.self.height())));
 
     },
     stop: function () {
       var pos = _this.self.position();
-      _this.itemWidth.val(store.fixScaleWidthToIpad(_this.self.width()));
-      _this.itemHeight.val(store.fixScaleHeightToIpad(_this.self.height()));
+      _this.itemWidth.val(parseInt(store.fixScaleWidthToIpad(_this.self.width())));
+      _this.itemHeight.val(parseInt(store.fixScaleHeightToIpad(_this.self.height())));
       _this.width = store.fixScaleWidthToIpad(_this.self.width());
       _this.height = store.fixScaleHeightToIpad(_this.self.height());
       if (store.fixScaleWidthToIpad(pos.left + _this.self.width()) > 1024) {
@@ -141,28 +141,35 @@ WidgetFace.prototype.setActionChange = function(init){
   var setImageAction = function() {
     if(_this.action&&(_this.action.type!=store._action_type.image))
     _this.action = undefined;
-    var _loadMaterialFn = function(start){
-      smart.doget("/material/list.json?type=image&&start=0&count=500", function (err, result) {
-        if (smart.error(err, i18n["js.common.search.error"], false)) {
-          return;
-        }
-
-        new loadModal("pickThumbPic", tpl_materialPopupImage, result.items,'single',function(event){
-          $(".action_widget_image_preview img").attr("src",event.src);
+//    var _loadMaterialFn = function(start){
+//      smart.doget("/material/list.json?type=image&&start=0&count=500", function (err, result) {
+//        if (smart.error(err, i18n["js.common.search.error"], false)) {
+//          return;
+//        }
+//
+//        new loadModal("pickThumbPic", tpl_materialPopupImage, result.items,'single',function(event){
+//          $(".action_widget_image_preview img").attr("src",event.src);
+//          _this.action = {};
+//          _this.action.type= store._action_type.image;
+//          _this.action.material_id = event.material_id;
+//          _this.action.image = event.src;
+//        });
+//      });
+//      //_loadMaterialFn 的callback  启动显示窗口
+//      start();
+//    };
+    var _fn = function(){
+      var selectedEvent = function(event){
+        if (event.material_id != undefined) {
+          $(".action_widget_image_preview img").attr("src",event.image);
           _this.action = {};
           _this.action.type= store._action_type.image;
           _this.action.material_id = event.material_id;
-          _this.action.image = event.src;
-        });
-      });
-      //_loadMaterialFn 的callback  启动显示窗口
-      start();
-    };
-    var _fn = function(){
-      _loadMaterialFn(function(){
-        $("#pickThumbPic").modal('show');
-
-      });
+          _this.action.image = event.image;
+        }
+      };
+      var _popup = new ImagePopup({ type: 'single', tpl: 'image', el: 'pickThumbPic' }, selectedEvent);
+      _popup.show();
     };
     $("a[name=btnSelectWidgetImage]").unbind("click").bind("click",_fn);
   };
@@ -211,7 +218,7 @@ WidgetFace.prototype.setActionChange = function(init){
       _this.action = undefined;
 
     var _loadMaterialFn = function(start){
-      smart.doget("/material/list.json?type=image&&start=0&count=500", function (err, result) {
+      smart.doget("/material/list.json?start=0&count=500&&contentType=video", function (err, result) {
         if (smart.error(err, i18n["js.common.search.error"], false)) {
           return;
         }
@@ -229,10 +236,17 @@ WidgetFace.prototype.setActionChange = function(init){
     };
 
     var _fn = function(){
-      _loadMaterialFn(function(){
-        $("#pickThumbPic").modal('show');
-
-      });
+      var selectedEvent = function(event){
+        if (event.material_id != undefined) {
+          $(".action_widget_moive_preview video").attr("src",event.image);
+//          _this.action = _this.action ||{};
+          _this.action = {};
+          _this.action.type= store._action_type.movie;
+          _this.action.material_id = event.material_id;
+        }
+      };
+      var _popup = new ImagePopup({ type: 'video', tpl: 'image', el: 'pickThumbPic' }, selectedEvent);
+      _popup.show();
     }
 
     $("a[name=btnSelectWidgetMoive]").unbind("click").bind("click",_fn);
@@ -366,13 +380,14 @@ WidgetFace.prototype.setDraggable = function () {
     },
     drag: function () {
       var pos = _this.self.position();
-      _this.itemLeft.val(store.fixScaleWidthToIpad(pos.left));
-      _this.itemTop.val(store.fixScaleHeightToIpad(pos.top));
+
+      _this.itemLeft.val(parseInt(store.fixScaleWidthToIpad(pos.left)));
+      _this.itemTop.val(parseInt(store.fixScaleHeightToIpad(pos.top)));
     },
     stop: function () {
       var pos = _this.self.position();
-      _this.itemLeft.val(store.fixScaleWidthToIpad(pos.left));
-      _this.itemTop.val(store.fixScaleHeightToIpad(pos.top));
+      _this.itemLeft.val(parseInt(store.fixScaleWidthToIpad(pos.left)));
+      _this.itemTop.val(parseInt(store.fixScaleHeightToIpad(pos.top)));
       _this.left = store.fixScaleWidthToIpad(pos.left);
       _this.top = store.fixScaleHeightToIpad(pos.top);
       store.setWidget(_this.metadata_id,_this);
@@ -409,10 +424,10 @@ WidgetFace.prototype.setSelect =  function () {
       store.activeWidget.border.removeClass("widget_border_selected");
     }
 
-    _this.itemLeft.val(store.fixScaleWidthToIpad(_this.self.position().left));
-    _this.itemTop.val(store.fixScaleHeightToIpad(_this.self.position().top));
-    _this.itemWidth.val(store.fixScaleWidthToIpad(_this.self.width()));
-    _this.itemHeight.val(store.fixScaleHeightToIpad(_this.self.height()));
+    _this.itemLeft.val(parseInt(store.fixScaleWidthToIpad(_this.self.position().left)));
+    _this.itemTop.val(parseInt(store.fixScaleHeightToIpad(_this.self.position().top)));
+    _this.itemWidth.val(parseInt(store.fixScaleWidthToIpad(_this.self.width())));
+    _this.itemHeight.val(parseInt(store.fixScaleHeightToIpad(_this.self.height())));
     _this.itemName.val(_this.name);
 
 
