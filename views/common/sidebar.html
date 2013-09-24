@@ -99,7 +99,7 @@
       <% }%>
     <% }%>
     <% if (user.type == 1) {%>
-      <li>
+    <li>
         <a href="/customer/user" class="dropdown-toggle">
           <span class="menu-text"><%= i('html.label.sidebar.system') %></span>
         </a>
@@ -128,6 +128,23 @@
           -->
         </ul>
       </li>
+    <li>
+      <a href="#" class="dropdown-toggle">
+        <span class="menu-text"><%= i('html.label.sidebar.personal.setup') %></span>
+      </a>
+      <ul class="submenu" style="display: block;">
+        <li>
+          <a href="/customer/group" class="dropdown-toggle">
+            <i class="icon-group"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.group') %>
+          </a>
+        </li>
+        <li>
+          <a href="/customer/notice" class="dropdown-toggle">
+            <i class="icon-bullhorn"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.notice') %>
+          </a>
+        </li>
+      </ul>
+    </li>
     <% }%>
 
     <% if (user.type == 2) {%>

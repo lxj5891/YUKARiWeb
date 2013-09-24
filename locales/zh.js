@@ -244,6 +244,7 @@
   "html.button.user.import":"导入",
   "html.label.user":"用户",
   "html.button.user.add":"追加用户",
+  "html.label.user.companycode":"公司代码",
   "html.label.user.id":"用户ID",
   "html.label.user.name":"名字",
   "html.label.user.role":"职务",
