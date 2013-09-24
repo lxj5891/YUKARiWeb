@@ -30,6 +30,11 @@ exports.add = function(code_,uid_,layout_,callback_){
     }
 
     setSyntheticIntoLayout(code_, result, function(e){
+      // Merge TopMenu picture
+      mergeTopMenuImage(code_, result);
+      // Merge CaseMenu picture
+      mergeCaseMenuImage(code_, result);
+
       return callback_(e, result);
     });
   });
