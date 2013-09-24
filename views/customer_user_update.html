@@ -43,6 +43,12 @@
       </div>
       <div class="row col-lg-8 box-border">
         <form class="form-horizontal" role="form">
+          <div class="form-group" id="companycode">
+            <label for="inputCompanyCode" class="col-lg-2 control-label"><%= i('html.label.user.companycode') %><!-- 会社コード--></label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputCompanyCode" placeholder="<%= i('html.label.user.companycode') %>" maxlength="30">
+            </div>
+          </div>
           <div class="form-group">
             <label for="inputUserID" class="col-lg-2 control-label"><%= i('html.label.user.id') %><!-- ユーザID--></label>
             <div class="col-lg-8">

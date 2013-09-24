@@ -19,7 +19,7 @@ exports.hasContentPermit = function(user_){
 }
 
 exports.hasNoticePermit = function(user_){
-  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority && user_.authority.notice === 1);
+  return exports.isSuperAdmin(user_) || exports.isAdmin(user_) || (exports.isCommonUser(user_) && user_.authority && user_.authority.notice === 1);
 }
 
 exports.hasApprovePermit = function(user_){
