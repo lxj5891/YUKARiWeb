@@ -62,6 +62,7 @@
   "html.label.sidebar.appset":"アプリ側設定",
   "html.label.sidebar.appset.icon":"アプリ起動画像",
   "html.label.sidebar.appset.workstation":"ワークステーション",
+  "html.label.sidebar.system.customer.user":"ユーザ管理",
   "===================company=================":"",
   "html.label.company":"顧客",
   "html.button.company.add":"顧客追加",

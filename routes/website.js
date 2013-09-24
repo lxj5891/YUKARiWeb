@@ -273,6 +273,9 @@ exports.guiding = function (app) {
   app.get('/admin/operated', function (req, res) {
     res.render("admin_operated_list", {"title":  i.__("js.routes.website.admin_operated_list.title"), user: req.session.user});
   });
+  app.get('/customer/operated', function (req, res) {
+    res.render("customer_operated_list", {"title":  i.__("js.routes.website.admin_operated_list.title"), user: req.session.user});
+  });
   // 元素
   app.get('/content/synthetic', function (req, res) {
     if(!util.hasContentPermit(req.session.user)){

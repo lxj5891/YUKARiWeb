@@ -62,6 +62,7 @@
   "html.label.sidebar.appset":"APP setting",
   "html.label.sidebar.appset.icon":"StartImage",
   "html.label.sidebar.appset.workstation":"Workstation",
+  "html.label.sidebar.system.customer.user":"User Manager",
   "===================company=================":"",
   "html.label.company":"Company",
   "html.button.company.add":"Add",
