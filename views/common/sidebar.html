@@ -101,7 +101,7 @@
     <% if (user.type == 1) {%>
     <li>
         <a href="/customer/user" class="dropdown-toggle">
-          <span class="menu-text"><%= i('html.label.sidebar.system') %></span>
+          <span class="menu-text"><%= i('html.label.sidebar.system.customer.user') %></span>
         </a>
         <ul class="submenu" style="display: block;">
           <li>
@@ -119,6 +119,11 @@
               <i class="icon-tablet"></i>&nbsp;<%= i('html.label.sidebar.system.device') %>
             </a>
           </li>
+          <li>
+            <a href="/customer/group" class="dropdown-toggle">
+              <i class="icon-group"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.group') %>
+            </a>
+          </li>
           <!--
           <li>
             <a href="/customer/setup" class="dropdown-toggle">
@@ -130,17 +135,17 @@
       </li>
     <li>
       <a href="#" class="dropdown-toggle">
-        <span class="menu-text"><%= i('html.label.sidebar.personal.setup') %></span>
+        <span class="menu-text"><%= i('html.label.sidebar.system') %></span>
       </a>
       <ul class="submenu" style="display: block;">
         <li>
-          <a href="/customer/group" class="dropdown-toggle">
-            <i class="icon-group"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.group') %>
+          <a href="/customer/notice" class="dropdown-toggle">
+            <i class="icon-bullhorn"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.notice') %>
           </a>
         </li>
         <li>
-          <a href="/customer/notice" class="dropdown-toggle">
-            <i class="icon-bullhorn"></i>&nbsp;<%= i('html.label.sidebar.personal.setup.notice') %>
+          <a href="/customer/operated" class="dropdown-toggle">
+            <i class="icon-truck"></i>&nbsp;<%= i('html.label.sidebar.company.manager.operated')%> <!--運行情報 -->
           </a>
         </li>
       </ul>
@@ -171,7 +176,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="dropdown-toggle">
+          <a href="/admin/operated" class="dropdown-toggle">
             <i class="icon-truck"></i>&nbsp;<%= i('html.label.sidebar.company.manager.operated')%> <!--運行情報 -->
           </a>
         </li>
@@ -299,7 +304,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="dropdown-toggle">
+          <a href="/admin/operated" class="dropdown-toggle">
             <i class="icon-truck"></i>&nbsp;<%= i('html.label.sidebar.company.manager.operated')%> <!--運行情報 -->
           </a>
         </li>

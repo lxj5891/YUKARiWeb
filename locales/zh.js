@@ -62,6 +62,7 @@
   "html.label.sidebar.appset":"app侧设定",
   "html.label.sidebar.appset.icon":"app启动图片",
   "html.label.sidebar.appset.workstation":"工作站",
+  "html.label.sidebar.system.customer.user":"用户管理",
   "===================company=================":"",
   "html.label.company":"客户",
   "html.button.company.add":"追加客户",
