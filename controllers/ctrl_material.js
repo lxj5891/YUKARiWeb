@@ -130,7 +130,7 @@ exports.updatefile = function(code_, uid_, fid_, file_, callback_) {
   };
 
   // To save the file to GridFS
-  gridfs.save(name, path, metadata, file_.type, function(err, doc){
+  gridfs.save(code_, name, path, metadata, file_.type, function(err, doc){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
