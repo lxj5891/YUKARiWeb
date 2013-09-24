@@ -4,7 +4,7 @@
   <title><%= title %></title>
   <% include common/required.html %>
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="/javascripts/customer_appicon.js"></script>
+  <script type="text/javascript" src="/javascripts/customer_appimage.js"></script>
 
   <style>
      .splash-size {
@@ -53,8 +53,9 @@
             <label class="control-label">W:1024　H:768</label>
           </div>
         </div>
-        <div class="col-lg-6">
-          <img class="img-rounded splash-size">
+        <div id="img1024x768" class="col-lg-6">
+          <img class="img-rounded splash-size" src="/images/tmp/img_start01.png">
+          <input type="file" id="uploadfile" style="display: none" accept=".png, .jpg, .jpeg" />
         </div>
       </div>
       <div class="row" style="margin-left: 30px;margin-bottom: 30px">
@@ -67,7 +68,7 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <img class="img-rounded splash-size">
+          <img class="img-rounded splash-size" src="/images/tmp/img_start02.png">
         </div>
       </div>
       <div class="row" style="margin-left: 30px;margin-bottom: 30px">
@@ -80,7 +81,7 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <img class="img-rounded header-size">
+          <img class="img-rounded header-size" src="/images/tmp/logo_header.png" style="background-color: gainsboro">
         </div>
       </div>
       <div class="col-lg-8" style="margin-bottom: 30px">
