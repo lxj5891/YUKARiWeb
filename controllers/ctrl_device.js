@@ -158,7 +158,7 @@ exports.allow = function(code, session_uid, device_, user_id, allow_,callback_) 
   // 初始化密码为邮件(user_id) 中"@"之前的字符
   /^(.*)@.*$/.test(user_id);
   var pass = RegExp.$1 == "" ? user_id : RegExp.$1;
-  pass = auth.sha256(pass);
+  //pass = auth.sha256(pass);
 
   //判断用户状态
   var ep = EventProxy.create("apply_ep","user_ep",function(apply_ep,user_ep){
