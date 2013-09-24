@@ -244,6 +244,7 @@
   "html.button.user.import":"Import",
   "html.label.user":"User",
   "html.button.user.add":"Add",
+  "html.label.user.companycode":"Company Code",
   "html.label.user.id":"UserID",
   "html.label.user.name":"Name",
   "html.label.user.role":"Role",

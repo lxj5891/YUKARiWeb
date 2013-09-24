@@ -40,6 +40,8 @@ function render(userid) {
             }
           }
           if (result.item) {
+            $("#inputCompanyCode").val(result.item.companycode);
+            $("#inputCompanyCode").attr("disabled","disabled");
             $("#inputUserID").val(result.item.uid);
             $("#inputUserID").attr("disabled","disabled");
             $("#inputPassword").val(result.item.password);
@@ -85,6 +87,8 @@ function render(userid) {
     new ButtonGroup("inputNotice", "0").init();
     new ButtonGroup("inputApproved", "0").init();
     new ButtonGroup("inputActive", "0").init();
+    //会社代码 不显示
+    $("#companycode").css("display","none");
   }
 }
 

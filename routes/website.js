@@ -91,8 +91,8 @@ exports.guiding = function (app) {
   //组
     app.get('/customer/group', function (req, res) {
       var sessionuser = req.session.user;
-      //客户管理员,DA管理员,不能访问.
-      if (util.isAdmin(sessionuser) || util.isSystemAdmin(sessionuser)) {
+      //DA管理员,不能访问.
+      if (util.isSystemAdmin(sessionuser)) {
         res.render("error_403", {user: req.session.user});
       } else {
         res.render("customer_group_list", {"title": i.__("js.routes.website.customer_group_list.title"), user: req.session.user});
@@ -100,8 +100,8 @@ exports.guiding = function (app) {
     });
     app.get('/customer/group/add', function (req, res) {
       var sessionuser = req.session.user;
-      //客户管理员,DA管理员,不能访问.
-      if (util.isAdmin(sessionuser) || util.isSystemAdmin(sessionuser)) {
+      //DA管理员,不能访问.
+      if (util.isSystemAdmin(sessionuser)) {
         res.render("error_403", {user: req.session.user});
       } else {
         res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_add.title"), user: req.session.user,groupId:""});
@@ -109,8 +109,8 @@ exports.guiding = function (app) {
     });
     app.get('/customer/group/edit/:id', function (req, res) {
       var sessionuser = req.session.user;
-      //客户管理员,DA管理员,不能访问.
-      if (util.isAdmin(sessionuser) || util.isSystemAdmin(sessionuser)) {
+      //DA管理员,不能访问.
+      if (util.isSystemAdmin(sessionuser)) {
         res.render("error_403", {user: req.session.user});
       } else {
         res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_update.title"), user: req.session.user,groupId:req.params.id});

@@ -244,6 +244,7 @@
   "html.button.user.import":"インポート",
   "html.label.user":"ユーザ",
   "html.button.user.add":"ユーザ追加",
+  "html.label.user.companycode":"会社コード",
   "html.label.user.id":"ユーザID",
   "html.label.user.name":"名前",
   "html.label.user.role":"役職",
