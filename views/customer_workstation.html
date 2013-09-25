@@ -45,16 +45,18 @@
         <div class="wsbackcolor" style="width:760px;margin-left:15px;">
           <div>
             <ul style="border-bottom-color:#DCDCDC;border:1px;">
-              <li class="ui-state-default">
-                <div class="wsicon pull-left"><label><%= i('html.label.workstation.icon') %><!-- アイコン--></label></div>
-                <div class="wsname pull-left"><label><%= i('html.label.workstation.name') %><!-- タイトル--></label></div>
-                <div class="wsurl pull-left"><label><%= i('html.label.workstation.url') %><!-- URL--></label></div>
-                <div class="wstype pull-left"><label><%= i('html.label.workstation.type') %><!-- タイプ--></label></div>
-                <div class="wsopen pull-left"><label><%= i('html.label.workstation.oper') %><!-- 操作--></label></div>
-                <div class="wsoper pull-left"  style="background-color:#DCDCDC;margin-bottom:5px;" id="setting_add">
-                  <i class="icon-plus"></i>&nbsp;<i class="icon-th-list"></i>
-                </div>
-              </li>
+              <div class="row">
+                <li class="ui-state-default">
+                  <div class="wsicon pull-left"><label><%= i('html.label.workstation.icon') %><!-- アイコン--></label></div>
+                  <div class="wsname pull-left"><label><%= i('html.label.workstation.name') %><!-- タイトル--></label></div>
+                  <div class="wsurl pull-left"><label><%= i('html.label.workstation.url') %><!-- URL--></label></div>
+                  <div class="wstype pull-left"><label><%= i('html.label.workstation.type') %><!-- タイプ--></label></div>
+                  <div class="wsopen pull-left"><label><%= i('html.label.workstation.oper') %><!-- 操作--></label></div>
+                  <div class="wsoper pull-left"  style="background-color:#DCDCDC;margin-bottom:5px;" id="setting_add">
+                    <i class="icon-plus"></i>&nbsp;<i class="icon-th-list"></i>
+                  </div>
+                </li>
+              </div>
             </ul>
             <ul id="sortable"></ul>
             <div style="height:10px;"></div>
@@ -151,31 +153,33 @@
 </script>
 
 <script type="text/template" id="tmpl_sortable">
-  <li class="ui-state-default" wsid={{wsid}}>
-    <div class="wsicon pull-left">
-      <ul>
-        <li>
-          <label class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="{{icon}}"></i>
-          </label>
-        </li>
-      </ul>
-    </div>
-    <div class="wsname pull-left">{{title}}</div>
-    <div class="wsurl pull-left">{{url}}</div>
-    <div class="wstype pull-left">{{type}}</div>
-    <div class="wsopen pull-left btn-group" style="height:34px;margin-top:5px;">
-      <a operation="config" rowid={{sort}} wsid={{wsid}} class="btn btn-default btn-sm" href="#" data-toggle="modal">
-        <%= i('html.button.workstation.conf') %><!-- 設定-->
-      </a>
-    </div>
-    <div class="wsoper pull-left">
-      <i class="icon-move"></i>
-    </div>
-    <div class="pull-left">
-      <i class="icon-trash" style="padding:5px;" tabindex="{{sort}}" wsid={{wsid}} operation="delete"></i>
-    </div>
-  </li>
+  <div class="row"></div>
+    <li class="ui-state-default" wsid={{wsid}}>
+      <div class="wsicon pull-left">
+        <ul>
+          <li>
+            <label class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="{{icon}}"></i>
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div class="wsname pull-left">{{title}}</div>
+      <div class="wsurl pull-left">{{url}}</div>
+      <div class="wstype pull-left">{{type}}</div>
+      <div class="wsopen pull-left btn-group" style="height:34px;margin-top:5px;">
+        <a operation="config" rowid={{sort}} wsid={{wsid}} class="btn btn-default btn-sm" href="#" data-toggle="modal">
+          <%= i('html.button.workstation.conf') %><!-- 設定-->
+        </a>
+      </div>
+      <div class="wsoper pull-left">
+        <i class="icon-move"></i>
+      </div>
+      <div class="pull-left">
+        <i class="icon-trash" style="padding:5px;" tabindex="{{sort}}" wsid={{wsid}} operation="delete"></i>
+      </div>
+    </li>
+  </div>
 </script>
 
 </body>
