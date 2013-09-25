@@ -5,19 +5,26 @@
 
   <% include common/required.html %>
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-
-  <!--<script type="text/javascript" src="/javascripts/admin_operated_list.js"></script>-->
   <script>
     $(function () {
       $("#showLayout").bind("click", function(e){
         $("#layout").show();
         $("#synthetic").hide();
+        $("#ranking").hide();
       });
 
       $("#showSynthetic").bind("click", function(e){
         $("#layout").hide();
         $("#synthetic").show();
+        $("#ranking").hide();
       });
+      $("#showranking").bind("click", function(e){
+        $("#layout").hide();
+        $("#synthetic").hide();
+        $("#ranking").show();
+      });
+
+      new ButtonGroup("inputType", "syn").init();
     });
   </script>
 </head>
@@ -46,13 +53,13 @@
 
     <div class="page-content">
       <div class="row tableheader">
-
+        <div class="pull-right">
+          <button type="button" class="btn btn-default" id="showranking"><i class="icon-sort-by-attributes-alt"></i></button>
+        </div>
         <div class="pull-right btn-group">
           <button type="button" class="btn btn-default" id="showSynthetic"><i class="icon-unlink"></i></button>
           <button type="button" class="btn btn-default" id="showLayout"><i class="icon-th"></i></button>
-
         </div>
-
         <div class="pull-right" style="width: 300px">
           <form class="search-form">
             <div class="input-group">
@@ -63,7 +70,6 @@
             </div>
           </form>
         </div>
-
       </div>
       <div id="layout" class="row" style="display:none">
         <div class="col-lg-12">
@@ -218,6 +224,122 @@
             </tbody>
           </table>
         </div>
+      </div>
+      <div id="ranking" class="row" style="display:none">
+        <hr>
+        <div class="row">
+          <div class="pull-left input-group">
+            <button type="button" class="btn">期間</button>
+          </div>
+          <div class="pull-left input-group" style="margin-left:5px;width:100px">
+            <input type="text" value="2013-09-25" class="form-control"/>
+          </div>
+          <div class="pull-left input-group" style="margin-left:5px;width:100px">
+            <input type="text" value="2013-09-25" class="form-control"/>
+          </div>
+          <div class="pull-left input-group" style="margin-left: 5px">
+            <button type="button" class="btn">タイプ</button>
+          </div>
+          <div class="pull-left form-group">
+            <div class="btn-group" value="syn" id="inputType">
+              <button type="button" class="btn btn-default" value="syn">ネタ</button>
+              <button type="button" class="btn btn-default" value="lay">レイアウト</button>
+            </div>
+          </div>
+          <div class="pull-left input-group" style="margin-left: 30px">
+            <button type="button" class="btn btn-default">確定</button>
+          </div>
+        </div>
+        <hr>
+        <div class="col-lg-12">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Top</th>
+              <th>ネタ名</th>
+              <th>ネタ作成者</th>
+              <th>ネタ更新日</th>
+              <th>ネタタイプ</th>
+              <th>ページ数</th>
+              <th>使用されるレイアウト数</th>
+              <th>参照回数</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>1</td>
+              <td>INSUITE紹介</td>
+              <td>ユーザ０１</td>
+              <td>2013/09/24</td>
+              <td>画像セット</td>
+              <td>3</td>
+              <td>1</td>
+              <td>11</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Ｙｉマネジメントサービス</td>
+              <td>ユーザ０１</td>
+              <td>2013/09/24</td>
+              <td>画像セット</td>
+              <td>2</td>
+              <td>1</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Shopらん紹介</td>
+              <td>ユーザ０１</td>
+              <td>2013/09/24</td>
+              <td>画像セット</td>
+              <td>2</td>
+              <td>1</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Sm@rtDB紹介</td>
+              <td>ユーザ０１</td>
+              <td>2013/09/24</td>
+              <td>画像セット</td>
+              <td>3</td>
+              <td>1</td>
+              <td>30</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>会社紹介</td>
+              <td>ユーザ０１</td>
+              <td>2013/09/24</td>
+              <td>アニメーション画像</td>
+              <td>8</td>
+              <td>3</td>
+              <td>40</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>事例（全日空）</td>
+              <td>ユーザ０１</td>
+              <td>2013/09/24</td>
+              <td>ケースビュー</td>
+              <td>3</td>
+              <td>10</td>
+              <td>40</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>カタログギャラリー</td>
+              <td>ユーザ０１</td>
+              <td>2013/09/24</td>
+              <td>ギャラリー</td>
+              <td>15</td>
+              <td>10</td>
+              <td>20</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
       </div>
     </div>
     <div class="pagination-area" id="pagination_area"></div>
