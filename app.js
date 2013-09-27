@@ -113,7 +113,6 @@ app.configure(function(){
   app.use(middleware.authenticate); // 认证
   app.use(middleware.csrftoken);    // 生成CsrfToken
   app.use(middleware.lang);         // 设定语言
-  app.use(middleware.parseError);   // 异常处理
   app.use(middleware.timeout);      // 设定超时
 
 });
@@ -139,6 +138,9 @@ routes.guiding( app );
  * 执行启动Filter
  */
 startupfilter.execute();
+
+// 异常处理
+app.use(middleware.parseError);
 
 /**
  * 启动服务
