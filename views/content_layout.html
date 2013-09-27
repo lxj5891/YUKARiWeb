@@ -117,14 +117,14 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="openrange" class="col-lg-3 control-label">公開期間<!-- 公開期間 --></label>
+              <label for="openrange" class="col-lg-3 control-label"><%= i('html.label.layout.range') %><!-- 公開期間 --></label>
               <div class="col-lg-7">
                 <div id="inputOpenRange" class="btn-group" value="0">
-                  <button value="0" class="btn btn-sm btn-default btn-white" type="button">期限なし</button>
-                  <button value="1" class="btn btn-sm btn-default btn-info" type="button" >期限指定</button>
+                  <button value="0" class="btn btn-sm btn-default btn-white" type="button"><%= i('html.button.range.off') %></button>
+                  <button value="1" class="btn btn-sm btn-default btn-info" type="button" ><%= i('html.button.range.on') %></button>
                 </div>
-                <div class='input-group' id='openrange' style="margin-top: 10px;">
-                  <input class='form-control daterange' readonly placeholder='公開期間' type='text' id='datepicker' style="font-size: 13px;">
+                <div class="input-group" id="openrange" style="margin-top: 10px;">
+                  <input class="form-control daterange" readonly placeholder="<%= i('html.input.layout.range') %>" type='text' id='datepicker' style="font-size: 13px;">
                   <input type="hidden" id="openStart">
                   <input type="hidden" id="openEnd">
                   <span class='input-group-addon'>
@@ -169,6 +169,7 @@
     <td>{{index}}</td>
     <td>{{name}}</td>
     <td>{{viewer}}</td>
+    <td>{{range}}</td>
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>
@@ -185,6 +186,7 @@
     <td>{{name}}</td>
     <td>{{confirmby}}</td>
     <td>{{viewer}}</td>
+    <td>{{range}}</td>
     <td>{{editat}}</td>
     <td>
        <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="preview" imageH = {{preview_image}} ><%= i('html.button.common.preview') %><!--プレビュー --></a>
@@ -197,6 +199,7 @@
     <td>{{index}}</td>
     <td>{{name}}</td>
     <td>{{viewer}}</td>
+    <td>{{range}}</td>
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>

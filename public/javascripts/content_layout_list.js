@@ -147,6 +147,7 @@ function render(start, count,keyword) {
     if (publish == 1) {
       var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
         + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["html.label.layout.range"]
         + "</th><th>" + i18n["html.label.common.updateby"]
         + "</th><th>" + i18n["html.label.common.updateat"]
         + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
@@ -156,6 +157,12 @@ function render(start, count,keyword) {
 
       _.each(layoutList, function(row){
         var active = row.active;
+        var range = "";
+        if(active.openEnd){
+          range = smart.date(active.openStart) + ' - ' + smart.date(active.openEnd);
+        } else {
+          range = i18n["html.label.layout.range.forever"];
+        }
 
         container.append(_.template(tmpl, {
           "id": row._id
@@ -165,7 +172,8 @@ function render(start, count,keyword) {
           , "editat": smart.date(active.editat)
           , "editby": active.user.name.name_zh
           , "viewer": get_viewerHtml(row)
-          , "class3": (active&&active.layout&&active.layout.image&& !_.isEmpty(active.layout.image.imageH)) ? "" : "hidden"
+          , "range": range
+          , "class3": (active&&active.layout&&active.layout.image&& !_.isEmpty(active.layout.image.imageH)) ? "" : "disabled"
           , "preview_image" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : null
         }));
       });
@@ -176,6 +184,7 @@ function render(start, count,keyword) {
       var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
         + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.approveby"]
         + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["html.label.layout.range"]
         + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"]
         + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
       $('#layout_header').html(headerHtml);
@@ -183,6 +192,12 @@ function render(start, count,keyword) {
       var tmpl = $('#tmpl_applylayout_list').html();
 
       _.each(layoutList, function(row){
+        var range = "";
+        if(row.openEnd){
+          range = smart.date(row.openStart) + ' - ' + smart.date(row.openEnd);
+        } else {
+          range = i18n["html.label.layout.range.forever"];
+        }
         container.append(_.template(tmpl, {
           "id": row._id
           , "index": index++ + start
@@ -190,15 +205,17 @@ function render(start, count,keyword) {
           , "editat": smart.date(row.editat)
           , "confirmby": row.user.name.name_zh
           , "viewer": get_viewerHtml(row)
-          , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "hidden"
+          , "range": range
+          , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
           , "preview_image" : (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? row.layout.image.imageH : null
         }));
       });
 
-    // confirm list
+    //
     } else if (status == 22) {
       var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
         + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["html.label.layout.range"]
         + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyby"]
         + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"]
         + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
@@ -207,11 +224,18 @@ function render(start, count,keyword) {
       var tmpl = $('#tmpl_confirmlayout_list').html();
 
       _.each(layoutList, function(row){
+        var range = "";
+        if(row.openEnd){
+          range = smart.date(row.openStart) + ' - ' + smart.date(row.openEnd);
+        } else {
+          range = i18n["html.label.layout.range.forever"];
+        }
         container.append(_.template(tmpl, {
           "id": row._id
           , "index": index++ + start
           , "name": row.layout.name
           , "viewer": get_viewerHtml(row)
+          , "range": range
           , "editat": smart.date(row.editat)
           , "editby": row.user.name.name_zh
           , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "hidden"
@@ -220,7 +244,6 @@ function render(start, count,keyword) {
         }));
       });
 
-    // layout list
     } else {
 
       var tmpl = $('#tmpl_layout_list').html()
