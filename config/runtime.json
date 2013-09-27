@@ -3,6 +3,6 @@
     "host": "127.0.0.1"
   },
   "app": {
-    "tmp": "D:/GIT_workspace/tmp"
+    "tmp": "/tmp"
   }
 }

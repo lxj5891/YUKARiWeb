@@ -173,7 +173,7 @@ function render(start, count,keyword) {
           , "editby": active.user.name.name_zh
           , "viewer": get_viewerHtml(row)
           , "range": range
-          , "class3": (active&&active.layout&&active.layout.image&& !_.isEmpty(active.layout.image.imageH)) ? "" : "disabled"
+          , "class3": (active&&active.layout&&active.layout.image&& !_.isEmpty(active.layout.image.imageH)) ? "" : "hidden"
           , "preview_image" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : null
         }));
       });
@@ -206,7 +206,7 @@ function render(start, count,keyword) {
           , "confirmby": row.user.name.name_zh
           , "viewer": get_viewerHtml(row)
           , "range": range
-          , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
+          , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "hidden"
           , "preview_image" : (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? row.layout.image.imageH : null
         }));
       });
