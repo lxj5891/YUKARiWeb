@@ -166,6 +166,7 @@ function events() {
     } else {
       item.addClass("selected_tag");
     }
+    item.blur();
 
     render(0, 20);
   });
