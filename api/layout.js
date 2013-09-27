@@ -81,6 +81,17 @@ exports.apply = function (req_, res_) {
     viewerGroups: req_.body.viewerGroups || []
   };
 
+  if(req_.body.openStart){
+    layout_.openStart = new Date(req_.body.openStart);
+  } else {
+    layout_.openStart = null;
+  }
+  if(req_.body.openEnd){
+    layout_.openEnd = new Date(req_.body.openEnd);
+  } else {
+    layout_.openEnd = null;
+  }
+
   layout.updateStatus(code, uid, layout_, function (err, result) {
       if (err) {
           return res_.send(err.code, json.errorSchema(err.code, err.message));

@@ -345,6 +345,7 @@
   "js.public.info.page.next":"下一页",
   "js.public.check.layoutlist.apply":"请指定承认者",
   "js.public.check.layoutlist.apply.viewer":"请指定公开对象",
+  "js.public.check.layoutlist.apply.openrange":"请指定公开期间",
   "js.public.success.layoutlist.apply":"申请成功",
   "js.public.error.layoutlist.apply":"申请失败",
   "js.public.info.layoutlist.title.publish":"公开中 布局",

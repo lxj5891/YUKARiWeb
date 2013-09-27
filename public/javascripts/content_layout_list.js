@@ -24,6 +24,17 @@ $(function () {
     "textBoxViewer", "", {search_target: "all", target_limit: 20}
   );
 
+  moment.lang('ja');
+  $("#datepicker").daterangepicker({
+    format: "YYYY/MM/DD HH:mm",
+    showDropdowns: true,
+    timePicker12Hour: false,
+    timePicker: true
+  }, function(start, end) {
+    $('#openStart').val(start.toJSON());
+    $('#openEnd').val(end.toJSON());
+  });
+
   $("#applyButton").bind("click", function(event){
 
     // 承認者セット
@@ -46,10 +57,22 @@ $(function () {
       }
     });
 
+    var openStart;
+    var openEnd;
+    var isSetRange = $('#inputOpenRange').attr('value')=='1'
+    if(isSetRange){ // 期间指定
+      openStart = $('#openStart').val();
+      openEnd = $('#openEnd').val();
+    } else {
+    }
+
+
     if (!confirmby) {
       Alertify.log.error(i18n["js.public.check.layoutlist.apply"]);
     } else if(viewerUsers.length <= 0 && viewerGroups <= 0) {
       Alertify.log.error(i18n["js.public.check.layoutlist.apply.viewer"]);
+    } else if(isSetRange && (_.isEmpty(openStart)||_.isEmpty(openEnd))){
+      Alertify.log.error(i18n["js.public.check.layoutlist.apply.openrange"]);
     } else {
       var confirmId = $("#confirmId").val();
       var params = {
@@ -57,6 +80,8 @@ $(function () {
         , confirmby: confirmby
         , viewerUsers: viewerUsers
         , viewerGroups: viewerGroups
+        , openStart: openStart
+        , openEnd: openEnd
       };
 
       smart.dopost("/layout/apply.json", params, function(err, result){
@@ -335,8 +360,17 @@ function events() {
     }
 
     if (operation == "apply") {
-       $("#applyModal").modal("show");
-       $("#confirmId").val(rowid);
+      var toggleOpento = function(val) {
+        if (val == 1) {
+          $("#openrange").show();
+        } else {
+          $("#openrange").hide();
+        }
+      }
+      new ButtonGroup("inputOpenRange", 0, toggleOpento).init(toggleOpento);
+       
+      $("#applyModal").modal("show");
+      $("#confirmId").val(rowid);
     }
     if (operation == "confirm") {
         smart.dopost("/layout/confirm.json", {"id": rowid, "confirm": 1}, function(err, result){

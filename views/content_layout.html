@@ -6,15 +6,15 @@
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="/javascripts/content_layout_list.js"></script>
   <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
-  <link href="/vendor/datepicker/css/bootstrap-daterangepicker.css" rel="stylesheet" media="screen">
+  <link href="/vendor/daterangepicker/css/daterangepicker-bs3.css" rel="stylesheet" media="screen">
 
-  <script type="text/javascript" src="/vendor/datepicker/js/bootstrap-datetimepicker.js"></script>
-  <script>
-    $(function () {
-      $(".datetimepicker").datetimepicker();
-      $(".datetimepicker1").datetimepicker();
-    });
-  </script>
+  <script type="text/javascript" src="/vendor/daterangepicker/js/daterangepicker.js"></script>
+  <script type="text/javascript" src="/vendor/moment/moment+langs.min.js"></script>
+  <style type="text/css">
+    .dropdown-menu{
+      z-index: 1100; /*为解决daterangepicker比dialog层低的问题*/
+    }
+  </style>
 </head>
 <body>
 
@@ -117,22 +117,22 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="datetimepicker" class="col-lg-3 control-label">公開期間FROM<!-- 公開先 --></label>
-              <div class='col-lg-7 datetimepicker input-group' id='datetimepicker'>
-                <input class='form-control' data-format='MM/dd/yyyy HH:mm:ss PP' placeholder='公開期間FROM' type='text'>
-                <span class='input-group-addon'>
-                <span data-date-icon='icon-calendar' data-time-icon='icon-time'></span>
-              </span>
+              <label for="openrange" class="col-lg-3 control-label">公開期間<!-- 公開期間 --></label>
+              <div class="col-lg-7">
+                <div id="inputOpenRange" class="btn-group" value="0">
+                  <button value="0" class="btn btn-sm btn-default btn-white" type="button">期限なし</button>
+                  <button value="1" class="btn btn-sm btn-default btn-info" type="button" >期限指定</button>
+                </div>
+                <div class='input-group' id='openrange' style="margin-top: 10px;">
+                  <input class='form-control daterange' readonly placeholder='公開期間' type='text' id='datepicker' style="font-size: 13px;">
+                  <input type="hidden" id="openStart">
+                  <input type="hidden" id="openEnd">
+                  <span class='input-group-addon'>
+                    <i class="icon-calendar"></i>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="datetimepicker1" class="col-lg-3 control-label">公開期間TO<!-- 公開先 --></label>
-              <div class='col-lg-7 datetimepicker input-group' id='datetimepicker1'>
-                <input class='form-control' data-format='MM/dd/yyyy HH:mm:ss PP' placeholder='公開期間TO' type='text'>
-                <span class='input-group-addon'>
-                <span data-date-icon='icon-calendar' data-time-icon='icon-time'></span>
-              </span>
-              </div>
+              
             </div>
           </form>
         </div>
