@@ -234,7 +234,7 @@
   "html.label.appicon":"アプリ起動画像",
   "html.label.appsplash01":"スプラッシュ画面０１",
   "html.label.appsplash02":"スプラッシュ画面０２",
-  "html.label.appheader":"ヘッダログ",
+  "html.label.appheader":"ヘッダ",
   "===================user=================":"",
   "html.label.user.import":"一括登録",
   "html.label.user.import.instruction.title":"インポート説明",
@@ -266,7 +266,7 @@
   "html.label.user.select.compcreate":"登録日",
   "html.label.user.select.select":"選択",
   "===================routes=================":"",
-  "js.routes.website.top_signin.title":"ログイン",
+  "js.routes.website.top_signin.title":"ロゴ",
   "js.routes.website.customer_user_add.title":"新規ユーザ",
   "js.routes.website.customer_user_update.title":"編集ユーザ",
   "js.routes.website.customer_user_list.title":"ユーザ",
@@ -420,5 +420,7 @@
   "html.select.synthetic.effect.moveRightUp":"右上へ移動",
   "html.select.synthetic.effect.moveLeftDown":"左下へ移動",
   "html.select.synthetic.effect.zoomAndMoveRightUp":"拡大且つ右上へ",
-  "html.select.synthetic.effect.zoomAndMoveRightDown":"拡大且つ左下へ"
+  "html.select.synthetic.effect.zoomAndMoveRightDown":"拡大且つ左下へ",
+  "html.select.appimage":"起動画像追加",
+  "html.button.common.logosave":"ロゴ追加"
 }

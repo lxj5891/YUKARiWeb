@@ -420,5 +420,7 @@
   "html.select.synthetic.effect.moveRightUp":"moveRightUp",
   "html.select.synthetic.effect.moveLeftDown":"moveLeftDown",
   "html.select.synthetic.effect.zoomAndMoveRightUp":"zoomAndMoveRightUp",
-  "html.select.synthetic.effect.zoomAndMoveRightDown":"zoomAndMoveRightDown"
+  "html.select.synthetic.effect.zoomAndMoveRightDown":"zoomAndMoveRightDown",
+  "html.select.appimage":"Select Picture",
+  "html.button.common.logosave":"LOGO"
 }

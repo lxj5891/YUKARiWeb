@@ -420,5 +420,7 @@
   "html.select.synthetic.effect.moveRightUp":"向右上移动",
   "html.select.synthetic.effect.moveLeftDown":"向左下移动",
   "html.select.synthetic.effect.zoomAndMoveRightUp":"放大并向右上移动",
-  "html.select.synthetic.effect.zoomAndMoveRightDown":"放大并向左下移动"
+  "html.select.synthetic.effect.zoomAndMoveRightDown":"放大并向左下移动",
+  "html.select.appimage":"图片添加",
+  "html.button.common.logosave":"图标添加"
 }
