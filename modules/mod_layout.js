@@ -34,6 +34,8 @@ var Layout = new schema({
   confirmat: {type: Date, description: "承認時間"},
   viewerUsers: [{type:String, description:"公開先User"}],
   viewerGroups: [{type:String, description:"公開先Group"}],
+  openStart: {type: Date},
+  openEnd: {type: Date},
   editat: {type: Date, default: Date.now},
   editby: {type: String},
   createat: { type: Date, default: Date.now },

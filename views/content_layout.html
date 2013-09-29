@@ -6,6 +6,15 @@
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="/javascripts/content_layout_list.js"></script>
   <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
+  <link href="/vendor/daterangepicker/css/daterangepicker-bs3.css" rel="stylesheet" media="screen">
+
+  <script type="text/javascript" src="/vendor/daterangepicker/js/daterangepicker.js"></script>
+  <script type="text/javascript" src="/vendor/moment/moment+langs.min.js"></script>
+  <style type="text/css">
+    .dropdown-menu{
+      z-index: 1100; /*为解决daterangepicker比dialog层低的问题*/
+    }
+  </style>
 </head>
 <body>
 
@@ -107,6 +116,24 @@
                 </div>
               </div>
             </div>
+            <div class="form-group">
+              <label for="openrange" class="col-lg-3 control-label"><%= i('html.label.layout.range') %><!-- 公開期間 --></label>
+              <div class="col-lg-7">
+                <div id="inputOpenRange" class="btn-group" value="0">
+                  <button value="0" class="btn btn-sm btn-default btn-white" type="button"><%= i('html.button.range.off') %></button>
+                  <button value="1" class="btn btn-sm btn-default btn-info" type="button" ><%= i('html.button.range.on') %></button>
+                </div>
+                <div class="input-group" id="openrange" style="margin-top: 10px;">
+                  <input class="form-control daterange" readonly placeholder="<%= i('html.input.layout.range') %>" type='text' id='datepicker' style="font-size: 13px;">
+                  <input type="hidden" id="openStart">
+                  <input type="hidden" id="openEnd">
+                  <span class='input-group-addon'>
+                    <i class="icon-calendar"></i>
+                  </span>
+                </div>
+              </div>
+              
+            </div>
           </form>
         </div>
       </div>
@@ -142,12 +169,13 @@
     <td>{{index}}</td>
     <td>{{name}}</td>
     <td>{{viewer}}</td>
+    <td>{{range}}</td>
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>
       <!--<a href="#" class="btn btn-default btn-sm" rowid={{id}} layoutId={{layoutId}} operation="copy">コピー</a>-->
       <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="preview" imageH = {{preview_image}} ><%= i('html.button.common.preview') %><!--プレビュー --></a>
-      <a href="#" class="btn btn-default btn-sm" rowid={{id}} layoutId={{layoutId}} operation="delete"><%= i('html.button.common.discard') %><!--廃止 --></a>
+      <a href="#" class="btn btn-default btn-sm" rowid={{id}} layoutId={{layoutId}} operation="repeal"><%= i('html.button.common.discard') %><!--廃止 --></a>
     </td>
   </tr>
 </script>
@@ -158,6 +186,7 @@
     <td>{{name}}</td>
     <td>{{confirmby}}</td>
     <td>{{viewer}}</td>
+    <td>{{range}}</td>
     <td>{{editat}}</td>
     <td>
        <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="preview" imageH = {{preview_image}} ><%= i('html.button.common.preview') %><!--プレビュー --></a>
@@ -170,6 +199,7 @@
     <td>{{index}}</td>
     <td>{{name}}</td>
     <td>{{viewer}}</td>
+    <td>{{range}}</td>
     <td>{{editby}}</td>
     <td>{{editat}}</td>
     <td>

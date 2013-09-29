@@ -197,6 +197,8 @@ function publishLayout(code_, layout_, callback_) {
       confirmby : result1.confirmby,
       viewerUsers : result1.viewerUsers,
       viewerGroups : result1.viewerGroups,
+      openStart: result1.openStart,
+      openEnd: result1.openEnd,
       editat :  result1.editat,
       editby :  result1.editby,
       createat :  result1.createat,
@@ -324,6 +326,20 @@ exports.publishList = function(code_, user_, keyword_,start_, limit_, callback_)
     condition["active.layout.name"] = new RegExp(keyword_.toLowerCase(), "i");
   }
 
+  var now = new Date();
+  var openRage = [];
+  var openStart = {$or:[
+    {"active.openStart" : null},
+    {"active.openStart" : {$lt:now}}
+    ]};
+  var openEnd = {$or:[
+    {"active.openEnd" : null},
+    {"active.openEnd" : {$gt:now}}
+    ]};
+  openRage.push(openStart);
+  openRage.push(openEnd);
+  condition.$and = openRage;
+
   var or = [];
   if(utils.hasApprovePermit(user_)){
     var confirm = {};
@@ -335,7 +351,29 @@ exports.publishList = function(code_, user_, keyword_,start_, limit_, callback_)
   touser["active.viewerUsers"] = user_._id;
   or.push(touser);
 
+  // var now = new Date();
+  // var openRage = {};
+  // openRage["active.openStart"] = null;
+  // openRage["active.openEnd"] = null;
+  // or.push({
+  //   "active.openStart" : null,
+  //   "active.openEnd" : null
+  // });
 
+  // openRage = {};
+  // openRage["active.openStart"] = null;
+  // openRage["active.openEnd"] = {$lt:now};
+  // or.push(openRage);
+
+  // openRage = {};
+  // openRage["active.openStart"] = {$gt:now};
+  // openRage["active.openEnd"] = null;
+  // or.push(openRage);
+
+  // openRage = {};
+  // openRage["active.openStart"] = {$gt:now};
+  // openRage["active.openEnd"] = {$lt:now};
+  // or.push(openRage);
 
   mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
     if(err){

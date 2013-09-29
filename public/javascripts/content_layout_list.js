@@ -24,6 +24,17 @@ $(function () {
     "textBoxViewer", "", {search_target: "all", target_limit: 20}
   );
 
+  moment.lang('ja');
+  $("#datepicker").daterangepicker({
+    format: "YYYY/MM/DD HH:mm",
+    showDropdowns: true,
+    timePicker12Hour: false,
+    timePicker: true
+  }, function(start, end) {
+    $('#openStart').val(start.toJSON());
+    $('#openEnd').val(end.toJSON());
+  });
+
   $("#applyButton").bind("click", function(event){
 
     // 承認者セット
@@ -46,10 +57,22 @@ $(function () {
       }
     });
 
+    var openStart;
+    var openEnd;
+    var isSetRange = $('#inputOpenRange').attr('value')=='1'
+    if(isSetRange){ // 期间指定
+      openStart = $('#openStart').val();
+      openEnd = $('#openEnd').val();
+    } else {
+    }
+
+
     if (!confirmby) {
       Alertify.log.error(i18n["js.public.check.layoutlist.apply"]);
     } else if(viewerUsers.length <= 0 && viewerGroups <= 0) {
       Alertify.log.error(i18n["js.public.check.layoutlist.apply.viewer"]);
+    } else if(isSetRange && (_.isEmpty(openStart)||_.isEmpty(openEnd))){
+      Alertify.log.error(i18n["js.public.check.layoutlist.apply.openrange"]);
     } else {
       var confirmId = $("#confirmId").val();
       var params = {
@@ -57,6 +80,8 @@ $(function () {
         , confirmby: confirmby
         , viewerUsers: viewerUsers
         , viewerGroups: viewerGroups
+        , openStart: openStart
+        , openEnd: openEnd
       };
 
       smart.dopost("/layout/apply.json", params, function(err, result){
@@ -122,6 +147,7 @@ function render(start, count,keyword) {
     if (publish == 1) {
       var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
         + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["html.label.layout.range"]
         + "</th><th>" + i18n["html.label.common.updateby"]
         + "</th><th>" + i18n["html.label.common.updateat"]
         + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
@@ -131,6 +157,12 @@ function render(start, count,keyword) {
 
       _.each(layoutList, function(row){
         var active = row.active;
+        var range = "";
+        if(active.openEnd){
+          range = smart.date(active.openStart) + ' - ' + smart.date(active.openEnd);
+        } else {
+          range = i18n["html.label.layout.range.forever"];
+        }
 
         container.append(_.template(tmpl, {
           "id": row._id
@@ -140,7 +172,8 @@ function render(start, count,keyword) {
           , "editat": smart.date(active.editat)
           , "editby": active.user.name.name_zh
           , "viewer": get_viewerHtml(row)
-          , "class3": (active&&active.layout&&active.layout.image&& !_.isEmpty(active.layout.image.imageH)) ? "" : "disabled"
+          , "range": range
+          , "class3": (active&&active.layout&&active.layout.image&& !_.isEmpty(active.layout.image.imageH)) ? "" : "hidden"
           , "preview_image" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : null
         }));
       });
@@ -151,6 +184,7 @@ function render(start, count,keyword) {
       var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
         + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.approveby"]
         + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["html.label.layout.range"]
         + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"]
         + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
       $('#layout_header').html(headerHtml);
@@ -158,6 +192,12 @@ function render(start, count,keyword) {
       var tmpl = $('#tmpl_applylayout_list').html();
 
       _.each(layoutList, function(row){
+        var range = "";
+        if(row.openEnd){
+          range = smart.date(row.openStart) + ' - ' + smart.date(row.openEnd);
+        } else {
+          range = i18n["html.label.layout.range.forever"];
+        }
         container.append(_.template(tmpl, {
           "id": row._id
           , "index": index++ + start
@@ -165,7 +205,8 @@ function render(start, count,keyword) {
           , "editat": smart.date(row.editat)
           , "confirmby": row.user.name.name_zh
           , "viewer": get_viewerHtml(row)
-          , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
+          , "range": range
+          , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "hidden"
           , "preview_image" : (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? row.layout.image.imageH : null
         }));
       });
@@ -174,6 +215,7 @@ function render(start, count,keyword) {
     } else if (status == 22) {
       var headerHtml = "<tr><th>#</th><th>" + i18n["js.public.info.layoutlist.tableheader.name"]
         + "</th><th>" + i18n["html.label.layout.viewer"]
+        + "</th><th>" + i18n["html.label.layout.range"]
         + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyby"]
         + "</th><th>" + i18n["js.public.info.layoutlist.tableheader.applyat"]
         + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
@@ -182,14 +224,21 @@ function render(start, count,keyword) {
       var tmpl = $('#tmpl_confirmlayout_list').html();
 
       _.each(layoutList, function(row){
+        var range = "";
+        if(row.openEnd){
+          range = smart.date(row.openStart) + ' - ' + smart.date(row.openEnd);
+        } else {
+          range = i18n["html.label.layout.range.forever"];
+        }
         container.append(_.template(tmpl, {
           "id": row._id
           , "index": index++ + start
           , "name": row.layout.name
           , "viewer": get_viewerHtml(row)
+          , "range": range
           , "editat": smart.date(row.editat)
           , "editby": row.user.name.name_zh
-          , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
+          , "class3": (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? "" : "hidden"
           , "preview_image" : (row&&row.layout&&row.layout.image&& !_.isEmpty(row.layout.image.imageH)) ? row.layout.image.imageH : null
 
         }));
@@ -202,7 +251,7 @@ function render(start, count,keyword) {
         , canMakeContents = parseInt($("#authorityContents").val());
 
       if (!canMakeContents) {
-        canedit = canapply = cancopy = candelete = "disabled";
+        canedit = canapply = cancopy = candelete = "hidden";
       }
 
       _.each(layoutList, function(row){
@@ -216,11 +265,11 @@ function render(start, count,keyword) {
           , "viewer": get_viewerHtml(row)
           , "editat": smart.date(row.editat)
           , "editby": row.user.name.name_zh
-          , "class1": row.status == 2 || canedit ? "disabled" : ""
-          , "class2": row.status != 1 || canapply ? "disabled" : ""
+          , "class1": row.status == 2 || canedit ? "hidden" : ""
+          , "class2": row.status != 1 || canapply ? "hidden" : ""
           , "class3": cancopy
-          , "class4": (row.publish == 1 || row.status == 2) || candelete ? "disabled" : ""
-          , "class5": (row && row.layout && row.layout.image && !_.isEmpty(row.layout.image.imageH)) ? "" : "disabled"
+          , "class4": (row.publish == 1 || row.status == 2) || candelete ? "hidden" : ""
+          , "class5": (row && row.layout && row.layout.image && !_.isEmpty(row.layout.image.imageH)) ? "" : "hidden"
           , "preview_image" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
       }));
     });
@@ -296,11 +345,7 @@ function events() {
       , layoutId= target.attr("layoutId");  // 公式レイアウトのlayoutId
 
     if (operation == "edit") {
-      if (status == 2) {
-        target.addClass("disabled");
-      } else {
-        window.location = "/content/layout/edit/" + rowid;
-      }
+      window.location = "/content/layout/edit/" + rowid;
     }
 
     if (operation == "delete") {
@@ -309,7 +354,7 @@ function events() {
         Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
             // OK
-            smart.dodelete("/layout/remove.json", {"id": rowid, "layoutId": layoutId}, function(err, result){
+            smart.dodelete("/layout/remove.json", {"id": rowid}, function(err, result){
                 if (smart.error(err,i18n["js.common.delete.error"], false)) {
 
                 } else {
@@ -322,21 +367,41 @@ function events() {
         });
     }
 
+    if (operation == "repeal") {
+      Alertify.dialog.labels.ok = i18n["js.common.dialog.ok"];
+      Alertify.dialog.labels.cancel = i18n["js.common.dialog.cancel"];
+      Alertify.dialog.confirm(i18n["js.common.repeal.confirm"], function () {
+
+        // OK
+        smart.dodelete("/layout/remove.json", {"id": rowid, "layoutId": layoutId}, function(err, result){
+          if (smart.error(err,i18n["js.common.repeal.error"], false)) {
+
+          } else {
+            render(0, 20);
+            Alertify.log.success(i18n["js.common.repeal.success"]);
+          }
+        });
+      }, function () {
+        // Cancel
+      });
+    }
+
     if (operation == "copy") {
-//        smart.dopost("/layout/copy.json", {"id": rowid}, function(err, result){
-//            if (err) {
-//                Alertify.log.error("コピーに失敗しました。"); console.log(err);
-//            } else {
-//                render(0, 20);
-//                Alertify.log.success("コピーしました。");
-//            }
-//        });
       window.location = "/content/layout/copy/" + rowid;
     }
 
     if (operation == "apply") {
-       $("#applyModal").modal("show");
-       $("#confirmId").val(rowid);
+      var toggleOpento = function(val) {
+        if (val == 1) {
+          $("#openrange").show();
+        } else {
+          $("#openrange").hide();
+        }
+      }
+      new ButtonGroup("inputOpenRange", 0, toggleOpento).init(toggleOpento);
+       
+      $("#applyModal").modal("show");
+      $("#confirmId").val(rowid);
     }
     if (operation == "confirm") {
         smart.dopost("/layout/confirm.json", {"id": rowid, "confirm": 1}, function(err, result){
