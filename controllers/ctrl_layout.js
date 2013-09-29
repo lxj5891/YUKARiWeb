@@ -464,7 +464,7 @@ var mergeTopMenuImage = function(code, layout) {
         tile = fixDoc(tile);
         if(tile.synthetic && tile.synthetic.cover && tile.synthetic.cover.length > 0) {
           var c = fixDoc(tile.synthetic.cover[0]);
-          if(c.material) {
+          if(c.material && tile.rowspan > 0 && tile.colspan > 0) {
             var area = cutil.covertToArea(tile);
             result.files.push({
               fid: c.material.fileid,
