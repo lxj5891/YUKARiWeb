@@ -3,9 +3,12 @@ var user        = lib.api.user
   , group       = lib.api.group
   , search      = lib.api.search
   , util        = lib.core.util
+  , common      = lib.api.common
   , file        = lib.api.dbfile
   , apn         = lib.api.apn
+  , errors      = lib.core.errors
   , json        = lib.core.json
+  , utils       = require('../core/utils')
   , material    = require("../api/material")
   , synthetic   = require("../api/synthetic")
   , layout      = require("../api/layout")
@@ -18,6 +21,7 @@ var user        = lib.api.user
   , workstation = require("../api/workstation")
   , admin_user = require("../api/admin_user")
   , yi_user = require("../api/user")
+  , setting = require("../api/setting")
   , errorsExt  = require("../core/errorsExt");
 
 exports.guiding = function(app){
@@ -328,5 +332,20 @@ exports.guiding = function(app){
   app.post('/workstation/updateList.json', function (req, res) {
     workstation.updateList(req,res);
   });
+  app.post('/setting/update/appimage.json', function (req, res) {
+    setting.updateAppimage(req,res);
+  });
+  app.get('/setting/find/appimage.json', function (req, res) {
+    setting.getAppimage(req,res);
+  });
+
+  app.post('/file/upload.json', function(req,res){
+    if (!(utils.hasContentPermit(req.session.user) || utils.isAdmin(req.session.user))) {
+      var err = new errors.Forbidden(__("js.common.update.check"));
+      return res.send(err.code, json.errorSchema(err.code, err.message));
+    }
+    common.save(req, res);
+  });
 
 };
+

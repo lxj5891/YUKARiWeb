@@ -7,14 +7,23 @@
   <script type="text/javascript" src="/javascripts/customer_appimage.js"></script>
 
   <style>
-     .splash-size {
-       width: 410px;
-       height: 307px;
-     }
-     .header-size {
-       width: 160px;
-       height: 45px;
-     }
+    .splash-size {
+      width: 410px;
+      height: 307px;
+    }
+
+    .header-size {
+      width: 160px;
+      height: 45px;
+    }
+    .center_btn {
+      display: none;
+      margin-top: 5px;top: 144px;float: left;left: 177px;position: absolute;
+    }
+    .center_sm_btn {
+      display: none;
+      top: 2px;float: left;left: 52px;position: absolute;
+    }
   </style>
 </head>
 <body>
@@ -35,17 +44,18 @@
           <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
         </li>
         <li class="active"><%= i('html.label.appicon') %></li>
-      </ul><!--.breadcrumb-->
+      </ul>
+      <!--.breadcrumb-->
     </div>
 
     <div class="page-content">
-      <div class="page-header position-relative">
-        <h1>
-          <%= i('html.label.appicon') %>
-        </h1>
+      <div class="row tableheader">
+        <div class="pull-left">
+          <h4><%= i('html.label.appicon') %><!-- アプリ起動画像 --></h4>
+        </div>
       </div>
       <div class="row" style="margin-top:30px;margin-left: 30px;margin-bottom: 30px">
-        <div class="col-lg-2">
+        <div class="col-lg-3">
           <div class="row">
             <label class="control-label"><%= i('html.label.appsplash01') %></label>
           </div>
@@ -53,13 +63,16 @@
             <label class="control-label">W:1024　H:768</label>
           </div>
         </div>
-        <div id="img1024x768" class="col-lg-6">
-          <img class="img-rounded splash-size" src="/images/test/img_start01.png">
-          <input type="file" id="uploadfile" style="display: none" accept=".png, .jpg, .jpeg" />
+        <div  class="col-lg-6" style="position: relative;">
+          <img id="image1" class="img-rounded splash-size" src="/images/test/img_start01.png">
+          <input type="file" id="uploadfile" style="display: none" accept=".png, .jpg, .jpeg"/>
+          <a id="img_first" class="btn btn-default center_btn" style="margin-top: 5px;">
+            <span><%= i('html.select.appimage') %><!-- 起動画像追加--></span>
+          </a>
         </div>
       </div>
       <div class="row" style="margin-left: 30px;margin-bottom: 30px">
-        <div class="col-lg-2">
+        <div class="col-lg-3">
           <div class="row">
             <label class="control-label"><%= i('html.label.appsplash02') %></label>
           </div>
@@ -67,12 +80,16 @@
             <label class="control-label">W:1024　H:768</label>
           </div>
         </div>
-        <div class="col-lg-6">
-          <img class="img-rounded splash-size" src="/images/test/img_start02.png">
+        <div class="col-lg-6" style="position: relative;">
+          <img  id="image2" class="img-rounded splash-size" src="/images/test/img_start02.png">
+          <input type="file" id="uploadfile1" style="display: none" accept=".png, .jpg, .jpeg"/>
+          <a id="img_second" class="btn btn-default center_btn" style="margin-top: 5px;">
+            <span><%= i('html.select.appimage') %><!-- 起動画像追加--></span>
+          </a>
         </div>
       </div>
       <div class="row" style="margin-left: 30px;margin-bottom: 30px">
-        <div class="col-lg-2">
+        <div class="col-lg-3">
           <div class="row">
             <label class="control-label"><%= i('html.label.appheader') %></label>
           </div>
@@ -80,8 +97,15 @@
             <label class="control-label">W:160　H:45</label>
           </div>
         </div>
-        <div class="col-lg-6">
-          <img class="img-rounded header-size" src="/images/test/logo_header.png" style="background-color: gainsboro">
+        <div class="col-lg-6" style="position: relative;">
+          <div class="img-rounded header-size" style="overflow: hidden">
+            <img id="imagelogo" class="" src="/images/test/logo_header.png" style="background-color: gainsboro">
+          </div>
+          <input type="file" id="uploadfile2" style="display: none" accept=".png, .jpg, .jpeg"/>
+          <a id="img_logo" class="btn btn-default center_sm_btn" style="margin-top: 5px;">
+            <!--<i class="icon-plus icon-white"></i>-->
+            <span><%= i('html.button.common.logosave') %><!--ログ追加--></span>
+          </a>
         </div>
       </div>
       <div class="col-lg-8" style="margin-bottom: 30px">
@@ -91,6 +115,7 @@
       </div>
     </div>
   </div>
-</div><!--/.main-container-->
+</div>
+<!--/.main-container-->
 </body>
 </html>

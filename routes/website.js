@@ -143,7 +143,12 @@ exports.guiding = function (app) {
     });
   //appicon
   app.get('/customer/appimage', function (req, res) {
-    res.render("customer_appimage", {"title": i.__("js.routes.website.customer_appicon.title"), user: req.session.user});
+    if(!util.hasContentPermit(req.session.user)){
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("customer_appimage", {"title": i.__("js.routes.website.customer_appicon.title"), user: req.session.user});
+    }
+
   });
 
   // 系统设定

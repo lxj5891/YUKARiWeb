@@ -1,20 +1,104 @@
 $(function () {
   'use strict';
 
-//  // 上传
-//  $("#img1024x768").bind("click", function(){
-//
-//    console.log("lalala");
-//    //$("#uploadfile").trigger('click');
-//  });
-//  $("#uploadfile").bind("change", function(event){
-//    uploadFiles(event.target.files);
-//  });
+  // 上传
+  $("#img_first").bind("click", function () {
+    $("#uploadfile").trigger('click');
+  });
+  $("#uploadfile").bind("change", function (event) {
+    uploadFiles(event.target.files, "image1");
+  });
 
+  $("#img_second").bind("click", function () {
+    $("#uploadfile1").trigger('click');
+  });
+  $("#uploadfile1").bind("change", function (event) {
+    uploadFiles(event.target.files, "image2");
+  });
+
+  $("#img_logo").bind("click", function () {
+    $("#uploadfile2").trigger('click');
+  });
+  $("#uploadfile2").bind("change", function (event) {
+    uploadFiles(event.target.files, "imagelogo");
+  });
+  event();
+  render();
 });
+function event() {
+
+  $("#image1").mouseover(function(e){
+    $("#img_first").show();
+  });
+  $("#img_first").mouseover(function(e){
+    $("#img_first").show();
+  });
+  $("#img_first").mouseout(function(e){
+    $("#img_first").hide();
+  });
+  $("#imagelogo").mouseover(function(e){
+    $("#img_logo").show();
+  });
+  $("#imagelogo").mouseout(function(e){
+    $("#img_logo").hide();
+  });
+  $("#img_logo").mouseover(function(e){
+    $("#img_logo").show();
+  });
+  $("#img_logo").mouseout(function(e){
+    $("#img_logo").hide();
+  });
+  $("#image1").mouseout(function(e){
+    $("#img_first").hide();
+  });
+  $("#image2").mouseover(function(e){
+    $("#img_second").show();
+  });
+  $("#img_second").mouseover(function(e){
+    $("#img_second").show();
+  });
+  $("#img_second").mouseout(function(e){
+    $("#img_second").hide();
+  });
+  $("#image2").mouseout(function(e){
+    $("#img_second").hide();
+  });
 
 
-function uploadFiles(files) {
+  $("#saveimage").click(function (e) {
+    var _image1 = $("#image1").attr("data") || null;
+    var _image2 = $("#image2").attr("data") || null;
+    var _imagelogo = $("#imagelogo").attr("data") || null;
+    var _data = {
+      image1: _image1,
+      image2: _image2,
+      logo: _imagelogo
+
+    }
+    smart.dopost("/setting/update/appimage.json", _data, function (err, result) {
+      if(smart.error(err,i18n["js.common.update.error"],false)){
+        return;
+      }
+      Alertify.log.success(i18n["js.common.upload.success"]);
+    });
+  });
+}
+
+function render() {
+  smart.doget("/setting/find/appimage.json", function (err, result) {
+    if(smart.error(err,i18n["js.common.update.error"],true)){
+      return;
+    }
+    var items = result.items;
+    for (var i in items) {
+      $("#" + items[i].key).attr("data", items[i].val);
+      if (items[i].val)
+        $("#" + items[i].key).attr("src", "/picture/" + items[i].val);
+    }
+  })
+};
+
+function uploadFiles(files, el) {
   if (!files || files.length <= 0) {
     return false;
   }
@@ -28,18 +112,20 @@ function uploadFiles(files) {
   $("#upload_progress_dlg").modal("show");
 
   // 发送文件
-  smart.dopostData("/material/add.json", fd,
-    function(err, result){
-
+  smart.dopostData("/file/upload.json", fd,
+    function (err, result) {
       $("#upload_progress_dlg").modal("hide");
-      if(smart.error(err, i18n["js.common.upload.error"], false)){
+      if (smart.error(err, i18n["js.common.upload.error"], false)) {
         return;
       } else {
-        render(0, 20);
+
+
+        $("#" + el).attr("src", "/picture/" + result.data.items[0]._id);
+        $("#" + el).attr("data", result.data.items[0]._id);
         Alertify.log.success(i18n["js.common.upload.success"]);
       }
     },
-    function(progress){
+    function (progress) {
       $("#upload_progress_bar").css("width", progress + "%");
     }
   );
