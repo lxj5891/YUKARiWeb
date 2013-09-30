@@ -27,9 +27,10 @@ $(function () {
   moment.lang('ja');
   $("#datepicker").daterangepicker({
     format: "YYYY/MM/DD HH:mm",
-    showDropdowns: true,
-    timePicker12Hour: false,
-    timePicker: true
+    // showDropdowns: true,
+    // timePicker: true,
+    timePicker12Hour: false
+    
   }, function(start, end) {
     $('#openStart').val(start.toJSON());
     $('#openEnd').val(end.toJSON());
@@ -69,8 +70,8 @@ $(function () {
 
     if (!confirmby) {
       Alertify.log.error(i18n["js.public.check.layoutlist.apply"]);
-    } else if(viewerUsers.length <= 0 && viewerGroups <= 0) {
-      Alertify.log.error(i18n["js.public.check.layoutlist.apply.viewer"]);
+    // } else if(viewerUsers.length <= 0 && viewerGroups <= 0) {
+    //   Alertify.log.error(i18n["js.public.check.layoutlist.apply.viewer"]);
     } else if(isSetRange && (_.isEmpty(openStart)||_.isEmpty(openEnd))){
       Alertify.log.error(i18n["js.public.check.layoutlist.apply.openrange"]);
     } else {
