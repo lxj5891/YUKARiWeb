@@ -8,10 +8,14 @@ var json = lib.core.json
 //yukri
 exports.adminlist = function(uid_,callback) {
     company.find({active:1,valid:1},function(err,comps) {
+      for(var k in comps){
+        comps[k].kindex = k;
+      }
        if(err) {
            return callback_(new error.InternalServer(err));
        } else {
          var allUserList= [];
+         var comUserList = [];
          var allUserFunc = function(comp_,sub_callback){
            user.find(comp_.code,{valid:1,createby:uid_},function(err,userList){
              if(err) {
@@ -21,13 +25,20 @@ exports.adminlist = function(uid_,callback) {
                  _.each(userList,function(user){
                     user._doc.path = comp_.path;
                  });
-                 allUserList = allUserList.concat(userList);
+                 console.log(comp_.kindex);
+//                 allUserList = allUserList.concat(userList);
+                 comUserList[comp_.kindex] = userList;
                }
                sub_callback(err);
              }
            });
          };
          sync.forEach(comps, allUserFunc, function(err){
+           console.log(comUserList);
+           for(var j in comUserList){
+             allUserList = allUserList.concat(comUserList[j]);
+           }
+
           callback(err, allUserList);
          });
        }

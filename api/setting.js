@@ -26,9 +26,9 @@ exports.updateAppimage = function (req_, res_) {
 };
 
 exports.getAppimage = function (req_, res_) {
-  if(!canUpdate(req_.session.user)){
-    return noUpdateResponse(res_);
-  }
+//  if(!canUpdate(req_.session.user)){
+//    return noUpdateResponse(res_);
+//  }
   var code = req_.session.user.companycode;
   setting.getAppimage(code,function(err,result){
     if (err) {

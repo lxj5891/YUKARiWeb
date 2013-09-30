@@ -270,7 +270,7 @@
   "html.label.user.select.comp":"顧客選択",
   "html.label.user.select.comppath":"会社ID",
   "html.label.user.select.comptype":"顧客タイプ",
-  "html.label.user.select.compname":"顧客名称",
+  "html.label.user.select.compname":"会社名称",
   "html.label.user.select.compcreate":"登録日",
   "html.label.user.select.select":"選択",
   "===================routes=================":"",

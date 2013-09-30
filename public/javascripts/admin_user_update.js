@@ -25,7 +25,7 @@ $(function () {
   $('#inputCompanyCode').on('click', function(){
 
     $('#selectCompanyPath').modal("show");
-    smart.doget('/company/list.json',function(err, result){
+    smart.doget('/company/list.json?count=100',function(err, result){
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
@@ -55,6 +55,17 @@ $(function () {
             $('#selectCompanyPath').modal("hide");
           });
         });
+        //fix table
+        setTimeout(function(){
+          $("#company_list").find("tr").eq(0).children()
+          _.each($("#company_list").find("tr").eq(0).children(),function(td,i){
+            var index = (i+1)*2-1;
+
+            var owidth = document.getElementById("company_list").childNodes[1].childNodes[index].offsetWidth;
+            console.log(owidth);
+            $("#fix_tr").find("th").eq(i).css("width",owidth+"px");
+          });
+        },100)
       }
 
     });

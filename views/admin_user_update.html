@@ -142,14 +142,14 @@
       <div class="modal-body" style="padding-bottom: 0px;">
         <table class="table table-hover" style="margin-bottom: 0px">
           <thead >
-          <tr>
-            <th>#</th>
-            <th><%= i('html.label.user.select.comppath') %><!-- 会社ID--></th>
-            <th><%= i('html.label.user.select.comptype') %><!-- 顧客タイプ--></th>
-            <th><%= i('html.label.user.select.compname') %><!-- 顧客名称--></th>
-            <th><%= i('html.label.user.select.compcreate') %><!-- 登録日--></th>
-            <th><%= i('html.label.user.select.select') %><!-- 選択--></th>
-          </tr>
+            <tr id="fix_tr">
+              <th>#</th>
+              <th><%= i('html.label.user.select.comppath') %><!-- 会社ID--></th>
+              <th><%= i('html.label.user.select.comptype') %><!-- 顧客タイプ--></th>
+              <th><%= i('html.label.user.select.compname') %><!-- 顧客名称--></th>
+              <th><%= i('html.label.user.select.compcreate') %><!-- 登録日--></th>
+              <th><%= i('html.label.user.select.select') %><!-- 選択--></th>
+            </tr>
           </thead>
         </table>
         <div style="max-height: 335px;overflow-y: auto">
@@ -177,7 +177,7 @@
     <$ } $>
     <td>{{name}}</td>
     <td>{{createat}}</td>
-    <td>
+    <td width="60px">
       <input companypath="{{companypath}}" companycode="{{code}}" type="radio" name="company_radio">
     </td>
   </tr>
