@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 exports.isCommonUser = function(user_){//普通用户
   return user_.type === 0;
 }
@@ -37,6 +39,11 @@ exports.canDownloadPublishContents = function(user_, joinGroup, publishLayout_){
   {
     return true;
   }
+
+  // 对所有人公开
+  if (publishLayout_.active.viewerGroups.length == 0 && publishLayout_.active.viewerUsers.length == 0) {
+    return true;
+  };
 
   // 公开先 人
   if(_.contains(publishLayout_.active.viewerUsers, user_._id)){
