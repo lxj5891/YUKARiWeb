@@ -351,6 +351,12 @@ exports.publishList = function(code_, user_, keyword_,start_, limit_, callback_)
   touser["active.viewerUsers"] = user_._id;
   or.push(touser);
 
+  var openToAnyone = {
+    "active.viewerUsers":{$size:0},
+    "active.viewerGroups":{$size:0}
+  };
+  or.push(openToAnyone);
+
   // var now = new Date();
   // var openRage = {};
   // openRage["active.openStart"] = null;
