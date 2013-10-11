@@ -169,8 +169,11 @@ exports.guiding = function(app){
   app.get('/layout/list/history.json', function(req, res){
     layout.history(req, res);
   });
+  app.get('/layout/list/myself.json', function(req, res){
+    layout.myself(req, res);
+  });
   // ----------------------------------
-  // 获取iPad定义用json
+  // 获取iPad/setting.json定义用json
   app.get('/setting.json', function(req, res){
     definition.get(req, res);
   });

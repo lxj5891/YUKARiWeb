@@ -47,6 +47,8 @@ function render(compid) {
         $("#inputComPath").attr("code",result.code);
         var inputActive = result.active == 1 ? "1" : "0";
         new ButtonGroup("inputActive", inputActive).init();
+
+        $("#inputActiveGroup").css("display","none");
         $("#inputActive").attr('disabled','disabled');
       }
     });

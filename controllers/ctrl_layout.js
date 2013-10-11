@@ -7,7 +7,7 @@ var async     = require('async')
   , mq        = require('../controllers/ctrl_mq')
   , user      = lib.ctrl.user
   , group     = lib.ctrl.group
-  , mod_group       = lib.mod.group
+  , mod_group = lib.mod.group
   , error     = lib.core.errors
   , log       = lib.core.log
   , cutil     = require('../core/contentutil')
@@ -240,7 +240,7 @@ function publishLayout(code_, layout_, callback_) {
 //////////////////////////////////////////////////
 
 // 获取一览
-exports.list = function(code, keyword_,start_, limit_, uid, status, callback_) {
+exports.list = function(code, keyword_,start_, limit_, uid, status, scope,callback_) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -258,6 +258,9 @@ exports.list = function(code, keyword_,start_, limit_, uid, status, callback_) {
   if(keyword_ && keyword_.length > 0){
     keyword_ = util.quoteRegExp(keyword_);
     condition["layout.name"] = new RegExp(keyword_.toLowerCase(),"i");
+  }
+  if(scope && scope == "myself"){
+    condition.createby = uid;
   }
 
   layout.total(code,condition, function(err, count){

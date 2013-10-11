@@ -153,6 +153,28 @@ exports.remove = function(req_, res_) {
 
 //////////////////////////////////////////////////
 // layput list
+exports.myself = function(req_, res_){
+  var code = req_.session.user.companycode
+    , user = req_.session.user
+    , start = req_.query.start
+    , limit = req_.query.count
+    , keyword = req_.query.keyword
+    , status = req_.query.status;
+
+  var scope = "myself";
+  if(canUpdate(user) || canConfirm(user) || canApply(user)){
+    var uid = req_.session.user._id;
+    layout.list(code,keyword, start, limit, uid, status ,scope, function(err, result) {
+      if (err) {
+        return res_.send(err.code, json.errorSchema(err.code, err.message));
+      } else {
+        return res_.send(json.dataSchema(result));
+      }
+    });
+  } else {
+    return noUpdateResponse(res_);
+  }
+};
 
 exports.list = function(req_, res_) {
 
@@ -164,6 +186,8 @@ exports.list = function(req_, res_) {
     , keyword = req_.query.keyword
     , status = req_.query.status;
 
+    var scope = "all";
+
     if (publish == 1) {
         layout.publishList(code, user, keyword, start, limit, function(err, result) {
             if (err) {
@@ -172,10 +196,11 @@ exports.list = function(req_, res_) {
                 return res_.send(json.dataSchema(result));
             }
         });
+
     } else {
       if(canUpdate(user) || canConfirm(user) || canApply(user)){
         var uid = req_.session.user._id;
-        layout.list(code,keyword, start, limit, uid, status, function(err, result) {
+        layout.list(code,keyword, start, limit, uid, status ,scope, function(err, result) {
           if (err) {
             return res_.send(err.code, json.errorSchema(err.code, err.message));
           } else {
