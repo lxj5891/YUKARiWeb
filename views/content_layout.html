@@ -159,7 +159,7 @@
       <a href="#" class="btn btn-default btn-sm {{class2}}" rowid="{{id}}" operation="apply"><%= i('html.button.layout.appply') %><!--申請 --></a>
       <a href="#" class="btn btn-default btn-sm {{class3}}" rowid={{id}} operation="copy"><%= i('html.button.common.copy') %><!--コピー --></a>
       <a href="#" class="btn btn-default btn-sm {{class4}}" rowid="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
-      <a href="#" class="btn btn-default btn-sm {{class5}}" rowid="{{id}}" operation="preview" imageH = "{{preview_image}}" ><%= i('html.button.common.preview') %><!--プレビュー --></a>
+      <a href="#" class="btn btn-default btn-sm {{class5}}" rowid="{{id}}" operation="preview" imageH = "{{preview_image_H}}" imageV = "{{preview_image_V}}" synthetic_id="{{tmpSyn}}"><%= i('html.button.common.preview') %><!--プレビュー --></a>
     </td>
   </tr>
 </script>
@@ -210,15 +210,21 @@
 </script>
 
 <div class="modal fade" id="syntheticModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 570px;">
+    <div class="modal-dialog" style="width: 670px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><%= i('html.label.layout.imagepreview') %><!--画面プレビュー --></h4>
             </div>
-            <div class="modal-body" id="slide" style="background-image: url('/images/x.png'); background-repeat:no-repeat; background-size: 548px 376px;">
+            <div class="modal-body" id="slide_H" style="padding-bottom: 40px;margin: 10px 10%; background-image: url('/images/x.png'); background-repeat:no-repeat; background-size: 518px 376px;">
             </div>
-            <div class="modal-footer">
+            <div class="modal-body" id="slide_V" style="display:none;padding-bottom: 40px;margin: 10px 20%; background-image: url('/images/y.png'); background-repeat:no-repeat; background-size: 376px 518px;">
+            </div>
+            <div class="modal-footer" >
+                <div class="btn-group" value="0" id="switchHV" style="margin-right:33%;">
+                    <button type="button" class="btn btn-sm btn-default " value="0" id="btn_V"><%= i('html.label.layout.x') %></button>
+                    <button type="button" class="btn btn-sm btn-info " value="1" id="btn_H"><%= i('html.label.layout.y') %></button>
+                </div>
                 <button type="button" class="btn btn-warning" data-dismiss="modal"><%= i('html.button.common.close') %></button>
             </div>
         </div><!-- /.modal-content -->
@@ -226,18 +232,38 @@
 </div><!-- /.modal -->
 
 
-<script type="text/template" id="tmpl_slide">
+<script type="text/template" id="tmpl_slide_H">
     <div class="carousel slide bs-docs-carousel-example" id="carousel-example-generic" style ="">
 
-        <div class="carousel-inner" style = "">
+        <div class="carousel-inner" style = "" id="img_H">
             <$ var cnt=1; _.each(files, function(file) { $>
-            <div class="item" id="page{{cnt}}" style="height : 336px; width :491px; border-style: solid; border-width: 2px 2px 2px 2px;border-color：FFFFFF ;overflow-y:scroll;">
+            <div class="item" id="page{{cnt}}" style="margin-top:12px; margin-left:8px; height:308px; width :451px; border-style: solid; border-width: 2px 2px 2px 2px;border-color：FFFFFF ;overflow-y:scroll;">
                 <img alt="Slide{{cnt}}" src="/picture/{{file}}">
             </div>
             <$ cnt++}); $>
         </div>
     </div>
+
 </script>
 
+<script type="text/template" id="tmpl_slide_V">
+    <div class="carousel slide bs-docs-carousel-example"  style ="">
+
+        <div class="carousel-inner" style = "display:none;" id="img_V">
+            <div class="item" id="page" style="margin-top:10px; height : 451px; width :336px;border-style: solid; border-width: 2px 2px 2px 2px;border-color：FFFFFF ">
+                <$ if (imgs.case_menu) { $>
+                <div style = "width:336;  height:51px; overflow-x:hidden; overflow-y:hidden">
+                    <img alt="Slide" src="/picture/{{imgs.case_menu}}" style = "width:auto;  height :51px;">
+                </div>
+                <div style="width:332px; height:400px; overflow-x:hidden; overflow-y:scroll">
+                    <img alt="Slide" src="/picture/{{imgs.case_image}}" style = "width:332px; height:auto;">
+                </div>
+                <$ } $>
+            </div>
+
+        </div>
+    </div>
+
+</script>
 </body>
 </html>

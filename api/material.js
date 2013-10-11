@@ -89,11 +89,12 @@ exports.updatefile = function(req_, res_) {
 };
 
 // Update
-exports.updatetag = function(req_, res_) {
+exports.edit = function(req_, res_) {
 
   var uid = req_.session.user._id
     , user = req_.session.user
     , fid = req_.body.fid
+    , fname =req_.body.fname
     , tags = req_.body.tags.split(",")
     , code = req_.session.user.companycode;
 
@@ -105,7 +106,7 @@ exports.updatetag = function(req_, res_) {
     "tags": tags
   }
 
-  material.updatetag(code, uid, fid, object, function(err, result){
+  material.edit(code, fname , uid, fid, object, function(err, result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {

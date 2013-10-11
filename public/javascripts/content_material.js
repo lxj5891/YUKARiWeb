@@ -142,19 +142,24 @@ function events() {
       }
     });
 
+    var inputName = $("#inputName").val() + $("#extensions").val();
     var index = $(this).attr("index")
       , row = _materialList[index - 1];
+    if($("#inputName").val()) {
+        smart.doput("/material/edit.json", {fid: row._id, tags: tag.join(",") , fname:inputName}, function(err, result) {
+          if(smart.error(err, i18n["js.common.search.error"], false)){
 
-    smart.doput("/material/updatetag.json", {fid: row._id, tags: tag.join(",")}, function(err, result) {
-      if(smart.error(err, i18n["js.common.search.error"], false)){
-
-      } else {
-        smart.paginationInitalized = false;
-        render(0, 20);
-        Alertify.log.success(i18n["js.common.update.success"]);
-        $('#material_detail_dlg').modal("hide");
-      }
-    });
+          } else {
+            smart.paginationInitalized = false;
+            render(0, 20);
+            Alertify.log.success(i18n["js.common.update.success"]);
+            $('#material_detail_dlg').modal("hide");
+          }
+        });
+    } else {
+      //  $('#material_detail_dlg').modal("hide");
+        Alertify.log.error(i18n["js.common.update.error"]);
+    }
   });
 
   // 切换Tag
@@ -177,7 +182,8 @@ function events() {
  * 显示对话框
  */
 function renderDialog(row, index) {
-  $('#inputName').val(row.filename);
+  $('#inputName').val(delExtension(row.filename));
+  $('#extensions').val(row.filename.split(delExtension(row.filename))[1]);
   $('#inputSize').val(Math.round(row.length / 1024) + " KB");
   $('#inputEditBy').val(row.user.name.name_zh);
   $('#inputEditAt').val(smart.date(row.editat));
@@ -187,6 +193,14 @@ function renderDialog(row, index) {
 
   var tag = smart.view("tag").view;
   tag.setDefaults(row.tags);
+}
+
+/**
+ *正则表达式去除后缀
+ */
+function delExtension(str) {
+    var reg = /\.\w+$/;
+    return str.replace(reg,'');
 }
 
 /**

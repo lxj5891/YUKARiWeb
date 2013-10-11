@@ -96,8 +96,8 @@ exports.guiding = function(app){
     material.updatefile(req, res);
   });
 
-  app.put('/material/updatetag.json', function(req, res){
-    material.updatetag(req, res);
+  app.put('/material/edit.json', function(req, res){
+    material.edit(req, res);
   });
 
   app.get('/material/list.json', function(req, res){
