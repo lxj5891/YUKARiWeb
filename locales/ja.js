@@ -419,7 +419,7 @@
   "api.param.error":"パラメータが正しくありません、パラメータ「%s」を指定してください。",
   "api.layout.id.error":"レイアウトが存在しません。レイアウトID：",
   "api.file.name.error":"ファイルが存在しません。ファイル名：",
-  "error.company.noexist":"会社IDが存在しません。",
+  "error.company.id.noexist":"会社IDが存在しません。",
   "error.company.code.noexist":"会社コードが存在しません。",
   "===============元素==================":"",
   "html.select.synthetic.effect.zoom":"拡大",

@@ -272,7 +272,7 @@ exports.total = function(code, condition_, callback_){
 exports.activeList = function(code, condition_, start_, limit_, callback_){
 
   var publishLayout = model(code);
-
+ console.log(condition_);
   publishLayout.find(condition_).select('_id layoutId active')
     .skip(start_ || 0)
     .limit(limit_ || 20)

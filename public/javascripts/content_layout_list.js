@@ -141,7 +141,7 @@ function render(start, count,keyword) {
     var layoutList = result.items;
     var container = $("#layout_list")
       , index = 1;
-    console.log(layoutList);
+    //console.log(layoutList);
     container.html("");
 
     // publish list
@@ -211,7 +211,7 @@ function render(start, count,keyword) {
           , "class3": (row&&row.layout&&row.layout.image&&( !_.isEmpty(row.layout.image.imageH)|| !_.isEmpty(row.layout.image.imageV))) ? "" : "hidden"
           , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
           , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : null
-          , "data" : (row.layout.page[2].synthetic_id)
+          //, "data" : (row.layout.page[2].synthetic_id)
         }));
       });
 
