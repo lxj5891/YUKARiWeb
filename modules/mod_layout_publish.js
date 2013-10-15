@@ -210,6 +210,11 @@ function model(code) {
   return conn(code).model('PublishLayout', PublishLayout);
 }
 
+exports.find = function(code_,condition_,callback_){
+  model(code_).find(condition_,function(err,result){
+    callback_(err, result);
+  });
+}
 exports.get = function (code, condition_,callback_){
 
   var publishLayout = model(code);

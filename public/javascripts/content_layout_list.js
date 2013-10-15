@@ -240,7 +240,7 @@ function render(start, count,keyword) {
           , "name": row.layout.name
           , "viewer": get_viewerHtml(row)
           , "range": range
-          , "editat": smart.date(row.editat)
+          , "applyat": smart.date(row.applyat)
           , "editby": row.user.name.name_zh
           , "class3": (row&&row.layout&&row.layout.image&&( !_.isEmpty(row.layout.image.imageH)|| !_.isEmpty(row.layout.image.imageV))) ? "" : "hidden"
           , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null

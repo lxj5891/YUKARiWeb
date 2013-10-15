@@ -32,6 +32,7 @@ var Layout = new schema({
   publish: {type:Number, description:"1:あり 0:なし"},
   confirmby: {type:String, description:"承認者"},
   confirmat: {type: Date, description: "承認時間"},
+  applyat: {type: Date, description: "申请時間"},
   viewerUsers: [{type:String, description:"公開先User"}],
   viewerGroups: [{type:String, description:"公開先Group"}],
   openStart: {type: Date},
@@ -46,6 +47,11 @@ var Layout = new schema({
 function model(dbname) {
   return conn(dbname).model('Layout', Layout);
 }
+
+exports.find = function(code,query,callback){
+  model(code).find(query,callback);
+}
+
 exports.count = function(code, query,callback){
   model(code).count(query,callback);
 }

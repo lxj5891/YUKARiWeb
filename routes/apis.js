@@ -172,6 +172,11 @@ exports.guiding = function(app){
   app.get('/layout/list/myself.json', function(req, res){
     layout.myself(req, res);
   });
+
+  app.get('/layonut/checkupdate.json',function(req,res){
+    layout.checkupdate(req,res);
+  });
+
   // ----------------------------------
   // 获取iPad/setting.json定义用json
   app.get('/setting.json', function(req, res){
@@ -349,6 +354,7 @@ exports.guiding = function(app){
     }
     common.save(req, res);
   });
+
 
 };
 

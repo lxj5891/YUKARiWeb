@@ -14,6 +14,107 @@ var async     = require('async')
   , utils     = require('../core/utils')
   , util     = lib.core.util;
 
+exports.checkPublishLayoutUpdata = function (code, layoutIds, callback) {
+  var ids_list = layoutIds.split(",")
+  history.find(code, {_id: {"$in": ids_list}}, function (err, result) {
+    callback(err, {items: result});
+  });
+}
+
+exports.checkMyselfLayoutUpdata = function (code, layoutIds, callback_) {
+  var ids_list = layoutIds.split(",")
+  var status = 22;
+  layout.find(code, {_id: {"$in": ids_list}}, function (err, result1) {
+    var subTask = function (item, subCB) {
+      var tasks = [];
+      tasks.push(function (cb) {
+        user.listByUids(code, item.viewerUsers, undefined, undefined, function (err, users) {
+          if (err)
+            return cb(err, data);
+
+          fixDoc(item).viewerUsersList = users;
+          cb(err);
+        });
+      });
+      tasks.push(function (cb) {
+        group.listByGids(code, item.viewerGroups, undefined, undefined, function (err, groups) {
+          if (err)
+            return cb(err);
+
+          fixDoc(item).viewerGroupsList = groups;
+          cb(err);
+        });
+      });
+      async.waterfall(tasks, function (err) {
+        return subCB(err);
+      });
+    }
+
+    async.forEach(result1, subTask, function (err_) {
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      if (status == 21) {
+        user.appendUser(code, result1, "confirmby", function (err, result) {
+          return callback_(err, { items: result1});
+        });
+      } else {
+        user.appendUser(code, result1, "editby", function (err, result) {
+          return callback_(err, { items: result1});
+        });
+      }
+    });
+  });
+}
+
+exports.checkNeedConfirmLayoutUpdata = function (code, layoutIds, callback_) {
+  var ids_list = layoutIds.split(",")
+  var status = 21;
+  layout.find(code, {_id: {"$in": ids_list}}, function (err, result1) {
+    var subTask = function (item, subCB) {
+      var tasks = [];
+      tasks.push(function (cb) {
+        user.listByUids(code, item.viewerUsers, undefined, undefined, function (err, users) {
+          if (err)
+            return cb(err, data);
+
+          fixDoc(item).viewerUsersList = users;
+          cb(err);
+        });
+      });
+      tasks.push(function (cb) {
+        group.listByGids(code, item.viewerGroups, undefined, undefined, function (err, groups) {
+          if (err)
+            return cb(err);
+
+          fixDoc(item).viewerGroupsList = groups;
+          cb(err);
+        });
+      });
+      async.waterfall(tasks, function (err) {
+        return subCB(err);
+      });
+    }
+
+    async.forEach(result1, subTask, function (err_) {
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      if (status == 21) {
+        user.appendUser(code, result1, "confirmby", function (err, result) {
+          return callback_(err, { items: result1});
+        });
+      } else {
+        user.appendUser(code, result1, "editby", function (err, result) {
+          return callback_(err, { items: result1});
+        });
+      }
+    });
+  });
+}
+
 
 exports.add = function(code_,uid_,layout_,callback_){
   layout_.createat = new Date();

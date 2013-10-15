@@ -5,12 +5,47 @@ var json = lib.core.json
   , utils = require('../core/utils')
   , layout = require('../controllers/ctrl_layout');
 
+
+exports.checkupdate = function (req_, res_) {
+  var type = req_.query.type;  //publish ,myself , needconfirm
+  var layoutIds = req_.query.layoutIds;
+  var code = req_.session.user.companycode;
+  if (type == "publish") {
+    layout.checkPublishLayoutUpdata(code,layoutIds, function (err, result) {
+      if (err) {
+        return res_.send(err.code, json.errorSchema(err.code, err.message));
+      } else {
+        return res_.send(json.dataSchema(result));
+      }
+    });
+  } else if (type == "myself") {
+    layout.checkMyselfLayoutUpdata(code,layoutIds, function (err, result) {
+      if (err) {
+        return res_.send(err.code, json.errorSchema(err.code, err.message));
+      } else {
+        return res_.send(json.dataSchema(result));
+      }
+    });
+  } else if (type == "needconfirm") {
+    layout.checkNeedConfirmLayoutUpdata(code,layoutIds, function (err, result) {
+      if (err) {
+        return res_.send(err.code, json.errorSchema(err.code, err.message));
+      } else {
+        return res_.send(json.dataSchema(result));
+      }
+    });
+  } else {
+    return res_.send(json.dataSchema(0));
+  }
+
+}
+
 exports.add = function (req_, res_) {
 
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
 
-  if(!canUpdate(req_.session.user)){
+  if (!canUpdate(req_.session.user)) {
     return noUpdateResponse(res_);
   }
 
@@ -25,7 +60,7 @@ exports.add = function (req_, res_) {
 
 exports.get = function (req_, res_) {
 
-  if(!canUpdate(req_.session.user)){
+  if (!canUpdate(req_.session.user)) {
     return noUpdateResponse(res_);
   }
   var uid = req_.session.user._id;
@@ -43,13 +78,13 @@ exports.get = function (req_, res_) {
 
 exports.update = function (req_, res_) {
 
-  if(!canUpdate(req_.session.user)){
+  if (!canUpdate(req_.session.user)) {
     return noUpdateResponse(res_);
   }
 
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
-  var layout_ =  req_.body;
+  var layout_ = req_.body;
   layout_.status = req_.body.status || 1;
   layout_.editat = new Date();
   layout_.editby = uid;
@@ -68,36 +103,36 @@ exports.apply = function (req_, res_) {
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
 
-  if(!canApply(req_.session.user)){
+  if (!canApply(req_.session.user)) {
     return noUpdateResponse(res_);
   }
   var layout_ = {
     _id: req_.body.id,
     status: 2,
     editby: uid,
-    editat: new Date(),
+    applyat: new Date(),
     confirmby: req_.body.confirmby || uid,
     viewerUsers: req_.body.viewerUsers || [],
     viewerGroups: req_.body.viewerGroups || []
   };
 
-  if(req_.body.openStart){
+  if (req_.body.openStart) {
     layout_.openStart = new Date(req_.body.openStart);
   } else {
     layout_.openStart = null;
   }
-  if(req_.body.openEnd){
+  if (req_.body.openEnd) {
     layout_.openEnd = new Date(req_.body.openEnd);
   } else {
     layout_.openEnd = null;
   }
 
   layout.updateStatus(code, uid, layout_, function (err, result) {
-      if (err) {
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
-      } else {
-          return res_.send(json.dataSchema(result));
-      }
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
   });
 };
 
@@ -106,13 +141,13 @@ exports.confirm = function (req_, res_) {
   var uid = req_.session.user._id;
   var code = req_.session.user.companycode;
 
-  if(!canConfirm(req_.session.user)){
+  if (!canConfirm(req_.session.user)) {
     return noUpdateResponse(res_);
   }
   var layout_ = {
     _id: req_.body.id,
-    confirmby : uid,
-    confirmat : new Date()
+    confirmby: uid,
+    confirmat: new Date()
   };
 
   if (req_.body.confirm == 1) {
@@ -133,8 +168,8 @@ exports.confirm = function (req_, res_) {
 
 };
 
-exports.remove = function(req_, res_) {
-  if(!canUpdate(req_.session.user)){
+exports.remove = function (req_, res_) {
+  if (!canUpdate(req_.session.user)) {
     return noUpdateResponse(res_);
   }
   var code = req_.session.user.companycode;
@@ -142,7 +177,7 @@ exports.remove = function(req_, res_) {
     , id = req_.body.id
     , layoutId = req_.body.layoutId;      // remove publishLayout
 
-  layout.remove(code, uid, id, layoutId, function(err, result) {
+  layout.remove(code, uid, id, layoutId, function (err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -153,7 +188,7 @@ exports.remove = function(req_, res_) {
 
 //////////////////////////////////////////////////
 // layput list
-exports.myself = function(req_, res_){
+exports.myself = function (req_, res_) {
   var code = req_.session.user.companycode
     , user = req_.session.user
     , start = req_.query.start
@@ -162,9 +197,9 @@ exports.myself = function(req_, res_){
     , status = req_.query.status;
 
   var scope = "myself";
-  if(canUpdate(user) || canConfirm(user) || canApply(user)){
+  if (canUpdate(user) || canConfirm(user) || canApply(user)) {
     var uid = req_.session.user._id;
-    layout.list(code,keyword, start, limit, uid, status ,scope, function(err, result) {
+    layout.list(code, keyword, start, limit, uid, status, scope, function (err, result) {
       if (err) {
         return res_.send(err.code, json.errorSchema(err.code, err.message));
       } else {
@@ -176,7 +211,7 @@ exports.myself = function(req_, res_){
   }
 };
 
-exports.list = function(req_, res_) {
+exports.list = function (req_, res_) {
 
   var code = req_.session.user.companycode
     , user = req_.session.user
@@ -186,41 +221,41 @@ exports.list = function(req_, res_) {
     , keyword = req_.query.keyword
     , status = req_.query.status;
 
-    var scope = "all";
+  var scope = "all";
 
-    if (publish == 1) {
-        layout.publishList(code, user, keyword, start, limit, function(err, result) {
-            if (err) {
-                return res_.send(err.code, json.errorSchema(err.code, err.message));
-            } else {
-                return res_.send(json.dataSchema(result));
-            }
-        });
-
-    } else {
-      if(canUpdate(user) || canConfirm(user) || canApply(user)){
-        var uid = req_.session.user._id;
-        layout.list(code,keyword, start, limit, uid, status ,scope, function(err, result) {
-          if (err) {
-            return res_.send(err.code, json.errorSchema(err.code, err.message));
-          } else {
-            return res_.send(json.dataSchema(result));
-          }
-        });
+  if (publish == 1) {
+    layout.publishList(code, user, keyword, start, limit, function (err, result) {
+      if (err) {
+        return res_.send(err.code, json.errorSchema(err.code, err.message));
       } else {
-        return noUpdateResponse(res_);
+        return res_.send(json.dataSchema(result));
       }
+    });
+
+  } else {
+    if (canUpdate(user) || canConfirm(user) || canApply(user)) {
+      var uid = req_.session.user._id;
+      layout.list(code, keyword, start, limit, uid, status, scope, function (err, result) {
+        if (err) {
+          return res_.send(err.code, json.errorSchema(err.code, err.message));
+        } else {
+          return res_.send(json.dataSchema(result));
+        }
+      });
+    } else {
+      return noUpdateResponse(res_);
     }
+  }
 };
 
-exports.history = function(req_, res_) {
+exports.history = function (req_, res_) {
 
   var code = req_.session.user.companycode
     , start = req_.query.start
     , limit = req_.query.count
     , publish = req_.query.publish;
 
-  layout.history(code, start, limit, publish, function(err, result) {
+  layout.history(code, start, limit, publish, function (err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -230,38 +265,38 @@ exports.history = function(req_, res_) {
 };
 
 
-function canUpdate(user_){
+function canUpdate(user_) {
   return utils.hasContentPermit(user_);
 }
 
-function canApply(user_){
+function canApply(user_) {
   return utils.hasContentPermit(user_);
 }
 
-function canConfirm(user_){
+function canConfirm(user_) {
   return utils.hasApprovePermit(user_);
 }
 
-function canView(user_, layout_){
-  if(utils.hasContentPermit(user_)){
+function canView(user_, layout_) {
+  if (utils.hasContentPermit(user_)) {
     return true;
   }
-  if(canConfirm(user_) && layout_.status === 2){//申请中的承认者可看
+  if (canConfirm(user_) && layout_.status === 2) {//申请中的承认者可看
     return true;
   }
   return false;
 }
 
-function canViewPublishLayout(user_, publishLayout_){
+function canViewPublishLayout(user_, publishLayout_) {
 
 }
 
-function noAccessResponse(res_){
-  var err= new errors.Forbidden(__("js.common.access.check"));
+function noAccessResponse(res_) {
+  var err = new errors.Forbidden(__("js.common.access.check"));
   return res_.send(err.code, json.errorSchema(err.code, err.message));
 }
 
-function noUpdateResponse(res_){
-  var err= new errors.Forbidden(__("js.common.update.check"));
+function noUpdateResponse(res_) {
+  var err = new errors.Forbidden(__("js.common.update.check"));
   return res_.send(err.code, json.errorSchema(err.code, err.message));
 }
