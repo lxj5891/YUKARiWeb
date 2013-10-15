@@ -222,7 +222,7 @@
   "html.label.notice.message":"Message",
   "html.label.notice.sendby":"Sender",
   "html.label.notice.sendat":"Send date",
-  "html.button.notice.send":"Add",
+  "html.button.notice.send":"Send",
   "===================setup=================":"",
   "html.label.setup":"System setting",
   "===================workstation=================":"",
