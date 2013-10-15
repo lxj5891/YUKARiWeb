@@ -22,6 +22,7 @@ var user        = lib.api.user
   , admin_user = require("../api/admin_user")
   , yi_user = require("../api/user")
   , setting = require("../api/setting")
+  , conference = require("../api/conference")
   , errorsExt  = require("../core/errorsExt");
 
 exports.guiding = function(app){
@@ -355,6 +356,9 @@ exports.guiding = function(app){
     common.save(req, res);
   });
 
+  app.post('/conference/add.json', function(req, res){
+    conference.add(req, res);
+  });
 
 };
 
