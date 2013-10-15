@@ -19,7 +19,7 @@ exports.getStoreById = function(req_,res_){
   var synthetic_id = req_.body.synthetic_id;
   var code = req_.session.user.companycode;
   var user = req_.session.user;
-  if(!canUpdate(user)){
+  if(!canView(user)){
     return noAccessResponse(res_);
   }
   //console.log("synthetic_id :%s",synthetic_id);
@@ -106,7 +106,7 @@ exports.list = function(req_, res_) {
     , keyword = req_.query.keyword
     , type = req_.query.type;
   var user = req_.session.user;
-  if(!canUpdate(user)){
+  if(!canView(user)){
     return noAccessResponse(res_);
   }
 
@@ -167,6 +167,10 @@ exports.copy = function(req_, res_) {
 // 元素的增删改查都只有content作成者有权限，增删改查暂用一个check
 function canUpdate(user_){
   return utils.hasContentPermit(user_);
+}
+
+function canView(user_) {
+  return utils.hasContentPermit(user_) || utils.hasApprovePermit(user_);
 }
 
 function noAccessResponse(res_){

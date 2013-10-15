@@ -141,7 +141,7 @@ function render(start, count,keyword) {
     var layoutList = result.items;
     var container = $("#layout_list")
       , index = 1;
-    console.log(layoutList);
+    //console.log(layoutList);
     container.html("");
 
     // publish list
@@ -159,6 +159,14 @@ function render(start, count,keyword) {
       _.each(layoutList, function(row){
         var active = row.active;
         var range = "";
+        var tmpSyn = null;
+        for(var i = 0 ; ((active&&active.layout&&active.layout.page)&&(i < active.layout.page.length)); i++)
+        {
+            if(active.layout.page[i].type == '2'&&active.layout.page[i].tile[0]){
+                tmpSyn = active.layout.page[i].tile[0].syntheticId;
+            }
+        }
+
         if(active.openEnd){
           range = smart.date(active.openStart) + ' - ' + smart.date(active.openEnd);
         } else {
@@ -177,6 +185,7 @@ function render(start, count,keyword) {
           , "class3": (active&&active.layout&&active.layout.image&&( !_.isEmpty(active.layout.image.imageH)|| !_.isEmpty(active.layout.image.imageV))) ? "" : "hidden"
           , "preview_image_H" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : null
           , "preview_image_V" :(active&&active.layout&&active.layout.image&& active.layout.image.imageV) ? active.layout.image.imageV : null
+          , "tmpSyn"  : tmpSyn
         }));
       });
 
@@ -194,6 +203,14 @@ function render(start, count,keyword) {
       var tmpl = $('#tmpl_applylayout_list').html();
 
       _.each(layoutList, function(row){
+        var tmpSyn = null;
+        for(var i = 0 ; ((row&&row.layout&&row.layout.page)&&(i < row.layout.page.length)); i++)
+        {
+            if(row.layout.page[i].type == '2'&&row.layout.page[i].tile[0]){
+                tmpSyn = row.layout.page[i].tile[0].syntheticId;
+            }
+        }
+
         var range = "";
         if(row.openEnd){
           range = smart.date(row.openStart) + ' - ' + smart.date(row.openEnd);
@@ -211,7 +228,7 @@ function render(start, count,keyword) {
           , "class3": (row&&row.layout&&row.layout.image&&( !_.isEmpty(row.layout.image.imageH)|| !_.isEmpty(row.layout.image.imageV))) ? "" : "hidden"
           , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
           , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : null
-          , "data" : (row.layout.page[2].synthetic_id)
+          , "tmpSyn"  : tmpSyn
         }));
       });
 
@@ -228,6 +245,14 @@ function render(start, count,keyword) {
       var tmpl = $('#tmpl_confirmlayout_list').html();
 
       _.each(layoutList, function(row){
+        var tmpSyn = null;
+        for(var i = 0 ; ((row&&row.layout&&row.layout.page)&&(i < row.layout.page.length)); i++)
+        {
+            if(row.layout.page[i].type == '2'&&row.layout.page[i].tile[0]){
+                tmpSyn = row.layout.page[i].tile[0].syntheticId;
+            }
+        }
+
         var range = "";
         if(row.openEnd){
           range = smart.date(row.openStart) + ' - ' + smart.date(row.openEnd);
@@ -245,6 +270,7 @@ function render(start, count,keyword) {
           , "class3": (row&&row.layout&&row.layout.image&&( !_.isEmpty(row.layout.image.imageH)|| !_.isEmpty(row.layout.image.imageV))) ? "" : "hidden"
           , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
           , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : null
+          , "tmpSyn"  : tmpSyn
         }));
       });
 
@@ -264,7 +290,6 @@ function render(start, count,keyword) {
         {
             if(row.layout.page[i].type == '2'&&row.layout.page[i].tile[0]){
                 tmpSyn = row.layout.page[i].tile[0].syntheticId;
-                console.log(tmpSyn);
             }
 
         }
@@ -447,11 +472,10 @@ function events() {
             var case_images = {};
             if(imageH || imageV){
                 files_H.push(imageH);
-                if(imageV){
+                if(imageV&&synthetic_id){
                     case_images.case_menu = imageV;
                     smart.dopost("/content/synthetic/getstore.json",{"synthetic_id": synthetic_id},   function(err,result) {
                         if(result) {
-                            //console.log(result);
                             case_images.case_image = result.data.items.metadata[0].material.fileid;
                         }
                     });

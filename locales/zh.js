@@ -419,7 +419,7 @@
   "api.param.error":"请求参数不正确，请输入参数【%s】。",
   "api.layout.id.error":"布局不存在。布局ID：",
   "api.file.name.error":"文件不存在。文件名：",
-  "error.company.noexist":"公司ID不存在！",
+  "error.company.id.noexist":"公司ID不存在！",
   "error.company.code.noexist":"公司Code不存在！",
   "===============元素==================":"",
   "html.select.synthetic.effect.zoom":"放大",
