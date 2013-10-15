@@ -222,7 +222,7 @@
   "html.label.notice.message":"メッセージ",
   "html.label.notice.sendby":"送信者",
   "html.label.notice.sendat":"送信日",
-  "html.button.notice.send":"発送",
+  "html.button.notice.send":"登録",
   "===================setup=================":"",
   "html.label.setup":"システム設定",
   "===================workstation=================":"",
