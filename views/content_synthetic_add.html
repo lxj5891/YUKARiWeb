@@ -67,6 +67,13 @@
             <input type="text" name="syntheticName" class="form-control" id="syntheticName" placeholder="<%= i('html.label.synthetic.title') %>">
           </div>
         </div>
+        <div class="form-group" id="group_syntheticSign" style="margin-top: 15px;display: none">
+          <label for="syntheticSign" class="col-lg-2 control-label"><%= i('html.label.synthetic.sign') %><!-- 元素标识--></label>
+
+          <div class="col-lg-10">
+            <input type="text" name="syntheticSign" class="form-control" id="syntheticSign" placeholder="<%= i('html.label.synthetic.sign') %>">
+          </div>
+        </div>
         <div class="form-group">
           <label for="syntheticComment" class="col-lg-2 control-label"><%= i('html.label.synthetic.comment') %><!-- コメント--></label>
 
@@ -103,6 +110,11 @@
           <img src="/images/logo-block.png">
           <div id="effect_big_preview">
             <img src="/images/logo-block.png">
+          </div>
+          <div id="solutionmap_preview">
+            <div id="solutionmap_board">
+              <img id="solutionmap_board_img" src="/images/demo/solutionmap.png">
+            </div>
           </div>
         </div>
         <div id="widget_panel" style="font-size: 12px">
@@ -247,6 +259,46 @@
             </div>
           </div>
         </div>
+
+        <div id="solutionmap_panel">
+          <div class="title">
+            <span>solutionmap插件</span>
+            <div  class="pull-right title_btn">
+              <a id="btn_add_solution" class="btn btn-default btn-sm">添加插件</a>
+            </div>
+          </div>
+          <div class="widget_body">
+            <form class="form-horizontal" role="form" name="setmetadata">
+
+              <div class="form-group" >
+                <label for="select_solution_image_btn" class="col-lg-5 control-label"><%=
+                  i('html.label.synthetic.metadata.fontimage') %><!-- 文字画像設定--></label>
+
+                <div class="col-lg-7">
+                  <a id="select_solution_image_btn" class="btn btn-default"  style="float: left"><%=
+                    i('html.button.synthetic.metadata.select') %><!-- 画像選択--></a>
+                </div>
+              </div>
+
+              <div class="form-group" >
+                <label for="solution_image_preview" class="col-lg-5 control-label"><%=
+                  i('html.label.synthetic.metadata.fontimage') %><!-- 文字画像設定--></label>
+
+                <div class="col-lg-7">
+                  <div id="solution_image_preview">
+                    <img src="/images/logo-block.png"/>
+                  </div>
+
+                </div>
+              </div>
+
+            </form>
+            </div>
+          </div>
+
+        </div>
+
+
       </div>
       <div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-top-width:0px">
         <div id="viewport"></div>
@@ -300,6 +352,11 @@
 </div>
 <!-- /. pickThumb modal -->
 
+
+
+
+
+
 <script type="text/template" id="tmpl_popup_video">
   <div class="modalfix_box">
     <video src="{{image}}" class="material_thumb" data="{{fileid}}" material_id="{{material_id}}"></video>
@@ -345,17 +402,28 @@
   </div>
 </script>
 
+
+
+
+
+
 <script type="text/javascript" src="/javascripts/contents/cover.js"></script>
 <script type="text/javascript" src="/javascripts/contents/material.js"></script>
 <script type="text/javascript" src="/javascripts/contents/widget.js"></script>
+<script type="text/javascript" src="/javascripts/contents/solution.js"></script>
 <script type="text/javascript" src="/javascripts/contents/tpl.js"></script>
 <script type="text/javascript" src="/javascripts/contents/viewports.js"></script>
 <script type="text/javascript" src="/javascripts/contents/store.js"></script>
 
 <script type="text/javascript" src="/javascripts/contents.view.js"></script>
 <script type="text/javascript" src="/javascripts/contents.view.widget.js"></script>
+<script type="text/javascript" src="/javascripts/contents.view.solution.js"></script>
 
-
+<script type="text/template" id="tmpl_solution">
+  <div id="{{id}}" class="solution_widget" style="left: {{left}}px; top:{{top}}px; width: {{width}}px; height: {{height}}px;">
+    <div id="{{id}}_border" class="solution_widget_border"></div>
+  </div>
+</script>
 
 <script type="text/template" id="tmpl_widget">
   <div id="{{id}}" class="widget" style="left: {{left}}px; top:{{top}}px; width: {{width}}px; height: {{height}}px;">
@@ -373,6 +441,8 @@
     <a data="all"><%= i('html.button.synthetic.tag.all') %><!-- All--></a>
   </li>
 </script>
+
+
 
 
 </body>

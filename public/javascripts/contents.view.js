@@ -18,6 +18,11 @@ $contents.view = {
 
     console.log('$C  initialize ');
   },
+  //Solutionmap对应
+  showSolutionmapPage : function(metadata_id){
+    $("#solutionmap_preview").css("display", "block");
+    $("#solutionmap_panel").css("display", "block");
+  },
   showEffectPage: function (metadata_id) {
 
     $("#widget_panel").css("display", "none");
@@ -233,7 +238,13 @@ $contents.view = {
       var _src = $(e.target).attr("src");
       var _metadata_id = $(e.target).attr("metadata_id");
       $("#main_panel > img").hide();
-      $("#main_panel > img").attr("src", _src);
+      //对应solutionmap
+      if(store.type != store._synthetic_type.solutionmap){
+        $("#main_panel > img").attr("src", _src);
+      } else {
+        $("#solutionmap_board_img").attr("src", _src);
+      }
+
       $("#main_panel > img").fadeIn(800);
       store.cur_metadata_id = _metadata_id;
       if (store.type == store._synthetic_type.normal) {
@@ -245,6 +256,8 @@ $contents.view = {
         console.log("_materialImageClickListener");
         self.showEffectPage(store.cur_metadata_id);
       }
+
+
       if (store.type == store._synthetic_type.CaseView) {
         $("#cover_setting").css("display", "block");
         $("#main_panel").css("overflow-y", "scroll");
@@ -255,7 +268,9 @@ $contents.view = {
       }
 
       //设置当前编辑的metadata_id
-
+      if(store.type == store._synthetic_type.solutionmap) {
+        self.showSolutionmapPage(store.cur_metadata_id);
+      }
 
     };
     $("#thumb_panel .material").unbind("click").on("click", "img[class=thumb_block_img]", _materialImageClickListener);
@@ -298,6 +313,10 @@ $contents.view = {
           self.showEffectPage(store.cur_metadata_id);
           $("#widget_panel").css("display", "none");
           $("#metadata_panel").css("display", "block");
+        }
+        if (store.type == store._synthetic_type.solutionmap){
+          self.showSolutionmapPage(store.cur_metadata_id);
+          $("#solution_pannel").css("display", "block");
         }
       };
       var options = undefined;
@@ -351,7 +370,7 @@ $contents.view = {
         $contents.view.material.insertCell(params);
       }
       //当CaseView 类型是 隐藏
-      if(store.type == store._synthetic_type.CaseView)
+      if(store.type == store._synthetic_type.CaseView || store.type == store._synthetic_type.solutionmap)
         $(".material_cell .cover_add").hide();
 
     } else {
@@ -390,20 +409,22 @@ $contents.view = {
 
       //TODO ：通过store  render
       var type_redner  = function(type){
-        this._synthetic_type =  {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"};
-        if(type == this._synthetic_type.imageWithThumb){
+        if(type == store._synthetic_type.imageWithThumb){
           return i18n["js.public.info.synthetic.type.animation"];
-        } else if(type == this._synthetic_type.normal){
+        } else if(type == store._synthetic_type.normal){
           return i18n["js.public.info.synthetic.type.imageset"];
-        } else if(type == this._synthetic_type.gallery){
+        } else if(type == store._synthetic_type.gallery){
           return i18n["js.public.info.synthetic.type.gallery"];
-        } else if(type == this._synthetic_type.CaseView){
+        } else if(type == store._synthetic_type.CaseView){
           return i18n["js.public.info.synthetic.type.caseview"];
+        } else if(type == store._synthetic_type.solutionmap){
+          return i18n["html.label.synthetic.type.solutionmap"];
         }
         return
       }
       $("#syntheticName").val(result.data.items.name);
       $("#syntheticComment").val(result.data.items.comment);
+      $("#syntheticSign").val(result.data.items.sign);
       $("#syntheticType").html(type_redner(result.data.items.type));
 
 
@@ -470,7 +491,20 @@ $contents.view = {
             else
               tmp_metadata_widget[j] = obj_metadata.widget[j];
           }
+
+
+          var tmp_metadata_solution = [];
+          for (var j in obj_metadata.solution) {
+            if (store.metadata[i].solution[j] instanceof SolutionFace)
+              tmp_metadata_solution[j] = obj_metadata.solution[j].toObject();
+            else
+              tmp_metadata_solution[j] = obj_metadata.solution[j];
+          }
+          delete obj_metadata.solution;
           obj_metadata.widget = tmp_metadata_widget;
+          if(store.type == store._synthetic_type.solutionmap){
+            obj_metadata.widget = tmp_metadata_solution;
+          }
           tmp_metadata[i] = obj_metadata;
         }
         var _data = {
@@ -480,7 +514,8 @@ $contents.view = {
           cover: store.cover,
           metadata: tmp_metadata,
           syntheticName: $("input[name=syntheticName]").val(),
-          syntheticComment: $("textarea[name=syntheticComment]").val()
+          syntheticComment: $("textarea[name=syntheticComment]").val(),
+          syntheticSign : $("input[name=syntheticSign]").val()
         };
 
         var save_valida = store.validatorSava();
@@ -637,8 +672,11 @@ $contents.view = {
 
 
   viewDidLoad: function () {
+    var that = this;
+
     if (store.type == store._synthetic_type.imageWithThumb) {
       $("#btn_to_widget_parent").css("display", "none");
+
     }
     $("#widget_panel").css("display", "none");
     $("#metadata_panel").css("display", "none");
@@ -652,6 +690,11 @@ $contents.view = {
     if (store.type == store._synthetic_type.CaseView) {
       $("#widget_panel").css("display", "none");
       $("#metadata_panel").css("display", "none");
+    }
+    if (store.type == store._synthetic_type.solutionmap) {
+      $("#widget_panel").css("display", "none");
+      $("#metadata_panel").css("display", "none");
+      $("#group_syntheticSign").css("display", "block");
     }
   },
   initCover: function (listener) {
@@ -687,7 +730,7 @@ $contents.view = {
         $contents.view.cover.insertCell(params);
         $("#thumb_panel .thumb img").attr("src", thumb.image);
       }
-      if(store.type ==  store._synthetic_type.CaseView){
+      if(store.type ==  store._synthetic_type.CaseView ){
         $(".cover_cell .cover_add").hide();
       }
 

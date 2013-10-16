@@ -10,6 +10,7 @@ exports.checkupdate = function (req_, res_) {
   var type = req_.query.type;  //publish ,myself , needconfirm
   var layoutIds = req_.query.layoutIds;
   var code = req_.session.user.companycode;
+  var user = req_.session.user;
   if (type == "publish") {
     layout.checkPublishLayoutUpdata(code,layoutIds, function (err, result) {
       if (err) {
@@ -19,25 +20,31 @@ exports.checkupdate = function (req_, res_) {
       }
     });
   } else if (type == "myself") {
-    layout.checkMyselfLayoutUpdata(code,layoutIds, function (err, result) {
-      if (err) {
-        return res_.send(err.code, json.errorSchema(err.code, err.message));
-      } else {
-        return res_.send(json.dataSchema(result));
-      }
-    });
-  } else if (type == "needconfirm") {
-    layout.checkNeedConfirmLayoutUpdata(code,layoutIds, function (err, result) {
-      if (err) {
-        return res_.send(err.code, json.errorSchema(err.code, err.message));
-      } else {
-        return res_.send(json.dataSchema(result));
-      }
-    });
-  } else {
-    return res_.send(json.dataSchema(0));
-  }
+    if (canUpdate(user) || canConfirm(user) || canApply(user)) {
+      layout.checkMyselfLayoutUpdata(code,layoutIds, function (err, result) {
+        if (err) {
+          return res_.send(err.code, json.errorSchema(err.code, err.message));
+        } else {
+          return res_.send(json.dataSchema(result));
+        }
+      });
+    } else {
+      return noUpdateResponse(res_);
+    }
 
+  } else if (type == "needconfirm") {
+    if (canUpdate(user) || canConfirm(user) || canApply(user)) {
+      layout.checkNeedConfirmLayoutUpdata(code,layoutIds, function (err, result) {
+        if (err) {
+          return res_.send(err.code, json.errorSchema(err.code, err.message));
+        } else {
+          return res_.send(json.dataSchema(result));
+        }
+      });
+    } else {
+      return noUpdateResponse(res_);
+    }
+  }
 }
 
 exports.add = function (req_, res_) {

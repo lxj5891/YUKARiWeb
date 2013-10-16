@@ -155,7 +155,7 @@ exports.saveNameAndComment = function (code, synthetic_id, name, comment, uid, c
     callback(err, result);
   });
 }
-exports.saveThumbAndMatedata = function (code, synthetic_id, cover, metadata, coverrows, covercols,syntheticName,syntheticComment, user, callback) {
+exports.saveThumbAndMatedata = function (code, synthetic_id, cover, metadata, coverrows, covercols,syntheticName,syntheticComment,syntheticSign, user, callback) {
 
   var _data = {
     cover: cover,
@@ -163,7 +163,8 @@ exports.saveThumbAndMatedata = function (code, synthetic_id, cover, metadata, co
     covercols: covercols,
     metadata: metadata,
     syntheticName: syntheticName,
-    syntheticComment:syntheticComment
+    syntheticComment:syntheticComment,
+    syntheticSign :syntheticSign
   }
   synthetic.update(code, synthetic_id, _data, user, function (err, result) {
     callback(err, result);

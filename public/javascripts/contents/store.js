@@ -8,6 +8,7 @@
 
 var store = {
   activeWidget: undefined,
+  activeSolution : undefined,
   //TODO : 去掉thumbs
   thumbs: [],
   coverrows: 1,
@@ -18,20 +19,39 @@ var store = {
   type: '',
   //对应后台的元素类型
   metadata: [],
+  solution : [],
   metadata_index: 0,
   widget_index: 0,
+  solution_index : 0 ,
   content_index: 0,
   cur_content_id: '',
   //当前编辑的metadata
   cur_metadata_id: '',
   //当前编辑的widget
   cur_widget_id: '',
+  cur_solution_id : '',
   //动态的循环显示封面
   cover_interval: undefined,
   cover_interval_index: 0,
   _action_type: {image: "image", movie: "movie", jump: "jump", urlScheme: "urlScheme",none:"none"},
   _effect_type: {zoomAndMoveRightDown: "zoomAndMoveRightDown", zoom: "zoom", zoomOut: "zoomOut", moveRightUp: "moveRightUp", up: "up"},
-  _synthetic_type: {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"},
+  _synthetic_type: {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView",solutionmap:"solutionmap"},
+
+  setSolution : function(metadata_id,solution){
+    var _metadata = this.getMetadata(metadata_id);
+    var _metadata_index = this.getMetadataIndex(metadata_id);
+    if (_metadata) {
+      for (var index in _metadata.solution) {
+        var s = _metadata.solution[index];
+        if (s.solution_id == solution.solution_id) {
+          _metadata.solution[index] = solution;
+          store.metadata[_metadata_index] = _metadata;
+          break;
+        }
+      }
+    }
+  },
+
   setCover : function(index , material_event){
     this.cover[index].material_id = material_event.material_id;
     this.cover[index].image = material_event.image;
@@ -118,59 +138,18 @@ var store = {
   },
   fixCover: function () {
     var that = this;
-    if (that.type == that._synthetic_type.imageWithThumb) {
-      _.each(that.cover, function (e, i) {
-        if (!e.image) {
-          if(e.material.thumb){
-            e.image = smart.image_prefix() + e.material.thumb.big;
-          }else{
-            e.image = smart.image_prefix() + e.material.fileid;
-          }
 
+    _.each(that.cover, function (e, i) {
+      if (!e.image) {
+        if (e.material.thumb) {
+          e.image = smart.image_prefix() + e.material.thumb.big;
+        } else {
+          e.image = smart.image_prefix() + e.material.fileid;
         }
-        that.cover[i] = e;
-      });
+      }
+      that.cover[i] = e;
+    });
 //      return;
-    }
-    if (that.type == that._synthetic_type.normal) {
-      _.each(that.cover, function (e, i) {
-        if (!e.image) {
-          if(e.material.thumb){
-            e.image = smart.image_prefix() + e.material.thumb.big;
-          }else{
-            e.image = smart.image_prefix() + e.material.fileid;
-          }
-        }
-        that.cover[i] = e;
-      });
-//      return;
-    }
-    if (that.type == that._synthetic_type.gallery) {
-      _.each(that.cover, function (e, i) {
-        if (!e.image) {
-          if(e.material.thumb){
-            e.image = smart.image_prefix() + e.material.thumb.big;
-          }else{
-            e.image = smart.image_prefix() + e.material.fileid;
-          }
-        }
-        that.cover[i] = e;
-      });
-//      return;
-    }
-    if (that.type == that._synthetic_type.CaseView) {
-      _.each(that.cover, function (e, i) {
-        if (!e.image) {
-          if(e.material.thumb){
-            e.image = smart.image_prefix() + e.material.thumb.big;
-          }else{
-            e.image = smart.image_prefix() + e.material.fileid;
-          }
-        }
-        that.cover[i] = e;
-      });
-//      return;
-    }
     that.fixManyCover();
   },
   addMetadata: function (fileid,material_id) {
@@ -270,6 +249,21 @@ var store = {
         return c;
     }
     return null;
+  },
+  addSolution : function(metadata_id,solution,_i){
+    var _metadata = this.getMetadata(metadata_id);
+    var _index = this.getMetadataIndex(metadata_id);
+    if (_metadata) {
+      _metadata.solution = _metadata.solution || [];
+
+      if(_i){
+        _metadata.solution[_i] = solution;
+      }else{
+        _metadata.solution.push(solution);
+      }
+    }
+    this.metadata[_index] = _metadata;
+    this.solution_index = this.solution_index + 1;
   },
   addWidget: function (metadata_id, widget,_i) {
     var _metadata = this.getMetadata(metadata_id);
@@ -470,6 +464,16 @@ var store = {
       }
     }
 
+  },
+
+  removeSolution : function(metadata_id,solution_id){
+    var _metadata = this.getMetadata(metadata_id);
+    var _metadata_index = this.getMetadataIndex(metadata_id);
+    for (var i in _metadata.solution) {
+      if (_metadata.solution[i].solution_id == solution_id) {
+        store.metadata[_metadata_index].solution = _.without(_metadata.solution, _metadata.solution[i]);
+      }
+    }
   }
 
 

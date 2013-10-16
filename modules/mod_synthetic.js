@@ -9,7 +9,14 @@ var mongo = require('mongoose')
  */
 
 var Synthetic = new schema({
-  company: {type: String, description: ""}, comment: {type: String, description: "描述"}, name: {type: String, description: "名称"}, type: { type: String, description: "类别"}, coverrows: {type: Number, description: "封面占九宫格的行数"}, covercols: {type: Number, description: "封面占九宫格的列数"}, cover: [
+  company: {type: String, description: ""},
+  comment: {type: String, description: "描述"},
+  sign : {type: String, description: "标识"},
+  name: {type: String, description: "名称"},
+  type: { type: String, description: "类别"},
+  coverrows: {type: Number, description: "封面占九宫格的行数"},
+  covercols: {type: Number, description: "封面占九宫格的列数"},
+  cover: [
     {
       material_id: {type: String, description: "素材ID"}
 //    , fileid: {type: String, description: "封面ID"}
@@ -26,6 +33,19 @@ var Synthetic = new schema({
       effect: {type: String, description: "效果: none, zoomAndMoveRightDown, zoom, zoomOut, moveRightUp, up}"},
       txtmaterial_id: {type: String, description: "透明的文字图片素材ID"},
 //    txtfileid: {type: String, description: ""},
+      solution: [
+        {
+          name: {type: String, description: "插件的名称"},
+          index: {type: Number, description: "索引"},
+          solution_id: {type: String, description: "solution_id"},
+          width: {type: Number},
+          height: {type: Number},
+          top: {type: Number},
+          left: {type: Number},
+          metadata_id: {type: String, description: "对应前台的metadata_id"},
+          material_id: {type: String, description: "素材ID"}
+        }
+      ],
       widget: [
         {
           index: {type: Number, description: "索引"},
@@ -158,6 +178,8 @@ function updateSynthetic(code, id,synthetic_,uid,callback_){
       docs.name = synthetic_.syntheticName;
     if (synthetic_.syntheticComment)
       docs.comment = synthetic_.syntheticComment;
+    if (synthetic_.syntheticSign)
+      docs.sign = synthetic_.syntheticSign;
 
     docs.valid = 1;
     docs.editat = new Date();
