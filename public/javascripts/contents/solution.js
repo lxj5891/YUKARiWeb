@@ -191,6 +191,7 @@ SolutionFace.prototype.setActionChange = function (init) {
         if (event.material_id != undefined) {
           $("#solution_image_preview img").attr("src", event.image);
           _this.action = {};
+          _this.action.type = 'image';
           _this.action.material_id = event.material_id;
           _this.action.image = event.image;
           store.setSolution(store.cur_metadata_id, _this);

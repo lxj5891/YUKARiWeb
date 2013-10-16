@@ -188,6 +188,7 @@
   "html.label.synthetic.metadata.action":"图片背景动作",
   "html.select.synthetic.metadata.action":" ",
   "html.label.synthetic.metadata.fontimage":"文字图片设定",
+  "html.label.synthetic.metadata.subimage":"图片设定",
   "html.button.synthetic.metadata.select":"图片选择",
   "html.button.synthetic.metadata.save":"保存",
   "html.button.synthetic.setting":"设定",

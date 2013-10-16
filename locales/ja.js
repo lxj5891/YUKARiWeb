@@ -188,6 +188,7 @@
   "html.label.synthetic.metadata.action":"背景のアクション",
   "html.select.synthetic.metadata.action":"なし",
   "html.label.synthetic.metadata.fontimage":"文字画像設定",
+  "html.label.synthetic.metadata.subimage":"画像設定",
   "html.button.synthetic.metadata.select":"画像選択",
   "html.button.synthetic.metadata.save":"保存",
   "html.button.synthetic.setting":"設定",

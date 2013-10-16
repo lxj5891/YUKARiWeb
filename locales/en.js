@@ -188,6 +188,7 @@
   "html.label.synthetic.metadata.action":"Background action",
   "html.select.synthetic.metadata.action":"None",
   "html.label.synthetic.metadata.fontimage":"Character image",
+  "html.label.synthetic.metadata.subimage":"Set image",
   "html.button.synthetic.metadata.select":"Select image",
   "html.button.synthetic.metadata.save":"Save",
   "html.button.synthetic.setting":"Set",
