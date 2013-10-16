@@ -212,10 +212,11 @@ function render(start, count,keyword) {
   _.each($("#taglist").find(".selected_tag"), function(item){
     tags.push($(item).html());
   });
-
+  var tags_ = tags.join(",");
+  tags_ = tags_ ? encodeURIComponent(tags_) : "";
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword=" + keyword, function (error, result) {
+  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags_ + "&keyword=" + keyword, function (error, result) {
 
     if (smart.error(error, i18n["js.common.search.error"], true)) {
       return;
