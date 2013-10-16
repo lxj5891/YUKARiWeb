@@ -506,7 +506,7 @@ $(function () {
 
           td.on('click', function () {
             var selectedTd = $(this);
-            showSyntheticList('imageWithThumb,normal,gallery',function(syntheticId,synthetic){
+            showSyntheticList('imageWithThumb,normal,gallery,solutionmap',function(syntheticId,synthetic){
               var num = selectedTd.attr("tileNum");
               var screen = selectedTd.attr("screen");
               var t = getLandscapeTileInScreen(screen, num);
@@ -899,6 +899,58 @@ $(function () {
   function showSyntheticList(type,callback){
 
     $('#selectContents').modal("show");
+        var url = '/synthetic/list.json?type='+type;
+    smart.doget(url,function(err, result){
+      if(smart.error(err, i18n["js.common.search.error"], false)){
+        return;
+      }
+      var syntheticList = result.items;
+
+      // 一览表示
+      var tmpl = $('#tmpl_synthetic_list').html()
+        , container = $("#synthetic_list")
+        , index = 1;
+      container.html('');
+      _.each(syntheticList, function(row){
+
+        var cover = '';
+        if(row.cover && row.cover.length > 0){
+          cover = row.cover.join(',');
+        }
+
+        var fileid;
+        if(row.cover_material) {
+          var m = row.cover_material;
+          fileid = m.thumb && m.thumb.middle ? m.thumb.middle : m.fileid;
+        }
+        var f = fileid ? "/picture/" + fileid : "/images/empty.png";
+        container.append(_.template(tmpl, {
+          "id": row._id
+          , "index": index++
+          , "name": row.name
+          , "page": row.page
+          , "coverSrc": f
+          , "cover": cover
+          , "type":syntheticTypeString(row.type)
+          , "editat": smart.date(row.editat)
+          , "editby": row.user.name.name_zh
+        }));
+      });
+
+      container.find('input.syntheticSelect').each(function(){
+        $(this).on('click', function(){
+          var selectedId = $(this).attr('syntheticId');
+          var synthetic = _.find(syntheticList, function(row){
+            return row._id == selectedId;
+          });
+          callback(selectedId,synthetic)
+
+          $('#selectContents').modal("hide");
+        });
+      });
+
+    });
+
 
   }
 

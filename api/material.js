@@ -217,7 +217,7 @@ exports.download = function(req_, res_, isPublish) {
         } else if(prefix == "imageWithThumb" && file_name.indexOf("txt") > 0) { // 带动画效果文字图片
           var metadata_index = parseInt(ids[3].replace("txt", ""));
           file_id = getMetadataTxtFileId(tile, metadata_index);
-        } else if(prefix == "imageWithThumb" || prefix == "gallery") {              // 普通image和画廊
+        } else if(prefix == "imageWithThumb" || prefix == "gallery" || prefix == "solutionmap") {              // 普通image和画廊
           var metadata_index = parseInt(ids[3]);
           file_id = getMetadataFileId(tile, metadata_index);
         }
