@@ -41,6 +41,7 @@ var PublishLayout = new schema({
           synthetic:{
             name: {type: String, description: "ネタ名"},
             type: { type: String, description: "ネタタイプ"},
+            subtype :{ type: String, description: "标识类型"},
             coverrows: {type: Number, description: "封面占九宫格的行数"},
             covercols: {type: Number, description: "封面占九宫格的列数"},
             cover: [{
