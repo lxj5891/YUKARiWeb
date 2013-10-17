@@ -1,4 +1,4 @@
-var SolutionFace = function () {
+var LogoFace = function () {
   this.name = undefined;
   this.index = undefined;
   this.widget_id = undefined;
@@ -27,13 +27,13 @@ var SolutionFace = function () {
   this.template = $("#solution_tmpl_widget");
 }
 
-SolutionFace.prototype.toObject = function() {
+LogoFace.prototype.toObject = function() {
   var that = this;
   var _object =  new Object();
   _object.name= that.name;
   _object.index= that.index;
   _object.action = that.action;
-  _object.widget_id = that.solution_id;
+  _object.widget_id = that.logo_id;
   _object.width = that.width;
   _object.height = that.height;
   _object.top = that.top;
@@ -43,8 +43,8 @@ SolutionFace.prototype.toObject = function() {
 };
 
 
-SolutionFace.prototype.init = function () {
-  this.self = $("#" + this.solution_id);
+LogoFace.prototype.init = function () {
+  this.self = $("#" + this.logo_id);
   this.setDraggable();
   this.setResizable();
   this.setHover();
@@ -53,7 +53,7 @@ SolutionFace.prototype.init = function () {
   this.setSelect();
 };
 
-SolutionFace.prototype.create = function (_obj,load) {
+LogoFace.prototype.create = function (_obj,load) {
   var that = this;
   that.name = _obj.name;
   that.index = _obj.index;
@@ -64,12 +64,12 @@ SolutionFace.prototype.create = function (_obj,load) {
   that.top = _obj.top;
   that.left = load? _obj.left : store.fixScaleWidthToIpad(_obj.left)  ;
   that.action = _obj.action;
-  that.solution_id = _obj.solution_id?_obj.solution_id:_obj.widget_id;
+  that.logo_id = _obj.logo_id?_obj.logo_id:_obj.widget_id;
   // append div to panel
-
-  $("#solutionmap_board").append(_.template(
-    $("#tmpl_solution").html(), {
-      "id": that.solution_id,
+  console.log(_obj);
+  $("#main_panel").append(_.template(
+    $("#tmpl_logo").html(), {
+      "id": that.logo_id,
       top: store.fixScaleHeightToWeb(that.top),
       left:  store.fixScaleHeightToWeb(that.left),
       width: store.fixScaleHeightToWeb(that.width),
@@ -78,18 +78,18 @@ SolutionFace.prototype.create = function (_obj,load) {
   );
 
   // add options
-  this.self = $("#" + that.solution_id);
-  this.border = $("#" + that.solution_id + "_border");
+  this.self = $("#" + that.logo_id);
+  this.border = $("#" + that.logo_id + "_border");
 
   // set style
   this.self.css("position", "absolute");
   this.self.css("background", "#A9A9AC");
-  this.self.css("opacity", "0.4");
+//  this.self.css("opacity", "");
   return that;
 };
 
 // 拖拽
-SolutionFace.prototype.setDraggable = function () {
+LogoFace.prototype.setDraggable = function () {
 
   var _this = this;
   this.self.draggable({ containment: "parent",
@@ -107,13 +107,13 @@ SolutionFace.prototype.setDraggable = function () {
       _this.itemTop.val(parseInt(store.fixScaleHeightToIpad(pos.top)));
       _this.left = store.fixScaleWidthToIpad(pos.left);
       _this.top = store.fixScaleHeightToIpad(pos.top);
-      store.setSolution(_this.metadata_id, _this);
+      store.setLogo(_this.metadata_id, _this);
     }
   });
 }
 
 
-SolutionFace.prototype.setResizable = function () {
+LogoFace.prototype.setResizable = function () {
 
   var _this = this;
   this.self.resizable({
@@ -141,17 +141,17 @@ SolutionFace.prototype.setResizable = function () {
       if (store.fixScaleHeightToIpad(pos.top + _this.self.height()) > 723) {
         _this.self.height(store.fixScaleHeightToWeb(723) - pos.top);
       }
-      store.setSolution(_this.metadata_id, _this);
+      store.setLogo(_this.metadata_id, _this);
     }
   });
 };
 
-SolutionFace.prototype.setAction = function () {
+LogoFace.prototype.setAction = function () {
   var _this = this;//删除插件事件
 
-  $("a[name=okDelSolution]").unbind("click").bind("click", function () {
-    $("#" + _this.solution_id).remove();
-    store.removeSolution(_this.metadata_id, _this.solution_id);
+  $("a[name=okDelLogo]").unbind("click").bind("click", function () {
+    $("#" + _this.Logo_id).remove();
+    store.removeLogo(_this.metadata_id, _this.logo_id);
   });
 
   if (_this.action) {
@@ -163,13 +163,13 @@ SolutionFace.prototype.setAction = function () {
     }
 
   } else {
-    $("#solution_image_preview img").attr("src", '/images/logo-block.png');
+    $("#Logo_image_preview img").attr("src", '/images/logo-block.png');
   }
 
 }
 
 // 光标浮动
-SolutionFace.prototype.setHover = function () {
+LogoFace.prototype.setHover = function () {
 
   var _this = this;
   this.self.hover(
@@ -183,15 +183,15 @@ SolutionFace.prototype.setHover = function () {
 }
 
 
-SolutionFace.prototype.setActionChange = function (init) {
+LogoFace.prototype.setActionChange = function (init) {
   var _this = this;
   var setImageAction = function () {
 
-    $("#select_solution_image_btn").unbind("click").bind("click", function () {
+    $("#select_logo_image_btn").unbind("click").bind("click", function () {
       var selectedEvent = function (event) {
         if (event.material_id != undefined) {
-          $("#solution_image_preview img").attr("src", event.image);
-          _this.action = {};
+          $("#"+_this.logo_id +" img").attr("src", event.image);
+          _this.action = _this.action || {};
           _this.action.type = 'image';
           _this.action.material_id = event.material_id;
           _this.action.image = event.image;
@@ -204,20 +204,45 @@ SolutionFace.prototype.setActionChange = function (init) {
   }
 
   setImageAction();
+
+  $("#logo_tag").unbind("blur").bind("blur",function(e){
+
+    _this.action = _this.action || {};
+    _this.action.logo_type = [];
+    $("#textBoxTag1 li").each(function(index){
+      if ($(this).attr("tagname").length > 0) {
+        _this.action.logo_type.push($(this).attr("tagname"));
+      }
+    });
+
+  });
+
+  $("#logo_subtag").unbind("change").bind("change",function(e){
+
+    _this.action = _this.action || {};
+    _this.action.logo_subtype = [];
+    $("#textBoxTag2 li").each(function(index){
+      if ($(this).attr("tagname").length > 0) {
+        _this.action.logo_subtype.push($(this).attr("tagname"));
+      }
+    });
+
+  });
+
 }
 
 
-SolutionFace.prototype.setSelect = function () {
+LogoFace.prototype.setSelect = function () {
 
   var _this = this;
   this.self.click(function () {
     //显示插件设定的form
-    $contents.view.solutionList.showSolutionPanel();
+    $contents.view.logoList.showlogoPanel();
 
     // remove old widget selection css
-    if (store.activeSolution) {
-      store.activeSolution.self.css("z-index", 1);
-      store.activeSolution.border.removeClass("widget_border_selected");
+    if (store.activeLogo) {
+      store.activeLogo.self.css("z-index", 1);
+      store.activeLogo.border.removeClass("widget_border_selected");
     }
 
     // set selection css
@@ -225,8 +250,8 @@ SolutionFace.prototype.setSelect = function () {
     _this.border.addClass("widget_border_selected");
 
     // set active widget
-    store.activeSolution = _this;
-    store.cur_solution_id = _this.self.attr("id");
+    store.activeLogo = _this;
+    store.cur_logo_id = _this.self.attr("id");
 
     _this.setAction();
     _this.setActionChange('init');

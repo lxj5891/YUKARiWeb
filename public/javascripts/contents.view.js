@@ -23,6 +23,9 @@ $contents.view = {
     $("#solutionmap_preview").css("display", "block");
     $("#solutionmap_panel").css("display", "block");
   },
+  showIntroductionPage : function(metadata_id){
+    $("#logo_panel").css("display", "block");
+  },
   showEffectPage: function (metadata_id) {
 
     $("#widget_panel").css("display", "none");
@@ -247,6 +250,9 @@ $contents.view = {
 
       $("#main_panel > img").fadeIn(800);
       store.cur_metadata_id = _metadata_id;
+      if (store.type == store._synthetic_type.Introduction) {
+        $contents.view.logoList.showLogoPage(store.cur_metadata_id);
+      }
       if (store.type == store._synthetic_type.normal) {
         self.widgetList.showWidgetByPage(store.cur_metadata_id);
       }
@@ -268,8 +274,12 @@ $contents.view = {
       }
 
       //设置当前编辑的metadata_id
-      if(store.type == store._synthetic_type.solutionmap) {
+      if (store.type == store._synthetic_type.solutionmap) {
         self.showSolutionmapPage(store.cur_metadata_id);
+      }
+
+      if (store.type == store._synthetic_type.Introduction) {
+        self.showIntroductionPage(store.cur_metadata_id);
       }
 
     };
@@ -419,6 +429,9 @@ $contents.view = {
           return i18n["js.public.info.synthetic.type.caseview"];
         } else if(type == store._synthetic_type.solutionmap){
           return i18n["html.label.synthetic.type.solutionmap"];
+        } else if(type == store._synthetic_type.Introduction){
+//          return i18n["html.label.synthetic.type.Introduction"];
+          return "Introduction";
         }
         return
       }
@@ -505,6 +518,21 @@ $contents.view = {
           if(store.type == store._synthetic_type.solutionmap){
             obj_metadata.widget = tmp_metadata_solution;
           }
+
+          var tmp_metadata_logo = [];
+          for (var j in obj_metadata.logo) {
+            if (store.metadata[i].logo[j] instanceof LogoFace)
+              tmp_metadata_logo[j] = obj_metadata.logo[j].toObject();
+            else
+              tmp_metadata_logo[j] = obj_metadata.logo[j];
+          }
+          delete obj_metadata.logo;
+
+          if(store.type == store._synthetic_type.Introduction){
+            obj_metadata.widget = tmp_metadata_logo;
+          }
+
+
           tmp_metadata[i] = obj_metadata;
         }
         var _data = {
@@ -680,6 +708,8 @@ $contents.view = {
     }
     $("#widget_panel").css("display", "none");
     $("#metadata_panel").css("display", "none");
+    $("#logo_panel").css("display", "none");
+
     $("#_action_type_image").css("display", "none");
     $("#_action_type_movie").css("display", "none");
     $("#_action_type_jump").css("display", "none");
@@ -690,11 +720,18 @@ $contents.view = {
     if (store.type == store._synthetic_type.CaseView) {
       $("#widget_panel").css("display", "none");
       $("#metadata_panel").css("display", "none");
+      $("#group_syntheticSign").css("display", "none");
     }
     if (store.type == store._synthetic_type.solutionmap) {
       $("#widget_panel").css("display", "none");
       $("#metadata_panel").css("display", "none");
       $("#group_syntheticSign").css("display", "block");
+    }
+
+    if (store.type == store._synthetic_type.Introduction) {
+      $("#widget_panel").css("display", "none");
+      $("#metadata_panel").css("display", "none");
+      $("#group_syntheticSign").css("display", "none");
     }
   },
   initCover: function (listener) {

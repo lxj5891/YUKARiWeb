@@ -20,6 +20,8 @@ $(function () {
         }
 
       });
+
+      var count = store.hideAllWidget();
 //      that.showSolutionmapPage(undefined);
     },
     showSolutionPanel :function(){

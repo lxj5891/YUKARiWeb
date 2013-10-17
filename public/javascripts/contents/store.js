@@ -9,6 +9,7 @@
 var store = {
   activeWidget: undefined,
   activeSolution : undefined,
+  activeLogo :undefined,
   //TODO : 去掉thumbs
   thumbs: [],
   coverrows: 1,
@@ -23,6 +24,7 @@ var store = {
   metadata_index: 0,
   widget_index: 0,
   solution_index : 0 ,
+  logo_index : 0 ,
   content_index: 0,
   cur_content_id: '',
   //当前编辑的metadata
@@ -30,13 +32,29 @@ var store = {
   //当前编辑的widget
   cur_widget_id: '',
   cur_solution_id : '',
+  cur_logo_id : '',
   //动态的循环显示封面
   cover_interval: undefined,
   cover_interval_index: 0,
   _action_type: {image: "image", movie: "movie", jump: "jump", urlScheme: "urlScheme",none:"none"},
   _effect_type: {zoomAndMoveRightDown: "zoomAndMoveRightDown", zoom: "zoom", zoomOut: "zoomOut", moveRightUp: "moveRightUp", up: "up"},
-  _synthetic_type: {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView",solutionmap:"solutionmap"},
+  _synthetic_type: {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView",solutionmap:"solutionmap" ,
+    Introduction:"Introduction" },
 
+  setLogo :function(metadata_id,logo){
+    var _metadata = this.getMetadata(metadata_id);
+    var _metadata_index = this.getMetadataIndex(metadata_id);
+    if (_metadata) {
+      for (var index in _metadata.logo) {
+        var s = _metadata.logo[index];
+        if (s.logo_id == logo.logo_id) {
+          _metadata.logo[index] = logo;
+          store.metadata[_metadata_index] = _metadata;
+          break;
+        }
+      }
+    }
+  },
   setSolution : function(metadata_id,solution){
     var _metadata = this.getMetadata(metadata_id);
     var _metadata_index = this.getMetadataIndex(metadata_id);
@@ -250,6 +268,21 @@ var store = {
     }
     return null;
   },
+  addLogo : function(metadata_id,logo,_i){
+    var _metadata = this.getMetadata(metadata_id);
+    var _index = this.getMetadataIndex(metadata_id);
+    if (_metadata) {
+      _metadata.logo = _metadata.logo || [];
+
+      if(_i){
+        _metadata.logo[_i] = logo;
+      }else{
+        _metadata.logo.push(logo);
+      }
+    }
+    this.metadata[_index] = _metadata;
+    this.logo_index = this.logo_index + 1;
+  },
   addSolution : function(metadata_id,solution,_i){
     var _metadata = this.getMetadata(metadata_id);
     var _index = this.getMetadataIndex(metadata_id);
@@ -356,12 +389,21 @@ var store = {
       if (!_metadata) {
         continue;
       }
-      if (!_metadata.widget) {
-        continue;
-      }
-      if (_metadata.widget.length > 0) {
+      if (_metadata.widget && _metadata.widget.length > 0) {
         for (var j in _metadata.widget) {
           $("#" + _metadata.widget[j].widget_id).css("display", "none");
+          count++;
+        }
+      }
+      if (_metadata.logo && _metadata.logo.length > 0) {
+        for (var j in _metadata.logo) {
+          $("#" + _metadata.logo[j].logo_id).css("display", "none");
+          count++;
+        }
+      }
+      if (_metadata.solution && _metadata.solution.length > 0) {
+        for (var j in _metadata.solution) {
+          $("#" + _metadata.solution[j].solution_id).css("display", "none");
           count++;
         }
       }
