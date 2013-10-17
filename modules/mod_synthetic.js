@@ -47,7 +47,8 @@ var Synthetic = new schema({
             value: {type: String, description: "动作类型"},
             tag : [String],
             subtag : [String],
-            material_id: {type: String, description: "素材ID"},
+            bg_material_id :{type: String, description: "Introduction 背景图片"},
+            material_id: {type: String, description: "素材ID "},
             urlScheme: {type: String, description: "app启动urlScheme：仅app启动类型"},
             downloadURL: {type: String, description: "app启动下载URL：仅app启动类型"}
           },
