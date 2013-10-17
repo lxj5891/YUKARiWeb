@@ -16,7 +16,7 @@ var LogoFace = function () {
   this.image = undefined;
   this.action = undefined;
 
-  this.itemPreview = $("#solution_image_preview img");
+  this.itemPreview = $("#action_bglogo_preview img");
   this.itemPanel = $("#solution_panel");
   this.itemTop = $("#solution_txt_y");
   this.itemLeft = $("#solution_txt_x");
@@ -162,10 +162,17 @@ LogoFace.prototype.setAction = function () {
     store.removeLogo(_this.metadata_id, _this.logo_id);
   });
 
-  console.log(_this.action);
-  if (_this.action && _this.action.tag && _this.action.tag.length > 0) {
+  if (_this.action) {
+    // && _this.action.tag && _this.action.tag.length > 0
 //    var tag = smart.view("tag").view;
 //    tag.setDefaults(_this.action.tag);
+    if(_this.action.bg_material ){
+      $("#action_bglogo_preview img").attr("src", "/picture/"+_this.action.bg_material.fileid);
+    } else {
+      $("#action_bglogo_preview img").attr("src", "/images/logo-block.png");
+    }
+  } else {
+    $("#action_bglogo_preview img").attr("src", "/images/logo-block.png");
   }
 
 
@@ -199,7 +206,22 @@ LogoFace.prototype.setActionChange = function (init) {
           _this.action.type = 'image';
           _this.action.material_id = event.material_id;
           _this.action.image = event.image;
-          store.setSolution(store.cur_metadata_id, _this);
+          store.setLogo(store.cur_metadata_id, _this);
+        }
+      };
+      var _popup = new ImagePopup({ type: 'single', tpl: 'image', el: 'pickThumbPic' }, selectedEvent);
+      _popup.show();
+    });
+
+    $("#btnSelectLogoBgMetadata").unbind("click").bind("click", function(){
+      var selectedEvent = function (event) {
+        if (event.material_id != undefined) {
+          $("#action_bglogo_preview img").attr("src", event.image);
+          _this.action = _this.action || {};
+          _this.action.type = 'image';
+          _this.action.bg_material_id = event.material_id;
+          _this.action.bg_image = event.image;
+          store.setLogo(store.cur_metadata_id, _this);
         }
       };
       var _popup = new ImagePopup({ type: 'single', tpl: 'image', el: 'pickThumbPic' }, selectedEvent);
@@ -260,4 +282,4 @@ LogoFace.prototype.setSelect = function () {
     _this.setAction();
     _this.setActionChange('init');
   });
-}
+};
