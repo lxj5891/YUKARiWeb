@@ -64,7 +64,7 @@ LogoFace.prototype.create = function (_obj,load) {
   that.top = _obj.top;
   that.left = load? _obj.left : store.fixScaleWidthToIpad(_obj.left)  ;
   that.action = _obj.action;
-  if(_obj.action.material.fileid){
+  if(_obj.action && _obj.action.material && _obj.action.material.fileid){
     that.action.image = "/picture/" + _obj.action.material.fileid;
   }
   that.logo_id = _obj.logo_id?_obj.logo_id:_obj.widget_id;
@@ -162,17 +162,13 @@ LogoFace.prototype.setAction = function () {
     store.removeLogo(_this.metadata_id, _this.logo_id);
   });
 
-  if (_this.action) {
-
-    if (_this.action.material) {
-      $("#solution_image_preview img").attr("src", '/picture/' + _this.action.material.fileid);
-    } else {
-      $("#solution_image_preview img").attr("src", _this.image);
-    }
-
-  } else {
-    $("#Logo_image_preview img").attr("src", '/images/logo-block.png');
+  console.log(_this.action);
+  if (_this.action && _this.action.tag && _this.action.tag.length > 0) {
+//    var tag = smart.view("tag").view;
+//    tag.setDefaults(_this.action.tag);
   }
+
+
 
 }
 

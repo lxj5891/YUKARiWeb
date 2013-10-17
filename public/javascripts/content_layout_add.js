@@ -506,7 +506,7 @@ $(function () {
 
           td.on('click', function () {
             var selectedTd = $(this);
-            showSyntheticList('imageWithThumb,normal,gallery,solutionmap',function(syntheticId,synthetic){
+            showSyntheticList('imageWithThumb,normal,gallery,solutionmap,Introduction',function(syntheticId,synthetic){
               var num = selectedTd.attr("tileNum");
               var screen = selectedTd.attr("screen");
               var t = getLandscapeTileInScreen(screen, num);
