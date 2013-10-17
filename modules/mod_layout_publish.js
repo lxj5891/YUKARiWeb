@@ -91,8 +91,8 @@ var PublishLayout = new schema({
                 action: {
                   type: {type: String, description: "action"},
                   value: {type: String, description: "action"},
-                  logo_type : [String],
-                  logo_subtype : [String],
+                  tag : [String],
+                  subtag : [String],
                   material :{
                     fileid: {type: String, description: "元素文件的ID"},
                     thumb: {

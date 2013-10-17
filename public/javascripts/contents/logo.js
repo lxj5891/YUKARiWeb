@@ -64,7 +64,11 @@ LogoFace.prototype.create = function (_obj,load) {
   that.top = _obj.top;
   that.left = load? _obj.left : store.fixScaleWidthToIpad(_obj.left)  ;
   that.action = _obj.action;
+  if(_obj.action.material.fileid){
+    that.action.image = "/picture/" + _obj.action.material.fileid;
+  }
   that.logo_id = _obj.logo_id?_obj.logo_id:_obj.widget_id;
+
   // append div to panel
   console.log(_obj);
   $("#main_panel").append(_.template(
@@ -80,6 +84,10 @@ LogoFace.prototype.create = function (_obj,load) {
   // add options
   this.self = $("#" + that.logo_id);
   this.border = $("#" + that.logo_id + "_border");
+
+  if(that.action && that.action.image){
+    $("#"+that.logo_id +" img").attr("src", that.action.image);
+  }
 
   // set style
   this.self.css("position", "absolute");
@@ -208,10 +216,10 @@ LogoFace.prototype.setActionChange = function (init) {
   $("#logo_tag").unbind("blur").bind("blur",function(e){
 
     _this.action = _this.action || {};
-    _this.action.logo_type = [];
+    _this.action.tag = [];
     $("#textBoxTag1 li").each(function(index){
       if ($(this).attr("tagname").length > 0) {
-        _this.action.logo_type.push($(this).attr("tagname"));
+        _this.action.tag.push($(this).attr("tagname"));
       }
     });
 
@@ -220,10 +228,10 @@ LogoFace.prototype.setActionChange = function (init) {
   $("#logo_subtag").unbind("change").bind("change",function(e){
 
     _this.action = _this.action || {};
-    _this.action.logo_subtype = [];
+    _this.action.subtag = [];
     $("#textBoxTag2 li").each(function(index){
       if ($(this).attr("tagname").length > 0) {
-        _this.action.logo_subtype.push($(this).attr("tagname"));
+        _this.action.subtag.push($(this).attr("tagname"));
       }
     });
 
