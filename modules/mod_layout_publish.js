@@ -68,6 +68,15 @@ var PublishLayout = new schema({
                   small: {type: String}
                 }
               },
+              bg_material_id :{type: String, description: "Introduction 背景图片"},
+              bg_material :{
+                fileid: {type: String, description: "元素文件的ID"},
+                thumb: {
+                  big: {type: String},
+                  middle: {type: String},
+                  small: {type: String}
+                }
+              },
               effect: {type: String, description: "效果: none, zoomAndMoveRightDown, zoom, zoomOut, moveRightUp, up}"},
               txtmaterial :{
                 fileid: {type: String, description: "元素文件的ID"},
