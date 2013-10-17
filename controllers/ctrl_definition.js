@@ -155,6 +155,8 @@ function setTile(data, page_index, tile, tile_index) {
     return;
   } else if(synthetic.type == "solutionmap") {
     t.type = "solutionmap";
+    t.prefix = [ "solutionmap" , page_index , tile_index ].join("-") + "-";
+    t.maxIndex = 0;
     // TODO:未做
   } else if(synthetic.type == "mageWithImageMenu") {
     t.type = "imageWithImageMenu";
