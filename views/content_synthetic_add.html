@@ -3,7 +3,7 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <script type="text/javascript" src="/javascripts/common.tag.view.js"></script>
+  <!--<script type="text/javascript" src="/javascripts/common.tag.view.js"></script>-->
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
   <link href="/stylesheets/contents.css" rel="stylesheet" media="screen">
   <style type="text/css">
@@ -326,7 +326,7 @@
 
 <div id="logo_panel">
   <div class="title">
-    <span>logo插件</span>
+    <span>LOGO插件</span>
 
     <div class="pull-right title_btn">
       <a id="btn_add_logo" class="btn btn-default btn-sm">添加插件</a>
@@ -336,20 +336,17 @@
     <form class="form-horizontal" role="form" name="setmetadata">
 
       <div class="form-group">
-        <label for="select_logo_image_btn" class="col-lg-5 control-label"><%=
-          i('html.label.synthetic.metadata.subimage') %><!-- 文字画像設定--></label>
+        <label for="select_logo_image_btn" class="col-lg-5 control-label">LOGO图片设定</label>
 
         <div class="col-lg-7">
-          <a id="select_logo_image_btn" class="btn btn-default" style="float: left"><%=
-            i('html.button.synthetic.metadata.select') %><!-- 画像選択--></a>
+          <a id="select_logo_image_btn" class="btn btn-default btn-sm" style="float: left">设定</a>
         </div>
       </div>
 
       <div class="form-group" id="logo_bg_material">
-        <label class="col-lg-5 control-label">背景图片</label>
+        <label class="col-lg-5 control-label">背景图片设定</label>
         <div class="col-lg-7">
-          <a id="btnSelectLogoBgMetadata" class="btn btn-default btn-sm" ><%= i('html.button.synthetic.widget.jump') %>
-            <!-- 遷移先--></a>
+          <a id="btnSelectLogoBgMetadata" class="btn btn-default btn-sm" >设定</a>
 
           <div id="action_bglogo_preview" class="action_bglogo_preview">
             <img src="/images/logo-block.png"/>
@@ -357,26 +354,37 @@
         </div>
 
       </div>
-
-
       <div class="form-group">
-        <label class="col-lg-5 control-label">分类</label>
+        <div style="margin-left: 50px;margin-right: 20px;overflow-y: scroll;height: 200px;">
+          <table class="table table-bordered">
+            <thead><tr><td>分类</td><td>子分类</td><td>操作</td></tr></thead>
+            <tbody id="logo_tag_items">
+            <tr>
+              <td><input type="text" name="tag" class="form-control text_tag" placeholder="分类"/></td>
+              <td><input type="text" name="subtag" class="form-control text_tag" placeholder="子分类"/></td>
+              <td><i class=""></i></td>
+            </tr>
+            <tr>
+              <td><input type="text" name="tag" class="form-control text_tag" placeholder="分类"/></td>
+              <td><input type="text" name="subtag" class="form-control text_tag" placeholder="子分类"/></td>
+            </tr>
+            <tr>
+              <td><input type="text" name="tag" class="form-control text_tag" placeholder="分类"/></td>
+              <td><input type="text" name="subtag" class="form-control text_tag" placeholder="子分类"/></td>
+            </tr>
 
-        <div class="col-lg-7">
-          <div id="textBoxTag1" class="incrementBox">
-            <input id="logo_tag" name="logo_tag" scope="1" placeholder="+ タグを指定" style="width: 130px;">
-          </div>
+            </tbody>
+          </table>
         </div>
+
+
       </div>
-
       <div class="form-group">
-        <label class="col-lg-5 control-label">子分类</label>
-
+        <label class="col-lg-5 control-label">增加类型</label>
         <div class="col-lg-7">
-          <div id="textBoxTag2" class="incrementBox">
-            <input id="logo_subtag" name="logo_subtag" scope="1" placeholder="+ タグを指定" style="width: 130px;">
-          </div>
+          <a class="btn btn-default btn-sm" id="appendTag">追加</a>
         </div>
+
       </div>
 
     </form>
@@ -537,6 +545,12 @@
   </li>
 </script>
 
+<script type="text/template" id="tmpl_logo_tag_item">
+  <tr>
+    <td><input type="text" name="tag" class="form-control text_tag" placeholder="分类"/></td>
+    <td><input type="text" name="subtag" class="form-control text_tag" placeholder="子分类"/></td>
+  </tr>
+</script>
 
 </body>
 </html>

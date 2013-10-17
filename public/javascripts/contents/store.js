@@ -461,6 +461,22 @@ var store = {
       }
       return _success();
     }
+
+    var _rule_Introduction = function (_metadata) {
+      var _metadata_id = _metadata.metadata_id;
+      var _error = function (err) {
+        return {valide: false, metadata_id: _metadata_id, err: err};
+      }
+      var _success = function () {
+        return {valide: true, metadata_id: _metadata_id};
+      }
+      if (!_metadata.effect) {
+        return _error("");
+      }
+      if (!_metadata.txtmaterial_id || _metadata.txtmaterial_id == null) {
+        return _error("");
+      }
+    }
     if (that.type == that._synthetic_type.imageWithThumb) {
       for (var i in store.metadata) {
         var _metadata = store.metadata[i]

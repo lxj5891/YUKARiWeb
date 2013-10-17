@@ -85,8 +85,7 @@ $(function () {
   if (store.type == store._synthetic_type.Introduction) {
     $contents.view.logoList.initLogolistFromMetadata(store.metadata);
 
-    smart.view("tag").view.initialize("textBoxTag1");
-    smart.view("tag").view.initialize("textBoxTag2");
+
   }
 });
 

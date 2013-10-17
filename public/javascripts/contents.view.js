@@ -379,14 +379,22 @@ $contents.view = {
         var params = { material_cell: material_cell, image: metadata.image, fileid: metadata.fileid, metadata_id: metadata.metadata_id };
         $contents.view.material.insertCell(params);
       }
-      //当CaseView 类型是 隐藏
-      if(store.type == store._synthetic_type.CaseView || store.type == store._synthetic_type.solutionmap)
+      // 当使用一个图片时隐藏  添加
+      if( store.type == store._synthetic_type.CaseView ||
+          store.type == store._synthetic_type.solutionmap ||
+          store.type == store._synthetic_type.Introduction ){
+
         $(".material_cell .cover_add").hide();
 
+      }
+
     } else {
+
+      $(".material_cell .cover_add").show();
       $contents.view.material.resetSize();
 
     }
+
     if ((typeof listener != "undefined") && _.isFunction(listener)) {
       listener.apply();
     }
