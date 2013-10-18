@@ -22,6 +22,8 @@ $contents.view = {
   showSolutionmapPage : function(metadata_id){
     $("#solutionmap_preview").css("display", "block");
     $("#solutionmap_panel").css("display", "block");
+    $("#solutionmap_panel form").css("display", "none");
+    $("#main_panel_img").hide();
   },
   showIntroductionPage : function(metadata_id){
     $("#logo_panel").css("display", "block");
@@ -240,16 +242,18 @@ $contents.view = {
       var _data = $(e.target).attr("data");
       var _src = $(e.target).attr("src");
       var _metadata_id = $(e.target).attr("metadata_id");
+      store.cur_metadata_id = _metadata_id;
       $("#main_panel > img").hide();
       //对应solutionmap
       if(store.type != store._synthetic_type.solutionmap){
         $("#main_panel > img").attr("src", _src);
       } else {
+        $contents.view.solutionList.showSolutionPage(store.cur_metadata_id);
         $("#solutionmap_board_img").attr("src", _src);
       }
 
       $("#main_panel > img").fadeIn(800);
-      store.cur_metadata_id = _metadata_id;
+
       if (store.type == store._synthetic_type.Introduction) {
         $contents.view.logoList.showLogoPage(store.cur_metadata_id);
       }
@@ -327,6 +331,7 @@ $contents.view = {
         if (store.type == store._synthetic_type.solutionmap){
           self.showSolutionmapPage(store.cur_metadata_id);
           $("#solution_pannel").css("display", "block");
+          $contents.view.solutionList.hideSolutionPanel();
         }
       };
       var options = undefined;
@@ -438,15 +443,33 @@ $contents.view = {
         } else if(type == store._synthetic_type.solutionmap){
           return i18n["html.label.synthetic.type.solutionmap"];
         } else if(type == store._synthetic_type.Introduction){
-//          return i18n["html.label.synthetic.type.Introduction"];
-          return "Introduction";
+          return i18n["html.label.synthetic.type.Introduction"];
         }
         return
       }
       $("#syntheticName").val(result.data.items.name);
       $("#syntheticComment").val(result.data.items.comment);
-      $("#syntheticSign").val(result.data.items.sign);
+      $("#syntheticSign").val(result.data.items.subtype);
       $("#syntheticType").html(type_redner(result.data.items.type));
+      if(store.type == store._synthetic_type.solutionmap){
+
+        var flag = '1'
+        if(result.data.items.subtype && result.data.items.subtype.length > 0){
+          flag = '2';
+          $("#group_syntheticSign").css("display","block");
+        } else {
+          $("#group_syntheticSign").css("display","none");
+        }
+
+        new ButtonGroup("subTypeZone", flag ,function(v){
+          if(v == '1'){
+            $("#group_syntheticSign").css("display","none");
+            $("#syntheticSign").val("");
+          } else {
+            $("#group_syntheticSign").css("display","block");
+          }
+        }).init();
+      }
 
 
       callback.apply();
@@ -499,6 +522,27 @@ $contents.view = {
           //TODO: 选择图片  画面
           return;
         }
+
+
+        if(store.type == store._synthetic_type.Introduction){
+          for (var i in store.metadata[0].logo) {
+            var check_logo = store.metadata[0].logo[i];
+            if (!check_logo.action.bg_material_id || check_logo.action.bg_material_id.length == 0) {
+              Alertify.log.error("请选择背景图片");
+              return;
+            }
+            if (!check_logo.action.material_id || check_logo.action.material_id.length == 0) {
+              Alertify.log.error("请选择图片");
+              return;
+            }
+          }
+
+          if(!checkEmpty()){
+            Alertify.log.error("请输入tag");
+            return;
+          }
+        }
+
         //保存插件信息
 //        store.fixSaveWidget();
         var tmp_metadata = [];
@@ -555,6 +599,8 @@ $contents.view = {
         };
 
         var save_valida = store.validatorSava();
+
+
         if (!save_valida.valide && store.type == store._synthetic_type.imageWithThumb) {
           Alertify.log.error(save_valida.err);
         } else {
@@ -733,13 +779,15 @@ $contents.view = {
     if (store.type == store._synthetic_type.solutionmap) {
       $("#widget_panel").css("display", "none");
       $("#metadata_panel").css("display", "none");
-      $("#group_syntheticSign").css("display", "block");
+//      $("#group_syntheticSign").css("display", "block");
+
     }
 
     if (store.type == store._synthetic_type.Introduction) {
       $("#widget_panel").css("display", "none");
       $("#metadata_panel").css("display", "none");
       $("#group_syntheticSign").css("display", "none");
+
     }
   },
   initCover: function (listener) {

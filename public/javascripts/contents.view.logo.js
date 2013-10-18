@@ -13,7 +13,7 @@ $(function () {
         for (var _i in _logo) {
           var data = _logo[_i];
           var _obj = new LogoFace();
-
+          data.logo_id = "logo" + store.logo_index;
           var create_obj = _obj.create(data, 1);
           create_obj.init();
           store.addLogo(e.metadata_id, create_obj);

@@ -17,6 +17,7 @@ $(function () {
         for (var _i in _widget) {
           var data = _widget[_i];
           var _obj = new WidgetFace();
+          data.widget_id = "widget" + store.widget_index;
           var create_obj = _obj.create(data);
           create_obj.init();
           store.addWidget(e.metadata_id, create_obj,_i);

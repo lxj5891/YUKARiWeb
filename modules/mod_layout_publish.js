@@ -100,9 +100,22 @@ var PublishLayout = new schema({
                 action: {
                   type: {type: String, description: "action"},
                   value: {type: String, description: "action"},
-                  tag : [String],
-                  subtag : [String],
+                  tags: [
+                    {
+                      tag: {type: String, description: "分类"},
+                      subtag: {type: String, description: "子分类"}
+                    }
+                  ],
                   material :{
+                    fileid: {type: String, description: "元素文件的ID"},
+                    thumb: {
+                      big: {type: String},
+                      middle: {type: String},
+                      small: {type: String}
+                    }
+                  },
+                  bg_material_id: {type: String, description: "Introduction 背景图片"},
+                  bg_material :{
                     fileid: {type: String, description: "元素文件的ID"},
                     thumb: {
                       big: {type: String},

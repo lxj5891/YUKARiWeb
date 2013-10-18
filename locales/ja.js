@@ -182,7 +182,7 @@
   "html.label.synthetic.widget.urlScheme.id":"ウィジェットID",
   "html.label.synthetic.widget.urlScheme.url":"ウィジェットURL",
   "html.label.synthetic.widget.operation":"操作",
-  "html.button.synthetic.widget.delete":"ウィジェット削除",
+  "html.button.synthetic.widget.delete":"削除",
   "html.label.synthetic.metadata.title":"背景設定",
   "html.button.synthetic.metadata.area":"ウィジェットエリア",
   "html.label.synthetic.metadata.action":"背景のアクション",
@@ -434,5 +434,12 @@
   "html.select.synthetic.effect.zoomAndMoveRightUp":"拡大且つ右上へ",
   "html.select.synthetic.effect.zoomAndMoveRightDown":"拡大且つ左下へ",
   "html.select.appimage":"起動画像追加",
-  "html.button.common.logosave":"ロゴ追加"
+  "html.button.common.logosave":"ロゴ追加",
+
+  "html.label.synthetic.type.Introduction" : "事例",
+  "html.label.synthetic.type.Introduction.subimage" : "バックグラウンド設定",
+  "html.label.synthetic.type.Introduction.type" : "分類",
+  "html.label.synthetic.type.Introduction.subtype" : "小分類",
+  "html.label.synthetic.type.Introduction.addtype" : "分類追加",
+  "html.label.synthetic.type.Introduction.add":"追加"
 }

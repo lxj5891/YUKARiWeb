@@ -149,9 +149,10 @@ SolutionFace.prototype.setResizable = function () {
 SolutionFace.prototype.setAction = function () {
   var _this = this;//删除插件事件
 
-  $("a[name=okDelSolution]").unbind("click").bind("click", function () {
+  $("#btn_remove_solution").unbind("click").bind("click", function () {
     $("#" + _this.solution_id).remove();
     store.removeSolution(_this.metadata_id, _this.solution_id);
+    $contents.view.solutionList.hideSolutionPanel();
   });
 
   if (_this.action) {
@@ -159,7 +160,7 @@ SolutionFace.prototype.setAction = function () {
     if (_this.action.material) {
       $("#solution_image_preview img").attr("src", '/picture/' + _this.action.material.fileid);
     } else {
-      $("#solution_image_preview img").attr("src", _this.image);
+      $("#solution_image_preview img").attr("src", _this.action.image);
     }
 
   } else {

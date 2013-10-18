@@ -142,27 +142,6 @@ exports.saveThumbAndMatedata = function (code, synthetic_id, cover, metadata, co
     syntheticComment:syntheticComment,
     syntheticSign :syntheticSign
   }
-  var tag_list = [];
-  for(var i in metadata){
-    for(var j in metadata[i].widget){
-      for(var k in metadata[i].widget[j].action.tag){
-        var _tag = metadata[i].widget[j].action.tag[k];
-        tag_list.push(_tag);
-      }
-    }
-  }
-  var subtag_list = [];
-  for(var i in metadata){
-    for(var j in metadata[i].widget){
-      for(var k in metadata[i].widget[j].action.tag){
-        var _tag = metadata[i].widget[j].action.tag[k];
-        subtag_list.push(_tag);
-      }
-    }
-  }
-//  tag.add(code_, user._id, add, function(err, result){
-//    cb(err, data);
-//  });
 
   synthetic.update(code, synthetic_id, _data, user, function (err, result) {
     callback(err, result);

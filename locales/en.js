@@ -434,5 +434,12 @@
   "html.select.synthetic.effect.zoomAndMoveRightUp":"zoomAndMoveRightUp",
   "html.select.synthetic.effect.zoomAndMoveRightDown":"zoomAndMoveRightDown",
   "html.select.appimage":"Select Picture",
-  "html.button.common.logosave":"LOGO"
+  "html.button.common.logosave":"LOGO",
+
+  "html.label.synthetic.type.Introduction" : "Introduction",
+  "html.label.synthetic.type.Introduction.subimage" : "Backgroud Image",
+  "html.label.synthetic.type.Introduction.type" : "Type",
+  "html.label.synthetic.type.Introduction.subtype" : "SubType",
+  "html.label.synthetic.type.Introduction.addtype" : "add Type",
+  "html.label.synthetic.type.Introduction.add":"Add"
 }

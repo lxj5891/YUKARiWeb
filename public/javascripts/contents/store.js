@@ -513,6 +513,14 @@ var store = {
       }
     }
   },
+  removeLogo : function(logo_id){
+    for (var i in store.metadata[0].logo) {
+      if (store.metadata[0].logo[i].logo_id == logo_id) {
+        store.metadata[0].logo = _.without(store.metadata[0].logo,store.metadata[0].logo[i]);
+      }
+    }
+  },
+
   removeWidget: function (metadata_id, widget_id) {
     var _metadata = this.getMetadata(metadata_id);
     var _metadata_index = this.getMetadataIndex(metadata_id);
