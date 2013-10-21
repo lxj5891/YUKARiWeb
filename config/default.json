@@ -54,6 +54,7 @@
     , "queue_join": "smartJoin"
     , "queue_apn": "smartApn"
     , "queue_thumb": "smartThumb"
+    , "maxListeners": 0
   }
 
 }
