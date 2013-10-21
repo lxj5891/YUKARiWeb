@@ -11,18 +11,17 @@ var mongo = require('mongoose')
 var Synthetic = new schema({
   company: {type: String, description: ""},
   comment: {type: String, description: "描述"},
-  subtype : {type: String, description: "标识"},
+  subtype: {type: String, description: "标识"},
   name: {type: String, description: "名称"},
   type: { type: String, description: "类别"},
   coverrows: {type: Number, description: "封面占九宫格的行数"},
   covercols: {type: Number, description: "封面占九宫格的列数"},
   cover: [
     {
-      material_id: {type: String, description: "素材ID"}
-      , type: {type: String, description: "封面种类：视频，图片"}
+      material_id: {type: String, description: "素材ID"}, type: {type: String, description: "封面种类：视频，图片"}
     }
-  ] // 封面
-  , page: {type: String, description: "页数"},
+  ],  // 封面
+  page: {type: String, description: "页数"},
   metadata: [
     {
       index: {type: Number, description: "索引"},
@@ -51,7 +50,7 @@ var Synthetic = new schema({
                 subtag: {type: String, description: "子分类"}
               }
             ],
-            bg_material_id :{type: String, description: "Introduction 背景图片"},
+            bg_material_id: {type: String, description: "Introduction 背景图片"},
             material_id: {type: String, description: "素材ID "},
             urlScheme: {type: String, description: "app启动urlScheme：仅app启动类型"},
             downloadURL: {type: String, description: "app启动下载URL：仅app启动类型"}

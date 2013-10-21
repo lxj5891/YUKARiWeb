@@ -434,5 +434,15 @@
   "html.select.synthetic.effect.zoomAndMoveRightUp":"放大并向右上移动",
   "html.select.synthetic.effect.zoomAndMoveRightDown":"放大并向左下移动",
   "html.select.appimage":"图片添加",
-  "html.button.common.logosave":"图标添加"
+  "html.button.common.logosave":"图标添加",
+
+  "html.label.synthetic.type.Introduction" : "事例",
+  "html.label.synthetic.type.Introduction.subimage" : "背景图片设定",
+  "html.label.synthetic.type.Introduction.type" : "分类",
+  "html.label.synthetic.type.Introduction.subtype" : "子分类",
+  "html.label.synthetic.type.Introduction.addtype" : "增加分类",
+  "html.label.synthetic.type.Introduction.add":"追加"
+
+
+
 }

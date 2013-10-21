@@ -69,15 +69,25 @@
                placeholder="<%= i('html.label.synthetic.title') %>">
       </div>
     </div>
-    <div class="form-group" id="group_syntheticSign" style="margin-top: 15px;display: none">
-      <label for="syntheticSign" class="col-lg-2 control-label"><%= i('html.label.synthetic.sign') %>
-        <!-- 元素标识--></label>
+    <!--<div class="form-group" id="ctr_syntheticSign" style="margin-top: 15px;">-->
+      <!--<label for="syntheticSign" class="col-lg-2 control-label">控制标识</label>-->
 
-      <div class="col-lg-10">
-        <input type="text" name="syntheticSign" class="form-control" id="syntheticSign"
-               placeholder="<%= i('html.label.synthetic.sign') %>">
-      </div>
-    </div>
+      <!--<div class="col-lg-10">-->
+        <!--<div class="btn-group" value="0" id="subTypeZone">-->
+          <!--<button type="button" class="btn btn-sm btn-default" value="1">普通</button>-->
+          <!--<button type="button" class="btn btn-sm btn-default" value="2">自定义</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group" id="group_syntheticSign" style="margin-top: 15px;display: none">-->
+      <!--<label for="syntheticSign" class="col-lg-2 control-label"><%= i('html.label.synthetic.sign') %>-->
+        <!--&lt;!&ndash; 元素标识&ndash;&gt;</label>-->
+
+      <!--<div class="col-lg-10">-->
+        <!--<input type="text" name="syntheticSign" class="form-control" id="syntheticSign"-->
+               <!--placeholder="<%= i('html.label.synthetic.sign') %>">-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="form-group">
       <label for="syntheticComment" class="col-lg-2 control-label"><%= i('html.label.synthetic.comment') %>
         <!-- コメント--></label>
@@ -113,14 +123,14 @@
 </div>
 <div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-bottom-width: 0px">
 <div id="main_panel">
-  <img src="/images/logo-block.png">
+  <img id="main_panel_img" src="/images/logo-block.png">
 
   <div id="effect_big_preview">
     <img src="/images/logo-block.png">
   </div>
   <div id="solutionmap_preview">
     <div id="solutionmap_board">
-      <img id="solutionmap_board_img" src="/images/demo/solutionmap.png">
+      <img id="solutionmap_board_img" src="/images/logo-block.png">
     </div>
   </div>
 </div>
@@ -289,10 +299,12 @@
 
 <div id="solutionmap_panel">
   <div class="title">
-    <span>solutionmap插件</span>
+    <span><%=i('html.label.synthetic.widget') %><!--插件--></span>
 
     <div class="pull-right title_btn">
-      <a id="btn_add_solution" class="btn btn-default btn-sm">添加插件</a>
+      <a id="btn_add_solution" class="btn btn-default btn-sm"><%=i('html.button.synthetic.widget.add') %><!-- 新規追加--></a>
+
+      <a id="btn_remove_solution" class="btn btn-default btn-sm"><%=i('html.button.synthetic.widget.delete') %><!-- 删除插件--></a>
     </div>
   </div>
   <div class="widget_body">
@@ -326,27 +338,28 @@
 
 <div id="logo_panel">
   <div class="title">
-    <span>LOGO插件</span>
+    <span><%=i('html.label.synthetic.widget') %><!--插件--></span>
 
     <div class="pull-right title_btn">
-      <a id="btn_add_logo" class="btn btn-default btn-sm">添加插件</a>
+      <a id="btn_add_logo" class="btn btn-default btn-sm"><%=i('html.button.synthetic.widget.add') %><!-- 新規追加--></a>
+      <a id="btn_remove_logo" class="btn btn-default btn-sm"><%=i('html.button.synthetic.widget.delete') %><!-- 删除插件--></a>
     </div>
   </div>
   <div class="widget_body">
     <form class="form-horizontal" role="form" name="setmetadata">
 
       <div class="form-group">
-        <label for="select_logo_image_btn" class="col-lg-5 control-label">LOGO图片设定</label>
+        <label for="select_logo_image_btn" class="col-lg-5 control-label"><%=i('html.label.synthetic.metadata.subimage') %><!-- 图片设定--></label>
 
         <div class="col-lg-7">
-          <a id="select_logo_image_btn" class="btn btn-default btn-sm" style="float: left">设定</a>
+          <a id="select_logo_image_btn" class="btn btn-default btn-sm" style="float: left"><%=i('html.button.synthetic.setting') %><!-- 设定--></a>
         </div>
       </div>
 
       <div class="form-group" id="logo_bg_material">
-        <label class="col-lg-5 control-label">背景图片设定</label>
+        <label class="col-lg-5 control-label"><%=i('html.label.synthetic.type.Introduction.subimage') %><!-- 背景图片设定--></label>
         <div class="col-lg-7">
-          <a id="btnSelectLogoBgMetadata" class="btn btn-default btn-sm" >设定</a>
+          <a id="btnSelectLogoBgMetadata" class="btn btn-default btn-sm" ><%=i('html.button.synthetic.setting') %><!-- 设定--></a>
 
           <div id="action_bglogo_preview" class="action_bglogo_preview">
             <img src="/images/logo-block.png"/>
@@ -357,22 +370,13 @@
       <div class="form-group">
         <div style="margin-left: 50px;margin-right: 20px;overflow-y: scroll;height: 200px;">
           <table class="table table-bordered">
-            <thead><tr><td>分类</td><td>子分类</td><td>操作</td></tr></thead>
+            <thead><tr><td><%=i('html.label.synthetic.type.Introduction.type') %><!-- 分类--></td><td><%=i("html.label.synthetic.type.Introduction.subtype") %><!-- 子分类--></td><td></td></tr></thead>
             <tbody id="logo_tag_items">
             <tr>
-              <td><input type="text" name="tag" class="form-control text_tag" placeholder="分类"/></td>
-              <td><input type="text" name="subtag" class="form-control text_tag" placeholder="子分类"/></td>
-              <td><i class=""></i></td>
+              <td><input type="text" name="tag" class="form-control text_tag" placeholder="<%=i('html.label.synthetic.type.Introduction.type') %><!-- 分类-->"/></td>
+              <td><input type="text" name="subtag" class="form-control text_tag" placeholder="<%=i('html.label.synthetic.type.Introduction.subtype') %><!-- 子分类-->"/></td>
+              <td><i class="icon-remove"></i></td>
             </tr>
-            <tr>
-              <td><input type="text" name="tag" class="form-control text_tag" placeholder="分类"/></td>
-              <td><input type="text" name="subtag" class="form-control text_tag" placeholder="子分类"/></td>
-            </tr>
-            <tr>
-              <td><input type="text" name="tag" class="form-control text_tag" placeholder="分类"/></td>
-              <td><input type="text" name="subtag" class="form-control text_tag" placeholder="子分类"/></td>
-            </tr>
-
             </tbody>
           </table>
         </div>
@@ -380,9 +384,9 @@
 
       </div>
       <div class="form-group">
-        <label class="col-lg-5 control-label">增加类型</label>
+        <label class="col-lg-5 control-label"><%=i('html.label.synthetic.type.Introduction.addtype') %><!-- 增加分类--></label>
         <div class="col-lg-7">
-          <a class="btn btn-default btn-sm" id="appendTag">追加</a>
+          <a class="btn btn-default btn-sm" id="appendTag"><%=i('html.label.synthetic.type.Introduction.add') %><!-- 追加--></a>
         </div>
 
       </div>
@@ -547,8 +551,9 @@
 
 <script type="text/template" id="tmpl_logo_tag_item">
   <tr>
-    <td><input type="text" name="tag" class="form-control text_tag" placeholder="分类"/></td>
-    <td><input type="text" name="subtag" class="form-control text_tag" placeholder="子分类"/></td>
+    <td><input type="text" name="tag" class="form-control text_tag" placeholder="<%=i('html.label.synthetic.type.Introduction.type') %><!-- 分类-->" value="{{tag}}"/></td>
+    <td><input type="text" name="subtag" class="form-control text_tag" placeholder="<%=i('html.label.synthetic.type.Introduction.subtype') %><!-- 子分类-->" value="{{subtag}}"/></td>
+    <td><i class="icon-remove" num={{num}}></i></td>
   </tr>
 </script>
 

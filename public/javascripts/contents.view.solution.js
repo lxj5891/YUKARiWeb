@@ -13,6 +13,7 @@ $(function () {
         for (var _i in _solution) {
           var data = _solution[_i];
           var _obj = new SolutionFace();
+          data.solution_id = "solution"+ store.solution_index;
 
           var create_obj = _obj.create(data,1);
           create_obj.init();
@@ -21,11 +22,38 @@ $(function () {
 
       });
 
-      var count = store.hideAllWidget();
-//      that.showSolutionmapPage(undefined);
+//      var count = store.hideAllWidget();
+      that.showSolutionPage(undefined);
+      that.hideSolutionPanel();
     },
     showSolutionPanel :function(){
-      $("#solution_panel form").css("display","block");
+      $("#solutionmap_panel").css("display","block");
+      $("#solutionmap_panel form").css("display","block");
+    },
+    hideSolutionPanel :function(){
+      $("#solutionmap_panel form").css("display","none");
+    },
+    showSolutionPage : function(metadata_id){
+      var that = this;
+      that.showSolutionPanel();
+      $("#logo_panel").css("display","none");
+      $("#widget_panel").css("display","none");
+      $("#metadata_panel").css("display","none");
+      //隐藏全部的widget
+      var count = store.hideAllWidget();
+      console.log("隐藏了" + count + "个widget");
+      that.hideSolutionPanel();
+      //显示当前metadata  的widget
+      if (!metadata_id) {
+        return;
+      }
+      var _metadata = store.getMetadata(metadata_id);
+      if(_metadata && _metadata.solution){
+        var _solution = _metadata.solution;
+        _.each(_solution, function (solution) {
+          $("#" + solution.solution_id).css("display", "block");
+        });
+      }
     }
   }
 
@@ -50,6 +78,7 @@ $(function () {
       metadata_id: store.cur_metadata_id,
       page: store.cur_metadata_id
     };
+    console.log(solution_obj);
     var create_obj = _obj.create(solution_obj);
     create_obj.init();
     store.addSolution(store.cur_metadata_id, create_obj);
