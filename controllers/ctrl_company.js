@@ -3,9 +3,10 @@ var sync     = require('async')
   , check     = require('validator').check
   , company   = require('../modules/mod_company.js')
   , device    = require('../controllers/ctrl_device')
-  , error     = lib.core.errors
-  , user      = lib.ctrl.user
-  , auth      = lib.core.auth ;
+  , smart     = require("smartcore")
+  , error     = smart.core.errors
+  , user      = smart.ctrl.user
+  , auth      = smart.core.auth ;
 
 /**
  * 获取公司一览

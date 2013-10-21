@@ -1,9 +1,11 @@
-var json = lib.core.json
-  , user = lib.mod.user
-  , util = lib.core.util
-  , _ = require('underscore')
-  , sync     = require('async')
-  , company = require('../modules/mod_company');
+var smart     = require("smartcore")
+  , json      = smart.core.json
+  , user      = smart.mod.user
+  , util      = smart.core.util
+  , _         = require('underscore')
+  , sync      = require('async')
+  , company   = require('../modules/mod_company');
+
 //yukri
 exports.listByDBName = function(dbName_,start_, limit_, keyword_, callback_) {
 

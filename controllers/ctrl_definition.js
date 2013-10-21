@@ -1,13 +1,14 @@
-var async     = require('async')
-  , _         = require('underscore')
-  , material  = require('./ctrl_material')
-  , ctl_layout  = require('./ctrl_layout')
-  , layout_publish   = require('../modules/mod_layout_publish')
-  , synthetic = require('./ctrl_synthetic')
-  , cutil  = require('../core/contentutil')
-  , mod_group       = lib.mod.group
-  , utils           = require('../core/utils')
-  , errors  = lib.core.errors;
+var async           = require('async')
+  , _               = require('underscore')
+  , material        = require('./ctrl_material')
+  , ctl_layout      = require('./ctrl_layout')
+  , layout_publish  = require('../modules/mod_layout_publish')
+  , synthetic       = require('./ctrl_synthetic')
+  , cutil           = require('../core/contentutil')
+  , smart           = require("smartcore")
+  , mod_group       = smart.mod.group
+  , errors          = smart.core.errors
+  , utils           = require('../core/utils');
 
 exports.get = function(code, user_, target_, isPublish, callback_) {
   var data = {};

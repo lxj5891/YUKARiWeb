@@ -1,6 +1,6 @@
-var i = require("i18n")
-  , util = require('../core/utils')
-  , log = lib.core.log;
+var i     = require("i18n")
+  , util  = require('../core/utils')
+  , log   = require("smartcore").core.log;
 
 exports.guiding = function (app) {
 

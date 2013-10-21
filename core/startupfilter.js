@@ -4,8 +4,9 @@
  */
 
 var express     = require("express")
-  , user        = lib.mod.user
-  , auth        = lib.core.auth
+  , smart       = require("smartcore")
+  , user        = smart.mod.user
+  , auth        = smart.core.auth
   , middleware  = require("../core/middleware");
 
 var userid = "admin";

@@ -1,6 +1,7 @@
-var json = lib.core.json
-  , errors  = lib.core.errors
-  , tag = require('../controllers/ctrl_tag');
+var smart     = require("smartcore")
+  , json      = smart.core.json
+  , errors    = smart.core.errors
+  , tag       = require('../controllers/ctrl_tag');
 
 // Tag一览
 exports.search = function(req_, res_) {

@@ -1,9 +1,10 @@
-var json = lib.core.json
-  , amqp = require('amqp')
+var smart   = require("smartcore")
+  , json    = smart.core.json
+  , errors  = smart.core.errors
+  , amqp    = require('amqp')
   , mq_join = require('config').mq_join
-  , errors = lib.core.errors
-  , utils = require('../core/utils')
-  , layout = require('../controllers/ctrl_layout');
+  , utils   = require('../core/utils')
+  , layout  = require('../controllers/ctrl_layout');
 
 
 exports.checkupdate = function (req_, res_) {

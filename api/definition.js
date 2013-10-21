@@ -2,9 +2,10 @@
  * 生成iPad用JSON定义
  */
 
-var json = lib.core.json
-  , definition = require('../controllers/ctrl_definition')
-  , errors  = lib.core.errors;
+var smart = require("smartcore")
+  , json = smart.core.json
+  , errors  = smart.core.errors
+  , definition = require('../controllers/ctrl_definition');
 
 exports.get = function(req_, res_, isPublish) {
   // Check Params

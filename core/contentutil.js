@@ -1,6 +1,6 @@
 var i18n    = require('i18n')
   , fs      = require('fs')
-  , log       = lib.core.log;
+  , log       = require("smartcore").core.log;
 
 var top_offset = 1;     // 页顶部偏移1px
 var bottom_offset = 1;  // 页底部偏移1px

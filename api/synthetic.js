@@ -6,9 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var json      = lib.core.json
+var json      = require("smartcore").core.json
+  , errors    = require("smartcore").core.errors
   , utils     = require('../core/utils')
-  , errors    = lib.core.errors
   , synthetic = require('../controllers/ctrl_synthetic');
 
 exports.editSynthetic = function(req_,res_){

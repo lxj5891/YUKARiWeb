@@ -1,10 +1,11 @@
-var json = lib.core.json
-  , user = lib.mod.user
-  , crl_user =lib.ctrl.user
-  , _ = require('underscore')
-  , sync     = require('async')
-  , error     = lib.core.errors
-  , company = require('../modules/mod_company');
+var smart     = require("smartcore")
+  , json      = smart.core.json
+  , user      = smart.mod.user
+  , crl_user  = smart.ctrl.user
+  , error     = smart.core.errors
+  , _         = require('underscore')
+  , sync      = require('async')
+  , company   = require('../modules/mod_company');
 //yukri
 exports.adminlist = function(uid_,callback) {
     company.find({active:1,valid:1},function(err,comps) {

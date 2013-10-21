@@ -7,10 +7,11 @@ var ph        = require('path')
   , mq        = require('./ctrl_mq.js')
   , confapp   = require('config').app
   , tag       = require('./ctrl_tag')
-  , gridfs    = lib.mod.gridfs
-  , user      = lib.ctrl.user
-  , error     = lib.core.errors
-  , util     = lib.core.util;
+  , smart     = require("smartcore")
+  , gridfs    = smart.mod.gridfs
+  , user      = smart.ctrl.user
+  , error     = smart.core.errors
+  , util      = smart.core.util;
 
 
 var EventProxy = require('eventproxy');

@@ -3,10 +3,11 @@ var i18n    = require('i18n')
   , fs      = require('fs')
   , confapp = require("config").app
   , company = require("../controllers/ctrl_company")
-  , json    = lib.core.json
-  , errors  = lib.core.errors
-  , util    = lib.core.util
-  , log     = lib.core.log;
+  , smart   = require("smartcore")
+  , json    = smart.core.json
+  , errors  = smart.core.errors
+  , util    = smart.core.util
+  , log     = smart.core.log;
 
 /**
  * 设定语言

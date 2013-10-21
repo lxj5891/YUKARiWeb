@@ -1,7 +1,8 @@
-var json = lib.core.json
-  , user = require('../controllers/ctrl_user')
-  , errors  = lib.core.errors
-  , util    = require('../core/utils');
+var smart     = require("smartcore")
+  , json      = smart.core.json
+  , errors    = smart.core.errors
+  , user      = require('../controllers/ctrl_user')
+  , util      = require('../core/utils');
 //yukari
 exports.list = function(req_, res_) {
 
