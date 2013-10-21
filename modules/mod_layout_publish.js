@@ -41,6 +41,7 @@ var PublishLayout = new schema({
           synthetic:{
             name: {type: String, description: "ネタ名"},
             type: { type: String, description: "ネタタイプ"},
+            subtype :{ type: String, description: "标识类型"},
             coverrows: {type: Number, description: "封面占九宫格的行数"},
             covercols: {type: Number, description: "封面占九宫格的列数"},
             cover: [{
@@ -60,6 +61,15 @@ var PublishLayout = new schema({
               prefix: {type: String, description: "前?"}, // 未定
               material_id : {type:String,description:"素材ID"},
               material :{
+                fileid: {type: String, description: "元素文件的ID"},
+                thumb: {
+                  big: {type: String},
+                  middle: {type: String},
+                  small: {type: String}
+                }
+              },
+              bg_material_id :{type: String, description: "Introduction 背景图片"},
+              bg_material :{
                 fileid: {type: String, description: "元素文件的ID"},
                 thumb: {
                   big: {type: String},
@@ -90,7 +100,22 @@ var PublishLayout = new schema({
                 action: {
                   type: {type: String, description: "action"},
                   value: {type: String, description: "action"},
+                  tags: [
+                    {
+                      tag: {type: String, description: "分类"},
+                      subtag: {type: String, description: "子分类"}
+                    }
+                  ],
                   material :{
+                    fileid: {type: String, description: "元素文件的ID"},
+                    thumb: {
+                      big: {type: String},
+                      middle: {type: String},
+                      small: {type: String}
+                    }
+                  },
+                  bg_material_id: {type: String, description: "Introduction 背景图片"},
+                  bg_material :{
                     fileid: {type: String, description: "元素文件的ID"},
                     thumb: {
                       big: {type: String},
@@ -210,6 +235,11 @@ function model(code) {
   return conn(code).model('PublishLayout', PublishLayout);
 }
 
+exports.find = function(code_,condition_,callback_){
+  model(code_).find(condition_,function(err,result){
+    callback_(err, result);
+  });
+}
 exports.get = function (code, condition_,callback_){
 
   var publishLayout = model(code);
@@ -272,7 +302,7 @@ exports.total = function(code, condition_, callback_){
 exports.activeList = function(code, condition_, start_, limit_, callback_){
 
   var publishLayout = model(code);
-
+ console.log(condition_);
   publishLayout.find(condition_).select('_id layoutId active')
     .skip(start_ || 0)
     .limit(limit_ || 20)

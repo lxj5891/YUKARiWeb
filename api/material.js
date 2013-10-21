@@ -89,11 +89,12 @@ exports.updatefile = function(req_, res_) {
 };
 
 // Update
-exports.updatetag = function(req_, res_) {
+exports.edit = function(req_, res_) {
 
   var uid = req_.session.user._id
     , user = req_.session.user
     , fid = req_.body.fid
+    , fname =req_.body.fname
     , tags = req_.body.tags.split(",")
     , code = req_.session.user.companycode;
 
@@ -105,7 +106,7 @@ exports.updatetag = function(req_, res_) {
     "tags": tags
   }
 
-  material.updatetag(code, uid, fid, object, function(err, result){
+  material.edit(code, fname , uid, fid, object, function(err, result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -207,6 +208,10 @@ exports.download = function(req_, res_, isPublish) {
           var metadata_index = parseInt(ids[3]);
           var widget_index = parseInt(ids[4]);
           file_id = getWidgetFileId(tile, metadata_index, widget_index);
+        } else if(prefix == "widget_background"){
+          var metadata_index = parseInt(ids[3]);
+          var widget_index = parseInt(ids[4]);
+          file_id = getWidgetBackgroundFileId(tile, metadata_index, widget_index);
         } else if(prefix == "topmenu") {
           var cover_index = parseInt(ids[3]);
           file_id = getCoverImageFileId(tile, cover_index);
@@ -216,7 +221,7 @@ exports.download = function(req_, res_, isPublish) {
         } else if(prefix == "imageWithThumb" && file_name.indexOf("txt") > 0) { // 带动画效果文字图片
           var metadata_index = parseInt(ids[3].replace("txt", ""));
           file_id = getMetadataTxtFileId(tile, metadata_index);
-        } else if(prefix == "imageWithThumb" || prefix == "gallery") {              // 普通image和画廊
+        } else if(prefix == "imageWithThumb" || prefix == "gallery" || prefix == "solutionmap" || prefix == "introduction") {              // 普通image和画廊
           var metadata_index = parseInt(ids[3]);
           file_id = getMetadataFileId(tile, metadata_index);
         }
@@ -285,6 +290,22 @@ function getWidgetFileId(tile, metadata_index, widget_index) {
 
   return widget.action.material.fileid;
 }
+
+function getWidgetBackgroundFileId(tile, metadata_index, widget_index) {
+  if(!tile.synthetic || !tile.synthetic.metadata[metadata_index])
+    return;
+
+  var meta = tile.synthetic.metadata[metadata_index];
+  if(!meta.widget || !meta.widget[widget_index])
+    return;
+
+  var widget = fixDoc(meta.widget[widget_index]);
+  if(!widget.action || !widget.action.bg_material)
+    return;
+
+  return widget.action.bg_material.fileid;
+}
+
 
 function getCoverImageFileId(tile, cover_index) {
   if(tile.synthetic && tile.synthetic.cover[cover_index] && tile.synthetic.cover[cover_index]) {

@@ -11,15 +11,20 @@ $(function () {
  * 绘制画面
  */
 function type_redner(type){
-  this._synthetic_type =  {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"};
+  console.log(type);
+  this._synthetic_type =  {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView" ,solutionmap:"solutionmap" ,Introduction :"Introduction"};
   if(type == this._synthetic_type.imageWithThumb){
     return  i18n["js.public.info.synthetic.type.animation"];
   } else if(type == this._synthetic_type.normal){
     return i18n["js.public.info.synthetic.type.imageset"];
   } else if(type == this._synthetic_type.gallery){
     return i18n["js.public.info.synthetic.type.gallery"];
-  } else if(type == this._synthetic_type.CaseView){
+  } else if (type == this._synthetic_type.CaseView){
     return i18n["js.public.info.synthetic.type.caseview"];
+  } else if (type == this._synthetic_type.solutionmap){
+    return i18n["html.label.synthetic.type.solutionmap"];
+  } else if (type == this._synthetic_type.Introduction){
+    return i18n["html.label.synthetic.type.Introduction"];
   }
   return
 }

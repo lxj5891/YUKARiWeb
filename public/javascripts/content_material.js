@@ -142,19 +142,24 @@ function events() {
       }
     });
 
+    var inputName = $("#inputName").val() + $("#extensions").val();
     var index = $(this).attr("index")
       , row = _materialList[index - 1];
+    if($("#inputName").val()) {
+        smart.doput("/material/edit.json", {fid: row._id, tags: tag.join(",") , fname:inputName}, function(err, result) {
+          if(smart.error(err, i18n["js.common.search.error"], false)){
 
-    smart.doput("/material/updatetag.json", {fid: row._id, tags: tag.join(",")}, function(err, result) {
-      if(smart.error(err, i18n["js.common.search.error"], false)){
-
-      } else {
-        smart.paginationInitalized = false;
-        render(0, 20);
-        Alertify.log.success(i18n["js.common.update.success"]);
-        $('#material_detail_dlg').modal("hide");
-      }
-    });
+          } else {
+            smart.paginationInitalized = false;
+            render(0, 20);
+            Alertify.log.success(i18n["js.common.update.success"]);
+            $('#material_detail_dlg').modal("hide");
+          }
+        });
+    } else {
+      //  $('#material_detail_dlg').modal("hide");
+        Alertify.log.error(i18n["js.common.update.error"]);
+    }
   });
 
   // 切换Tag
@@ -177,7 +182,8 @@ function events() {
  * 显示对话框
  */
 function renderDialog(row, index) {
-  $('#inputName').val(row.filename);
+  $('#inputName').val(delExtension(row.filename));
+  $('#extensions').val(row.filename.split(delExtension(row.filename))[1]);
   $('#inputSize').val(Math.round(row.length / 1024) + " KB");
   $('#inputEditBy').val(row.user.name.name_zh);
   $('#inputEditAt').val(smart.date(row.editat));
@@ -190,6 +196,14 @@ function renderDialog(row, index) {
 }
 
 /**
+ *正则表达式去除后缀
+ */
+function delExtension(str) {
+    var reg = /\.\w+$/;
+    return str.replace(reg,'');
+}
+
+/**
  * 绘制画面
  */
 function render(start, count,keyword) {
@@ -198,10 +212,11 @@ function render(start, count,keyword) {
   _.each($("#taglist").find(".selected_tag"), function(item){
     tags.push($(item).html());
   });
-
+  var tags_ = tags.join(",");
+  tags_ = tags_ ? encodeURIComponent(tags_) : "";
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags.join(",") + "&keyword=" + keyword, function (error, result) {
+  smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags_ + "&keyword=" + keyword, function (error, result) {
 
     if (smart.error(error, i18n["js.common.search.error"], true)) {
       return;

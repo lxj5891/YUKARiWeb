@@ -8,6 +8,8 @@
 
 var store = {
   activeWidget: undefined,
+  activeSolution : undefined,
+  activeLogo :undefined,
   //TODO : 去掉thumbs
   thumbs: [],
   coverrows: 1,
@@ -18,20 +20,56 @@ var store = {
   type: '',
   //对应后台的元素类型
   metadata: [],
+  solution : [],
   metadata_index: 0,
   widget_index: 0,
+  solution_index : 0 ,
+  logo_index : 0 ,
   content_index: 0,
   cur_content_id: '',
   //当前编辑的metadata
   cur_metadata_id: '',
   //当前编辑的widget
   cur_widget_id: '',
+  cur_solution_id : '',
+  cur_logo_id : '',
   //动态的循环显示封面
   cover_interval: undefined,
   cover_interval_index: 0,
   _action_type: {image: "image", movie: "movie", jump: "jump", urlScheme: "urlScheme",none:"none"},
   _effect_type: {zoomAndMoveRightDown: "zoomAndMoveRightDown", zoom: "zoom", zoomOut: "zoomOut", moveRightUp: "moveRightUp", up: "up"},
-  _synthetic_type: {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView"},
+  _synthetic_type: {imageWithThumb: "imageWithThumb", normal: 'normal', gallery: 'gallery', CaseView: "CaseView",solutionmap:"solutionmap" ,
+    Introduction:"Introduction" },
+
+  setLogo :function(metadata_id,logo){
+    var _metadata = this.getMetadata(metadata_id);
+    var _metadata_index = this.getMetadataIndex(metadata_id);
+    if (_metadata) {
+      for (var index in _metadata.logo) {
+        var s = _metadata.logo[index];
+        if (s.logo_id == logo.logo_id) {
+          _metadata.logo[index] = logo;
+          store.metadata[_metadata_index] = _metadata;
+          break;
+        }
+      }
+    }
+  },
+  setSolution : function(metadata_id,solution){
+    var _metadata = this.getMetadata(metadata_id);
+    var _metadata_index = this.getMetadataIndex(metadata_id);
+    if (_metadata) {
+      for (var index in _metadata.solution) {
+        var s = _metadata.solution[index];
+        if (s.solution_id == solution.solution_id) {
+          _metadata.solution[index] = solution;
+          store.metadata[_metadata_index] = _metadata;
+          break;
+        }
+      }
+    }
+  },
+
   setCover : function(index , material_event){
     this.cover[index].material_id = material_event.material_id;
     this.cover[index].image = material_event.image;
@@ -118,59 +156,18 @@ var store = {
   },
   fixCover: function () {
     var that = this;
-    if (that.type == that._synthetic_type.imageWithThumb) {
-      _.each(that.cover, function (e, i) {
-        if (!e.image) {
-          if(e.material.thumb){
-            e.image = smart.image_prefix() + e.material.thumb.big;
-          }else{
-            e.image = smart.image_prefix() + e.material.fileid;
-          }
 
+    _.each(that.cover, function (e, i) {
+      if (!e.image) {
+        if (e.material.thumb) {
+          e.image = smart.image_prefix() + e.material.thumb.big;
+        } else {
+          e.image = smart.image_prefix() + e.material.fileid;
         }
-        that.cover[i] = e;
-      });
+      }
+      that.cover[i] = e;
+    });
 //      return;
-    }
-    if (that.type == that._synthetic_type.normal) {
-      _.each(that.cover, function (e, i) {
-        if (!e.image) {
-          if(e.material.thumb){
-            e.image = smart.image_prefix() + e.material.thumb.big;
-          }else{
-            e.image = smart.image_prefix() + e.material.fileid;
-          }
-        }
-        that.cover[i] = e;
-      });
-//      return;
-    }
-    if (that.type == that._synthetic_type.gallery) {
-      _.each(that.cover, function (e, i) {
-        if (!e.image) {
-          if(e.material.thumb){
-            e.image = smart.image_prefix() + e.material.thumb.big;
-          }else{
-            e.image = smart.image_prefix() + e.material.fileid;
-          }
-        }
-        that.cover[i] = e;
-      });
-//      return;
-    }
-    if (that.type == that._synthetic_type.CaseView) {
-      _.each(that.cover, function (e, i) {
-        if (!e.image) {
-          if(e.material.thumb){
-            e.image = smart.image_prefix() + e.material.thumb.big;
-          }else{
-            e.image = smart.image_prefix() + e.material.fileid;
-          }
-        }
-        that.cover[i] = e;
-      });
-//      return;
-    }
     that.fixManyCover();
   },
   addMetadata: function (fileid,material_id) {
@@ -271,6 +268,36 @@ var store = {
     }
     return null;
   },
+  addLogo : function(metadata_id,logo,_i){
+    var _metadata = this.getMetadata(metadata_id);
+    var _index = this.getMetadataIndex(metadata_id);
+    if (_metadata) {
+      _metadata.logo = _metadata.logo || [];
+
+      if(_i){
+        _metadata.logo[_i] = logo;
+      }else{
+        _metadata.logo.push(logo);
+      }
+    }
+    this.metadata[_index] = _metadata;
+    this.logo_index = this.logo_index + 1;
+  },
+  addSolution : function(metadata_id,solution,_i){
+    var _metadata = this.getMetadata(metadata_id);
+    var _index = this.getMetadataIndex(metadata_id);
+    if (_metadata) {
+      _metadata.solution = _metadata.solution || [];
+
+      if(_i){
+        _metadata.solution[_i] = solution;
+      }else{
+        _metadata.solution.push(solution);
+      }
+    }
+    this.metadata[_index] = _metadata;
+    this.solution_index = this.solution_index + 1;
+  },
   addWidget: function (metadata_id, widget,_i) {
     var _metadata = this.getMetadata(metadata_id);
     var _index = this.getMetadataIndex(metadata_id);
@@ -362,12 +389,21 @@ var store = {
       if (!_metadata) {
         continue;
       }
-      if (!_metadata.widget) {
-        continue;
-      }
-      if (_metadata.widget.length > 0) {
+      if (_metadata.widget && _metadata.widget.length > 0) {
         for (var j in _metadata.widget) {
           $("#" + _metadata.widget[j].widget_id).css("display", "none");
+          count++;
+        }
+      }
+      if (_metadata.logo && _metadata.logo.length > 0) {
+        for (var j in _metadata.logo) {
+          $("#" + _metadata.logo[j].logo_id).css("display", "none");
+          count++;
+        }
+      }
+      if (_metadata.solution && _metadata.solution.length > 0) {
+        for (var j in _metadata.solution) {
+          $("#" + _metadata.solution[j].solution_id).css("display", "none");
           count++;
         }
       }
@@ -425,6 +461,22 @@ var store = {
       }
       return _success();
     }
+
+    var _rule_Introduction = function (_metadata) {
+      var _metadata_id = _metadata.metadata_id;
+      var _error = function (err) {
+        return {valide: false, metadata_id: _metadata_id, err: err};
+      }
+      var _success = function () {
+        return {valide: true, metadata_id: _metadata_id};
+      }
+      if (!_metadata.effect) {
+        return _error("");
+      }
+      if (!_metadata.txtmaterial_id || _metadata.txtmaterial_id == null) {
+        return _error("");
+      }
+    }
     if (that.type == that._synthetic_type.imageWithThumb) {
       for (var i in store.metadata) {
         var _metadata = store.metadata[i]
@@ -461,6 +513,14 @@ var store = {
       }
     }
   },
+  removeLogo : function(logo_id){
+    for (var i in store.metadata[0].logo) {
+      if (store.metadata[0].logo[i].logo_id == logo_id) {
+        store.metadata[0].logo = _.without(store.metadata[0].logo,store.metadata[0].logo[i]);
+      }
+    }
+  },
+
   removeWidget: function (metadata_id, widget_id) {
     var _metadata = this.getMetadata(metadata_id);
     var _metadata_index = this.getMetadataIndex(metadata_id);
@@ -470,6 +530,16 @@ var store = {
       }
     }
 
+  },
+
+  removeSolution : function(metadata_id,solution_id){
+    var _metadata = this.getMetadata(metadata_id);
+    var _metadata_index = this.getMetadataIndex(metadata_id);
+    for (var i in _metadata.solution) {
+      if (_metadata.solution[i].solution_id == solution_id) {
+        store.metadata[_metadata_index].solution = _.without(_metadata.solution, _metadata.solution[i]);
+      }
+    }
   }
 
 

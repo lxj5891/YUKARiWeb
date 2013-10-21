@@ -22,6 +22,7 @@ var user        = lib.api.user
   , admin_user = require("../api/admin_user")
   , yi_user = require("../api/user")
   , setting = require("../api/setting")
+  , conference = require("../api/conference")
   , errorsExt  = require("../core/errorsExt");
 
 exports.guiding = function(app){
@@ -96,8 +97,8 @@ exports.guiding = function(app){
     material.updatefile(req, res);
   });
 
-  app.put('/material/updatetag.json', function(req, res){
-    material.updatetag(req, res);
+  app.put('/material/edit.json', function(req, res){
+    material.edit(req, res);
   });
 
   app.get('/material/list.json', function(req, res){
@@ -169,8 +170,16 @@ exports.guiding = function(app){
   app.get('/layout/list/history.json', function(req, res){
     layout.history(req, res);
   });
+  app.get('/layout/list/myself.json', function(req, res){
+    layout.myself(req, res);
+  });
+
+  app.get('/layonut/checkupdate.json',function(req,res){
+    layout.checkupdate(req,res);
+  });
+
   // ----------------------------------
-  // 获取iPad定义用json
+  // 获取iPad/setting.json定义用json
   app.get('/setting.json', function(req, res){
     definition.get(req, res);
   });
@@ -345,6 +354,10 @@ exports.guiding = function(app){
       return res.send(err.code, json.errorSchema(err.code, err.message));
     }
     common.save(req, res);
+  });
+
+  app.post('/conference/add.json', function(req, res){
+    conference.add(req, res);
   });
 
 };

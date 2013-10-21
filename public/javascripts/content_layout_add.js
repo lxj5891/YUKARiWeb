@@ -506,7 +506,7 @@ $(function () {
 
           td.on('click', function () {
             var selectedTd = $(this);
-            showSyntheticList('imageWithThumb,normal,gallery',function(syntheticId,synthetic){
+            showSyntheticList('imageWithThumb,normal,gallery,solutionmap,Introduction',function(syntheticId,synthetic){
               var num = selectedTd.attr("tileNum");
               var screen = selectedTd.attr("screen");
               var t = getLandscapeTileInScreen(screen, num);
@@ -899,8 +899,7 @@ $(function () {
   function showSyntheticList(type,callback){
 
     $('#selectContents').modal("show");
-
-    var url = '/synthetic/list.json?type='+type;
+        var url = '/synthetic/list.json?type='+type;
     smart.doget(url,function(err, result){
       if(smart.error(err, i18n["js.common.search.error"], false)){
         return;
@@ -951,6 +950,8 @@ $(function () {
       });
 
     });
+
+
   }
 
   function syntheticTypeString(type){

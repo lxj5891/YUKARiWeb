@@ -166,10 +166,11 @@ exports.updatefile = function(code_, uid_, fid_, file_, callback_) {
  * @param detail_
  * @param callback_
  */
-exports.updatetag = function(code_, uid_, fid_, detail_, callback_) {
+exports.edit = function(code_, fname_ , uid_, fid_, detail_, callback_) {
 
   detail_["editat"] = new Date();
   detail_["editby"] = uid_;
+  detail_["filename"] = fname_;
   detail_.tags = _.compact(detail_.tags);
 
   var tasks = [];

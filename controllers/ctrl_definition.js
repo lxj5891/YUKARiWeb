@@ -155,6 +155,8 @@ function setTile(data, page_index, tile, tile_index) {
     return;
   } else if(synthetic.type == "solutionmap") {
     t.type = "solutionmap";
+    t.prefix = [ "solutionmap" , page_index , tile_index ].join("-") + "-";
+    t.maxIndex = 0;
     // TODO:未做
   } else if(synthetic.type == "mageWithImageMenu") {
     t.type = "imageWithImageMenu";
@@ -163,7 +165,9 @@ function setTile(data, page_index, tile, tile_index) {
     t.type = "SDBPageWithAuth";
     // TODO:未做
   } else if(synthetic.type == "Introduction") {
-    t.type = "Introduction";
+    t.type = "introduction";
+    t.prefix = [ "introduction" , page_index , tile_index ].join("-") + "-";
+    t.maxIndex = 0;
     // TODO:未做
   } else { // 不识别
     data.tile[tile.num] = undefined; // remove
@@ -180,6 +184,11 @@ function setTile(data, page_index, tile, tile_index) {
       if(widget.action && widget.action.type != "none") {
         if(widget.action.type == "image") {
           tap_data.image = [ "widget_image" , page_index , tile_index, meta_index, widget_index ].join("-") + '.png';
+          if(widget.action.bg_material_id){
+            tap_data.background = [ "widget_background" , page_index , tile_index, meta_index, widget_index ].join("-") + '.png';
+            console.log(widget.action.tags);
+            tap_data.tags = widget.action.tags;
+          }
         } else if(widget.action.type == "movie") {
           tap_data.movie = [ "widget_movie" , page_index , tile_index, meta_index, widget_index ].join("-") + '.mp4';
         } else if(widget.action.type == "jump") {

@@ -150,6 +150,7 @@
   "html.button.synthetic.add":"Add",
   "html.label.synthetic.sheet":"Cover",
   "html.label.synthetic.title":"Title",
+  "html.label.synthetic.sign":"Sign",
   "html.label.synthetic.type":"Type",
   "html.label.synthetic.pages":"Pages",
   "html.label.synthetic.slide":"Slider",
@@ -157,6 +158,7 @@
   "html.label.synthetic.type.actionimage":"Animation",
   "html.label.synthetic.type.casemenu":"CaseMenu",
   "html.label.synthetic.type.gallery":"Gallery",
+  "html.label.synthetic.type.solutionmap":"Solutionmap",
   "html.button.synthetic.next":"Next",
   "html.label.synthetic.new":"Effect setting",
   "html.label.synthetic.info":"Information",
@@ -186,6 +188,7 @@
   "html.label.synthetic.metadata.action":"Background action",
   "html.select.synthetic.metadata.action":"None",
   "html.label.synthetic.metadata.fontimage":"Character image",
+  "html.label.synthetic.metadata.subimage":"Set image",
   "html.button.synthetic.metadata.select":"Select image",
   "html.button.synthetic.metadata.save":"Save",
   "html.button.synthetic.setting":"Set",
@@ -431,5 +434,12 @@
   "html.select.synthetic.effect.zoomAndMoveRightUp":"zoomAndMoveRightUp",
   "html.select.synthetic.effect.zoomAndMoveRightDown":"zoomAndMoveRightDown",
   "html.select.appimage":"Select Picture",
-  "html.button.common.logosave":"LOGO"
+  "html.button.common.logosave":"LOGO",
+
+  "html.label.synthetic.type.Introduction" : "Introduction",
+  "html.label.synthetic.type.Introduction.subimage" : "Backgroud Image",
+  "html.label.synthetic.type.Introduction.type" : "Type",
+  "html.label.synthetic.type.Introduction.subtype" : "SubType",
+  "html.label.synthetic.type.Introduction.addtype" : "add Type",
+  "html.label.synthetic.type.Introduction.add":"Add"
 }

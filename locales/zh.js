@@ -150,6 +150,7 @@
   "html.button.synthetic.add":"追加元素",
   "html.label.synthetic.sheet":"封面",
   "html.label.synthetic.title":"标题",
+  "html.label.synthetic.sign":"元素标识",
   "html.label.synthetic.type":"类别",
   "html.label.synthetic.pages":"页数",
   "html.label.synthetic.slide":"幻灯片",
@@ -157,6 +158,7 @@
   "html.label.synthetic.type.actionimage":"动态图片",
   "html.label.synthetic.type.casemenu":"案例菜单",
   "html.label.synthetic.type.gallery":"画廊",
+  "html.label.synthetic.type.solutionmap":"解决方案",
   "html.button.synthetic.next":"继续",
   "html.label.synthetic.new":"元素定义",
   "html.label.synthetic.info":"情报入力",
@@ -186,6 +188,7 @@
   "html.label.synthetic.metadata.action":"图片背景动作",
   "html.select.synthetic.metadata.action":" ",
   "html.label.synthetic.metadata.fontimage":"文字图片设定",
+  "html.label.synthetic.metadata.subimage":"图片设定",
   "html.button.synthetic.metadata.select":"图片选择",
   "html.button.synthetic.metadata.save":"保存",
   "html.button.synthetic.setting":"设定",
@@ -419,7 +422,7 @@
   "api.param.error":"请求参数不正确，请输入参数【%s】。",
   "api.layout.id.error":"布局不存在。布局ID：",
   "api.file.name.error":"文件不存在。文件名：",
-  "error.company.noexist":"公司ID不存在！",
+  "error.company.id.noexist":"公司ID不存在！",
   "error.company.code.noexist":"公司Code不存在！",
   "===============元素==================":"",
   "html.select.synthetic.effect.zoom":"放大",
@@ -431,5 +434,15 @@
   "html.select.synthetic.effect.zoomAndMoveRightUp":"放大并向右上移动",
   "html.select.synthetic.effect.zoomAndMoveRightDown":"放大并向左下移动",
   "html.select.appimage":"图片添加",
-  "html.button.common.logosave":"图标添加"
+  "html.button.common.logosave":"图标添加",
+
+  "html.label.synthetic.type.Introduction" : "事例",
+  "html.label.synthetic.type.Introduction.subimage" : "背景图片设定",
+  "html.label.synthetic.type.Introduction.type" : "分类",
+  "html.label.synthetic.type.Introduction.subtype" : "子分类",
+  "html.label.synthetic.type.Introduction.addtype" : "增加分类",
+  "html.label.synthetic.type.Introduction.add":"追加"
+
+
+
 }

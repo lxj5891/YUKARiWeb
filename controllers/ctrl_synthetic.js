@@ -2,6 +2,7 @@ var _ = require('underscore')
   , synthetic = require('../modules/mod_synthetic.js')
   , layout    = require('../modules/mod_layout')
   , material = require('../modules/mod_material.js')
+  , tag       = require('./ctrl_tag')
   , user = lib.ctrl.user
   , error = lib.core.errors
   , util     = lib.core.util;
@@ -86,8 +87,17 @@ function setMaterialInfoMetadata(code, synthetic_docs, callback) {
           if (m_widget.action.material_id) {
             material.get(code, m_widget.action.material_id, function (_err, _material) {
               m_widget._doc.action.material = _material;
-              tmp_widget[k]  = m_widget;
-              ep_widget.emit('widget_ready');
+
+              if(m_widget.action.bg_material_id){
+                material.get(code, m_widget.action.material_id, function (_err, _bg_material) {
+                  m_widget._doc.action.bg_material = _bg_material;
+                  tmp_widget[k]  = m_widget;
+                  ep_widget.emit('widget_ready');
+                });
+              }else {
+                tmp_widget[k]  = m_widget;
+                ep_widget.emit('widget_ready');
+              }
             });
           } else {
             tmp_widget[i] = m_widget;
@@ -104,44 +114,10 @@ function setMaterialInfoMetadata(code, synthetic_docs, callback) {
     return;
   });
 
-//  synthetic_docs.metadata.forEach(function (m, i) {
-//    console.log("forEach" + i);
-//    material.get(m.material_id, function (_err, _material) {
-//      console.log("forEach in " + i);
-//      m._doc.material = _material;
-//      if (m.txtmaterial_id) {
-//        material.get(m.txtmaterial_id, function (_err, _txtmaterial) {
-//          m._doc.txtmaterial = _txtmaterial;
-//          metadata.push(m);
-//          ep1.emit('metadata_ready');
-//        });
-//      } else if (m.widget && m.widget.length > 0) {
-//        var ep_widget = new EventProxy();
-//        var tmp_widget = [];
-//        ep_widget.after('widget_ready', m.widget.length, function () {
-//          m._doc.widget = tmp_widget;
-//          metadata.push(m);
-//          ep1.emit('metadata_ready');
-//        });
-//        m.widget.forEach(function (m_widget, i) {
-//          if (m_widget.action.material_id) {
-//            material.get(m_widget.action.material_id, function (_err, _material) {
-//              m_widget._doc.action.material = _material;
-//              tmp_widget.push(m_widget);
-//              ep_widget.emit('widget_ready');
-//            });
-//          } else {
-//            tmp_widget.push(m_widget);
-//            ep_widget.emit('widget_ready');
-//          }
-//        });
-//      } else {
-//        metadata.push(m);
-//        ep1.emit('metadata_ready');
-//      }
-//    });
-//  });
 }
+
+
+
 
 exports.saveThumb = function (code, thumb_pic, callback) {
 
@@ -155,7 +131,7 @@ exports.saveNameAndComment = function (code, synthetic_id, name, comment, uid, c
     callback(err, result);
   });
 }
-exports.saveThumbAndMatedata = function (code, synthetic_id, cover, metadata, coverrows, covercols,syntheticName,syntheticComment, user, callback) {
+exports.saveThumbAndMatedata = function (code, synthetic_id, cover, metadata, coverrows, covercols,syntheticName,syntheticComment,syntheticSign, user, callback) {
 
   var _data = {
     cover: cover,
@@ -163,8 +139,10 @@ exports.saveThumbAndMatedata = function (code, synthetic_id, cover, metadata, co
     covercols: covercols,
     metadata: metadata,
     syntheticName: syntheticName,
-    syntheticComment:syntheticComment
+    syntheticComment:syntheticComment,
+    syntheticSign :syntheticSign
   }
+
   synthetic.update(code, synthetic_id, _data, user, function (err, result) {
     callback(err, result);
   });

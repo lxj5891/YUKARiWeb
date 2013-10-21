@@ -3,7 +3,7 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-
+  <!--<script type="text/javascript" src="/javascripts/common.tag.view.js"></script>-->
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
   <link href="/stylesheets/contents.css" rel="stylesheet" media="screen">
   <style type="text/css">
@@ -20,254 +20,408 @@
 
 <% include common/navbar.html %>
 <div class="main-container container-fluid">
-  <% include common/sidebar.html %>
+<% include common/sidebar.html %>
 
-  <div class="main-content">
-    <div class="breadcrumbs" id="breadcrumbs">
-      <ul class="breadcrumb">
-        <li>
-          <i class="icon-home icon-large"></i>
-          <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
+<div class="main-content">
+<div class="breadcrumbs" id="breadcrumbs">
+  <ul class="breadcrumb">
+    <li>
+      <i class="icon-home icon-large"></i>
+      <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
-        </li>
-        <li>
-          <i class="icon-unlink"></i>
-          <a href="/content/synthetic"><%= i('html.label.synthetic') %><!-- ネタ--></a>
+    </li>
+    <li>
+      <i class="icon-unlink"></i>
+      <a href="/content/synthetic"><%= i('html.label.synthetic') %><!-- ネタ--></a>
             <span class="divider">
               <i class="icon-chevron-right arrow-icon"></i>
             </span>
-        </li>
-        <li class="active"><%= title %><!-- ネタ定義--></li>
-      </ul>
-      <!--.breadcrumb-->
-    </div>
+    </li>
+    <li class="active"><%= title %><!-- ネタ定義--></li>
+  </ul>
+  <!--.breadcrumb-->
+</div>
 
 
-    <div class="page-content row">
-    <div class="row tableheader col-lg-8">
-      <div class="pull-left">
-        <h4><%= i('html.label.synthetic.info') %><!-- 情報入力--></h4>
-      </div>
-    </div>
-    <div class="row col-lg-8" style="border:solid 0px #e3e3e3;margin-bottom: 30px">
-      <form class="form-horizontal" role="form">
-        <div class="form-group" style="margin-top: 15px">
-          <label class="col-lg-2 control-label"><%= i('html.label.synthetic.type') %><!-- タイプ--></label>
-
-          <div class="col-lg-10">
-            <p class="form-control-static" id="syntheticType"></p>
-          </div>
-        </div>
-        <div class="form-group" style="margin-top: 15px">
-          <label for="syntheticName" class="col-lg-2 control-label"><%= i('html.label.synthetic.title') %><!-- タイトル--></label>
-
-          <div class="col-lg-10">
-            <input type="text" name="syntheticName" class="form-control" id="syntheticName" placeholder="<%= i('html.label.synthetic.title') %>">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="syntheticComment" class="col-lg-2 control-label"><%= i('html.label.synthetic.comment') %><!-- コメント--></label>
-
-          <div class="col-lg-10">
-            <textarea class="form-control" name="syntheticComment" id="syntheticComment" placeholder="<%= i('html.label.synthetic.comment') %>"
-                      rows="6"></textarea>
-          </div>
-        </div>
-      </form>
-    </div>
-      <div class="row tableheader col-lg-8">
-        <div class="pull-left">
-          <h4><%= i('html.label.synthetic.sheetadd') %><!-- カバー定義--></h4>
-        </div>
-      </div>
-      <div class="row col-lg-8" style="margin-bottom: 30px;border:solid 0px #e3e3e3" >
-        <div class="pull-left col-lg-2" style="padding-left: 0px;padding-top: 15px;" id="cover_preview_panel">
-          <div class="cover_thumb"><img src="/images/logo-block.png"></div>
-        </div>
-        <div class="pull-left col-lg-10">
-          <div class="coverpanel" id="cover_panel" style="margin-left:30px;display:none;overflow-x: auto;overflow-y: hidden;">
-            <div class="cover_view">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row tableheader col-lg-8" >
-        <div class="pull-left">
-          <h4><%= i('html.label.synthetic.imageadd') %><!-- スライド定義--></h4>
-        </div>
-      </div>
-      <div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-bottom-width: 0px">
-        <div id="main_panel">
-          <img src="/images/logo-block.png">
-          <div id="effect_big_preview">
-            <img src="/images/logo-block.png">
-          </div>
-        </div>
-        <div id="widget_panel" style="font-size: 12px">
-          <div class="title">
-            <span><%= i('html.label.synthetic.widget') %><!-- ウィジェット詳細--></span>
-
-            <div class="pull-right title_btn">
-              <a id="btn_add_widget" data-toggle="modal" href="#pickPlugin" class="btn btn-default btn-sm"><%= i('html.button.synthetic.widget.add') %><!-- 新規追加--></a>
-            </div>
-          </div>
-          <div class="widget_body">
-            <form class="form-horizontal" role="form" name="widget">
-              <div class="form-group">
-                <label for="txt_widget_name" class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.name') %><!-- ウィジェット名--></label>
-
-                <div class="col-lg-7">
-                  <input id="txt_widget_name" type="text" name="widget_name" class="form-control"
-                         placeholder="<%= i('html.label.synthetic.widget.name') %>">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.size') %><!-- サイズ--></label>
-
-                <div class="col-lg-7">
-                  <div class="row">
-                      <input id="txt_width" type="text" name="widget_width" class="form-control" placeholder="width" readonly style="width: 60px; float: left;">
-                      <input id="txt_height" type="text" name="widget_height" class="form-control" placeholder="height" readonly style="width: 60px;float: left;margin-left: 10px;">
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.postion') %><!-- 位置--></label>
-
-                <div class="col-lg-7">
-                  <div class="row">
-                      <input id="txt_x" type="text" name="widget_left" class="form-control" placeholder="top" readonly style="width: 60px; float: left;">
-                      <input id="txt_y" type="text" name="widget_top" class="form-control" placeholder="left" readonly style="width: 60px; float: left; margin-left: 10px;">
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.action') %><!-- アクション--></label>
-
-                <div class="col-lg-7">
-                  <select class="form-control" id="action">
-                    <option value="none" selected><%= i('html.select.synthetic.widget.action.none') %><!-- なし--></option>
-                    <option value="movie"><%= i('html.select.synthetic.widget.action.movie') %><!-- ビデオ放送--></option>
-                    <option value="image"><%= i('html.select.synthetic.widget.action.image') %><!-- 画像表示--></option>
-                    <option value="jump"><%= i('html.select.synthetic.widget.action.jump') %><!-- スライド遷移--></option>
-                    <option value="urlScheme"><%= i('html.select.synthetic.widget.action.urlScheme') %><!-- アプリ起動--></option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group" id="_action_type_movie">
-                <div class="col-lg-7 action_widget_moive">
-                  <a class="btn btn-default btn-sm" name="btnSelectWidgetMoive"><%= i('html.button.synthetic.widget.movie') %><!-- ビデオ選択--></a>
-                  <div class="action_widget_moive_preview">
-                    <video src="/images/logo-block.png"/></video>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group" id="_action_type_image">
-                <div class="col-lg-7" style="display: none">
-                  <input id="txt_widget_action_image" type="text" name="widget_name" class="form-control"
-                         placeholder="<%= i('html.label.synthetic.widget.name') %>">
-                </div>
-
-                <div class="col-lg-7 action_widget_image">
-                  <a class="btn btn-default btn-sm" name="btnSelectWidgetImage"><%= i('html.button.synthetic.widget.image') %><!-- 画像選択--></a>
-                  <div class="action_widget_image_preview">
-                    <img src="/images/logo-block.png"/>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group" id="_action_type_jump">
-                <a class="btn btn-default btn-sm" name="btnSelectWidgetMetadata" ><%= i('html.button.synthetic.widget.jump') %><!-- 遷移先--></a>
-                <div class="action_jump_preview">
-                  <img src="/images/logo-block.png"/>
-                </div>
-              </div>
-              <div class="form-group" id="_action_type_urlScheme">
-                <label for="txt_widget_action_app" class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.urlScheme.id') %><!-- ウィジェットID--></label>
-
-                <div class="col-lg-7">
-                  <input id="txt_widget_action_app" type="text" name="widget_name" class="form-control"
-                         placeholder="<%= i('html.label.synthetic.widget.urlScheme.id') %>">
-                </div>
-
-                <label for="txt_widget_action_url" class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.urlScheme.url') %><!-- ウィジェットURL--></label>
-
-                <div class="col-lg-7">
-                  <input id="txt_widget_action_url" type="text" name="widget_name" class="form-control"
-                         placeholder="<%= i('html.label.synthetic.widget.urlScheme.url') %>">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.operation') %><!-- 操作--></label>
-
-                <div class="col-lg-7">
-                  <a class="btn btn-default" name="okDelWidget"><%= i('html.button.synthetic.widget.delete') %><!-- ウィジェット削除--></a>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div id="metadata_panel">
-          <div class="title">
-            <span><%= i('html.label.synthetic.metadata.title') %><!-- 背景設定--></span>
-
-            <div id="btn_to_widget_parent" class="pull-right title_btn">
-              <a id="btn_to_widget" class="btn btn-default btn-sm"><%= i('html.button.synthetic.metadata.area') %><!-- ウィジェットエリア--></a>
-            </div>
-          </div>
-          <div class="widget_body">
-            <form class="form-horizontal" role="form" name="setmetadata">
-              <div class="form-group" id="_metadata_effect">
-                <label for="txt_metadata_effect" class="col-lg-5 control-label"><%= i('html.label.synthetic.metadata.action') %><!-- 背景のアクション--></label>
-
-                <div class="col-lg-7">
-                  <select class="form-control" id="txt_metadata_effect">
-                    <option value="none"><%= i('html.select.synthetic.effect.none') %><!-- なし--></option>
-                    <option value="zoomAndMoveRightDown"><%= i('html.select.synthetic.effect.zoomAndMoveRightDown') %></option>
-                    <option value="zoom"><%= i('html.select.synthetic.effect.zoom') %></option>
-                    <option value="zoomOut"><%= i('html.select.synthetic.effect.zoomOut') %></option>
-                    <option value="moveRightUp"><%= i('html.select.synthetic.effect.moveRightUp') %></option>
-                    <option value="up"><%= i('html.select.synthetic.effect.up') %></option>
-                    <option value="moveLeftDown"><%= i('html.select.synthetic.effect.moveLeftDown') %></option>
-                    <option value="zoomAndMoveRightUp"><%= i('html.select.synthetic.effect.zoomAndMoveRightUp') %></option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group" id="_metadata_effect_image">
-                <label for="btn_select_effect_image" class="col-lg-5 control-label"><%= i('html.label.synthetic.metadata.fontimage') %><!-- 文字画像設定--></label>
-
-                <div class="col-lg-7">
-                  <a class="btn btn-default" id="btn_select_effect_image" style="float: left"><%= i('html.button.synthetic.metadata.select') %><!-- 画像選択--></a>
-                </div>
-              </div>
-            </form>
-            <div id="preview"><img src="/images/block.png">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-top-width:0px">
-        <div id="viewport"></div>
-      </div>
-      <div class="col-lg-8" style="margin-top: 30px">
-        <div name="okSaveSynthetic" id="saveLayout" class="col-lg-4 btn btn-warning btn-lg">
-          <%= i('html.button.synthetic.metadata.save') %><!-- 保存-->
-        </div>
-      </div>
+<div class="page-content row">
+<div class="row tableheader col-lg-8">
+  <div class="pull-left">
+    <h4><%= i('html.label.synthetic.info') %><!-- 情報入力--></h4>
   </div>
+</div>
+<div class="row col-lg-8" style="border:solid 0px #e3e3e3;margin-bottom: 30px">
+  <form class="form-horizontal" role="form">
+    <div class="form-group" style="margin-top: 15px">
+      <label class="col-lg-2 control-label"><%= i('html.label.synthetic.type') %><!-- タイプ--></label>
+
+      <div class="col-lg-10">
+        <p class="form-control-static" id="syntheticType"></p>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top: 15px">
+      <label for="syntheticName" class="col-lg-2 control-label"><%= i('html.label.synthetic.title') %>
+        <!-- タイトル--></label>
+
+      <div class="col-lg-10">
+        <input type="text" name="syntheticName" class="form-control" id="syntheticName"
+               placeholder="<%= i('html.label.synthetic.title') %>">
+      </div>
+    </div>
+    <!--<div class="form-group" id="ctr_syntheticSign" style="margin-top: 15px;">-->
+      <!--<label for="syntheticSign" class="col-lg-2 control-label">控制标识</label>-->
+
+      <!--<div class="col-lg-10">-->
+        <!--<div class="btn-group" value="0" id="subTypeZone">-->
+          <!--<button type="button" class="btn btn-sm btn-default" value="1">普通</button>-->
+          <!--<button type="button" class="btn btn-sm btn-default" value="2">自定义</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group" id="group_syntheticSign" style="margin-top: 15px;display: none">-->
+      <!--<label for="syntheticSign" class="col-lg-2 control-label"><%= i('html.label.synthetic.sign') %>-->
+        <!--&lt;!&ndash; 元素标识&ndash;&gt;</label>-->
+
+      <!--<div class="col-lg-10">-->
+        <!--<input type="text" name="syntheticSign" class="form-control" id="syntheticSign"-->
+               <!--placeholder="<%= i('html.label.synthetic.sign') %>">-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="form-group">
+      <label for="syntheticComment" class="col-lg-2 control-label"><%= i('html.label.synthetic.comment') %>
+        <!-- コメント--></label>
+
+      <div class="col-lg-10">
+        <textarea class="form-control" name="syntheticComment" id="syntheticComment"
+                  placeholder="<%= i('html.label.synthetic.comment') %>"
+                  rows="6"></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="row tableheader col-lg-8">
+  <div class="pull-left">
+    <h4><%= i('html.label.synthetic.sheetadd') %><!-- カバー定義--></h4>
   </div>
-    <!--/.main-container-->
+</div>
+<div class="row col-lg-8" style="margin-bottom: 30px;border:solid 0px #e3e3e3">
+  <div class="pull-left col-lg-2" style="padding-left: 0px;padding-top: 15px;" id="cover_preview_panel">
+    <div class="cover_thumb"><img src="/images/logo-block.png"></div>
+  </div>
+  <div class="pull-left col-lg-10">
+    <div class="coverpanel" id="cover_panel" style="margin-left:30px;display:none;overflow-x: auto;overflow-y: hidden;">
+      <div class="cover_view">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row tableheader col-lg-8">
+  <div class="pull-left">
+    <h4><%= i('html.label.synthetic.imageadd') %><!-- スライド定義--></h4>
+  </div>
+</div>
+<div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-bottom-width: 0px">
+<div id="main_panel">
+  <img id="main_panel_img" src="/images/logo-block.png">
+
+  <div id="effect_big_preview">
+    <img src="/images/logo-block.png">
+  </div>
+  <div id="solutionmap_preview">
+    <div id="solutionmap_board">
+      <img id="solutionmap_board_img" src="/images/logo-block.png">
+    </div>
+  </div>
+</div>
+<div id="widget_panel" style="font-size: 12px">
+  <div class="title">
+    <span><%= i('html.label.synthetic.widget') %><!-- ウィジェット詳細--></span>
+
+    <div class="pull-right title_btn">
+      <a id="btn_add_widget" data-toggle="modal" href="#pickPlugin" class="btn btn-default btn-sm"><%=
+        i('html.button.synthetic.widget.add') %><!-- 新規追加--></a>
+    </div>
+  </div>
+  <div class="widget_body">
+    <form class="form-horizontal" role="form" name="widget">
+      <div class="form-group">
+        <label for="txt_widget_name" class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.name') %>
+          <!-- ウィジェット名--></label>
+
+        <div class="col-lg-7">
+          <input id="txt_widget_name" type="text" name="widget_name" class="form-control"
+                 placeholder="<%= i('html.label.synthetic.widget.name') %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.size') %><!-- サイズ--></label>
+
+        <div class="col-lg-7">
+          <div class="row">
+            <input id="txt_width" type="text" name="widget_width" class="form-control" placeholder="width" readonly
+                   style="width: 60px; float: left;">
+            <input id="txt_height" type="text" name="widget_height" class="form-control" placeholder="height" readonly
+                   style="width: 60px;float: left;margin-left: 10px;">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.postion') %><!-- 位置--></label>
+
+        <div class="col-lg-7">
+          <div class="row">
+            <input id="txt_x" type="text" name="widget_left" class="form-control" placeholder="top" readonly
+                   style="width: 60px; float: left;">
+            <input id="txt_y" type="text" name="widget_top" class="form-control" placeholder="left" readonly
+                   style="width: 60px; float: left; margin-left: 10px;">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.action') %><!-- アクション--></label>
+
+        <div class="col-lg-7">
+          <select class="form-control" id="action">
+            <option value="none" selected><%= i('html.select.synthetic.widget.action.none') %><!-- なし--></option>
+            <option value="movie"><%= i('html.select.synthetic.widget.action.movie') %><!-- ビデオ放送--></option>
+            <option value="image"><%= i('html.select.synthetic.widget.action.image') %><!-- 画像表示--></option>
+            <option value="jump"><%= i('html.select.synthetic.widget.action.jump') %><!-- スライド遷移--></option>
+            <option value="urlScheme"><%= i('html.select.synthetic.widget.action.urlScheme') %><!-- アプリ起動--></option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="_action_type_movie">
+        <div class="col-lg-7 action_widget_moive">
+          <a class="btn btn-default btn-sm" name="btnSelectWidgetMoive"><%= i('html.button.synthetic.widget.movie') %>
+            <!-- ビデオ選択--></a>
+
+          <div class="action_widget_moive_preview">
+            <video src="/images/logo-block.png"/>
+            </video>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" id="_action_type_image">
+        <div class="col-lg-7" style="display: none">
+          <input id="txt_widget_action_image" type="text" name="widget_name" class="form-control"
+                 placeholder="<%= i('html.label.synthetic.widget.name') %>">
+        </div>
+
+        <div class="col-lg-7 action_widget_image">
+          <a class="btn btn-default btn-sm" name="btnSelectWidgetImage"><%= i('html.button.synthetic.widget.image') %>
+            <!-- 画像選択--></a>
+
+          <div class="action_widget_image_preview">
+            <img src="/images/logo-block.png"/>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" id="_action_type_jump">
+        <a class="btn btn-default btn-sm" name="btnSelectWidgetMetadata"><%= i('html.button.synthetic.widget.jump') %>
+          <!-- 遷移先--></a>
+
+        <div class="action_jump_preview">
+          <img src="/images/logo-block.png"/>
+        </div>
+      </div>
+      <div class="form-group" id="_action_type_urlScheme">
+        <label for="txt_widget_action_app" class="col-lg-5 control-label"><%=
+          i('html.label.synthetic.widget.urlScheme.id') %><!-- ウィジェットID--></label>
+
+        <div class="col-lg-7">
+          <input id="txt_widget_action_app" type="text" name="widget_name" class="form-control"
+                 placeholder="<%= i('html.label.synthetic.widget.urlScheme.id') %>">
+        </div>
+
+        <label for="txt_widget_action_url" class="col-lg-5 control-label"><%=
+          i('html.label.synthetic.widget.urlScheme.url') %><!-- ウィジェットURL--></label>
+
+        <div class="col-lg-7">
+          <input id="txt_widget_action_url" type="text" name="widget_name" class="form-control"
+                 placeholder="<%= i('html.label.synthetic.widget.urlScheme.url') %>">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-5 control-label"><%= i('html.label.synthetic.widget.operation') %><!-- 操作--></label>
+
+        <div class="col-lg-7">
+          <a class="btn btn-default" name="okDelWidget"><%= i('html.button.synthetic.widget.delete') %>
+            <!-- ウィジェット削除--></a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="metadata_panel">
+  <div class="title">
+    <span><%= i('html.label.synthetic.metadata.title') %><!-- 背景設定--></span>
+
+    <div id="btn_to_widget_parent" class="pull-right title_btn">
+      <a id="btn_to_widget" class="btn btn-default btn-sm"><%= i('html.button.synthetic.metadata.area') %>
+        <!-- ウィジェットエリア--></a>
+    </div>
+  </div>
+  <div class="widget_body">
+    <form class="form-horizontal" role="form" name="setmetadata">
+      <div class="form-group" id="_metadata_effect">
+        <label for="txt_metadata_effect" class="col-lg-5 control-label"><%= i('html.label.synthetic.metadata.action') %>
+          <!-- 背景のアクション--></label>
+
+        <div class="col-lg-7">
+          <select class="form-control" id="txt_metadata_effect">
+            <option value="none"><%= i('html.select.synthetic.effect.none') %><!-- なし--></option>
+            <option value="zoomAndMoveRightDown"><%= i('html.select.synthetic.effect.zoomAndMoveRightDown') %></option>
+            <option value="zoom"><%= i('html.select.synthetic.effect.zoom') %></option>
+            <option value="zoomOut"><%= i('html.select.synthetic.effect.zoomOut') %></option>
+            <option value="moveRightUp"><%= i('html.select.synthetic.effect.moveRightUp') %></option>
+            <option value="up"><%= i('html.select.synthetic.effect.up') %></option>
+            <option value="moveLeftDown"><%= i('html.select.synthetic.effect.moveLeftDown') %></option>
+            <option value="zoomAndMoveRightUp"><%= i('html.select.synthetic.effect.zoomAndMoveRightUp') %></option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="_metadata_effect_image">
+        <label for="btn_select_effect_image" class="col-lg-5 control-label"><%=
+          i('html.label.synthetic.metadata.fontimage') %><!-- 文字画像設定--></label>
+
+        <div class="col-lg-7">
+          <a class="btn btn-default" id="btn_select_effect_image" style="float: left"><%=
+            i('html.button.synthetic.metadata.select') %><!-- 画像選択--></a>
+        </div>
+      </div>
+    </form>
+    <div id="preview"><img src="/images/block.png">
+    </div>
+  </div>
+</div>
+
+<div id="solutionmap_panel">
+  <div class="title">
+    <span><%=i('html.label.synthetic.widget') %><!--插件--></span>
+
+    <div class="pull-right title_btn">
+      <a id="btn_add_solution" class="btn btn-default btn-sm"><%=i('html.button.synthetic.widget.add') %><!-- 新規追加--></a>
+
+      <a id="btn_remove_solution" class="btn btn-default btn-sm"><%=i('html.button.synthetic.widget.delete') %><!-- 删除插件--></a>
+    </div>
+  </div>
+  <div class="widget_body">
+    <form class="form-horizontal" role="form" name="setmetadata">
+
+      <div class="form-group">
+        <label for="select_solution_image_btn" class="col-lg-5 control-label"><%=
+          i('html.label.synthetic.metadata.subimage') %><!-- 文字画像設定--></label>
+
+        <div class="col-lg-7">
+          <a id="select_solution_image_btn" class="btn btn-default" style="float: left"><%=
+            i('html.button.synthetic.metadata.select') %><!-- 画像選択--></a>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="solution_image_preview" class="col-lg-5 control-label"><%=
+          i('html.button.synthetic.metadata.select') %><!-- 文字画像設定--></label>
+
+        <div class="col-lg-7">
+          <div id="solution_image_preview">
+            <img src="/images/logo-block.png"/>
+          </div>
+
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<div id="logo_panel">
+  <div class="title">
+    <span><%=i('html.label.synthetic.widget') %><!--插件--></span>
+
+    <div class="pull-right title_btn">
+      <a id="btn_add_logo" class="btn btn-default btn-sm"><%=i('html.button.synthetic.widget.add') %><!-- 新規追加--></a>
+      <a id="btn_remove_logo" class="btn btn-default btn-sm"><%=i('html.button.synthetic.widget.delete') %><!-- 删除插件--></a>
+    </div>
+  </div>
+  <div class="widget_body">
+    <form class="form-horizontal" role="form" name="setmetadata">
+
+      <div class="form-group">
+        <label for="select_logo_image_btn" class="col-lg-5 control-label"><%=i('html.label.synthetic.metadata.subimage') %><!-- 图片设定--></label>
+
+        <div class="col-lg-7">
+          <a id="select_logo_image_btn" class="btn btn-default btn-sm" style="float: left"><%=i('html.button.synthetic.setting') %><!-- 设定--></a>
+        </div>
+      </div>
+
+      <div class="form-group" id="logo_bg_material">
+        <label class="col-lg-5 control-label"><%=i('html.label.synthetic.type.Introduction.subimage') %><!-- 背景图片设定--></label>
+        <div class="col-lg-7">
+          <a id="btnSelectLogoBgMetadata" class="btn btn-default btn-sm" ><%=i('html.button.synthetic.setting') %><!-- 设定--></a>
+
+          <div id="action_bglogo_preview" class="action_bglogo_preview">
+            <img src="/images/logo-block.png"/>
+          </div>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <div style="margin-left: 50px;margin-right: 20px;overflow-y: scroll;height: 200px;">
+          <table class="table table-bordered">
+            <thead><tr><td><%=i('html.label.synthetic.type.Introduction.type') %><!-- 分类--></td><td><%=i("html.label.synthetic.type.Introduction.subtype") %><!-- 子分类--></td><td></td></tr></thead>
+            <tbody id="logo_tag_items">
+            <tr>
+              <td><input type="text" name="tag" class="form-control text_tag" placeholder="<%=i('html.label.synthetic.type.Introduction.type') %><!-- 分类-->"/></td>
+              <td><input type="text" name="subtag" class="form-control text_tag" placeholder="<%=i('html.label.synthetic.type.Introduction.subtype') %><!-- 子分类-->"/></td>
+              <td><i class="icon-remove"></i></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+      <div class="form-group">
+        <label class="col-lg-5 control-label"><%=i('html.label.synthetic.type.Introduction.addtype') %><!-- 增加分类--></label>
+        <div class="col-lg-7">
+          <a class="btn btn-default btn-sm" id="appendTag"><%=i('html.label.synthetic.type.Introduction.add') %><!-- 追加--></a>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+</div>
+
+
+</div>
+<div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-top-width:0px">
+  <div id="viewport"></div>
+</div>
+<div class="col-lg-8" style="margin-top: 30px">
+  <div name="okSaveSynthetic" id="saveLayout" class="col-lg-4 btn btn-warning btn-lg">
+    <%= i('html.button.synthetic.metadata.save') %><!-- 保存-->
+  </div>
+</div>
+</div>
+</div>
+<!--/.main-container-->
 </div>
 
 
 <!--pickThumb  Modal -->
-<div class="modal fade" id="pickThumbPic" tabindex="-1" role="dialog" aria-labelledby="pickThumbPicAria" aria-hidden="true">
+<div class="modal fade" id="pickThumbPic" tabindex="-1" role="dialog" aria-labelledby="pickThumbPicAria"
+     aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button id="pickThumbPicClose" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button id="pickThumbPicClose" type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
         <h4 class="modal-title"><%= i('html.button.synthetic.metadata.select') %><!-- 画像選択--></h4>
       </div>
       <div class="modal-body">
@@ -300,6 +454,7 @@
 </div>
 <!-- /. pickThumb modal -->
 
+
 <script type="text/template" id="tmpl_popup_video">
   <div class="modalfix_box">
     <video src="{{image}}" class="material_thumb" data="{{fileid}}" material_id="{{material_id}}"></video>
@@ -311,6 +466,7 @@
 <script type="text/template" id="tmpl_popup_image">
   <div class="modalfix_box">
     <img src="{{image}}" class="material_thumb" data="{{fileid}}" material_id="{{material_id}}">
+
     <div class="modalfix_checkbox" num="{{num}}"><img src="/images/img_check.png"></div>
   </div>
 </script>
@@ -335,7 +491,7 @@
 <!-- 封面的Block模板 -->
 <script type="text/template" id="tmpl_cell_block">
   <div class="cover_block" id="cell_block_{{num}}" num="{{num}}">
-      <img class="cover_block_img" src="{{ image }}" data="{{ fileid }}" cover_id="{{ cover_id }}">
+    <img class="cover_block_img" src="{{ image }}" data="{{ fileid }}" cover_id="{{ cover_id }}">
   </div>
 </script>
 <!-- Material的Block模板 -->
@@ -345,17 +501,36 @@
   </div>
 </script>
 
+
 <script type="text/javascript" src="/javascripts/contents/cover.js"></script>
 <script type="text/javascript" src="/javascripts/contents/material.js"></script>
 <script type="text/javascript" src="/javascripts/contents/widget.js"></script>
+<script type="text/javascript" src="/javascripts/contents/solution.js"></script>
+<script type="text/javascript" src="/javascripts/contents/logo.js"></script>
 <script type="text/javascript" src="/javascripts/contents/tpl.js"></script>
 <script type="text/javascript" src="/javascripts/contents/viewports.js"></script>
 <script type="text/javascript" src="/javascripts/contents/store.js"></script>
 
 <script type="text/javascript" src="/javascripts/contents.view.js"></script>
 <script type="text/javascript" src="/javascripts/contents.view.widget.js"></script>
+<script type="text/javascript" src="/javascripts/contents.view.solution.js"></script>
+<script type="text/javascript" src="/javascripts/contents.view.logo.js"></script>
 
+<script type="text/template" id="tmpl_logo">
+  <div id="{{id}}" class="logo_widget"
+       style="left: {{left}}px; top:{{top}}px; width: {{width}}px; height: {{height}}px;">
+    <div id="{{id}}_border" class="logo_widget_border">
+      <img src="/images/logo-block.png">
+    </div>
+  </div>
+</script>
 
+<script type="text/template" id="tmpl_solution">
+  <div id="{{id}}" class="solution_widget"
+       style="left: {{left}}px; top:{{top}}px; width: {{width}}px; height: {{height}}px;">
+    <div id="{{id}}_border" class="solution_widget_border"></div>
+  </div>
+</script>
 
 <script type="text/template" id="tmpl_widget">
   <div id="{{id}}" class="widget" style="left: {{left}}px; top:{{top}}px; width: {{width}}px; height: {{height}}px;">
@@ -374,6 +549,13 @@
   </li>
 </script>
 
+<script type="text/template" id="tmpl_logo_tag_item">
+  <tr>
+    <td><input type="text" name="tag" class="form-control text_tag" placeholder="<%=i('html.label.synthetic.type.Introduction.type') %><!-- 分类-->" value="{{tag}}"/></td>
+    <td><input type="text" name="subtag" class="form-control text_tag" placeholder="<%=i('html.label.synthetic.type.Introduction.subtype') %><!-- 子分类-->" value="{{subtag}}"/></td>
+    <td><i class="icon-remove" num={{num}}></i></td>
+  </tr>
+</script>
 
 </body>
 </html>

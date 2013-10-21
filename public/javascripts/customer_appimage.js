@@ -79,7 +79,7 @@ function event() {
       if(smart.error(err,i18n["js.common.update.error"],false)){
         return;
       }
-      Alertify.log.success(i18n["js.common.upload.success"]);
+      Alertify.log.success(i18n["js.common.update.success"]);
     });
   });
 }

@@ -9,23 +9,26 @@ var mongo = require('mongoose')
  */
 
 var Synthetic = new schema({
-  company: {type: String, description: ""}, comment: {type: String, description: "描述"}, name: {type: String, description: "名称"}, type: { type: String, description: "类别"}, coverrows: {type: Number, description: "封面占九宫格的行数"}, covercols: {type: Number, description: "封面占九宫格的列数"}, cover: [
+  company: {type: String, description: ""},
+  comment: {type: String, description: "描述"},
+  subtype: {type: String, description: "标识"},
+  name: {type: String, description: "名称"},
+  type: { type: String, description: "类别"},
+  coverrows: {type: Number, description: "封面占九宫格的行数"},
+  covercols: {type: Number, description: "封面占九宫格的列数"},
+  cover: [
     {
-      material_id: {type: String, description: "素材ID"}
-//    , fileid: {type: String, description: "封面ID"}
-      , type: {type: String, description: "封面种类：视频，图片"}
+      material_id: {type: String, description: "素材ID"}, type: {type: String, description: "封面种类：视频，图片"}
     }
-  ] // 封面
-  , page: {type: String, description: "页数"},
+  ],  // 封面
+  page: {type: String, description: "页数"},
   metadata: [
     {
       index: {type: Number, description: "索引"},
       prefix: {type: String, description: "前缀"}, // 未定
       material_id: {type: String, description: "素材ID"},
-//    fileid: {type: String, description: "元素文件的ID"},
       effect: {type: String, description: "效果: none, zoomAndMoveRightDown, zoom, zoomOut, moveRightUp, up}"},
       txtmaterial_id: {type: String, description: "透明的文字图片素材ID"},
-//    txtfileid: {type: String, description: ""},
       widget: [
         {
           index: {type: Number, description: "索引"},
@@ -41,7 +44,14 @@ var Synthetic = new schema({
           action: {
             type: {type: String, description: "动作类型"},
             value: {type: String, description: "动作类型"},
-            material_id: {type: String, description: "素材ID"},
+            tags: [
+              {
+                tag: {type: String, description: "分类"},
+                subtag: {type: String, description: "子分类"}
+              }
+            ],
+            bg_material_id: {type: String, description: "Introduction 背景图片"},
+            material_id: {type: String, description: "素材ID "},
             urlScheme: {type: String, description: "app启动urlScheme：仅app启动类型"},
             downloadURL: {type: String, description: "app启动下载URL：仅app启动类型"}
           },
@@ -158,6 +168,8 @@ function updateSynthetic(code, id,synthetic_,uid,callback_){
       docs.name = synthetic_.syntheticName;
     if (synthetic_.syntheticComment)
       docs.comment = synthetic_.syntheticComment;
+    if (synthetic_.syntheticSign)
+      docs.subtype = synthetic_.syntheticSign;
 
     docs.valid = 1;
     docs.editat = new Date();
