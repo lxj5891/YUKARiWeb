@@ -183,8 +183,8 @@ function render(start, count,keyword) {
           , "viewer": get_viewerHtml(row)
           , "range": range
           , "class3": (active&&active.layout&&active.layout.image&&( !_.isEmpty(active.layout.image.imageH)|| !_.isEmpty(active.layout.image.imageV))) ? "" : "hidden"
-          , "preview_image_H" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : null
-          , "preview_image_V" :(active&&active.layout&&active.layout.image&& active.layout.image.imageV) ? active.layout.image.imageV : null
+          , "preview_image_H" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : ""
+          , "preview_image_V" :(active&&active.layout&&active.layout.image&& active.layout.image.imageV) ? active.layout.image.imageV : ""
           , "tmpSyn"  : tmpSyn
         }));
       });
@@ -226,8 +226,8 @@ function render(start, count,keyword) {
           , "viewer": get_viewerHtml(row)
           , "range": range
           , "class3": (row&&row.layout&&row.layout.image&&( !_.isEmpty(row.layout.image.imageH)|| !_.isEmpty(row.layout.image.imageV))) ? "" : "hidden"
-          , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
-          , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : null
+          , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : ""
+          , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : ""
           , "tmpSyn"  : tmpSyn
         }));
       });
@@ -268,8 +268,8 @@ function render(start, count,keyword) {
           , "applyat": smart.date(row.applyat)
           , "editby": row.user.name.name_zh
           , "class3": (row&&row.layout&&row.layout.image&&( !_.isEmpty(row.layout.image.imageH)|| !_.isEmpty(row.layout.image.imageV))) ? "" : "hidden"
-          , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
-          , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : null
+          , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : ""
+          , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : ""
           , "tmpSyn"  : tmpSyn
         }));
       });
@@ -308,8 +308,8 @@ function render(start, count,keyword) {
           , "class3": cancopy
           , "class4": (row.publish == 1 || row.status == 2) || candelete ? "hidden" : ""
           , "class5": (row && row.layout && row.layout.image && (!_.isEmpty(row.layout.image.imageH)||!_.isEmpty(row.layout.image.imageV))) ? "" : "hidden"
-          , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : null
-          , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : null
+          , "preview_image_H" :(row&&row.layout&&row.layout.image&& row.layout.image.imageH) ? row.layout.image.imageH : ""
+          , "preview_image_V" :(row&&row.layout&&row.layout.image&& row.layout.image.imageV) ? row.layout.image.imageV : ""
           , "tmpSyn"  : tmpSyn
       }));
     });
