@@ -29,7 +29,7 @@ exports.list = function(start_, limit_, keyword ,callback_) {
         if (err) {
             return callback_(new error.InternalServer(err));
         }
-        company.list(condition, start, limit, function(err, result){
+        company.getList(condition, start, limit, function(err, result){
             if (err) {
                 return callback_(new error.InternalServer(err));
             }
@@ -39,7 +39,7 @@ exports.list = function(start_, limit_, keyword ,callback_) {
 };
 
 exports.companyListWithDevice = function(start_, limit_, callback){
-  exports.list(start_, limit_, function(err, comps){
+  exports.getList(start_, limit_, function(err, comps){
     var task_getDeviceCount = function(comp_,subCB){
       device.deviceTotalByComId(comp_._id.toString(),function(err,count){
         comp_._doc.deviceCount = count;
@@ -59,7 +59,7 @@ exports.companyListWithDevice = function(start_, limit_, callback){
 }
 
 exports.searchOne = function( compid, callback_) {
-    company.searchOne(compid, function(err, result){
+    company.get(compid, function(err, result){
         if (err) {
             return callback_(new error.InternalServer(err));
         }
