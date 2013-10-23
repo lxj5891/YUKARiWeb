@@ -43,10 +43,10 @@ runCommand("rm -rf " + coverage, function(err, result){
   runCommand(core, function(err, result){});
 
   // 执行测试代码，生成报告
-  var test = "cd '" + home + "' && TEST=1 mocha -R html-cov test/* --coverage > '" + coverage + "coverage.html'";
+  var test = "cd '" + home + "' && TEST=1 mocha -R html-cov test/* --coverage > coverage/coverage.html";
   runCommand(test, function(err, result){
     if (err) {
-      console.log(err);
+      return console.log(err);
     }
 
     // 执行成功

@@ -4,8 +4,8 @@
  * @copyright Dreamarts Corporation. All Rights Reserved.
  */
 
-var assert  = require("assert")
-  , _       = require("underscore")
+var _       = require("underscore")
+  , should  = require('should')
   , company = require("../../coverage/modules/mod_company");
 
 /**
@@ -16,10 +16,39 @@ describe("Company Module", function() {
   /**
    * 初始化测试数据
    */
+  var data = {
+      path        : "1"
+    , companyType : "2"
+    , mail        : "3"
+    , name        : "4"
+    , kana        : "5"
+    , address     : "6"
+    , tel         : "7"
+    , active      : 1
+    , valid       : 1
+    , createat    : new Date()
+    , createby    : "8"
+    , editat      : new Date()
+    , editby      : "9"
+  };
 
   /**
    * 执行测试case
    */
+  /*****************************************************************/
+  it("add", function(done) {
+
+    company.add(data, function(err, result) {
+
+      should.not.exist(err);
+      should.exist(result);
+      result.path.should.equal("1");
+      result.valid.should.equal(1);
+
+      done();
+    });
+  });
+
   /*****************************************************************/
   it("getList", function(done) {
 
@@ -51,15 +80,6 @@ describe("Company Module", function() {
   it("get", function(done) {
 
     company.get("", function() {
-
-      done();
-    });
-  });
-
-  /*****************************************************************/
-  it("add", function(done) {
-
-    company.add("", function() {
 
       done();
     });
