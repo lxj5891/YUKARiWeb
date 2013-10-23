@@ -11,6 +11,17 @@ var args = {
   , "password": mq.password
 };
 
+var queOption = {
+    durable: true
+    ,autoDelete: false
+    ,confirm: false
+}
+
+var messOption = {
+    mandatory: true
+    ,deliveryMode: 2
+}
+
 /**
  * 合并图片
  *
@@ -30,14 +41,7 @@ var args = {
  */
 exports.joinImage = function(message) {
 
-  args.queue = mq.queue_join;
-  var connection = amqp.createConnection(args);
-
-  connection.on("ready", function(){
-    connection.publish(mq.queue_join, message, { mandatory: true }, function(){
-      connection.end();
-    });
-  });
+  mqConnection(mq.queue_join, message);
 };
 
 /**
@@ -50,14 +54,7 @@ exports.joinImage = function(message) {
  */
 exports.pushApnMessage = function(message){
 
-  args.queue = mq.queue_apn;
-  var connection = amqp.createConnection(args);
-
-  connection.on("ready", function(){
-    connection.publish(mq.queue_apn, message, { mandatory: true }, function(){
-      connection.end();
-    });
-  });
+  mqConnection(mq.queue_apn, message);
 };
 
 /**
@@ -75,13 +72,19 @@ exports.pushApnMessage = function(message){
  */
 exports.thumb = function(message){
 
-  args.queue = mq.queue_thumb;
+  mqConnection(mq.queue_thumb, message);
+};
+
+function mqConnection(mq_queue, message){
+  args.queue = mq_queue;
   var connection = amqp.createConnection(args);
 
   connection.on("ready", function(){
-    connection.publish(mq.queue_thumb, message, { mandatory: true }, function(){
-      connection.end();
-    });
+      connection.queue(mq_queue, queOption, function (queue) {
+          connection.publish(mq_queue, message, messOption, function(){
+              connection.end();
+          });
+      });
   });
 };
 
