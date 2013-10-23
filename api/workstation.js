@@ -1,6 +1,7 @@
-var json = lib.core.json
-  , errors = lib.core.errors
-  , utils = require('../core/utils')
+var smart       = require("smartcore")
+  , json        = smart.core.json
+  , errors      = smart.core.errors
+  , utils       = require('../core/utils')
   , workstation = require('../controllers/ctrl_workstation');
 
 exports.update = function(req_, res_){

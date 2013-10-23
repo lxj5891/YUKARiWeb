@@ -1,8 +1,9 @@
 var i18n    = require('i18n')
-    , errors  = lib.core.errors
-    , util    = lib.core.util
-    , log     = lib.core.log
-    , _ = require('underscore');
+  , smart   = require("smartcore")
+  , errors  = smart.core.errors
+  , util    = smart.core.util
+  , log     = smart.core.log
+  , _       = require('underscore');
 
 /**
  * 判断是否有管理权限

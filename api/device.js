@@ -1,8 +1,9 @@
-var json = lib.core.json
-  , device = require('../controllers/ctrl_device.js')
-  , errors  = lib.core.errors
+var smart     = require("smartcore")
+  , json      = smart.core.json
+  , errors    = smart.core.errors
+  , device    = require('../controllers/ctrl_device.js')
   , errorsExt = require('../core/errorsExt')
-  , y_util = require('../core/utils');
+  , y_util    = require('../core/utils');
 
 // 获取设备一览
 exports.list = function(req_, res_) {

@@ -1,9 +1,10 @@
-var __    = require('i18n').__
-    , errors  = lib.core.errors
-    , util    = require('util')
-    , json      = lib.core.json
-    , log     = lib.core.log
-    , _       = require('underscore');
+var __      = require('i18n').__
+  , util    = require('util')
+  , smart   = require("smartcore")
+  , errors  = smart.core.errors
+  , json    = smart.core.json
+  , log     = smart.core.log
+  , _       = require('underscore');
 
 /**
  * 定义Error的函数

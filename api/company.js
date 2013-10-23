@@ -1,6 +1,7 @@
-var json = lib.core.json
+var smart   = require("smartcore")
+  , json = smart.core.json
+  , errors  = smart.core.errors
   , company = require('../controllers/ctrl_company')
-  , errors  = lib.core.errors
   , util    = require('../core/utils');
 
 //权限check

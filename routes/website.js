@@ -1,24 +1,38 @@
-var i        = require("i18n")
-    , util = require('../core/utils');
+var i     = require("i18n")
+  , util  = require('../core/utils')
+  , log   = require("smartcore").core.log;
+
 exports.guiding = function (app) {
 
   app.get('/', function (req, res) {
+
+    log.operation("begin : show login");
     res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
+    log.operation("end : show login");
   });
 
   // Login画面
   app.get('/login', function (req, res) {
+
+    log.operation("begin : show login");
     res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
+    log.operation("end : show login");
   });
 
   // 主画面
   app.get('/yukari', function (req, res) {
+
+    log.operation("begin : show yukari top page");
     res.render("yukari", {"title": "yukari", user: req.session.user});
+    log.operation("end : show yukari top page");
   });
 
   // ----------------------
   // 用户
   app.get('/customer/user/add', function (req, res) {
+
+    log.operation("begin : show user add page");
+
     var sessionuser = req.session.user;
     //客户管理员,开发人员以外,不能访问.
     if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser)) ) {
@@ -26,6 +40,8 @@ exports.guiding = function (app) {
     } else {
       res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:""});
     }
+
+    log.operation("end : show user add page");
   });
   app.get('/customer/user/edit/:id', function (req, res) {
     var sessionuser = req.session.user;

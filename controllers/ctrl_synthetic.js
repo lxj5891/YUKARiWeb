@@ -1,11 +1,12 @@
-var _ = require('underscore')
+var _         = require('underscore')
   , synthetic = require('../modules/mod_synthetic.js')
   , layout    = require('../modules/mod_layout')
-  , material = require('../modules/mod_material.js')
+  , material  = require('../modules/mod_material.js')
   , tag       = require('./ctrl_tag')
-  , user = lib.ctrl.user
-  , error = lib.core.errors
-  , util     = lib.core.util;
+  , smart     = require("smartcore")
+  , user      = smart.ctrl.user
+  , error     = smart.core.errors
+  , util      = smart.core.util;
 
 var async = require('async');
 var EventProxy = require('eventproxy');

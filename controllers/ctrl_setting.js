@@ -1,7 +1,7 @@
-var setting = require('../modules/mod_setting.js')
-var async = require('async')
-  , log = lib.core.log
-  , _ = require('underscore');
+var async   = require('async')
+  , setting = require('../modules/mod_setting.js')
+  , log     = require("smartcore").core.log
+  , _       = require('underscore');
 
 exports.getAppimage = function (code, callback_) {
   var keys = ["image1", "image2", "imagelogo"];

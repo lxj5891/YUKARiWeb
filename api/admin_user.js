@@ -1,7 +1,8 @@
-var json = lib.core.json
+var smart     = require("smartcore")
+  , json      = smart.core.json
+  , errors    = smart.core.errors
   , adminuser = require('../controllers/ctrl_admin_user')
-  , errors  = lib.core.errors
-  , util    = require('../core/utils');
+  , util      = require('../core/utils');
 
 //权限check
 function commonCheck(req_, res_) {

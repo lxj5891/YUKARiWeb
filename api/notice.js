@@ -6,10 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var json = lib.core.json
-  , notice = require('../controllers/ctrl_notice')
-  , errors  = lib.core.errors
-  , util = require('../core/utils');
+var smart     = require("smartcore")
+  , json      = smart.core.json
+  , errors    = smart.core.errors
+  , notice    = require('../controllers/ctrl_notice')
+  , util      = require('../core/utils');
 
 //权限check
 function commonCheck(req_, res_) {

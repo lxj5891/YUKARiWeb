@@ -46,6 +46,17 @@
     , "libs": "../SmartCore"
   },
 
+  "log": {
+      "fluent": {
+          "enable": "false"
+        , "tag": "node"
+        , "host": "10.2.8.228"
+        , "port": 24224
+        , "timeout": 3.0
+      }
+    , "console": "true"
+  },
+
   "mq": {
     "host": "mq"
     , "port": 5672

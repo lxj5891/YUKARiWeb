@@ -1,12 +1,13 @@
-var _ = require('underscore')
-  , async = require('async')
-  , notice = require('../modules/mod_notice.js')
-  , mq = require('./ctrl_mq')
-  , user = lib.ctrl.user
-  , mod_user = lib.mod.user
-  , group = lib.ctrl.group
-  , error = lib.core.errors
-  , util = lib.core.util;
+var _         = require('underscore')
+  , async     = require('async')
+  , notice    = require('../modules/mod_notice.js')
+  , mq        = require('./ctrl_mq')
+  , smart     = require("smartcore")
+  , user      = smart.ctrl.user
+  , mod_user  = smart.mod.user
+  , group     = smart.ctrl.group
+  , error     = smart.core.errors
+  , util      = smart.core.util;
 
 var EventProxy = require('eventproxy');
 

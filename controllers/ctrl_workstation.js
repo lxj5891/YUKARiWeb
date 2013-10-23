@@ -1,11 +1,12 @@
-var _         = require('underscore')
-  , workstation       = require('../modules/mod_workstation.js')
-  , async     = require('async')
-  , user      = lib.ctrl.user
-  , group     = lib.ctrl.group
-  , mod_group = lib.mod.group
-  , utils     = require('../core/utils')
-  , error     = lib.core.errors;
+var _           = require('underscore')
+  , workstation = require('../modules/mod_workstation.js')
+  , async       = require('async')
+  , smart       = require("smartcore")
+  , user        = smart.ctrl.user
+  , group       = smart.ctrl.group
+  , mod_group   = smart.mod.group
+  , error       = smart.core.errors
+  , utils       = require('../core/utils');
 
 exports.save = function(code_, uid_, workstation_, callback_){
   var now = new Date();

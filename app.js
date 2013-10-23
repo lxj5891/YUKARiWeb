@@ -6,11 +6,11 @@
 /**
  * 定义库的路径（全局变量）
  */
-Object.defineProperty(global, 'lib', {
-  get: function(){
-    return require("" + __dirname + path.sep + confapp.libs);
-  }
-});
+//Object.defineProperty(global, 'lib', {
+//  get: function(){
+//    return require("" + __dirname + path.sep + confapp.libs);
+//  }
+//});
 
 
 /**

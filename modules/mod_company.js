@@ -6,7 +6,7 @@
 var mongo = require('mongoose')
   , util = require('util')
   , conn = require('./connection')
-  , utilSmart = lib.core.util
+  , utilSmart = require("smartcore").core.util
   , schema = mongo.Schema;
 
 var Company = new schema({
