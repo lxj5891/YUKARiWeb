@@ -31,101 +31,101 @@ var Company = new schema({
 
 /**
  * 获取公司一览
- * @param condition_ 条件
- * @param start_ 数据开始位置
- * @param limit_ 数据件数
- * @param callback_ 返回公司一览
+ * @param condition 条件
+ * @param start 数据开始位置
+ * @param limit 数据件数
+ * @param callback 返回公司一览
  */
-exports.getList = function(condition_, start_, limit_, callback_){
+exports.getList = function(condition, start, limit, callback){
 
   var comp = model();
 
-  comp.find(condition_)
-    .skip(start_ || 0)
-    .limit(limit_ || 20)
-    .sort({ editat: "desc" })
+  comp.find(condition)
+    .skip(start || 0)
+    .limit(limit || 20)
+    .sort({ "editat": "desc" })
     .exec(function(err, result) {
-      return callback_(err, result);
+      return callback(err, result);
     });
 };
 
 /**
  * 通过公司ID获取一个公司
- * @param path_
- * @param callback_
+ * @param path
+ * @param callback
  */
-exports.getByPath = function(path_, callback_) {
+exports.getByPath = function(path, callback) {
 
   var comp = model();
 
-  comp.findOne({ path: path_ }, function(err, result) {
-    return callback_(err, result);
+  comp.findOne({ path: path }, function(err, result) {
+    return callback(err, result);
   });
 };
 
 /**
  * 通过公司Code获取一个公司
- * @param code_
- * @param callback_
+ * @param code
+ * @param callback
  */
-exports.getByCode = function(code_, callback_) {
+exports.getByCode = function(code, callback) {
 
   var comp = model();
 
-  comp.findOne({ code: code_ }, function(err, result) {
-    return callback_(err, result);
+  comp.findOne({ code: code }, function(err, result) {
+    return callback(err, result);
   });
 };
 
 /**
  * 获取指定公司
- * @param compid_
- * @param callback_
+ * @param compid
+ * @param callback
  */
-exports.get = function(compid_, callback_) {
+exports.get = function(compid, callback) {
 
   var comp = model();
 
-  comp.findById(compid_, function(err, result) {
-    return callback_(err, result);
+  comp.findById(compid, function(err, result) {
+    return callback(err, result);
   });
 };
 
 /**
  * 添加公司
- * @param comp_
- * @param callback_
+ * @param newComp
+ * @param callback
  */
-exports.add = function(comp_, callback_){
+exports.add = function(newComp, callback){
 
   createCode(function(err, code) {
     if (err) {
-      return callback_(err);
+      return callback(err);
     }
 
     var comp = model();
-    comp_.code = code;
+    newComp.code = code;
 
-    new comp(comp_).save(function(err, result){
-      return callback_(err, result);
+    new comp(newComp).save(function(err, result){
+      return callback(err, result);
     });
   });
 };
 
 /**
  * 更新指定公司
- * @param compid_
- * @param comp_
- * @param callback_
+ * @param compid
+ * @param newComp
+ * @param callback
  */
-exports.update = function(compid_, comp_, callback_) {
+exports.update = function(compid, newComp, callback) {
 
   // 当code存在
-  if (comp_.code) {
+  if (newComp.code) {
     var comp = model();
 
-    comp.findByIdAndUpdate(compid_, comp_, function(err, result) {
-      return callback_(err, result);
+    comp.findByIdAndUpdate(compid, newComp, function(err, result) {
+      return callback(err, result);
     });
   }
 
@@ -133,48 +133,48 @@ exports.update = function(compid_, comp_, callback_) {
   else {
     createCode(function(err, code){
       if (err) {
-        return callback_(err);
+        return callback(err);
       }
 
-      comp_.code = code;
-      exports.update(compid_, comp_, callback_);
+      newComp.code = code;
+      exports.update(compid, newComp, callback);
     });
   }
 };
 
 /**
  * 获取公司有效件数
- * @param condition_
- * @param callback_
+ * @param condition
+ * @param callback
  */
-exports.total = function(condition_, callback_) {
+exports.total = function(condition, callback) {
 
   var comp = model();
 
-  condition_.valid = 1;
-  comp.count(condition_).exec(function(err, count) {
-    return callback_(err, count);
+  condition.valid = 1;
+  comp.count(condition).exec(function(err, count) {
+    return callback(err, count);
   });
 };
 
 /**
  * 取得唯一的Code
- * @param callback_
+ * @param callback
  */
-function createCode(callback_) {
+function createCode(callback) {
 
   var comp = model()
   , guid8 = smart.randomGUID8();
 
   comp.count({ code: guid8 }).exec(function(err, count) {
     if (err) {
-      return callback_(err);
+      return callback(err);
     }
 
     if (count > 0) {
-      createCode(comp_, callback_);
+      createCode(comp, callback);
     } else {
-      return callback_(err, guid8);
+      return callback(err, guid8);
     }
   });
 }
