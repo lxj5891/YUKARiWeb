@@ -1,6 +1,7 @@
 var amqp = require('amqp')
   , mq = require('config').mq;
 
+var connectionMap = {};
 /**
  * MQ连接参数
  */
@@ -76,15 +77,24 @@ exports.thumb = function(message){
 };
 
 function mqConnection(mq_queue, message){
-  args.queue = mq_queue;
-  var connection = amqp.createConnection(args);
-
-  connection.on("ready", function(){
-      connection.queue(mq_queue, queOption, function (queue) {
-          connection.publish(mq_queue, message, messOption, function(){
-              connection.end();
-          });
-      });
+  getConnection(mq_queue, function(connection){
+    connection.publish(mq_queue, message, messOption);
   });
 };
 
+
+function getConnection(queue_name, callback) {
+  if(connectionMap[queue_name]) {
+    return callback(connectionMap[queue_name]);
+  }
+
+  args.queue = queue_name;
+  var connection = amqp.createConnection(args);
+  connection.on("ready", function(){
+    connection.queue(queue_name, queOption, function (queue) {
+
+      connectionMap[queue_name] = connection;
+      return callback(connection);
+    });
+  });
+}
