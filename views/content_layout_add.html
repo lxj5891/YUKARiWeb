@@ -7,6 +7,11 @@
   <script type="text/javascript" src="/javascripts/content_layout_add.js"></script>
   <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
   <style type="text/css">
+    .pagination {
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+    }
+
     table.layout {
       /*width: 1020px;*/
       /*height: 723px;*/
@@ -432,6 +437,8 @@
           </div>
         </div>
         <div class="modal-footer" style="margin-top: 0px">
+          <div class="pagination-area" id="pagination_area" style="float: left;padding-left: 280px;">
+          </div>
           <button class="btn btn-default btn-sm" id="selectedContents"><%= i('html.button.layout.contents.select') %><!-- 選択--></button>
         </div>
       </div>

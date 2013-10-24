@@ -495,6 +495,7 @@ var smart = {
    * 翻页
    */
   paginationInitalized: false,
+  paginationScrollTop : true,
   pagination: function(container, totalItems, rowCount, callback) {
 
     // 初始化一次
@@ -538,8 +539,13 @@ var smart = {
         , "canPrev": startPage > 1
         , "canNext": limit >= pageCount
       }));
+      if (smart.paginationScrollTop) {
+        return ;
+      } else {
 
-      return ;
+        return false;
+      }
+
     });
 
     // 初始化
