@@ -1,4 +1,5 @@
 var fs        = require("fs")
+  , os        = require("os")
   , path      = require('path')
   , exec      = require("child_process").exec
   , home      = path.resolve(__dirname , "..");
@@ -24,12 +25,15 @@ function runCommand(command, callback) {
  * 变换工作路径
  */
 process.chdir(home);
-
+if (!fs.existsSync("coverage")) {
+  fs.mkdirSync("coverage");
+}
 
 /**
  * 清除文件，生成converage代码，并执行测试case
  */
-runCommand("rm -rf coverage/", function(err, result){
+var rm = "Windows_NT" == os.type() ? "rd /S /Q coverage" : "rm -rf coverage";
+runCommand(rm, function(err, result){
   if (err) {
     return console.log(err);
   }
