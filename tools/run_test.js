@@ -1,12 +1,8 @@
 var fs        = require("fs")
-  , path = require('path')
+  , path      = require('path')
   , exec      = require("child_process").exec
-  , home      = path.resolve(__dirname , "..")
-  , coverage  = home + "/coverage/";
+  , home      = path.resolve(__dirname , "..");
 
-if (!fs.existsSync(__dirname + "/package.json")) {
-  return console.log("NG! Please run the command in the project home directory.");
-}
 
 /**
  * 执行sh命令
@@ -25,22 +21,28 @@ function runCommand(command, callback) {
 
 
 /**
+ * 变换工作路径
+ */
+process.chdir(home);
+
+
+/**
  * 清除文件，生成converage代码，并执行测试case
  */
-runCommand("rm -rf " + coverage, function(err, result){
+runCommand("rm -rf coverage/", function(err, result){
   if (err) {
     return console.log(err);
   }
 
   // 创建文件夹
-  fs.mkdirSync(coverage);
+  fs.mkdirSync("coverage");
 
   // 生成converage代码
-  var routes      = "jscoverage " + home + "/routes/ " + coverage + "routes/";
-  var api         = "jscoverage " + home + "/api/ " + coverage + "api/";
-  var controllers = "jscoverage " + home + "/controllers/ " + coverage + "controllers/";
-  var modules     = "jscoverage " + home + "/modules/ " + coverage + "modules/";
-  var core        = "jscoverage " + home + "/core/ " + coverage + "core/";
+  var routes      = "jscoverage routes/ coverage/routes/";
+  var api         = "jscoverage api/ coverage/api/";
+  var controllers = "jscoverage controllers/ coverage/controllers/";
+  var modules     = "jscoverage modules/ coverage/modules/";
+  var core        = "jscoverage core/ coverage/core/";
   runCommand(routes, function(err, result){});
   runCommand(api, function(err, result){});
   runCommand(controllers, function(err, result){});
@@ -49,6 +51,9 @@ runCommand("rm -rf " + coverage, function(err, result){
 
   // 执行测试代码，生成报告
   var test = "mocha -R html-cov test/*/* --coverage > coverage/coverage.html";
+
+  // 在环境变量里添加测试标识，数据库连接时根据该标识切换要使用的数据库
+  process.env['TEST'] = 1;
   runCommand(test, function(err, result){
     if (err) {
       return console.log(err);
