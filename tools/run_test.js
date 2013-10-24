@@ -1,7 +1,8 @@
 var fs        = require("fs")
+  , path = require('path')
   , exec      = require("child_process").exec
-  , home      = __dirname + "/../"
-  , coverage  = home + "coverage/";
+  , home      = path.resolve(__dirname , "..")
+  , coverage  = home + "/coverage/";
 
 
 /**
@@ -11,6 +12,8 @@ var fs        = require("fs")
  * @returns {*}
  */
 function runCommand(command, callback) {
+
+    console.log(command);
   var child = exec(command, function (error, stdout, stderr) {
     callback(error, stdout);
   });
@@ -31,11 +34,11 @@ runCommand("rm -rf " + coverage, function(err, result){
   fs.mkdirSync(coverage);
 
   // 生成converage代码
-  var routes      = "jscoverage '" + home + "routes/' '" + coverage + "routes/'";
-  var api         = "jscoverage '" + home + "api/' '" + coverage + "api/'";
-  var controllers = "jscoverage '" + home + "controllers/' '" + coverage + "controllers/'";
-  var modules     = "jscoverage '" + home + "modules/' '" + coverage + "modules/'";
-  var core        = "jscoverage '" + home + "core/' '" + coverage + "core/'";
+  var routes      = "jscoverage " + home + "/routes/ " + coverage + "routes/";
+  var api         = "jscoverage " + home + "/api/ " + coverage + "api/";
+  var controllers = "jscoverage " + home + "/controllers/ " + coverage + "controllers/";
+  var modules     = "jscoverage " + home + "/modules/ " + coverage + "modules/";
+  var core        = "jscoverage " + home + "/core/ " + coverage + "core/";
   runCommand(routes, function(err, result){});
   runCommand(api, function(err, result){});
   runCommand(controllers, function(err, result){});
@@ -43,7 +46,8 @@ runCommand("rm -rf " + coverage, function(err, result){
   runCommand(core, function(err, result){});
 
   // 执行测试代码，生成报告
-  var test = "cd '" + home + "' && TEST=1 mocha -R html-cov test/* --coverage > coverage/coverage.html";
+  var test = "mocha -R html-cov test/*/* --coverage > coverage/coverage.html";
+    console.log(test);
   runCommand(test, function(err, result){
     if (err) {
       return console.log(err);
