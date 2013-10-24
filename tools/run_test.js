@@ -4,6 +4,9 @@ var fs        = require("fs")
   , home      = path.resolve(__dirname , "..")
   , coverage  = home + "/coverage/";
 
+if (!fs.existsSync(__dirname + "/package.json")) {
+  return console.log("NG! Please run the command in the project home directory.");
+}
 
 /**
  * 执行sh命令
@@ -13,7 +16,6 @@ var fs        = require("fs")
  */
 function runCommand(command, callback) {
 
-    console.log(command);
   var child = exec(command, function (error, stdout, stderr) {
     callback(error, stdout);
   });
@@ -47,14 +49,13 @@ runCommand("rm -rf " + coverage, function(err, result){
 
   // 执行测试代码，生成报告
   var test = "mocha -R html-cov test/*/* --coverage > coverage/coverage.html";
-    console.log(test);
   runCommand(test, function(err, result){
     if (err) {
       return console.log(err);
     }
 
     // 执行成功
-    console.log("ok!");
+    console.log("OK!");
   });
 
 });
