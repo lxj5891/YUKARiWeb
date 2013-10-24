@@ -451,26 +451,37 @@ $contents.view = {
       $("#syntheticComment").val(result.data.items.comment);
       $("#syntheticSign").val(result.data.items.subtype);
       $("#syntheticType").html(type_redner(result.data.items.type));
-      if(store.type == store._synthetic_type.solutionmap){
 
-        var flag = '1'
-        if(result.data.items.subtype && result.data.items.subtype.length > 0){
-          flag = '2';
-          $("#group_syntheticSign").css("display","block");
-        } else {
-          $("#group_syntheticSign").css("display","none");
-        }
+      if (store.type == store._synthetic_type.normal) {
+        $("#ctr_syntheticSign").show();
 
-        new ButtonGroup("subTypeZone", flag ,function(v){
-          if(v == '1'){
-            $("#group_syntheticSign").css("display","none");
-            $("#syntheticSign").val("");
-          } else {
-            $("#group_syntheticSign").css("display","block");
-          }
+        new ButtonGroup("subTypeZone", result.data.items.opts && result.data.items.opts.conference ? result.data.items.opts.conference : "0", function (v) {
         }).init();
       }
 
+      if (store.type == store._synthetic_type.solutionmap) {
+
+
+        var flag = '0';
+        if (result.data.items.opts && result.data.items.opts.solution) {
+          $("#syntheticSign").val(result.data.items.opts.solution);
+          $("#syntheticSign").show();
+          flag = '1';
+        } else {
+          $("#syntheticSign").hide();
+
+        }
+
+        new ButtonGroup("syntheticSignZone", flag, function (v) {
+
+          if (v == "0") {
+            $("#syntheticSign").hide();
+          } else {
+            $("#syntheticSign").show();
+          }
+
+        }).init();
+      }
 
       callback.apply();
     });
@@ -597,6 +608,18 @@ $contents.view = {
           syntheticComment: $("textarea[name=syntheticComment]").val(),
           syntheticSign : $("input[name=syntheticSign]").val()
         };
+
+        if(store.type == store._synthetic_type.normal){
+          _data.options = {};
+          _data.options.conference = $("#subTypeZone").attr("value");
+        }
+        if(store.type == store._synthetic_type.solutionmap){
+          _data.options = {};
+          _data.options.solution = $("#syntheticSign").val();
+          if ($("#syntheticSignZone").attr("value") == '0') {
+            _data.options.solution = '';
+          }
+        }
 
         var save_valida = store.validatorSava();
 
@@ -779,8 +802,7 @@ $contents.view = {
     if (store.type == store._synthetic_type.solutionmap) {
       $("#widget_panel").css("display", "none");
       $("#metadata_panel").css("display", "none");
-//      $("#group_syntheticSign").css("display", "block");
-
+      $("#group_syntheticSign").css("display", "block");
     }
 
     if (store.type == store._synthetic_type.Introduction) {

@@ -441,5 +441,7 @@
   "html.label.synthetic.type.Introduction.type" : "分類",
   "html.label.synthetic.type.Introduction.subtype" : "小分類",
   "html.label.synthetic.type.Introduction.addtype" : "分類追加",
-  "html.label.synthetic.type.Introduction.add":"追加"
+  "html.label.synthetic.type.Introduction.add":"追加",
+  "html.label.synthetic.label.Customization":"カストマイズ"
+
 }

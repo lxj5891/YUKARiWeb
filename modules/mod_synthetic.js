@@ -11,9 +11,12 @@ var mongo = require('mongoose')
 var Synthetic = new schema({
   company: {type: String, description: ""},
   comment: {type: String, description: "描述"},
-  subtype: {type: String, description: "标识"},
   name: {type: String, description: "名称"},
   type: { type: String, description: "类别"},
+  opts : {
+    conference:{ type: String, description: "op conference"},
+    solution:{ type: String, description: "op solution"}
+  } ,
   coverrows: {type: Number, description: "封面占九宫格的行数"},
   covercols: {type: Number, description: "封面占九宫格的列数"},
   cover: [
@@ -170,6 +173,10 @@ function updateSynthetic(code, id,synthetic_,uid,callback_){
       docs.comment = synthetic_.syntheticComment;
     if (synthetic_.syntheticSign)
       docs.subtype = synthetic_.syntheticSign;
+
+    if(synthetic_.opts){
+      docs.opts = synthetic_.opts;
+    }
 
     docs.valid = 1;
     docs.editat = new Date();

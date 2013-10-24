@@ -441,5 +441,6 @@
   "html.label.synthetic.type.Introduction.type" : "Type",
   "html.label.synthetic.type.Introduction.subtype" : "SubType",
   "html.label.synthetic.type.Introduction.addtype" : "add Type",
-  "html.label.synthetic.type.Introduction.add":"Add"
+  "html.label.synthetic.type.Introduction.add":"Add",
+  "html.label.synthetic.label.Customization":"Customization"
 }
