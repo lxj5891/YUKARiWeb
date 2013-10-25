@@ -118,6 +118,6 @@ exports.getCaseMenuItemWidth = function() {
  * @returns {number}
  */
 exports.getCaseMenuItemHeight = function() {
-  return 80;
+  return 84;
 }
 
