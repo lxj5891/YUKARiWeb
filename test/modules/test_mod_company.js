@@ -4,8 +4,9 @@
  * @copyright Dreamarts Corporation. All Rights Reserved.
  */
 
-var _       = require("underscore")
-  , should  = require('should')
+"use strict";
+
+var should  = require("should")
   , company = require("../../coverage/modules/mod_company");
 
 /**
@@ -30,7 +31,7 @@ describe("Company Module", function() {
     , createby    : "8"
     , editat      : new Date()
     , editby      : "9"
-  };
+    };
 
   /**
    * 执行测试case

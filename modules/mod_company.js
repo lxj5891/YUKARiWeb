@@ -4,6 +4,8 @@
  * @copyright Dreamarts Corporation. All Rights Reserved.
  */
 
+"use strict";
+
 var mongo       = require("mongoose")
   , smart       = require("smartcore").core.util
   , conn        = require("./connection")
@@ -27,7 +29,38 @@ var Company = new schema({
   , createby    : {type: String, description: "创建者"}
   , editat      : {type: Date,   description: "最终修改时间"}
   , editby      : {type: String, description: "最终修改者"}
-});
+  });
+
+/**
+ * 使用定义好的Schema，生成Company的model
+ * @returns {*} company model
+ */
+function model() {
+
+  return conn().model("Company", Company);
+}
+
+/**
+ * 取得唯一的Code
+ * @param callback
+ */
+function createCode(callback) {
+
+  var comp = model()
+    , guid8 = smart.randomGUID8();
+
+  comp.count({ code: guid8 }).exec(function(err, count) {
+    if (err) {
+      return callback(err);
+    }
+
+    if (count > 0) {
+      createCode(comp, callback);
+    } else {
+      return callback(err, guid8);
+    }
+  });
+}
 
 /**
  * 获取公司一览
@@ -103,10 +136,10 @@ exports.add = function(newComp, callback){
       return callback(err);
     }
 
-    var comp = model();
+    var Comp = model();
     newComp.code = code;
 
-    new comp(newComp).save(function(err, result){
+    new Comp(newComp).save(function(err, result){
       return callback(err, result);
     });
   });
@@ -156,34 +189,3 @@ exports.total = function(condition, callback) {
     return callback(err, count);
   });
 };
-
-/**
- * 取得唯一的Code
- * @param callback
- */
-function createCode(callback) {
-
-  var comp = model()
-  , guid8 = smart.randomGUID8();
-
-  comp.count({ code: guid8 }).exec(function(err, count) {
-    if (err) {
-      return callback(err);
-    }
-
-    if (count > 0) {
-      createCode(comp, callback);
-    } else {
-      return callback(err, guid8);
-    }
-  });
-}
-
-/**
- * 使用定义好的Schema，生成Company的model
- * @returns {*} company model
- */
-function model() {
-
-  return conn().model("Company", Company);
-}
