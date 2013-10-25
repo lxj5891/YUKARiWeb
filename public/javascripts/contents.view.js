@@ -466,18 +466,37 @@ $contents.view = {
         if (result.data.items.opts && result.data.items.opts.solution) {
           $("#syntheticSign").val(result.data.items.opts.solution);
           $("#syntheticSign").show();
+
+          $("#solutionDisplay").hide();
+          $("#solutionDisplay1").hide();
+          $("#solutionDisplay2").hide();
+          $("#solutionDisplay3").hide();
           flag = '1';
         } else {
           $("#syntheticSign").hide();
-
+          $("#solutionDisplay").show();
+          $("#solutionDisplay1").show();
+          $("#solutionDisplay2").show();
+          $("#solutionDisplay3").show();
         }
 
         new ButtonGroup("syntheticSignZone", flag, function (v) {
 
           if (v == "0") {
             $("#syntheticSign").hide();
+
+            $("#solutionDisplay").show();
+            $("#solutionDisplay1").show();
+            $("#solutionDisplay2").show();
+            $("#solutionDisplay3").show();
+
           } else {
             $("#syntheticSign").show();
+
+            $("#solutionDisplay").hide();
+            $("#solutionDisplay1").hide();
+            $("#solutionDisplay2").hide();
+            $("#solutionDisplay3").hide();
           }
 
         }).init();
@@ -528,7 +547,13 @@ $contents.view = {
           //TODO: 选择封面  弹出画面
           return;
         }
-        if (store.metadata.length == 0) {
+        var opt_solution = $("#syntheticSign").val() || '';
+        store.metadata = store.metadata || [];
+        if ($("#syntheticSignZone").attr("value") == '1' && opt_solution.length == 0) {
+          Alertify.log.error(i18n["js.public.check.contents.view.Customization"]);
+          return;
+        }
+        if (store.metadata.length == 0 && $("#syntheticSignZone").attr("value") == '0') {
           Alertify.log.error(i18n["js.public.check.contents.view.metadata"]);
           //TODO: 选择图片  画面
           return;

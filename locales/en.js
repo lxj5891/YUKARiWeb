@@ -347,6 +347,7 @@
   "js.public.check.contents.view.name":"Please input widget's information.",
   "js.public.check.contents.view.cover":"Please set the cover.",
   "js.public.check.contents.view.metadata":"Please set the background.",
+  "js.public.check.contents.view.Customization":"Please set the customization.",
   "js.public.info.contents.view.effect":"Widget can't be set to a video type background.",
   "js.public.info.contents.view.cancel":"Cancel to update.",
   "js.public.info.carousel.items":"No data.",

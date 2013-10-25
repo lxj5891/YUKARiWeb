@@ -347,6 +347,7 @@
   "js.public.check.contents.view.name":"ネタの情報を入力してください。",
   "js.public.check.contents.view.cover":"カバーを設定してください。",
   "js.public.check.contents.view.metadata":"画像を設定してください。",
+  "js.public.check.contents.view.Customization":"カストマイズ項目を設定してください。",
   "js.public.info.contents.view.effect":"動画タイプの背景は、ウィジェットを追加することができません。",
   "js.public.info.contents.view.cancel":"編集をキャンセルします。",
   "js.public.info.carousel.items":"データがありません。",
