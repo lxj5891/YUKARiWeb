@@ -16,8 +16,9 @@ var smart = {
   rule_height : 723,
   init: function() {
     _.templateSettings = {
-      interpolate : /\{\{(.+?)\}\}/gim,
-      evaluate: /\<\$(.+?)\$\>/gim
+      interpolate : /\{\{-(.+?)\}\}/gim,
+      evaluate: /\<\$(.+?)\$\>/gim,
+      escape: /\{\{([^-]+?)\}\}/gim
     };
   }(),
   datailImageLoader:function (){
