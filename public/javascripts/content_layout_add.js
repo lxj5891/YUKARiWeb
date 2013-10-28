@@ -1,3 +1,5 @@
+
+
 $(function () {
   'use strict';
 
@@ -60,7 +62,8 @@ $(function () {
 //    });
 
     $('#addCaseMenu').on('click', function(){
-      showSyntheticList('CaseView',function(selectedId,synthetic){
+      smart.paginationInitalized = false;
+      showSyntheticList(0,20,'CaseView',function(selectedId,synthetic){
         var num = ++caseMenuCounter;
         var tile = {};
         tile.type = 2;
@@ -503,10 +506,10 @@ $(function () {
           td.append(img);
           tr.append(td);
 
-
-          td.on('click', function () {
+          td.on('click', function (e) {
             var selectedTd = $(this);
-            showSyntheticList('imageWithThumb,normal,gallery,solutionmap,Introduction',function(syntheticId,synthetic){
+            smart.paginationInitalized = false;
+            showSyntheticList(0,20,'imageWithThumb,normal,gallery,solutionmap,Introduction',function(syntheticId,synthetic){
               var num = selectedTd.attr("tileNum");
               var screen = selectedTd.attr("screen");
               var t = getLandscapeTileInScreen(screen, num);
@@ -581,7 +584,8 @@ $(function () {
         moveCaseMenuLeft(menuNum);
       }
       if(opt == 'edit'){
-        showSyntheticList('CaseView',function(selectedId,synthetic){
+        smart.paginationInitalized = false;
+        showSyntheticList(0,20,'CaseView',function(selectedId,synthetic){
           updateCaseMenu(menuNum,synthetic);
         });
       }
@@ -896,11 +900,12 @@ $(function () {
   /*
   元素选择
    */
-  function showSyntheticList(type,callback){
+  function showSyntheticList(start,count,type,callback){
 
-    $('#selectContents').modal("show");
-        var url = '/synthetic/list.json?type='+type;
-    smart.doget(url,function(err, result){
+      $('#selectContents').modal("show");
+
+      var url = '/synthetic/list.json?type=' + type +'&start='+start +'&count='+count;
+      smart.doget(url,function(err, result){
       if(smart.error(err, i18n["js.common.search.error"], false)){
         return;
       }
@@ -949,6 +954,13 @@ $(function () {
         });
       });
 
+      smart.paginationScrollTop = false;
+      smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
+
+        showSyntheticList(active,count,type ,callback);
+
+      });
+
     });
 
 
@@ -966,6 +978,12 @@ $(function () {
     }
     if(type == 'CaseView'){
       return i18n["js.public.info.synthetic.type.caseview"];
+    }
+    if(type == 'solutionmap'){
+      return i18n["html.label.synthetic.type.solutionmap"];
+    }
+    if(type == 'Introduction'){
+      return i18n["html.label.synthetic.type.Introduction"];
     }
   }
 

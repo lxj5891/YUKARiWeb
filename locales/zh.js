@@ -347,6 +347,7 @@
   "js.public.check.contents.view.name":"请输入元素情报",
   "js.public.check.contents.view.cover":"请设定封面",
   "js.public.check.contents.view.metadata":"请设定画像",
+  "js.public.check.contents.view.Customization":"请选择定制的类型。",
   "js.public.info.contents.view.effect":"已经有了背景效果不能编集插件",
   "js.public.info.contents.view.cancel":"取消编集",
   "js.public.info.carousel.items":"没有数据",
@@ -441,7 +442,8 @@
   "html.label.synthetic.type.Introduction.type" : "分类",
   "html.label.synthetic.type.Introduction.subtype" : "子分类",
   "html.label.synthetic.type.Introduction.addtype" : "增加分类",
-  "html.label.synthetic.type.Introduction.add":"追加"
+  "html.label.synthetic.type.Introduction.add":"追加",
+  "html.label.synthetic.label.Customization":"定制"
 
 
 

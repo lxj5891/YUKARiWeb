@@ -69,25 +69,33 @@
                placeholder="<%= i('html.label.synthetic.title') %>">
       </div>
     </div>
-    <!--<div class="form-group" id="ctr_syntheticSign" style="margin-top: 15px;">-->
-      <!--<label for="syntheticSign" class="col-lg-2 control-label">控制标识</label>-->
 
-      <!--<div class="col-lg-10">-->
-        <!--<div class="btn-group" value="0" id="subTypeZone">-->
-          <!--<button type="button" class="btn btn-sm btn-default" value="1">普通</button>-->
-          <!--<button type="button" class="btn btn-sm btn-default" value="2">自定义</button>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="form-group" id="group_syntheticSign" style="margin-top: 15px;display: none">-->
-      <!--<label for="syntheticSign" class="col-lg-2 control-label"><%= i('html.label.synthetic.sign') %>-->
-        <!--&lt;!&ndash; 元素标识&ndash;&gt;</label>-->
+    <div class="form-group" id="ctr_syntheticSign" style="margin-top: 15px;display: none;">
+      <label for="subTypeZone" class="col-lg-2 control-label">カストマイズ</label>
 
-      <!--<div class="col-lg-10">-->
-        <!--<input type="text" name="syntheticSign" class="form-control" id="syntheticSign"-->
-               <!--placeholder="<%= i('html.label.synthetic.sign') %>">-->
-      <!--</div>-->
-    <!--</div>-->
+      <div class="col-lg-10">
+        <div class="btn-group" value="0" id="subTypeZone">
+          <button type="button" class="btn btn-sm btn-default" value="1">ON</button>
+          <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" id="group_syntheticSign" style="margin-top: 15px;display: none">
+      <label for="syntheticSign" class="col-lg-2 control-label"><%= i('html.label.synthetic.label.Customization') %>
+        <!-- Customization--></label>
+
+      <div class="col-lg-10">
+        <div class="btn-group" value="0" id="syntheticSignZone">
+          <button type="button" class="btn btn-sm btn-default" value="1">ON</button>
+          <button type="button" class="btn btn-sm btn-default" value="0">OFF</button>
+        </div>
+        <select class="form-control" id="syntheticSign" style="width: 120px;margin-top: 10px;">
+          <option value="DA">DA</option>
+        </select>
+
+      </div>
+    </div>
     <div class="form-group">
       <label for="syntheticComment" class="col-lg-2 control-label"><%= i('html.label.synthetic.comment') %>
         <!-- コメント--></label>
@@ -116,12 +124,12 @@
     </div>
   </div>
 </div>
-<div class="row tableheader col-lg-8">
+<div class="row tableheader col-lg-8" id="solutionDisplay">
   <div class="pull-left">
     <h4><%= i('html.label.synthetic.imageadd') %><!-- スライド定義--></h4>
   </div>
 </div>
-<div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-bottom-width: 0px">
+<div class="row col-lg-8" id="solutionDisplay1" style="border:solid 0px #e3e3e3;border-bottom-width: 0px">
 <div id="main_panel">
   <img id="main_panel_img" src="/images/logo-block.png">
 
@@ -400,7 +408,7 @@
 
 
 </div>
-<div class="row col-lg-8" style="border:solid 0px #e3e3e3;border-top-width:0px">
+<div class="row col-lg-8" id="solutionDisplay3" style="border:solid 0px #e3e3e3;border-top-width:0px">
   <div id="viewport"></div>
 </div>
 <div class="col-lg-8" style="margin-top: 30px">

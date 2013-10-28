@@ -65,11 +65,12 @@ exports.saveAll = function(req_,res_){
   var syntheticName = req_.body.syntheticName;
   var syntheticComment = req_.body.syntheticComment;
   var syntheticSign = req_.body.syntheticSign;
+  var syntheticOptions = req_.body.options;
   if(!canUpdate(user)){
     return noUpdateResponse(res_);
   }
 
-  synthetic.saveThumbAndMatedata(code, synthetic_id,cover,metadata,coverrows,covercols,syntheticName,syntheticComment, syntheticSign ,user, function(err,result){
+  synthetic.saveThumbAndMatedata(code, synthetic_id,cover,metadata,coverrows,covercols,syntheticName,syntheticComment, syntheticSign ,syntheticOptions,user, function(err,result){
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {

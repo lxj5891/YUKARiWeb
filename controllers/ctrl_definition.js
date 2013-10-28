@@ -135,6 +135,9 @@ function setTile(data, page_index, tile, tile_index) {
     t.prefix = [ "imageWithThumb" , page_index , tile_index ].join("-") + "-";
     t.type = "imageWithThumb";
     t.maxIndex = metadata.length - 1;
+    if(synthetic.opts && synthetic.opts.conference && synthetic.opts.conference != "0"){
+      t.registerConference = synthetic.opts.conference;
+    }
 
     // 是否有动画效果
     var isHasAnimation = synthetic.metadata && synthetic.metadata.length > 0&& synthetic.metadata[0].effect;
@@ -157,6 +160,9 @@ function setTile(data, page_index, tile, tile_index) {
     t.type = "solutionmap";
     t.prefix = [ "solutionmap" , page_index , tile_index ].join("-") + "-";
     t.maxIndex = 0;
+    if(synthetic.opts && synthetic.opts.solution){
+      t.customer = synthetic.opts.solution;
+    }
     // TODO:未做
   } else if(synthetic.type == "mageWithImageMenu") {
     t.type = "imageWithImageMenu";
