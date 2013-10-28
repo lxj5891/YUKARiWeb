@@ -154,7 +154,13 @@ function render(start, count,keyword) {
         + "</th><th>" + i18n["html.label.common.operation"] + "</th></tr>";
       $('#layout_header').html(headerHtml);
 
-      var tmpl = $('#tmpl_publishlayout_list').html();
+      var tmpl = $('#tmpl_publishlayout_list').html()
+        , canrepeal
+        , canMakeContents = parseInt($("#authorityContents").val());
+
+        if (!canMakeContents) {
+            canrepeal = "hidden";
+        }
 
       _.each(layoutList, function(row){
         var active = row.active;
@@ -183,6 +189,7 @@ function render(start, count,keyword) {
           , "viewer": get_viewerHtml(row)
           , "range": range
           , "class3": (active&&active.layout&&active.layout.image&&( !_.isEmpty(active.layout.image.imageH)|| !_.isEmpty(active.layout.image.imageV))) ? "" : "hidden"
+          , "class6": canrepeal
           , "preview_image_H" :(active&&active.layout&&active.layout.image&& active.layout.image.imageH) ? active.layout.image.imageH : ""
           , "preview_image_V" :(active&&active.layout&&active.layout.image&& active.layout.image.imageV) ? active.layout.image.imageV : ""
           , "tmpSyn"  : tmpSyn
