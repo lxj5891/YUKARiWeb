@@ -349,10 +349,10 @@ exports.guiding = function(app){
   });
 
   app.post('/file/upload.json', function(req,res){
-    if (!(utils.hasContentPermit(req.session.user) || utils.isAdmin(req.session.user))) {
-      var err = new errors.Forbidden(__("js.common.update.check"));
-      return res.send(err.code, json.errorSchema(err.code, err.message));
-    }
+    // if (!(utils.hasContentPermit(req.session.user) || utils.isAdmin(req.session.user))) {
+    //   var err = new errors.Forbidden(__("js.common.update.check"));
+    //   return res.send(err.code, json.errorSchema(err.code, err.message));
+    // }
     common.save(req, res);
   });
 
