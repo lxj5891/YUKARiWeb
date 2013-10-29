@@ -21,10 +21,10 @@ function login() {
     , path = $('#path').val()
     , csrftoken = $('#_csrf').val();
 
-  if (client.browser.ie >=9 || client.browser.chrome !=0 || client.browser.safari !=0) {
+  if (client.browser.ie >=10 || client.browser.chrome !=0 || client.browser.safari !=0) {
 
   } else {
-    Alertify.log.info("supported Browsers: chrome,safari,IE9,IE10");
+    Alertify.log.info("supported Browsers: chrome,safari,IE10");
     return;
   }
 
