@@ -443,7 +443,8 @@
   "html.label.synthetic.type.Introduction.subtype" : "子分类",
   "html.label.synthetic.type.Introduction.addtype" : "增加分类",
   "html.label.synthetic.type.Introduction.add":"追加",
-  "html.label.synthetic.label.Customization":"定制"
+  "html.label.synthetic.label.Customization":"定制",
+  "html.label.synthetic.label.Conference":"Conference"
 
 
 
