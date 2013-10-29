@@ -38,7 +38,7 @@ exports.list = function (code, start_, limit_, company_, callback_) {
     if (err) {
       return callback_(new error.InternalServer(err));
     }
-    device.list(code, condition, start, limit, function (err, result) {
+    device.getList(code, condition, start, limit, function (err, result) {
       console.log(err);
       if (err) {
         return callback_(new error.InternalServer(err));
