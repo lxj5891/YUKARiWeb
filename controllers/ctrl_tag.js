@@ -59,7 +59,7 @@ exports.search = function(code_, keywords_, start_, limit_, callback_){
     object.name = new RegExp("^" + keywords_.toLowerCase() + ".*$", "i");
   }
 
-  tag.list(code_, object, start_, limit_, function(err, result){
+  tag.getList(code_, object, start_, limit_, function(err, result){
     callback_(err, result);
   });
 }

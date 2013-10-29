@@ -34,7 +34,7 @@ exports.list = function (code_, keyword_, start_, limit_, callback_) {
       return callback_(new error.InternalServer(err));
     }
 
-    notice.list(code_, condition, start, limit, function (err, result) {
+    notice.getList(code_, condition, start, limit, function (err, result) {
       if (err) {
         return callback_(new error.InternalServer(err));
       }
