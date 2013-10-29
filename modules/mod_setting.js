@@ -21,7 +21,7 @@ var Setting = new schema({
   , createby   : {type: String, description: "创建者"}
   , editat     : {type: Date,   description: "最终修改时间", default:new Date()}
   , editby     : {type: String, description: "最终修改者"}
-});
+  });
 
 /**
  * 使用定义好的Schema，生成Setting的model
@@ -46,7 +46,7 @@ exports.getListByKeys = function(code , keys , callback){
 
 /**
  * 添加配置
- * @param code_ 数据库标识
+ * @param code 数据库标识
  * @param item 配置信息
  * @param callback 返回配置
  */
