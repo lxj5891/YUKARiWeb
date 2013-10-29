@@ -443,5 +443,6 @@
   "html.label.synthetic.type.Introduction.subtype" : "SubType",
   "html.label.synthetic.type.Introduction.addtype" : "add Type",
   "html.label.synthetic.type.Introduction.add":"Add",
-  "html.label.synthetic.label.Customization":"Customization"
+  "html.label.synthetic.label.Customization":"Customization",
+  "html.label.synthetic.label.Conference":"Conference"
 }
