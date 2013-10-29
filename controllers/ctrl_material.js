@@ -49,7 +49,7 @@ exports.list = function(code_, contentType_, keyword_, tags_, start_, limit_, ca
       return callback_(new error.InternalServer(err));
     }
 
-    material.list(code_, condition, start, limit, function(err, result){
+    material.getList(code_, condition, start, limit, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
