@@ -38,7 +38,7 @@ exports.list = function (code, start_, limit_, company_, callback_) {
     if (err) {
       return callback_(new error.InternalServer(err));
     }
-    device.getList(code, condition, start, limit, function (err, result) {
+    device.getListByPage(code, condition, start, limit, function (err, result) {
       console.log(err);
       if (err) {
         return callback_(new error.InternalServer(err));
@@ -116,7 +116,7 @@ function updateUserFn(code, session_uid, user_, device_id, pass, callback_) {
 function findApply(code, deviceid, userid, callback_) {
   var query = {deviceid: deviceid, "userinfo.userid": userid, companycode: code, valid: 1};
   console.log(query);
-  device.find(code, query, function (err, result) {
+  device.getList(code, query, function (err, result) {
     if (result && result.length > 0) {
       callback_(err, result[0]);
     } else {
@@ -331,7 +331,7 @@ function checkDeviceUser(deviceid, devicetoken, userid, code, devicetype, callba
 function checkApply(code, deviceid, userid, code, callback_) {
   var query = {deviceid: deviceid, "userinfo.userid": userid, companycode: code, valid: 1};
   console.log(query);
-  device.find(code, query, function (err, result) {
+  device.getList(code, query, function (err, result) {
     if (result && result.length > 0) {
       callback_(err, result);
     } else {
@@ -362,7 +362,7 @@ function checkCompanyCode(code, callback) {
 };
 
 function checkDeviceId(code, deviceid, callback) {
-  device.find(code, {"deviceid": deviceid}, function (err, result) {
+  device.getList(code, {"deviceid": deviceid}, function (err, result) {
     if (result && result.length > 0) {
       callback(null, result);
     } else {
@@ -377,7 +377,7 @@ function checkDeviceId(code, deviceid, callback) {
 exports.add = function (code, deviceid, user, description, devicetype, confirm, callback_) {
 
   // check device & user exists
-  device.find(code, {"deviceid": deviceid}, function (err, result) {
+  device.getList(code, {"deviceid": deviceid}, function (err, result) {
 
     if (result && result.length > 0) {
 
@@ -432,7 +432,7 @@ exports.add = function (code, deviceid, user, description, devicetype, confirm, 
 
 //
 exports.deviceTotalByComId = function (code, compId_, callback_) {
-  device.deviceTotalByComId(code, compId_, function (err, result) {
+  device.totalByComId(code, compId_, function (err, result) {
     if (err) {
       return callback_(new error.InternalServer(err));
     }
@@ -447,7 +447,7 @@ exports.setDeviceUser = function (code_, userid_, deviceid_, callback_) {
     deviceuid: userid_
   };
 
-  device.findAndModify(code_, query, obj, function (err, result) {
+  device.getAndUpdate(code_, query, obj, function (err, result) {
     callback_(err, result);
   });
 

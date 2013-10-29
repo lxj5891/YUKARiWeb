@@ -66,9 +66,9 @@ describe("Device Module", function() {
   });
   
   /*****************************************************************/
-  it("find", function(done) {
+  it("getList", function(done) {
     
-    dev.find(null, {"deviceid" : data.deviceid, "userinfo.status" : "1"}, function(err, result) {
+    dev.getList(null, {"deviceid" : data.deviceid, "userinfo.status" : "1"}, function(err, result) {
       
       result.length.should.equal(1);
       
@@ -79,9 +79,9 @@ describe("Device Module", function() {
   
 
   /*****************************************************************/
-  it("deviceTotalByComId", function(done) {
+  it("totalByComId", function(done) {
     
-    dev.deviceTotalByComId(null, data.companyid, function(err, count) {
+    dev.totalByComId(null, data.companyid, function(err, count) {
 
       (count).should.equal(1);
       
@@ -91,11 +91,11 @@ describe("Device Module", function() {
   });
   
   /*****************************************************************/
-  it("findAndModify", function(done) {
+  it("getAndUpdate", function(done) {
     
     data.devstatus = "111";
     
-    dev.findAndModify(null, {"deviceid" : data.deviceid, "userinfo.status" : "1"}, data, function(err, result) {
+    dev.getAndUpdate(null, {"deviceid" : data.deviceid, "userinfo.status" : "1"}, data, function(err, result) {
 
       result.devstatus.should.equal("111");
       
@@ -115,9 +115,9 @@ describe("Device Module", function() {
   });
   
   /*****************************************************************/
-  it("getList", function(done) {
+  it("getListByPage", function(done) {
     
-    dev.getList(null, {"userinfo.status" : "1"}, 0, 15, function() {
+    dev.getListByPage(null, {"userinfo.status" : "1"}, 0, 15, function() {
 
       done();
     });
@@ -127,7 +127,7 @@ describe("Device Module", function() {
   /*****************************************************************/
   it("update", function(done) {
     
-    dev.find(null, {"deviceid" : data.deviceid}, function(err1, result1) {
+    dev.getList(null, {"deviceid" : data.deviceid}, function(err1, result1) {
       
       var device = {
           "devstatus": "222"

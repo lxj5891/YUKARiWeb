@@ -62,7 +62,7 @@ exports.total = function(code, callback){
  * @param limit 数据件数
  * @param callback 返回设备情报一览
  */
-exports.getList = function(code, condition, start, limit, callback){
+exports.getListByPage = function(code, condition, start, limit, callback){
 
   var dev = model(code);
 
@@ -138,7 +138,7 @@ exports.allow = function(code, uid, device, user, allow, callback){
  * @param condition 查询条件
  * @param callback 返回设备一览
  */
-exports.find = function(code, condition, callback){
+exports.getList = function(code, condition, callback){
 
   var dev = model(code);
 
@@ -153,7 +153,7 @@ exports.find = function(code, condition, callback){
  * @param comId 公司标识
  * @param callback 返回设备数目
  */
-exports.deviceTotalByComId = function(code, comId, callback) {
+exports.totalByComId = function(code, comId, callback) {
   var dev = model(code);
   dev.count({companyid : comId, valid : 1}).exec(function(err, count){
     console.log(count);
@@ -168,7 +168,7 @@ exports.deviceTotalByComId = function(code, comId, callback) {
  * @param dev 设备
  * @param callback 返回设备数目
  */
-exports.findAndModify = function (code, query, dev, callback) {
+exports.getAndUpdate = function (code, query, dev, callback) {
   var Dev = model(code);
 
   Dev.findOneAndUpdate(query, dev, function(err, result){
