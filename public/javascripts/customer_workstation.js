@@ -2,36 +2,21 @@ $(function () {
   'use strict';
 
   var iconMap = {
-    "1":"icon-volume-up",
-    "2":"icon-calendar",
-    "3":"icon-envelope",
-    "4":"icon-group",
-    "5":"icon-bar-chart",
-    "6":"icon-pencil",
-    "7":"icon-paste",
-    "8":"icon-search",
-    "9":"icon-briefcase",
-    "10":"icon-bookmark",
-    "11":"icon-book",
-    "12":"icon-comments",
-    "13":"icon-file-text-alt",
-    "14":"icon-calendar-empty",
-    "15":"icon-archive",
-    "16":"icon-desktop",
-    "17":"icon-microphone",
-    "18":"icon-magic",
-    "19":"icon-gear",
-    "20":"icon-tags",
-    "21":"icon-folder-open",
-    "22":"icon-globe",
-    "23":"icon-home",
-    "24":"icon-download-alt",
-    "25":"icon-bell",
-    "26":"icon-check",
-    "27":"icon-film",
-    "28":"icon-cloud-upload",
-    "29":"icon-edit",
-    "30":"icon-camera"
+    "1":"/images/workstation/yim_icon_01.png",
+    "2":"/images/workstation/yim_icon_02.png",
+    "3":"/images/workstation/yim_icon_03.png",
+    "4":"/images/workstation/yim_icon_04.png",
+    "5":"/images/workstation/yim_icon_05.png",
+    "6":"/images/workstation/yim_icon_06.png",
+    "7":"/images/workstation/yim_icon_07.png",
+    "8":"/images/workstation/yim_icon_08.png",
+    "9":"/images/workstation/yim_icon_09.png",
+    "10":"/images/workstation/yim_icon_10.png",
+    "11":"/images/workstation/yim_icon_11.png",
+    "12":"/images/workstation/yim_icon_12.png",
+    "13":"/images/workstation/yim_icon_13.png",
+    "14":"/images/workstation/yim_icon_14.png",
+    "15":"/images/workstation/yim_icon_15.png"
   };
 
   var typeMap = {
@@ -63,7 +48,7 @@ $(function () {
     // icon list menu
     if (iconContainer.html()) {
     } else {
-      for(var i = 1; i < 31; i ++){
+      for(var i = 1; i < 16; i ++){
         iconContainer.append(_.template(icon_tmpl, {idx:i,icon:iconMap[i]}));
       }
     }
@@ -148,12 +133,11 @@ $(function () {
       return false;
     });
 
-    $("#icon_menu").on("click", "i", function(event) {
+    $("#icon_menu").on("click", "img", function(event) {
         var target = $(event.target);
         var idx = target.attr("tabindex");
 
-        $("#icon_select").removeClass();
-        $("#icon_select").addClass(iconMap[idx]);
+        $("#icon_select").attr("src", iconMap[idx]);
         $("#inputIcon").val(idx);
     });
 
@@ -238,8 +222,7 @@ $(function () {
   function setWSData(ws) {
     $("#inputId").val(ws._id);
 
-    $("#icon_select").removeClass();
-    $("#icon_select").addClass(iconMap[ws.icon]);
+    $("#icon_select").attr("src", iconMap[ws.icon]);
     $("#inputIcon").val(ws.icon);
 
     $("#inputTitle").val(ws.title);
