@@ -91,7 +91,7 @@ exports.add = function(code_, uid_, files_, callback_) {
       detail["editat"] = doc.uploadDate;
       detail["editby"] = uid_;
 
-      material.save(code_, detail, function(err, info){
+      material.add(code_, detail, function(err, info){
        result.push(info);
 
        // create thumbs

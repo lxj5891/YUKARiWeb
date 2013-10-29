@@ -62,7 +62,7 @@ exports.count = function(code, conditions, callback) {
  * @param {object} newFile 素材
  * @param {function} callback 返回素材添加结果
  */
-exports.save = function(code, newFile, callback) {
+exports.add = function(code, newFile, callback) {
 
   var File = model(code);
 
