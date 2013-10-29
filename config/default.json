@@ -37,7 +37,7 @@
   },
   
   "app": {
-      "tmp": "D:/GIT_workspace/tmp"
+      "tmp": "/tmp"
     , "hmackey": "smart"
     , "scissors": ""
     , "queue": "true"
@@ -65,6 +65,7 @@
     , "queue_join": "smartJoin"
     , "queue_apn": "smartApn"
     , "queue_thumb": "smartThumb"
+    , "maxListeners": 0
   }
 
 }

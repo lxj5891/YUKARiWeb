@@ -1,6 +1,8 @@
 var amqp = require('amqp')
   , mq = require('config').mq;
 
+var connectionMap = {};
+
 /**
  * MQ连接参数
  */
@@ -10,6 +12,17 @@ var args = {
   , "user": mq.user
   , "password": mq.password
 };
+
+var queOption = {
+    durable: true
+    ,autoDelete: false
+    ,confirm: false
+}
+
+var messOption = {
+    mandatory: true
+    ,deliveryMode: 2
+}
 
 /**
  * 合并图片
@@ -30,14 +43,7 @@ var args = {
  */
 exports.joinImage = function(message) {
 
-  args.queue = mq.queue_join;
-  var connection = amqp.createConnection(args);
-
-  connection.on("ready", function(){
-    connection.publish(mq.queue_join, message, { mandatory: true }, function(){
-      connection.end();
-    });
-  });
+  mqConnection(mq.queue_join, message);
 };
 
 /**
@@ -50,14 +56,7 @@ exports.joinImage = function(message) {
  */
 exports.pushApnMessage = function(message){
 
-  args.queue = mq.queue_apn;
-  var connection = amqp.createConnection(args);
-
-  connection.on("ready", function(){
-    connection.publish(mq.queue_apn, message, { mandatory: true }, function(){
-      connection.end();
-    });
-  });
+  mqConnection(mq.queue_apn, message);
 };
 
 /**
@@ -75,13 +74,29 @@ exports.pushApnMessage = function(message){
  */
 exports.thumb = function(message){
 
-  args.queue = mq.queue_thumb;
-  var connection = amqp.createConnection(args);
+  mqConnection(mq.queue_thumb, message);
+};
 
-  connection.on("ready", function(){
-    connection.publish(mq.queue_thumb, message, { mandatory: true }, function(){
-      connection.end();
-    });
+function mqConnection(mq_queue, message){
+  getConnection(mq_queue, function(connection){
+    connection.publish(mq_queue, message, messOption);
   });
 };
+
+
+function getConnection(queue_name, callback) {
+  if(connectionMap[queue_name]) {
+    return callback(connectionMap[queue_name]);
+  }
+
+  args.queue = queue_name;
+  var connection = amqp.createConnection(args);
+  connection.on("ready", function(){
+    connection.queue(queue_name, queOption, function (queue) {
+
+      connectionMap[queue_name] = connection;
+      return callback(connection);
+    });
+  });
+}
 

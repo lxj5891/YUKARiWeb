@@ -155,7 +155,11 @@ exports.guiding = function (app) {
 
   //workstation
     app.get('/customer/workstation', function (req, res) {
+      if(!util.hasContentPermit(req.session.user)){
+        res.render("error_403", {user: req.session.user});
+      } else {
         res.render("customer_workstation", {"title": i.__("js.routes.website.customer_workstation.title"), user: req.session.user});
+      }
     });
   //appicon
   app.get('/customer/appimage', function (req, res) {

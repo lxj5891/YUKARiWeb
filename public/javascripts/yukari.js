@@ -16,8 +16,9 @@ var smart = {
   rule_height : 723,
   init: function() {
     _.templateSettings = {
-      interpolate : /\{\{(.+?)\}\}/gim,
-      evaluate: /\<\$(.+?)\$\>/gim
+      interpolate : /\{\{-(.+?)\}\}/gim,
+      evaluate: /\<\$(.+?)\$\>/gim,
+      escape: /\{\{([^-]+?)\}\}/gim
     };
   }(),
   datailImageLoader:function (){
@@ -495,6 +496,7 @@ var smart = {
    * 翻页
    */
   paginationInitalized: false,
+  paginationScrollTop : true,
   pagination: function(container, totalItems, rowCount, callback) {
 
     // 初始化一次
@@ -529,23 +531,27 @@ var smart = {
 
       var remainder = Math.ceil((totalItems - (startPage - 1) * rowCount) / rowCount)
         , limit = remainder > pageCount ? pageCount : remainder;
-
       container.html("");
       container.append(_.template(tmpl, {
         "start": startPage
         , "limit": limit
         , "active": activePage
         , "canPrev": startPage > 1
-        , "canNext": limit >= pageCount
+        , "canNext": (startPage+limit-1 < Math.ceil(totalItems / rowCount)) && (limit >= pageCount)
       }));
+      if (smart.paginationScrollTop) {
+        return ;
+      } else {
 
-      return ;
+        return false;
+      }
+
     });
 
     // 初始化
     container.html("");
     container.append(_.template(tmpl, {
-      "start": 1, "limit": limit, "active": 1, "canPrev": false, "canNext": limit >= pageCount
+      "start": 1, "limit": limit, "active": 1, "canPrev": false, "canNext": limit < Math.ceil(totalItems / rowCount) && (limit >= pageCount)
     }));
   },
 

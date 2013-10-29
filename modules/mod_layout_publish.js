@@ -41,12 +41,15 @@ var PublishLayout = new schema({
           synthetic:{
             name: {type: String, description: "ネタ名"},
             type: { type: String, description: "ネタタイプ"},
-            subtype :{ type: String, description: "标识类型"},
+            opts : {
+              conference:{ type: String, description: "op conference"},
+              solution:{ type: String, description: "op solution"}
+            } ,
             coverrows: {type: Number, description: "封面占九宫格的行数"},
             covercols: {type: Number, description: "封面占九宫格的列数"},
             cover: [{
               material :{
-                fileid: {type: String, description: "元素文件的ID"},
+                fileid: {type: String, description: "素材文件的ID"},
                 thumb: {
                   big: {type: String},
                   middle: {type: String},
@@ -61,15 +64,6 @@ var PublishLayout = new schema({
               prefix: {type: String, description: "前?"}, // 未定
               material_id : {type:String,description:"素材ID"},
               material :{
-                fileid: {type: String, description: "元素文件的ID"},
-                thumb: {
-                  big: {type: String},
-                  middle: {type: String},
-                  small: {type: String}
-                }
-              },
-              bg_material_id :{type: String, description: "Introduction 背景图片"},
-              bg_material :{
                 fileid: {type: String, description: "元素文件的ID"},
                 thumb: {
                   big: {type: String},

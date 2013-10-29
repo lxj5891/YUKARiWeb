@@ -147,7 +147,7 @@ function events() {
       , row = _materialList[index - 1];
     if($("#inputName").val()) {
         smart.doput("/material/edit.json", {fid: row._id, tags: tag.join(",") , fname:inputName}, function(err, result) {
-          if(smart.error(err, i18n["js.common.search.error"], false)){
+          if(smart.error(err, i18n["js.common.update.error"], false)){
 
           } else {
             smart.paginationInitalized = false;
