@@ -79,7 +79,7 @@ exports.saveList = function(code_, uid_, workstationList_, callback_) {
 
 exports.get = function(code_, user_, workstationId_, callback_){
 
-  workstation.one(code_, workstationId_, function(err, result){
+  workstation.get(code_, workstationId_, function(err, result){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
@@ -148,7 +148,7 @@ exports.list = function(code_, user_, callback_) {
       condition.$or = or;
     }
 
-    workstation.list(code_, condition, function(err, result){
+    workstation.getList(code_, condition, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
