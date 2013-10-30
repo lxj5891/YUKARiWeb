@@ -17,7 +17,7 @@ var mongo     = require("mongoose")
  */
   //TODO 缺少创建者,创建日,删除Flag字段,素材长度什么意思
 var Material = new schema({
-  fileid        : { type: String, description: "GridFSのID" }
+    fileid      : { type: String, description: "GridFSのID" }
   , thumb       : {
       big       : { type: String, description: "大缩略图" }
     , middle    : { type: String, description: "中缩略图" }
