@@ -1,44 +1,69 @@
-var mongo = require('mongoose')
-  , util = require('util')
-  , conn = require('./connection')
+/**
+ * @file 存取配置信息的module
+ * @author r2space@gmail.com
+ * @copyright Dreamarts Corporation. All Rights Reserved.
+ */
+
+"use strict";
+
+var mongo = require("mongoose")
+  , conn = require("./connection")
   , schema = mongo.Schema;
 
+/**
+ * @type {schema} 配置schema
+ */
 var Setting = new schema({
-  key : {type:String}
-  , val : {type:String}
-  , valid: {type: Number, default:1}
-  , createat: {type: Date, description: "创建时间",default:new Date()}
-  , createby: {type: String}
-  , editat: {type: Date, description: "修改时间", default:new Date()}
-  , editby: {type: String}
-});
+    key        : { type: String, description: "键" }
+  , val        : { type: String, description: "值" }
+  , valid      : { type: Number, description: "删除 0:无效 1:有效", default:1 }
+  , createat   : { type: Date,   description: "创建时间",default:new Date() }
+  , createby   : { type: String, description: "创建者" }
+  , editat     : { type: Date,   description: "最终修改时间", default:new Date() }
+  , editby     : { type: String, description: "最终修改者" }
+  });
 
+/**
+ * 使用定义好的Schema，生成Setting的model
+ * @returns setting model
+ */
 function model(code) {
-  return conn(code).model('Setting', Setting);
+  return conn(code).model("Setting", Setting);
 }
 
-exports.find = function(code_ , keys_ , callback_){
-  var key = model(code_);
-  key.find({"key":{ "$in" : keys_ } }).exec(function(err,result){
-    callback_(err,result);
-  })
+/**
+ * 获取配置一览
+ * @param code 数据库标识
+ * @param keys 键列表
+ * @param callback 返回配置列表
+ */
+exports.getListByKeys = function(code , keys , callback) {
+  var key = model(code);
+  key.find({"key":{ "$in" : keys } }).exec(function(err, result) {
+    callback(err, result);
+  });
 };
 
-// 添加设备情报
-exports.add = function(code, item_, callback_){
+/**
+ * 添加配置
+ * @param code 数据库标识
+ * @param item 配置信息
+ * @param callback 返回配置
+ */
+exports.add = function(code, item, callback) {
 
-  var dev =  model(code)
-  model(code).findOne({key : item_.key },function(err,result){
+  var Dev =  model(code);
+  model(code).findOne({key : item.key },function(err, result) {
 
-    if(!result){
-      new dev(item_).save(function(err, result){
-        callback_(err, result);
+    if(!result) {
+      new Dev(item).save(function(err, result) {
+        callback(err, result);
       });
     }else{
-      result.val = item_.val;
-      result.editby = item_.editby;
+      result.val = item.val;
+      result.editby = item.editby;
       result.editat = new Date();
-      result.save(callback_);
+      result.save(callback);
     }
 
   });

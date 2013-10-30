@@ -6,14 +6,6 @@
   <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
   <script type="text/javascript" src="/javascripts/customer_workstation.js"></script>
-  <style>
-    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-      border: 1px solid #d3d3d3;
-      font-weight: normal;
-      color: #555555;
-    }
-
-  </style>
 </head>
 <body>
 
@@ -43,7 +35,7 @@
         </div>
       </div>
       <div class="row box-border">
-        <div class="wsbackcolor" style="width:770px;margin-left:15px;">
+        <div class="wsbackcolor" style="width:770px;">
           <div>
             <ul style="border-bottom-color:#DCDCDC;border:1px;">
               <div class="row">
@@ -64,8 +56,8 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-8 row">
-        <button type="submit" class="col-lg-4 btn btn-warning btn-lg" id="saveList"><%= i('html.button.common.save') %><!-- 保存--></button>
+      <div id="saveList" class="col-lg-2 btn btn-warning btn-lg">
+          <%= i('html.button.common.save') %>
       </div>
     </div>
   </div>
@@ -90,7 +82,7 @@
                 <ul class="nav nav-pills">
                   <li class="dropdown">
                     <label class="dropdown-toggle" data-toggle="dropdown" href="#">
-                      <i class="icon-group" id="icon_select"></i>&nbsp; <span class="caret"></span>
+                      <img src="/images/workstation/yim_icon_01.png" class="workstation_icon" id="icon_select" />&nbsp; <span class="caret"></span>
                     </label>
                     <ul class="dropdown-menu" id="icon_menu"></ul>
                   </li>
@@ -150,7 +142,7 @@
 </div>
 
 <script type="text/template" id="tmpl_icon">
-  <li class="pull-left"><i class="{{icon}}" tabindex="{{idx}}"></i></li>
+  <li class="pull-left"><img src="{{icon}}" class="workstation_icon" tabindex="{{idx}}" /></li>
 </script>
 
 <script type="text/template" id="tmpl_sortable">
@@ -160,7 +152,7 @@
         <ul>
           <li>
             <label class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="{{icon}}"></i>
+              <img src="{{icon}}" class="workstation_icon" />
             </label>
           </li>
         </ul>

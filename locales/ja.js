@@ -197,7 +197,7 @@
   "html.label.device":"デバイス",
   "html.label.device.no":"番号",
   "html.label.device.type":"種別",
-  "html.label.device.dno":"設備番号",
+  "html.label.device.dno":"デバイス識別番号",
   "html.label.device.users":"使用しているユーザ数",
   "html.label.device.user.no":"番号",
   "html.label.device.user.id":"ユーザID",
@@ -347,6 +347,7 @@
   "js.public.check.contents.view.name":"ネタの情報を入力してください。",
   "js.public.check.contents.view.cover":"カバーを設定してください。",
   "js.public.check.contents.view.metadata":"画像を設定してください。",
+  "js.public.check.contents.view.Customization":"カストマイズ項目を設定してください。",
   "js.public.info.contents.view.effect":"動画タイプの背景は、ウィジェットを追加することができません。",
   "js.public.info.contents.view.cancel":"編集をキャンセルします。",
   "js.public.info.carousel.items":"データがありません。",
@@ -387,8 +388,8 @@
   "js.ctr.delete.auth.error":"削除権限はありません",
   "js.ctr.confirm.auth.error":"承認権限はありません",
   "js.ctr.layout.complete.error":"レイアウトは完成してないので、申請不可",
-  "js.ctr.synthetic.used.error":"ネタが既に使用される",
-  "js.ctr.material.used.error":"素材が既に使用される",
+  "js.ctr.synthetic.used.error":"レイアウトに設定されているネタのため、削除することができません",
+  "js.ctr.material.used.error":"ネタに設定されている素材のため、削除することができません",
   "js.ctr.check.user":"ユーザが存在しました。",
   "js.ctr.check.user.uid.ismail":"ユーザIDには、メールアドレスを指定してください。",
   "js.ctr.check.user.uid.min":"ユーザIDを指定してください。",
@@ -441,5 +442,8 @@
   "html.label.synthetic.type.Introduction.type" : "分類",
   "html.label.synthetic.type.Introduction.subtype" : "小分類",
   "html.label.synthetic.type.Introduction.addtype" : "分類追加",
-  "html.label.synthetic.type.Introduction.add":"追加"
+  "html.label.synthetic.type.Introduction.add":"追加",
+  "html.label.synthetic.label.Customization":"カストマイズ",
+  "html.label.synthetic.label.Conference":"コンファレンス"
+
 }
