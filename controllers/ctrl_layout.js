@@ -370,7 +370,7 @@ exports.list = function(code, keyword_,start_, limit_, uid, status, scope,callba
       return callback_(new error.InternalServer(err));
     }
 
-    layout.list(code, condition, start, limit, function(err, result1){
+    layout.getList(code, condition, start, limit, function(err, result1){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
