@@ -5,7 +5,7 @@ var async   = require('async')
 
 exports.getAppimage = function (code, callback_) {
   var keys = ["image1", "image2", "imagelogo"];
-  setting.find(code, keys, callback_);
+  setting.getListByKeys(code, keys, callback_);
 };
 
 function settingItem(user_, key, val) {
