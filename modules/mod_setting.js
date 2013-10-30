@@ -14,13 +14,13 @@ var mongo = require("mongoose")
  * @type {schema} 配置schema
  */
 var Setting = new schema({
-    key        : {type: String, description: "键"}
-  , val        : {type: String, description: "值"}
-  , valid      : {type: Number, description: "删除 0:无效 1:有效", default:1}
-  , createat   : {type: Date,   description: "创建时间",default:new Date()}
-  , createby   : {type: String, description: "创建者"}
-  , editat     : {type: Date,   description: "最终修改时间", default:new Date()}
-  , editby     : {type: String, description: "最终修改者"}
+    key        : { type: String, description: "键" }
+  , val        : { type: String, description: "值" }
+  , valid      : { type: Number, description: "删除 0:无效 1:有效", default:1 }
+  , createat   : { type: Date,   description: "创建时间",default:new Date() }
+  , createby   : { type: String, description: "创建者" }
+  , editat     : { type: Date,   description: "最终修改时间", default:new Date() }
+  , editby     : { type: String, description: "最终修改者" }
   });
 
 /**
@@ -37,9 +37,9 @@ function model(code) {
  * @param keys 键列表
  * @param callback 返回配置列表
  */
-exports.getListByKeys = function(code , keys , callback){
+exports.getListByKeys = function(code , keys , callback) {
   var key = model(code);
-  key.find({"key":{ "$in" : keys } }).exec(function(err, result){
+  key.find({"key":{ "$in" : keys } }).exec(function(err, result) {
     callback(err, result);
   });
 };
@@ -50,13 +50,13 @@ exports.getListByKeys = function(code , keys , callback){
  * @param item 配置信息
  * @param callback 返回配置
  */
-exports.add = function(code, item, callback){
+exports.add = function(code, item, callback) {
 
   var Dev =  model(code);
-  model(code).findOne({key : item.key },function(err, result){
+  model(code).findOne({key : item.key },function(err, result) {
 
-    if(!result){
-      new Dev(item).save(function(err, result){
+    if(!result) {
+      new Dev(item).save(function(err, result) {
         callback(err, result);
       });
     }else{

@@ -1,6 +1,6 @@
 /**
  * @file 单体测试对象：modules/mod_device.js
- * @author r2space@gmail.com
+ * @author lizheng
  * @copyright Dreamarts Corporation. All Rights Reserved.
  */
 
