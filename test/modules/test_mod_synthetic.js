@@ -8,6 +8,10 @@ describe("Synthetic Module", function () {
   var syntheticId = "";
   var data = {
     "comment": "画像セット TEST",
+    "opts" : {
+      "conference":"0",
+      "solution":"DA"
+    } ,
     "cover": [
       {
         "materialId": "526f4e54178baa63d8000017"
