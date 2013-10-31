@@ -1,93 +1,134 @@
-var mongo = require('mongoose')
-  , util = require('util')
-  , conn = require('./connection')
-  , schema = mongo.Schema;
+/**
+ * @file 存取工作站
+ * @author Sara(fyx1014@hotmail.com)
+ * @copyright Dreamarts Corporation. All Rights Reserved.
+ */
 
+"use strict";
 
+var mongo  = require("mongoose")
+  , conn    = require("./connection")
+  , schema  = mongo.Schema;
+
+/**
+ * @type {schema} workstation schema
+ */
 var Workstation = new schema({
-  title: {type: String, description: "title"},
-  type: {type: String, description: "app or url or ise or sdb"},
-  //authType : {type: String,default:"INSUITEPageWithAuth" ,description: "WebPage,INSUITEPageWithAuth,INSUITEPage,SDBPageWithAuth"},
-  url: {type: String, description: "url"},
-  icon: {type: String, description: "icon"},
-  open: {type: Number, description: "0:open,1:not open"},
-  touser: [ String ],
-  togroup: [ String ],
-  sort_level: {type:Number, default: 1}, //ソートレベル
-  editat: {type: Date, default: Date.now},
-  editby: {type: String},
-  createat: { type: Date, default: Date.now },
-  createby: {type: String},
-  valid: {type: Number, default: 1}
-});
+    title     : { type: String, description: "标题"}
+  , type      : { type: String, description: "链接类型： ise（INSUITE），sdb（SmartDB），web，app"}
+  , url       : { type: String, description: "链接"}
+  , icon      : { type: String, description: "图标：1~15"}
+  , open      : { type: Number, description: "公开：0（open）,1（not open）"}
+  , touser    : [ String ]
+  , togroup   : [ String ]
+  , sort_level: { type: Number, default: 1, description: "顺序"}
+  , editat    : { type: Date, default: Date.now, description: "修改时间"}
+  , editby    : { type: String, description: "修改者"}
+  , createat  : { type: Date, default: Date.now, description: "创建时间" }
+  , createby  : { type: String, description: "创建者"}
+  , valid      : { type: Number, default: 1, description: "有效性: 0(无效), 1(有效)"}
+  });
 
+/**
+ * 使用定义好的Schema,通过公司Code处理工作站数据
+ * @param {string} dbname
+ * @returns {model} workstation model
+ */
 function model(dbname) {
-  return conn(dbname).model('Workstation', Workstation);
+
+  return conn(dbname).model("Workstation", Workstation);
 }
 
-exports.add = function(code_, workstation_, callback_){
-  var workstation = model(code_);
+/**
+ * 获取指定素材
+ * @param {string} code 公司code
+ * @param {string} workstationId 工作站ID
+ * @param {function} callback 返回指定工作站
+ */
+exports.get = function(code, workstationId, callback) {
 
-  new workstation(workstation_).save(function(err, result){
-    callback_(err, result);
+  var workstation = model(code);
+
+  workstation.findOne({valid: 1, _id: workstationId}, function(err, result) {
+    callback(err, result);
   });
 };
 
-exports.update = function (code_, workstationId_, workstation_, callback_){
-  var workstation = model(code_);
-  workstation.findByIdAndUpdate(workstationId_, workstation_, function(err, result){
-    callback_(err, result);
+/**
+ * 追加工作站
+ * @param {string} code 公司code
+ * @param {object} newWorkstation 工作站
+ * @param {function} callback 返回追加结果
+ */
+exports.add = function(code, newWorkstation, callback) {
+
+  var Workstation = model(code);
+
+  new Workstation(newWorkstation).save(function(err, result) {
+    callback(err, result);
   });
 };
 
-exports.one = function(code_, workstationId_, callback_){
-  var workstation = model(code_);
+/**
+ * 更新指定工作站
+ * @param {string} code 公司code
+ * @param {string} workstationId 工作站ID
+ * @param {object} newWorkstation 更新工作站的内容
+ * @param {function} callback 返回更新结果
+ */
+exports.update = function(code, workstationId, newWorkstation, callback) {
 
-  workstation.findOne({valid:1, _id:workstationId_},function(err, result){
-    callback_(err, result);
+  var workstation = model(code);
+
+  workstation.findByIdAndUpdate(workstationId, newWorkstation, function(err, result) {
+    callback(err, result);
   });
 };
 
-/*exports.save = function(code_, workstation_, callback_){
-  exports.one(code_, function(err,ws){
-    if(err){
-      return callback_(err);
-    }
+/**
+ * 删除工作站
+ * @param {string} code 公司code
+ * @param {string} uid  更新者ID
+ * @param {string} workstationId 工作站ID
+ * @param {function} callback 返回删除结果
+ */
+exports.remove = function (code, uid, workstationId, callback) {
 
-    if(ws){
-      update(code_, ws._id, workstation_,function(err, result){
-        callback_(err, result);
-      });
-    } else {
-      add(code_, workstation_,function(err, result){
-        callback_(err, result);
-      });
-    }
-  });
-}; */
+  var workstation = model(code);
 
-exports.remove = function (code_, uid_, workstationId_, callback_) {
-  var workstation = model(code_);
-
-  workstation.findByIdAndUpdate(workstationId_, {valid: 0, editat: new Date, editby: uid_}, function(err, result){
-    callback_(err, result);
+  workstation.findByIdAndUpdate(workstationId, {valid: 0, editat: new Date(), editby: uid}, function(err, result) {
+    callback(err, result);
   });
 };
 
-exports.list = function(code_, condition_, callback_){
-  var workstation = model(code_);
+/**
+ * 获取工作站一览
+ * @param {string} code 公司code
+ * @param {object} condition 条件
+ * @param {function} callback 返回工作站一览
+ */
+exports.getList = function(code, condition, callback) {
 
-  workstation.find(condition_)
+  var workstation = model(code);
+
+  workstation.find(condition)
     .sort({sort_level: 1})
-    .exec(function(err, result){
-      callback_(err, result);
+    .exec(function(err, result) {
+      callback(err, result);
     });
 };
 
-exports.total = function(code_, condition, callback_){
-  var workstation = model(code_);
+/**
+ * 获取工作站件数
+ * @param {string} code 公司Code
+ * @param {object} condition 条件
+ * @param {function} callback 返回工作站件数
+ */
+exports.total = function(code, condition, callback) {
 
-  workstation.count(condition).exec(function(err, count){
-    callback_(err, count);
+  var workstation = model(code);
+
+  workstation.count(condition).exec(function(err, count) {
+    callback(err, count);
   });
 };

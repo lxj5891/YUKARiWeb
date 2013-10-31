@@ -11,7 +11,8 @@ var mongo = require("mongoose")
   , schema = mongo.Schema;
 
 /**
- * @type {schema} 设备schema
+ * 设备schema
+ * @type {schema}
  */
 var Device = new schema({
     companyid      : { type: String, description: "公司标识" }

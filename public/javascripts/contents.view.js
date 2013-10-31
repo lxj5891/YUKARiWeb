@@ -564,17 +564,17 @@ $contents.view = {
           for (var i in store.metadata[0].logo) {
             var check_logo = store.metadata[0].logo[i];
             if (!check_logo.action.bg_material_id || check_logo.action.bg_material_id.length == 0) {
-              Alertify.log.error("请选择背景图片");
+              Alertify.log.error(i18n["js.public.error.store.logobgfileid"]);
               return;
             }
             if (!check_logo.action.material_id || check_logo.action.material_id.length == 0) {
-              Alertify.log.error("请选择图片");
+              Alertify.log.error(i18n["js.public.error.store.logofileid"]); //
               return;
             }
           }
 
           if(!checkEmpty()){
-            Alertify.log.error("请输入tag");
+            Alertify.log.error(i18n["js.public.error.store.logobgtag"]);
             return;
           }
         }
