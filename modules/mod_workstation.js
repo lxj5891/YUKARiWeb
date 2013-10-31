@@ -21,7 +21,7 @@ var Workstation = new schema({
   , open      : { type: Number, description: "公开：0（open）,1（not open）"}
   , touser    : [ String ]
   , togroup   : [ String ]
-  , sortLevel: { type: Number, default: 1, description: "顺序"}
+  , sort_level: { type: Number, default: 1, description: "顺序"}
   , editat    : { type: Date, default: Date.now, description: "修改时间"}
   , editby    : { type: String, description: "修改者"}
   , createat  : { type: Date, default: Date.now, description: "创建时间" }
@@ -112,7 +112,7 @@ exports.getList = function(code, condition, callback) {
   var workstation = model(code);
 
   workstation.find(condition)
-    .sort({sortLevel: 1})
+    .sort({sort_level: 1})
     .exec(function(err, result) {
       callback(err, result);
     });
