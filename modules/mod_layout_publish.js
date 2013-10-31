@@ -1,6 +1,13 @@
-var mongo = require('mongoose')
-  , util = require('util')
-  , conn = require('./connection')
+/**
+ * @file 存取发布布局的 mod
+ * @author h_li@dreamarts.co.jp
+ * @copyright Dreamarts Corporation. All Rights Reserved.
+ */
+
+"use strict";
+
+var mongo = require("mongoose")
+  , conn = require("./connection")
   , schema = mongo.Schema;
 
 /**
@@ -265,30 +272,30 @@ var PublishLayout = new schema({
 //////////////////////////////////////////////////
 
 function model(code) {
-  return conn(code).model('PublishLayout', PublishLayout);
+  return conn(code).model("PublishLayout", PublishLayout);
 }
 
-exports.find = function(code_,condition_,callback_){
-  model(code_).find(condition_,function(err,result){
-    callback_(err, result);
+exports.find = function(code,condition,callback){
+  model(code).find(condition,function(err,result){
+    return callback(err, result);
   });
-}
+};
 
-exports.get = function (code, condition_,callback_){
+exports.get = function (code, condition,callback){
 
   var publishLayout = model(code);
 
-  publishLayout.findOne(condition_,function(err,result){
-    callback_(err, result);
+  publishLayout.findOne(condition,function(err,result){
+    return callback(err, result);
   });
 };
 
 exports.add = function(code, publishLayout, callback){
 
-  var publish = model(code);
+  var Publish = model(code);
 
-  new publish(publishLayout).save(function(err, result){
-    callback(err, result);
+  new Publish(publishLayout).save(function(err, result){
+    return callback(err, result);
   });
 };
 
