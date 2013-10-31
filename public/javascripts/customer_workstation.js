@@ -61,22 +61,22 @@ $(function () {
     $( "#sortable").html("");
 
     smart.doget("/workstation/list.json", function(err, result){
-        if (err) {
-          Alertify.log.error(i18n["js.common.list.empty"]); console.log(err);
-        } else {
-          var tmpl = $("#tmpl_sortable").html();
-          _.each(result.items, function(item){
+      if (err) {
+        Alertify.log.error(i18n["js.common.list.empty"]); console.log(err);
+      } else {
+        var tmpl = $("#tmpl_sortable").html();
+        _.each(result.items, function(item){
 
-            $( "#sortable").append(_.template(tmpl, {
-              icon: iconMap[item.icon],
-              title: item.title || "　",
-              url: item.url || "　",
-              type: typeMap[item.type],
-              sort: item.sort_level,
-              wsid: item._id
-            }));
-          });
-        }
+          $( "#sortable").append(_.template(tmpl, {
+            icon: iconMap[item.icon],
+            title: item.title || "　",
+            url: item.url || "　",
+            type: typeMap[item.type],
+            sort: item.sort_level,
+            wsid: item._id
+          }));
+        });
+      }
     });
 
   }
@@ -113,9 +113,9 @@ $(function () {
     });
 
     $("#sortable").on("click", "i", function(event){
-        var target = $(event.target);
-        var operation = target.attr("operation")
-            , wsid= target.attr("wsid");
+      var target = $(event.target);
+      var operation = target.attr("operation")
+        , wsid= target.attr("wsid");
 
       if (operation == "delete") {
 
@@ -139,11 +139,11 @@ $(function () {
     });
 
     $("#icon_menu").on("click", "img", function(event) {
-        var target = $(event.target);
-        var idx = target.attr("tabindex");
+      var target = $(event.target);
+      var idx = target.attr("tabindex");
 
-        $("#icon_select").attr("src", iconMap[idx]);
-        $("#inputIcon").val(idx);
+      $("#icon_select").attr("src", iconMap[idx]);
+      $("#inputIcon").val(idx);
     });
 
     $('#saveWorkstation').on('click', function () {
@@ -153,7 +153,7 @@ $(function () {
       if (ws.title && ws.url) {
         smart.dopost("/workstation/update.json", ws, function(err, result){
           if (smart.error(err,i18n["js.common.save.error"],false)) {
-              return;
+            return;
           } else {
             $("#settingModal").modal("hide");
             render();
