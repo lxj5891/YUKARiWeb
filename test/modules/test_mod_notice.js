@@ -14,6 +14,8 @@ var should  = require("should")
  */
 describe("Notice Module", function() {
 
+  var noticeId;
+
   /**
    * 初始化测试数据
    */
@@ -27,7 +29,7 @@ describe("Notice Module", function() {
     , createby : "5"
     , editat   : new Date()
     , editby   : "6"
-  };
+    };
 
   /**
    * 执行测试case
@@ -39,7 +41,10 @@ describe("Notice Module", function() {
 
       should.not.exist(err);
       should.exist(result);
-//      result.valid.should.equal(1);
+      result.valid.should.equal(1);
+      result.title.should.equal("1");
+      result.notice.should.equal("4");
+      noticeId = result._id;
 
       done();
     });
@@ -48,7 +53,10 @@ describe("Notice Module", function() {
   /*****************************************************************/
   it("findOne", function(done) {
 
-    notice.findOne("", {}, function() {
+    notice.findOne(null, noticeId, function(err, result) {
+
+      should.not.exist(err);
+      should.exist(result);
 
       done();
     });
@@ -57,7 +65,14 @@ describe("Notice Module", function() {
   /*****************************************************************/
   it("getList", function(done) {
 
-    notice.getList("", {}, 0, 1, function() {
+    notice.getList(null, {valid: 1}, 0, 2, function(err, result) {
+
+      should.not.exist(err);
+      should.exist(result);
+
+      result.length.should.equal(2);
+      result[0].valid.should.equal(1);
+      result[1].valid.should.equal(1);
 
       done();
     });
@@ -66,19 +81,16 @@ describe("Notice Module", function() {
   /*****************************************************************/
   it("total", function(done) {
 
-    notice.total("", {}, function() {
+    notice.total(null, {valid: 1}, function(err, result) {
+
+      should.not.exist(err);
+      should.exist(result);
+      result.should.greaterThan(0);
 
       done();
     });
   });
 
-  /*****************************************************************/
-  it("findOne", function(done) {
 
-    notice.findOne("", {}, function() {
-
-      done();
-    });
-  });
 
 });
