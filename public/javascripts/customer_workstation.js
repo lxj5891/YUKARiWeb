@@ -16,7 +16,12 @@ $(function () {
     "12":"/images/workstation/yim_icon_12.png",
     "13":"/images/workstation/yim_icon_13.png",
     "14":"/images/workstation/yim_icon_14.png",
-    "15":"/images/workstation/yim_icon_15.png"
+    "15":"/images/workstation/yim_icon_15.png",
+    "16":"/images/workstation/yim_icon_16.png",
+    "17":"/images/workstation/yim_icon_17.png",
+    "18":"/images/workstation/yim_icon_18.png",
+    "19":"/images/workstation/yim_icon_19.png",
+    "20":"/images/workstation/yim_icon_20.png"
   };
 
   var typeMap = {
@@ -48,7 +53,7 @@ $(function () {
     // icon list menu
     if (iconContainer.html()) {
     } else {
-      for(var i = 1; i < 16; i ++){
+      for(var i = 1; i < 21; i ++){
         iconContainer.append(_.template(icon_tmpl, {idx:i,icon:iconMap[i]}));
       }
     }
