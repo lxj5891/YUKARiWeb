@@ -164,11 +164,11 @@ exports.add = function(uid_, data_, callback_) {
   sync.waterfall([
     function(callback) {
       // check path
-      company.find({path:comp_.path}, function(err, result){
+      company.getByPath(comp_.path, function(err, result){
         if (err) {
           return  callback(new error.InternalServer(__("js.ctr.common.system.error")));
         }
-        if (result.length > 0) {
+        if (result) {
           return callback(new error.BadRequest(__("js.ctr.check.company.path")));
         } else {
           return callback(err);
