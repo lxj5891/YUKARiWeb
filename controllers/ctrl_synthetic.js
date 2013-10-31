@@ -18,7 +18,7 @@ exports.getSyntheticById = function (code, synthetic_id, callback) {
     });
     return;
   }
-  synthetic.findOne(code, synthetic_id, function (err, docs) {
+  synthetic.get(code, synthetic_id, function (err, docs) {
     if(err || !docs){
       return callback(err,null);
     }
@@ -145,9 +145,51 @@ exports.saveThumbAndMatedata = function (code, synthetic_id, cover, metadata, co
     opts : syntheticOptions
   }
 
-  synthetic.update(code, synthetic_id, _data, user, function (err, result) {
-    callback(err, result);
-  });
+  if (synthetic_id.length < 20) {
+
+    synthetic.add(code, synthetic_id ,user ,function(err,result){
+
+      if (err) {
+        callback(err);
+      }
+
+      if (!result) {
+        callback(null, null);
+      }
+
+      synthetic.update(code, result._id, _data, user._id, function (err, result) {
+
+        if (err) {
+          callback(err);
+        }
+
+        if (!result) {
+          callback(null, null);
+        }
+
+        callback(null, result);
+
+      });
+
+    });
+  } else {
+    synthetic.update(code, synthetic_id, _data, user._id, function (err, result) {
+
+      if (err) {
+        callback(err);
+      }
+
+      if (!result) {
+        callback(null, null);
+      }
+
+      callback(null, result);
+
+    });
+
+  }
+
+
 };
 
 exports.save = function (code, company_, uid_, item_, callback) {
@@ -188,7 +230,7 @@ exports.list = function (code, keyword_,type,company_, start_, limit_, callback_
       return callback_(new error.InternalServer(err));
     }
 
-    synthetic.list(code, condition, start, limit, function (err, result) {
+    synthetic.getList(code, condition, start, limit, function (err, result) {
       if (err) {
         return callback_(new error.InternalServer(err));
       }

@@ -506,7 +506,7 @@ exports.publishList = function(code_, user_, keyword_,start_, limit_, callback_)
         return callback_(new error.InternalServer(err));
       }
 
-      history.activeList(code_, condition, start, limit, function(err, result){
+      history.getList(code_, condition, start, limit, function(err, result){
         if (err) {
           return callback_(new error.InternalServer(err));
         }

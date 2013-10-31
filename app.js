@@ -130,7 +130,7 @@ routes.guiding( app );
 startupfilter.execute();
 
 // 异常处理
-app.use(middleware.parseError);
+//app.use(middleware.parseError);
 
 /**
  * 启动服务
