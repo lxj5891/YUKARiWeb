@@ -26,7 +26,12 @@ describe("Tag Module", function() {
     , createby : "4"
     , editat   : new Date()
     , editby   : "5"
-  };
+    };
+
+  var data1 = {
+      scope : "2"
+    , name  : "test222" + (new Date()).getTime()
+    };
 
 
   /**
@@ -35,35 +40,40 @@ describe("Tag Module", function() {
   /*****************************************************************/
   it("add", function(done) {
 
-    tag.add("", data, function(err, result) {
+    tag.add(null, data, function(err, result) {
 
       should.not.exist(err);
       should.exist(result);
-//      result.valid.should.equal(1);
 
       done();
     });
 
+  });
+
+
+  /*****************************************************************/
+  it("getList", function(done) {
+
+    tag.getList(null, {valid: 1}, 0, 2, function(err, result) {
+
+      should.not.exist(err);
+      should.exist(result);
+
+      result.length.should.equal(2);
+      result[0].valid.should.equal(1);
+      result[1].valid.should.equal(1);
+
+      done();
+    });
   });
 
   /*****************************************************************/
   it("add", function(done) {
 
-    tag.add("aNewItem", data, function(err, result) {
+    tag.add(null, data1, function(err, result) {
 
       should.not.exist(err);
       should.exist(result);
-//      result.valid.should.equal(1);
-
-      done();
-    });
-
-  });
-
-  /*****************************************************************/
-  it("getList", function(done) {
-
-    tag.getList("", {}, 0, 1, function() {
 
       done();
     });
@@ -72,10 +82,25 @@ describe("Tag Module", function() {
   /*****************************************************************/
   it("remove", function(done) {
 
-    tag.remove("", data, function() {
+      tag.remove("", data1, function (e, r) {
+        should.not.exist(e);
+        should.exist(r);
+
+        done();
+      });
+    });
+
+  /*****************************************************************/
+  it("remove", function(done) {
+
+    tag.remove(null, { name: "noData", scope: "noData" }, function (e, r) {
+      should.not.exist(e);
+      should.exist(!r);
 
       done();
     });
   });
+
+
 
 });
