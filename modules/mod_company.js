@@ -12,7 +12,8 @@ var mongo       = require("mongoose")
   , schema      = mongo.Schema;
 
 /**
- * @type {schema} 公司schema
+ * 公司schema
+ * @type {schema}
  */
 var Company = new schema({
     code        : {type: String, description: "公司CODE"}

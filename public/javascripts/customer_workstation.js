@@ -16,7 +16,12 @@ $(function () {
     "12":"/images/workstation/yim_icon_12.png",
     "13":"/images/workstation/yim_icon_13.png",
     "14":"/images/workstation/yim_icon_14.png",
-    "15":"/images/workstation/yim_icon_15.png"
+    "15":"/images/workstation/yim_icon_15.png",
+    "16":"/images/workstation/yim_icon_16.png",
+    "17":"/images/workstation/yim_icon_17.png",
+    "18":"/images/workstation/yim_icon_18.png",
+    "19":"/images/workstation/yim_icon_19.png",
+    "20":"/images/workstation/yim_icon_20.png"
   };
 
   var typeMap = {
@@ -48,7 +53,7 @@ $(function () {
     // icon list menu
     if (iconContainer.html()) {
     } else {
-      for(var i = 1; i < 16; i ++){
+      for(var i = 1; i < 21; i ++){
         iconContainer.append(_.template(icon_tmpl, {idx:i,icon:iconMap[i]}));
       }
     }
@@ -56,22 +61,22 @@ $(function () {
     $( "#sortable").html("");
 
     smart.doget("/workstation/list.json", function(err, result){
-        if (err) {
-          Alertify.log.error(i18n["js.common.list.empty"]); console.log(err);
-        } else {
-          var tmpl = $("#tmpl_sortable").html();
-          _.each(result.items, function(item){
+      if (err) {
+        Alertify.log.error(i18n["js.common.list.empty"]); console.log(err);
+      } else {
+        var tmpl = $("#tmpl_sortable").html();
+        _.each(result.items, function(item){
 
-            $( "#sortable").append(_.template(tmpl, {
-              icon: iconMap[item.icon],
-              title: item.title || "　",
-              url: item.url || "　",
-              type: typeMap[item.type],
-              sort: item.sort_level,
-              wsid: item._id
-            }));
-          });
-        }
+          $( "#sortable").append(_.template(tmpl, {
+            icon: iconMap[item.icon],
+            title: item.title || "　",
+            url: item.url || "　",
+            type: typeMap[item.type],
+            sort: item.sort_level,
+            wsid: item._id
+          }));
+        });
+      }
     });
 
   }
@@ -108,9 +113,9 @@ $(function () {
     });
 
     $("#sortable").on("click", "i", function(event){
-        var target = $(event.target);
-        var operation = target.attr("operation")
-            , wsid= target.attr("wsid");
+      var target = $(event.target);
+      var operation = target.attr("operation")
+        , wsid= target.attr("wsid");
 
       if (operation == "delete") {
 
@@ -134,11 +139,11 @@ $(function () {
     });
 
     $("#icon_menu").on("click", "img", function(event) {
-        var target = $(event.target);
-        var idx = target.attr("tabindex");
+      var target = $(event.target);
+      var idx = target.attr("tabindex");
 
-        $("#icon_select").attr("src", iconMap[idx]);
-        $("#inputIcon").val(idx);
+      $("#icon_select").attr("src", iconMap[idx]);
+      $("#inputIcon").val(idx);
     });
 
     $('#saveWorkstation').on('click', function () {
@@ -148,7 +153,7 @@ $(function () {
       if (ws.title && ws.url) {
         smart.dopost("/workstation/update.json", ws, function(err, result){
           if (smart.error(err,i18n["js.common.save.error"],false)) {
-              return;
+            return;
           } else {
             $("#settingModal").modal("hide");
             render();

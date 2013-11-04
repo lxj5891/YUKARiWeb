@@ -1,41 +1,52 @@
-var sync     = require('async')
-  , _         = require('underscore')
+/**
+ * @file 存取公司信息的controllers
+ * @author r2space@gmail.com
+ * @copyright Dreamarts Corporation. All Rights Reserved.
+ */
+
+"use strict";
+
+var _         = require('underscore')
+  , sync      = require('async')
   , check     = require('validator').check
-  , company   = require('../modules/mod_company.js')
-  , device    = require('../controllers/ctrl_device')
   , smart     = require("smartcore")
   , error     = smart.core.errors
   , user      = smart.ctrl.user
-  , auth      = smart.core.auth ;
+  , auth      = smart.core.auth
+  , device    = require('../controllers/ctrl_device')
+  , company   = require('../modules/mod_company.js');
 
 /**
  * 获取公司一览
  * @param start_
  * @param limit_
- * @param callback_
+ * @param callback
  */
-exports.list = function(start_, limit_, keyword ,callback_) {
+exports.list = function(start_, limit_, keyword ,callback) {
 
   var start = start_ || 0
     , limit = limit_ || 20
-    , condition = {
-      valid:1
-    };
-    if(keyword){
-      condition.$or = [
-        {"name": new RegExp( keyword.toLowerCase(), "i")}]
+    , condition = { valid:1 };
+
+  if (keyword) {
+    condition.$or = [{ "name": new RegExp(keyword.toLowerCase(), "i") }];
+  }
+
+  // 获取件数
+  company.total(condition, function(err, count) {
+    if (err) {
+      return callback(new error.InternalServer(err));
     }
-    company.total(condition,function(err, count){
-        if (err) {
-            return callback_(new error.InternalServer(err));
-        }
-        company.getList(condition, start, limit, function(err, result){
-            if (err) {
-                return callback_(new error.InternalServer(err));
-            }
-            return callback_(err,  {totalItems: count, items:result});
-        });
+
+    // 获取一览
+    company.getList(condition, start, limit, function(err, result) {
+      if (err) {
+        return callback(new error.InternalServer(err));
+      }
+
+      return callback(err,  {totalItems: count, items:result});
     });
+  });
 };
 
 exports.companyListWithDevice = function(start_, limit_, callback){
@@ -153,11 +164,11 @@ exports.add = function(uid_, data_, callback_) {
   sync.waterfall([
     function(callback) {
       // check path
-      company.find({path:comp_.path}, function(err, result){
+      company.getByPath(comp_.path, function(err, result){
         if (err) {
           return  callback(new error.InternalServer(__("js.ctr.common.system.error")));
         }
-        if (result.length > 0) {
+        if (result) {
           return callback(new error.BadRequest(__("js.ctr.check.company.path")));
         } else {
           return callback(err);

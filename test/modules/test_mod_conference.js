@@ -26,7 +26,7 @@ describe("Conference Module", function () {
     , editat   : new Date()
     , editby   : "4"
     , valid    : 1
-  };
+    };
 
   /**
    * 执行测试case
@@ -38,7 +38,8 @@ describe("Conference Module", function () {
 
       should.not.exist(err);
       should.exist(result);
-//      result.valid.should.equal(1);
+      result.valid.should.equal(1);
+      result.picture.should.equal("1");
 
       done();
     });
