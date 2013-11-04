@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+
+  <% include common/required.html %>
+  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+
+  <script type="text/javascript" src="/javascripts/admin_log.js"></script>
+
+  <style>
+      .narrow thead > tr > th,
+      .narrow tbody > tr > th,
+      .narrow tfoot > tr > th,
+      .narrow thead > tr > td,
+      .narrow tbody > tr > td,
+      .narrow tfoot > tr > td {
+          line-height: 13px;
+      }
+
+      .opt-box {
+          overflow: hidden;
+          position: fixed;
+          right: 5px;
+          bottom: 187px;
+          z-index: 1000;
+          border: 1px solid #000000;
+          padding: 5px;
+      }
+
+      .statusBox {
+          width: 35px;
+          height: 35px;
+          border: 0;
+          text-align: center;
+          font-weight: bold;
+          font-size: 20px;
+          padding-top: 4px;
+      }
+
+      .okStatus {
+          background-color: #92d43e;
+      }
+
+      .ngStatus {
+          background-color: #d2322d;
+          color: #ffffff;
+      }
+
+      .clearBox {
+          width: 35px;
+          height: 35px;
+          border: 0;
+          background-color: #ffffff;
+          cursor: pointer;
+          text-align: center;
+          padding-top: 8px;
+      }
+  </style>
+
+</head>
+<body>
+
+<input type="hidden" id="lang" name="lang" value="<%= user.lang %>" />
+<input type="hidden" id="serverTime" name="serverTime" value="<%= serverTime %>" />
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/yukari"><%= i('html.label.common.home') %><!--ホーム --></a>
+            <span class="divider">
+              <i class="icon-chevron-right arrow-icon"></i>
+            </span>
+        </li>
+        <li class="active"><%= i('html.label.log') %><!-- ログ --></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+        <div class="row col-lg-8 box-border">
+            <form id="conditionForm" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><%= i('html.label.log.time') %><!-- 時間 --></label>
+                    <div class="col-lg-8">
+                        <div class="btn-group" value="range" id="timeDiv">
+                            <button type="button" class="btn btn-sm btn-info" value="range"><%=i('html.label.log.time.range') %></button>
+                            <button type="button" class="btn btn-sm btn-default" value="realtime"><%=i('html.label.log.time.realtime') %></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="timeRangeDiv">
+                    <label class="col-lg-2 control-label"></label>
+                    <div class="col-lg-8">
+                        <div class="input-prepend">
+                            <input type="text" style="width: 300px" name="timeRange" id="timeRange" placeholder="<%= i('html.label.log.time.range.desc') %>" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="user" class="col-lg-2 control-label"><%= i('html.label.log.user') %><!-- ユーザ --></label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="user" placeholder="<%= i('html.label.log.user.desc') %>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="host" class="col-lg-2 control-label"><%= i('html.label.log.host') %><!-- host --></label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="host" placeholder="<%= i('html.label.log.host.desc') %>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sourceDiv" class="col-lg-2 control-label"><%= i('html.label.log.source') %><!-- ソース --></label>
+                    <div class="col-lg-8">
+                        <div class="btn-group" id="sourceDiv">
+                            <button type="button" class="btn btn-sm btn-white" value="node">node</button>
+                            <button type="button" class="btn btn-sm btn-white" value="mongo">mongo</button>
+                            <button type="button" class="btn btn-sm btn-white" value="java">java</button>
+                            <button type="button" class="btn btn-sm btn-white" value="nigix">nigix</button>
+                            <button type="button" class="btn btn-sm btn-white" value="lb">lb</button>
+                            <button type="button" class="btn btn-sm btn-white" value="rabbitmq">rabbitmq</button>
+                            <button type="button" class="btn btn-sm btn-white" value="os">os</button>
+                            <button type="button" class="btn btn-sm btn-white" value="fluent">fluent</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="typeDiv" class="col-lg-2 control-label"><%= i('html.label.log.type') %><!-- タイプ --></label>
+                    <div class="col-lg-8">
+                        <div class="btn-group" id="typeDiv">
+                            <button type="button" class="btn btn-sm btn-white" value="audit">audit</button>
+                            <button type="button" class="btn btn-sm btn-white" value="operation">operation</button>
+                            <button type="button" class="btn btn-sm btn-white" value="application">application</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="levelDiv" class="col-lg-2 control-label"><%= i('html.label.log.level') %><!-- レベル --></label>
+                    <div class="col-lg-8">
+                        <div class="btn-group" id="levelDiv">
+                            <button type="button" class="btn btn-sm btn-white" value="debug">debug</button>
+                            <button type="button" class="btn btn-sm btn-white" value="info">info</button>
+                            <button type="button" class="btn btn-sm btn-white" value="warn">warn</button>
+                            <button type="button" class="btn btn-sm btn-white" value="error">error</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message" class="col-lg-2 control-label"><%= i('html.label.log.message') %><!-- メッセージ --></label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="message" placeholder="<%=i('html.label.log.message.desc') %>">
+                    </div>
+                </div>
+            </form>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">
+                    <i id="foldBtn" class="icon-large icon-circle-arrow-up" title="<%=i('html.button.close') %>"
+                       titleClose="<%=i('html.button.close') %>" titleOpen="<%=i('html.button.open') %>"></i>
+                </label>
+                <div class="col-lg-8">
+                    <div id="searchBtn" class="btn btn-default btn-sm">
+                        <i class="icon-search"></i>
+                        <%=i('html.button.search') %>
+                    </div>
+                    <div id="startBtn" class="btn btn-default btn-sm" style="display:none;">
+                        <i class="icon-play"></i>
+                        <%=i('html.button.start') %>
+                    </div>
+                    <div id="stopBtn" class="btn btn-danger btn-sm" style="display:none;">
+                        <i class="icon-pause"></i>
+                        <%=i('html.button.stop') %>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+      <div class="row tableheader">
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th><%= i('html.label.log.time') %><!--時間 --></th>
+            <th><%= i('html.label.log.user') %><!--ユーザ --></th>
+            <th><%= i('html.label.log.host') %><!--IP --></th>
+            <th><%= i('html.label.log.source') %><!--ソース --></th>
+            <th><%= i('html.label.log.type') %><!--タイプ --></th>
+            <th><%= i('html.label.log.level') %><!--レベル --></th>
+            <th><%= i('html.label.log.category') %><!--カテゴリ --></th>
+            <th><%= i('html.label.log.code') %><!--コード --></th>
+            <th><%= i('html.label.log.detail') %><!--コード --></th>
+          </tr>
+          </thead>
+          <tbody id="log_list"></tbody>
+        </table>
+        </div>
+      </div>
+      <div class="pagination-area" id="pagination_area"></div>
+    </div>
+
+  </div><!--/.main-content-->
+
+</div><!--/.main-container-->
+<footer>
+
+</footer>
+
+<script type="text/template" id="tmpl_log_list">
+<$ if (level == 'warn') {$>
+<tr class="warning">
+<$ } else if(level == 'error') {$>
+<tr class="danger">
+<$ } else {$>
+<tr>
+<$ } $>
+  <td>{{index}}</td>
+  <td>{{time}}</td>
+  <td>{{user}}</td>
+  <td>{{host}}</td>
+  <td>{{source}}</td>
+  <td>{{type}}</td>
+  <td>{{level}}</td>
+  <td>{{category}}</td>
+  <td>{{code}}</td>
+  <td><i class="icon-plus-sign" _id="{{_id}}" onclick="showDetail(this)"></i></td>
+</tr>
+</script>
+
+<script type="text/template" id="tmpl_log_detail">
+<tr id="{{_id}}">
+  <td style='vertical-align: top;'>
+      <i class='icon-hand-right'></i>
+  </td>
+  <td colspan=9>
+      <div>{{file}} : {{line}}</div>
+      <div><pre>{{message}}</pre></div>
+  </td>
+</tr>
+</script>
+
+<div id="optBox" class="opt-box" style="display:none;">
+    <div id="statusBox" class="statusBox okStatus">
+        0
+    </div>
+    <div class="clearBox">
+        <i id="cleanBtn" class="icon-large icon-trash" title="<%=i('html.button.clean') %>"></i>
+    </div>
+    <div id="stopBtn2" class="clearBox" style="display: none;">
+        <i id="stopIcon" class="icon-large icon-pause" title="<%=i('html.button.stop') %>"></i>
+    </div>
+</div>
+
+</body>
+</html>

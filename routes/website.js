@@ -1,6 +1,7 @@
 var i     = require("i18n")
   , util  = require('../core/utils')
-  , log   = require("smartcore").core.log;
+  , log   = require("smartcore").core.log
+  , logapi   = require("smartcore").api.log;
 
 exports.guiding = function (app) {
 
@@ -291,6 +292,36 @@ exports.guiding = function (app) {
       res.render("error_403", {user: req.session.user});
     } else {
       res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
+    }
+  });
+
+  app.get('/admin/log', function (req, res) {
+    var sessionuser = req.session.user;
+    //DA系统管理员,开发人员以外的场合,不能访问.
+    if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      res.render("admin_log", {"title": i.__("js.routes.website.admin_log.title"), user: req.session.user, serverTime: new Date().getTime()});
+    }
+  });
+
+  app.get('/admin/log/list.json', function (req, res) {
+    var sessionuser = req.session.user;
+    //DA系统管理员,开发人员以外的场合,不能访问.
+    if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      logapi.getLogList(req, res);
+    }
+  });
+
+  app.get('/admin/log/detail.json', function (req, res) {
+    var sessionuser = req.session.user;
+    //DA系统管理员,开发人员以外的场合,不能访问.
+    if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
+      res.render("error_403", {user: req.session.user});
+    } else {
+      logapi.getLogDetail(req, res);
     }
   });
 
