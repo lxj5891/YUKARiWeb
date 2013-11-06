@@ -4,6 +4,7 @@ var _ = require('underscore')
   , mq = require('./ctrl_mq')
   , user = lib.ctrl.user
   , mod_user = lib.mod.user
+  , mod_group = lib.mod.group
   , group = lib.ctrl.group
   , error = lib.core.errors
   , util = lib.core.util;
@@ -17,11 +18,12 @@ exports.getNoticeById = function(code_, notice_id, callback){
 };
 
 // get list
-exports.list = function (code_, keyword_, start_, limit_, callback_) {
+exports.list = function (code_, condition, keyword_, start_, limit_, callback_) {
 
   var start = start_ || 0
-    , limit = limit_ || 20
-    , condition = {valid: 1};
+    , limit = limit_ || 20;
+
+  condition.valid= 1;
 
   if (keyword_) {
     keyword_ = util.quoteRegExp(keyword_);
@@ -65,6 +67,26 @@ exports.list = function (code_, keyword_, start_, limit_, callback_) {
         });
       });
     });
+  });
+};
+
+exports.myList = function(code_, uid_,keyword_,start_, limit_, callback_){
+  var condition = {};
+  var or = [];
+  or.push({"touser":uid_});
+  mod_group.getAllGroupByUid(code_, uid_, function(err, groups){
+    if(err){
+      return callback_(new error.InternalServer(err));
+    }
+
+    if(groups.length > 0){
+      _.each(groups, function(g){
+        or.push({"togroup":g._id.toString()});
+      });
+
+    }
+    condition.$or = or;
+    exports.list(code_,condition,keyword_,start_,limit_,callback_);
   });
 };
 

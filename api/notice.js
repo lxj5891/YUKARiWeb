@@ -51,7 +51,22 @@ exports.list = function(req_, res_) {
     , start = req_.query.start
     , limit = req_.query.count;
 
-  notice.list(code, keyword, start, limit, function(err, result) {
+  notice.list(code, {}, keyword, start, limit, function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+};
+
+exports.myList = function(req_, res_) {
+  var code = req_.session.user.companycode
+    , keyword = req_.query.keyword
+    , start = req_.query.start
+    , limit = req_.query.count;
+
+  notice.myList(code, req_.session.user._id, keyword, start, limit, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {

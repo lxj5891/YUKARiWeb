@@ -195,6 +195,9 @@ exports.guiding = function(app){
   app.get('/notice/list.json', function(req, res){
     notice.list(req, res);
   });
+  app.get('/notice/inbox.json', function(req, res){
+    notice.myList(req, res);
+  });
 
   // ----------------------------------
   // User
