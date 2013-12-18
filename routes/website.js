@@ -9,7 +9,8 @@ exports.guiding = function (app) {
   app.get('/', function (req, res) {
 
     log.operation("begin : show login");
-    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
+    res.render("login", {"title": 111});
+//    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
     log.operation("end : show login");
   });
 
@@ -17,7 +18,8 @@ exports.guiding = function (app) {
   app.get('/login', function (req, res) {
 
     log.operation("begin : show login");
-    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
+    res.render("login", {"title": 1});
+//    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
     log.operation("end : show login");
   });
 
