@@ -28,14 +28,14 @@ loader.initialize();
 loader.express(app);
 
 app.use(middleware.lang);         // 设定语言
-app.use(middleware.loadCompany);  // 加载用户的公司信息
+//app.use(middleware.loadCompany);  // 加载用户的公司信息
 app.use(middleware.authenticate); // 认证
 app.use(middleware.csrftoken);    // 生成CsrfToken
 app.use(middleware.timeout);      // 设定超时
 
 routes.guiding( app );
 
-app.use(middleware.parseError);
+//app.use(middleware.parseError);
 
 /**
  * 启动服务
