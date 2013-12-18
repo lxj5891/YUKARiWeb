@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = smart.util.underscore;
 
 exports.isCommonUser = function(user_){//普通用户
   return user_.type === 0;

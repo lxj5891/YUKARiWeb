@@ -6,25 +6,19 @@
     "start": "node app.js"
   },
   "dependencies": {
-      "express": "3.3.2"
-    , "ejs": "0.8.3"
-    , "mongodb": "1.2.7"
-    , "mongoose": "3.6.x"
-    , "eventproxy": "0.2.2"
-    , "connect-mongo": "0.3.2"
-    , "config": "0.4.18"
-    , "nodemailer": "0.3.42"
-    , "log4js": "0.5.6"
-    , "async": "0.2.5"
-    , "amqp": "0.1.7"
-    , "validator": "1.5.0"
-    , "underscore": "1.4.4"
-    , "i18n": "0.3.7"
-    , "smartcore": "0.0.4"
+     "smartcore": "0.1.29"
   },
   "devDependencies": {
-      "less": ">=1.3.3"
-    , "csv": ">=0.2.9"
-    , "should": "2.0.2"
+    "should": "~2.1.1",
+    "grunt": "~0.4.2",
+    "grunt-contrib-less": "~0.8.3",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-jsdoc": "~0.4.2",
+    "grunt-mocha-cli": "~1.4.0",
+    "grunt-mocha-cov": "~0.1.1",
+    "grunt-jscoverage": "~0.0.3",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-plato": "~0.2.1"
   }
 }

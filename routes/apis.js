@@ -1,14 +1,13 @@
 
-var smart         = require("smartcore")
-  , user          = smart.api.user
-  , group         = smart.api.group
-  , search        = smart.api.search
-  , util          = smart.core.util
-  , common        = smart.api.common
-  , file          = smart.api.dbfile
-  , apn           = smart.api.apn
-  , errors        = smart.core.errors
-  , json          = smart.core.json
+var user          = smart.ctrl.user
+  , group         = smart.ctrl.group
+ // , search        = smart.api.search
+  , util          = smart.framework.util
+//  , common        = smart.api.common
+//  , file          = smart.api.dbfile
+//  , apn           = smart.api.apn
+  , errors        = smart.framework.errors
+//  , json          = smart.core.json
   , utils         = require('../core/utils')
   , material      = require("../api/material")
   , synthetic     = require("../api/synthetic")
@@ -25,7 +24,29 @@ var smart         = require("smartcore")
   , setting       = require("../api/setting")
   , conference    = require("../api/conference")
   , errorsExt     = require("../core/errorsExt");
+//////////////////////////////////////////////////////////////////////////////
+exports.simpleLogin = function(req, res){
 
+  log.debug("user name: " + req.query.name);
+
+  // パスワードのsha256文字列を取得する
+  req.query.password = auth.sha256(req.query.password);
+
+  // 認証処理
+  auth.simpleLogin(req, res, function(err, result) {
+
+    if (err) {
+      log.error(err, undefined);
+      log.audit("login failed.", req.query.name);
+    } else {
+      log.audit("login succeed.", result._id);
+    }
+
+    response.send(res, err, result);
+  });
+};
+
+///////////////////////////////////////////////////////////////////////////
 exports.guiding = function(app){
 
   // 登陆
