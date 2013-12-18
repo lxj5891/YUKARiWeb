@@ -5,15 +5,15 @@ var ph        = smart.lang.path
   , material  = require('../modules/mod_material.js')
   , synthetic = require('../modules/mod_synthetic.js')
   , mq        = require('./ctrl_mq.js')
-  , confapp   = smart.framework.config.app
+  , confapp   = smart.util.config.app
   , tag       = require('./ctrl_tag')
-  , gridfs    = smart.mod.gridfs
+//  , gridfs    = smart.mod.gridfs
   , user      = smart.ctrl.user
   , error     = smart.framework.errors
   , util      = smart.lang.util;
 
 
-var EventProxy = require('eventproxy');
+//var EventProxy = require('eventproxy');
 
 exports.list = function(code_, contentType_, keyword_, tags_, start_, limit_, callback_) {
 

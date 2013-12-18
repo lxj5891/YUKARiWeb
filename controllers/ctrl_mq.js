@@ -1,5 +1,6 @@
 var amqp = smart.util.amqp
-  , mq = require('config').mq;
+  , mq = smart.util.config.mq;
+
 
 var connectionMap = {};
 

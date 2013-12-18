@@ -9,7 +9,7 @@ var _         = smart.util.underscore
   , error     = smart.framework.errors
   , util      = smart.framework.util;
 
-var EventProxy = require('eventproxy');
+//var EventProxy = require('eventproxy');
 
 exports.getNoticeById = function(code_, notice_id, callback){
   notice.findOne(code_, notice_id, function(err,docs){

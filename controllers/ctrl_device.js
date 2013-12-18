@@ -1,16 +1,16 @@
 var sync = smart.util.async
   , _ = smart.util.underscore
-  , check = smart.framework.validator.check
+  , check = smart.util.validator.check
   , device = require('../modules/mod_device.js')
   , company = require('../modules/mod_company.js')
   , user = smart.ctrl.user
 //  , mod_user = smart.mod.user
-  , error = smart.core.errors
+  , error = smart.framework.errors
   , passutil = smart.lang.util
   , auth = smart.framework.auth
   , mq = require('./ctrl_mq');
 
-var EventProxy = require('eventproxy');
+//var EventProxy = require('eventproxy');
 var that_device = device;
 
 exports.lang = '';

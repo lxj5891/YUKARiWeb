@@ -8,7 +8,7 @@
 
 var _         = smart.util.underscore
   , sync      = smart.util.async
-  , check     = smart.framework.validator.check
+  , check     = smart.util.validator.check
   , error     = smart.framework.errors
   , user      = smart.ctrl.user
   , auth      = smart.framework.auth

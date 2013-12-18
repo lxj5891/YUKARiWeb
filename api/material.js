@@ -1,8 +1,8 @@
 var async           = smart.framework.async
-  , _               = smart.framework.underscore
+  , _               = smart.util.underscore
   , json            = smart.framework.response
 //  , dbfile          = smart.ctrl.dbfile
-  , errors          = smart.core.errors
+  , errors          = smart.framework.errors
   , mod_group       = smart.ctrl.group
   , utils           = require('../core/utils')
   , material        = require('../controllers/ctrl_material')

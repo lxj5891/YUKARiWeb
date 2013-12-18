@@ -65,6 +65,6 @@ exports.sendJSON = function(res_, error, msg) {
 };
 
 // 公司ID不存在
-exports.NoCompanyID = def(1020, __("error.company.id.noexist"));
+//exports.NoCompanyID = def(1020, __("error.company.id.noexist"));
 // 公司Code不存在
-exports.NoCompanyCode = def(1021, __("error.company.code.noexist"));
+//exports.NoCompanyCode = def(1021, __("error.company.code.noexist"));

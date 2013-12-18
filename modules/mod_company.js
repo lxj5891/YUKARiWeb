@@ -7,7 +7,7 @@
 "use strict";
 
 var mongo       = smart.util.mongoose
-  , smart       = smart.framework.util
+  , util       = smart.framework.util
   , conn        = smart.framework.connection
   , schema      = mongo.Schema;
 
@@ -48,7 +48,7 @@ function model() {
 function createCode(callback) {
 
   var comp = model()
-    , guid8 = smart.randomGUID8();
+    , guid8 = util.randomGUID8();
 
   comp.count({ code: guid8 }).exec(function(err, count) {
     if (err) {

@@ -1,7 +1,7 @@
 var json      = smart.framework.response
   , errors    = smart.framework.errors
   , amqp    = smart.framework.amqp
-  , mq_join = smart.framework.config.mq_join
+  , mq_join = smart.util.config.mq_join
   , utils   = require('../core/utils')
   , layout  = require('../controllers/ctrl_layout');
 

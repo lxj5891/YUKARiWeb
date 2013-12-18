@@ -1,6 +1,6 @@
 var sync = smart.util.async
   , _ = smart.util.underscore
-  , check = smart.framework.validator.check
+  , check = smart.util.validator.check
   , layout    = require('../modules/mod_layout')
   , history   = require('../modules/mod_layout_publish')
   , synthetic = require('../controllers/ctrl_synthetic')
