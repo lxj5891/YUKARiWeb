@@ -1,6 +1,5 @@
-var smart       = require("smartcore")
-  , json        = smart.core.json
-  , errors      = smart.core.errors
+var json      = smart.framework.response
+  , errors    = smart.framework.errors
   , utils       = require('../core/utils')
   , workstation = require('../controllers/ctrl_workstation');
 

@@ -6,15 +6,17 @@
 
 "use strict";
 
-var _         = require('underscore')
-  , sync      = require('async')
-  , check     = require('validator').check
-  , smart     = require("smartcore")
-  , error     = smart.core.errors
+var _         = smart.util.underscore
+  , sync      = smart.util.async
+  , check     = smart.framework.validator.check
+  , error     = smart.framework.errors
   , user      = smart.ctrl.user
-  , auth      = smart.core.auth
+  , auth      = smart.framework.auth
   , device    = require('../controllers/ctrl_device')
   , company   = require('../modules/mod_company.js');
+
+
+
 
 /**
  * 获取公司一览

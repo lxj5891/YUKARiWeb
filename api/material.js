@@ -1,14 +1,14 @@
-var async           = require('async')
-  , _               = require('underscore')
-  , smart           = require("smartcore")
-  , json            = smart.core.json
-  , dbfile          = smart.ctrl.dbfile
+var async           = smart.framework.async
+  , _               = smart.framework.underscore
+  , json            = smart.framework.response
+//  , dbfile          = smart.ctrl.dbfile
   , errors          = smart.core.errors
-  , mod_group       = smart.mod.group
+  , mod_group       = smart.ctrl.group
   , utils           = require('../core/utils')
   , material        = require('../controllers/ctrl_material')
   , layout_publish  = require('../modules/mod_layout_publish')
   , ctl_layout      = require('../controllers/ctrl_layout');
+
 
 /**
  * 获取文件一览

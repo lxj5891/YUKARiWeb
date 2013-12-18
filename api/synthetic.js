@@ -6,10 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var json      = require("smartcore").core.json
-  , errors    = require("smartcore").core.errors
+var json      = smart.framework.response
+  , errors    = smart.framework.errors
   , utils     = require('../core/utils')
   , synthetic = require('../controllers/ctrl_synthetic');
+
+
 
 exports.editSynthetic = function(req_,res_){
 

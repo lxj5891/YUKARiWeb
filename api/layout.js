@@ -1,8 +1,7 @@
-var smart   = require("smartcore")
-  , json    = smart.core.json
-  , errors  = smart.core.errors
-  , amqp    = require('amqp')
-  , mq_join = require('config').mq_join
+var json      = smart.framework.response
+  , errors    = smart.framework.errors
+  , amqp    = smart.framework.amqp
+  , mq_join = smart.framework.config.mq_join
   , utils   = require('../core/utils')
   , layout  = require('../controllers/ctrl_layout');
 

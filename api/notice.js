@@ -6,11 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var smart     = require("smartcore")
-  , json      = smart.core.json
-  , errors    = smart.core.errors
+var json      = smart.framework.response
+  , errors    = smart.framework.errors
   , notice    = require('../controllers/ctrl_notice')
   , util      = require('../core/utils');
+
+
 
 //权限check
 function commonCheck(req_, res_) {

@@ -1,4 +1,4 @@
-var json = require("smartcore").core.json,
+var json = smart.framework.response
     conference = require('../controllers/ctrl_conference');
 
 exports.add = function (req_, res_) {

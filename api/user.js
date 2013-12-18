@@ -1,8 +1,9 @@
-var smart     = require("smartcore")
-  , json      = smart.core.json
-  , errors    = smart.core.errors
+var json      = smart.framework.response
+  , errors    = smart.framework.errors
   , user      = require('../controllers/ctrl_user')
   , util      = require('../core/utils');
+
+
 //yukari
 exports.list = function(req_, res_) {
 

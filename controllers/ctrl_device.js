@@ -1,14 +1,13 @@
-var sync = require('async')
-  , _ = require('underscore')
-  , check = require('validator').check
+var sync = smart.util.async
+  , _ = smart.util.underscore
+  , check = smart.framework.validator.check
   , device = require('../modules/mod_device.js')
   , company = require('../modules/mod_company.js')
-  , smart = require("smartcore")
   , user = smart.ctrl.user
-  , mod_user = smart.mod.user
+//  , mod_user = smart.mod.user
   , error = smart.core.errors
-  , passutil = smart.core.util
-  , auth = smart.core.auth
+  , passutil = smart.lang.util
+  , auth = smart.framework.auth
   , mq = require('./ctrl_mq');
 
 var EventProxy = require('eventproxy');

@@ -1,9 +1,10 @@
-var smart     = require("smartcore")
-  , json      = smart.core.json
-  , errors    = smart.core.errors
+var json      = smart.framework.response
+  , errors    = smart.framework.errors
   , device    = require('../controllers/ctrl_device.js')
   , errorsExt = require('../core/errorsExt')
   , y_util    = require('../core/utils');
+
+
 
 // 获取设备一览
 exports.list = function(req_, res_) {

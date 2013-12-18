@@ -1,8 +1,9 @@
-var smart     = require("smartcore")
+var json      = smart.framework.response
+  , errors    = smart.framework.errors
   , setting   = require('../controllers/ctrl_setting')
-  , errors    = smart.core.errors
-  , json      = smart.core.json
   , utils     = require('../core/utils');
+
+
 
 
 exports.updateAppimage = function (req_, res_) {

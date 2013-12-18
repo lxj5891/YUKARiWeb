@@ -1,17 +1,16 @@
-var ph        = require('path')
-  , fs        = require('fs')
-  , async     = require('async')
-  , _         = require('underscore')
+var ph        = smart.lang.path
+  , fs        = smart.lang.fs
+  , sync = smart.util.async
+  , _ = smart.util.underscore
   , material  = require('../modules/mod_material.js')
   , synthetic = require('../modules/mod_synthetic.js')
   , mq        = require('./ctrl_mq.js')
-  , confapp   = require('config').app
+  , confapp   = smart.framework.config.app
   , tag       = require('./ctrl_tag')
-  , smart     = require("smartcore")
   , gridfs    = smart.mod.gridfs
   , user      = smart.ctrl.user
-  , error     = smart.core.errors
-  , util      = smart.core.util;
+  , error     = smart.framework.errors
+  , util      = smart.lang.util;
 
 
 var EventProxy = require('eventproxy');

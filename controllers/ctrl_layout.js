@@ -1,19 +1,20 @@
-var async     = require('async')
-  , _         = require('underscore')
-  , check     = require('validator').check
+var sync = smart.util.async
+  , _ = smart.util.underscore
+  , check = smart.framework.validator.check
   , layout    = require('../modules/mod_layout')
   , history   = require('../modules/mod_layout_publish')
   , synthetic = require('../controllers/ctrl_synthetic')
   , mq        = require('../controllers/ctrl_mq')
-  , smart     = require("smartcore")
   , user      = smart.ctrl.user
   , group     = smart.ctrl.group
-  , mod_group = smart.mod.group
-  , error     = smart.core.errors
-  , log       = smart.core.log
-  , util      = smart.core.util
+//  , mod_group = smart.mod.group
+  , error     = smart.framework.errors
+  , log       = smart.framework.log
+  , util      = smart.lang.util
   , cutil     = require('../core/contentutil')
   , utils     = require('../core/utils');
+
+
 
 exports.checkPublishLayoutUpdata = function (code, layoutIds, callback) {
   var ids_list = layoutIds.split(",")

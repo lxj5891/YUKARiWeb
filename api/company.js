@@ -1,9 +1,7 @@
-var smart   = require("smartcore")
-  , json = smart.core.json
-  , errors  = smart.core.errors
-  , company = require('../controllers/ctrl_company')
-  , util    = require('../core/utils');
-
+var json      = smart.framework.response
+  , errors    = smart.framework.errors
+  , adminuser = require('../controllers/ctrl_admin_user')
+  , util      = require('../core/utils');
 //权限check
 function commonCheck(req_, res_) {
   var user =  req_.session.user;
