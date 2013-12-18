@@ -1,11 +1,11 @@
-var _           = require('underscore')
+var _           = smart.util.underscore
   , workstation = require('../modules/mod_workstation.js')
-  , async       = require('async')
-  , smart       = require("smartcore")
+  , async       = smart.util.async
+//  , smart       = require("smartcore")
   , user        = smart.ctrl.user
   , group       = smart.ctrl.group
-  , mod_group   = smart.mod.group
-  , error       = smart.core.errors
+//  , mod_group   = smart.mod.group
+  , error       = smart.framework.errors
   , utils       = require('../core/utils');
 
 exports.save = function(code_, uid_, workstation_, callback_){

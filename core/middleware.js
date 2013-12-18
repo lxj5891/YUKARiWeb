@@ -1,13 +1,12 @@
 
-var i18n    = require('i18n')
-  , fs      = require('fs')
-  , confapp = require("config").app
+//var i18n    = require('i18n')
+var fs      = smart.lang.fs
+  , confapp = smart.util.config.app
   , company = require("../controllers/ctrl_company")
-  , smart   = require("smartcore")
-  , json    = smart.core.json
-  , errors  = smart.core.errors
-  , util    = smart.core.util
-  , log     = smart.core.log;
+//  , json    = smart.core.json
+  , errors  = smart.framework.errors
+  , util    = smart.framework.util
+  , log     = smart.framework.log;
 
 /**
  * 设定语言

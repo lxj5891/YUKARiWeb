@@ -1,4 +1,4 @@
-var amqp = require('amqp')
+var amqp = smart.util.amqp
   , mq = require('config').mq;
 
 var connectionMap = {};

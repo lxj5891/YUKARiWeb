@@ -3,10 +3,10 @@
  * Module dependencies.
  */
 
-var express     = require("express")
-  , smart       = require("smartcore")
-  , user        = smart.mod.user
-  , auth        = smart.core.auth
+var express     = smart.util.express
+//  , smart       = require("smartcore")
+//  , user        = smart.mod.user
+  , auth        = smart.framework.auth
   , middleware  = require("../core/middleware");
 
 var userid = "admin";

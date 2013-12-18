@@ -1,15 +1,15 @@
-var _         = require('underscore')
+var _         =smart.util.underscore
   , synthetic = require('../modules/mod_synthetic.js')
   , layout    = require('../modules/mod_layout')
   , material  = require('../modules/mod_material.js')
   , tag       = require('./ctrl_tag')
-  , smart     = require("smartcore")
+//  , smart     = require("smartcore")
   , user      = smart.ctrl.user
-  , error     = smart.core.errors
-  , util      = smart.core.util;
+  , error     = smart.framework.errors
+  , util      = smart.framework.util;
 
-var async = require('async');
-var EventProxy = require('eventproxy');
+var async = smart.util.async;
+//var EventProxy = require('eventproxy');
 
 exports.getSyntheticById = function (code, synthetic_id, callback) {
   if(synthetic_id&&synthetic_id.length<20){

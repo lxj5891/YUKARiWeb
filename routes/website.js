@@ -1,7 +1,8 @@
-var i     = require("i18n")
-  , util  = require('../core/utils')
-  , log   = require("smartcore").core.log
-  , logapi   = require("smartcore").api.log;
+var
+//  i     = smart.util.irequire("i18n")
+   util  = require('../core/utils')
+  , log   = smart.framework.log;
+//  , logapi   = require("smartcore").api.log;
 
 exports.guiding = function (app) {
 
