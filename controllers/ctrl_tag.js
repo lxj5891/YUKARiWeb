@@ -1,6 +1,6 @@
-var _         = require('underscore')
+var _         = smart.util.underscore
   , tag       = require('../modules/mod_tag.js')
-  , async     = require('async');
+  , async     =  smart.util.async;
 
 /**
  * 给tag进行分类（如素材的tag，组的tag等），暂时没有使用

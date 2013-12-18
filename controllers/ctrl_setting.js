@@ -1,7 +1,7 @@
-var async   = require('async')
+var async   = smart.util.async
   , setting = require('../modules/mod_setting.js')
-  , log     = require("smartcore").core.log
-  , _       = require('underscore');
+  , log     = smart.framework.log
+  , _       = smart.util.underscore;
 
 exports.getAppimage = function (code, callback_) {
   var keys = ["image1", "image2", "imagelogo"];

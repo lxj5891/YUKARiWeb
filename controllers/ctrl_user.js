@@ -1,9 +1,9 @@
-var smart     = require("smartcore")
-  , json      = smart.core.json
-  , user      = smart.mod.user
-  , util      = smart.core.util
-  , _         = require('underscore')
-  , sync      = require('async')
+//var smart     = require("smartcore")
+//  , json      = smart.core.json
+//  , user      = smart.mod.user
+  var util      = smart.framework.util
+  , _         = smart.util.underscore
+  , sync      = smart.util.async
   , company   = require('../modules/mod_company');
 
 //yukri
