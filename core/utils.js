@@ -1,27 +1,67 @@
+/**
+ * @file 工具类，权限判断用等共同方法
+ * @author r2space@gmail.com
+ * @copyright Dreamarts Corporation. All Rights Reserved.
+ */
+
+"use strict";
+
 var _ = smart.util.underscore;
 
-exports.isCommonUser = function(user_){//普通用户
-  return user_.type === 0;
+/**
+ * 确认是否可以发送通知
+ * @param user 用户对象
+ * @returns {boolean} 可以：true
+ */
+exports.hasNoticePermit = function(user) {
+  return exports.isSuperAdmin(user)
+    || exports.isAdmin(user)
+    || (exports.isCommonUser(user) && user.authority && user.authority.notice === 1);
 }
 
-exports.isAdmin = function(user_){//顾客管理员
-  return user_.type === 1;
+/**
+ * 是否是超级用户（DEV）
+ * @param {Object} user 用户对象
+ * @returns {boolean} 判断结果
+ */
+exports.isSuperAdmin = function(user) {
+  return user.extend.type === 3;
 }
 
-exports.isSystemAdmin = function(user_){//DA 管理员
-  return user_.type === 2;
+
+/**
+ * 是否是普通用户
+ * @param {Object} user 用户对象
+ * @returns {boolean} 判断结果
+ */
+exports.isCommonUser = function(user){
+  return user.extend.type === 0;
 }
 
-exports.isSuperAdmin = function(user_){// dev
-  return user_.type === 3;
+/**
+ * 是否是顾客管理员
+ * @param {Object} user 用户对象
+ * @returns {boolean} 判断结果
+ */
+exports.isAdmin = function(user) {
+  return user.extend.type === 1;
 }
+
+/**
+ * 是否是DA管理员
+ * @param {Object} user 用户对象
+ * @returns {boolean} 判断结果
+ */
+exports.isSystemAdmin = function(user) {
+  return user.extend.type === 2;
+}
+
+// -------------- 以下未整理
+
+
 
 exports.hasContentPermit = function(user_){
   return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority && user_.authority.contents === 1);
-}
-
-exports.hasNoticePermit = function(user_){
-  return exports.isSuperAdmin(user_) || exports.isAdmin(user_) || (exports.isCommonUser(user_) && user_.authority && user_.authority.notice === 1);
 }
 
 exports.hasApprovePermit = function(user_){

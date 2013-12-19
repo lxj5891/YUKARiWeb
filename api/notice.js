@@ -1,21 +1,25 @@
 /**
- * Created with JetBrains WebStorm.
- * User: Antony
- * Date: 13-8-21
- * Time: 下午7:36
- * To change this template use File | Settings | File Templates.
+ * @file 通知
+ * @author r2space@gmail.com
+ * @copyright Dreamarts Corporation. All Rights Reserved.
  */
+
+"use strict";
 
 var json      = smart.framework.response
   , errors    = smart.framework.errors
   , notice    = require('../controllers/ctrl_notice')
   , util      = require('../core/utils');
 
-
-
 //权限check
 function commonCheck(req_, res_) {
+
+  console.log("----------------");
+
   var user =  req_.session.user;
+
+  console.log(user);
+
   //DA系统管理员,开发人员以外的场合,不能访问.
   if (!util.hasNoticePermit(user)) {
     var err= new errors.Forbidden(__("js.common.access.check"));

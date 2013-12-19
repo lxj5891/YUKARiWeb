@@ -11,7 +11,7 @@ exports.guiding = function (app) {
 
     log.operation("begin : show login");
     res.render("login", {"title":"js.routes.website.top_signin.title"});
-//    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
+//    res.render("login", {"title": __("js.routes.website.top_signin.title")});
     log.operation("end : show login");
   });
 
@@ -20,7 +20,7 @@ exports.guiding = function (app) {
 
     log.operation("begin : show login");
     res.render("login", {"title": "js.routes.website.top_signin.title"});
-//    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
+//    res.render("login", {"title": __("js.routes.website.top_signin.title")});
     log.operation("end : show login");
   });
 
@@ -44,7 +44,7 @@ exports.guiding = function (app) {
     if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser)) ) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:""});
+      res.render("customer_user_update", {"title": __("js.routes.website.customer_user_add.title"), user: req.session.user,userId:""});
     }
 
     log.operation("end : show user add page");
@@ -53,12 +53,12 @@ exports.guiding = function (app) {
     var sessionuser = req.session.user;
     //客户管理员,开发人员,自己以外,不能访问.
     if (req.params.id == req.session.user._id) {
-      res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+      res.render("customer_user_update", {"title": __("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
     } else {
       if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("customer_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
+        res.render("customer_user_update", {"title": __("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id});
       }
     }
 
@@ -69,16 +69,16 @@ exports.guiding = function (app) {
     if (!(util.isAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("customer_user_list", {"title": i.__("js.routes.website.customer_user_list.title"), user: req.session.user});
+      res.render("customer_user_list", {"title": __("js.routes.website.customer_user_list.title"), user: req.session.user});
     }
   });
   //一括登录
   app.get('/customer/user/import', function (req, res) {
-    res.render("customer_user_import", {"title": i.__("js.routes.website.customer_user_import.title"), user: req.session.user});
+    res.render("customer_user_import", {"title": __("js.routes.website.customer_user_import.title"), user: req.session.user});
   });
   // 下载模板
   app.get('/customer/download/template', function(req, res){
-    res.render("customer_user_import", {"title": i.__("js.routes.website.customer_user_import.title"), user: req.session.user});
+    res.render("customer_user_import", {"title": __("js.routes.website.customer_user_import.title"), user: req.session.user});
   });
   //
   // DA管理员 创建用户
@@ -88,7 +88,7 @@ exports.guiding = function (app) {
     if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser)) ) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("admin_user_update", {"title": i.__("js.routes.website.customer_user_add.title"), user: req.session.user,userId:"",code:""});
+      res.render("admin_user_update", {"title": __("js.routes.website.customer_user_add.title"), user: req.session.user,userId:"",code:""});
     }
   });
   app.get('/admin/user/edit/:code/:id', function (req, res) {
@@ -97,7 +97,7 @@ exports.guiding = function (app) {
     if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("admin_user_update", {"title": i.__("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id,code:req.params.code});
+      res.render("admin_user_update", {"title": __("js.routes.website.customer_user_update.title"), user: req.session.user,userId:req.params.id,code:req.params.code});
     }
 
   });
@@ -107,7 +107,7 @@ exports.guiding = function (app) {
     if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("admin_user_list", {"title": i.__("js.routes.website.customer_user_list.title"), user: req.session.user});
+      res.render("admin_user_list", {"title": __("js.routes.website.customer_user_list.title"), user: req.session.user});
     }
   });
   //组
@@ -117,7 +117,7 @@ exports.guiding = function (app) {
       if (util.isSystemAdmin(sessionuser)) {
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("customer_group_list", {"title": i.__("js.routes.website.customer_group_list.title"), user: req.session.user});
+        res.render("customer_group_list", {"title": __("js.routes.website.customer_group_list.title"), user: req.session.user});
       }
     });
     app.get('/customer/group/add', function (req, res) {
@@ -126,7 +126,7 @@ exports.guiding = function (app) {
       if (util.isSystemAdmin(sessionuser)) {
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_add.title"), user: req.session.user,groupId:""});
+        res.render("customer_group_update", {"title": __("js.routes.website.customer_group_add.title"), user: req.session.user,groupId:""});
       }
     });
     app.get('/customer/group/edit/:id', function (req, res) {
@@ -135,7 +135,7 @@ exports.guiding = function (app) {
       if (util.isSystemAdmin(sessionuser)) {
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("customer_group_update", {"title": i.__("js.routes.website.customer_group_update.title"), user: req.session.user,groupId:req.params.id});
+        res.render("customer_group_update", {"title": __("js.routes.website.customer_group_update.title"), user: req.session.user,groupId:req.params.id});
       }
     });
 
@@ -146,7 +146,7 @@ exports.guiding = function (app) {
       if (!util.hasNoticePermit(sessionuser)) {
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("customer_notice", {"title": i.__("js.routes.website.customer_notice.title"), user: req.session.user});
+        res.render("customer_notice", {"title": __("js.routes.website.customer_notice.title"), user: req.session.user});
       }
     });
     app.get('/customer/notice/add', function (req, res) {
@@ -155,7 +155,7 @@ exports.guiding = function (app) {
       if (!util.hasNoticePermit(sessionuser)) {
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("customer_notice_add", {"title": i.__("js.routes.website.customer_notice_add.title"), user: req.session.user});
+        res.render("customer_notice_add", {"title": __("js.routes.website.customer_notice_add.title"), user: req.session.user});
       }
     });
 
@@ -164,7 +164,7 @@ exports.guiding = function (app) {
       if(!util.hasContentPermit(req.session.user)){
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("customer_workstation", {"title": i.__("js.routes.website.customer_workstation.title"), user: req.session.user});
+        res.render("customer_workstation", {"title": __("js.routes.website.customer_workstation.title"), user: req.session.user});
       }
     });
   //appicon
@@ -172,14 +172,14 @@ exports.guiding = function (app) {
     if(!util.hasContentPermit(req.session.user)){
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("customer_appimage", {"title": i.__("js.routes.website.customer_appicon.title"), user: req.session.user});
+      res.render("customer_appimage", {"title": __("js.routes.website.customer_appicon.title"), user: req.session.user});
     }
 
   });
 
   // 系统设定
   app.get('/customer/setup', function (req, res) {
-    res.render("customer_setup", {"title":i.__("js.routes.website.customer_setup.title"), user: req.session.user});
+    res.render("customer_setup", {"title":__("js.routes.website.customer_setup.title"), user: req.session.user});
   });
 
 
@@ -188,7 +188,7 @@ exports.guiding = function (app) {
     if (!(util.isAdmin(req.session.user)))
       res.render("error_403", {user: req.session.user});
     else
-      res.render("customer_device_list", {"title": i.__("js.routes.website.customer_device_list.title"), user: req.session.user});
+      res.render("customer_device_list", {"title": __("js.routes.website.customer_device_list.title"), user: req.session.user});
   });
 
   // ----------------------
@@ -198,7 +198,7 @@ exports.guiding = function (app) {
       res.render("error_403", {user: req.session.user});
     } else {
       res.render("content_material", {
-          title: i.__("js.routes.website.content_material.title")
+          title: __("js.routes.website.content_material.title")
         , user: req.session.user
       });
     }
@@ -207,7 +207,7 @@ exports.guiding = function (app) {
   // 布局
   app.get('/content/layout', function (req, res) {
     if(util.hasContentPermit(req.session.user) || util.hasApprovePermit(req.session.user)){
-      res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:0});
+      res.render("content_layout", {"title": __("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:0});
     } else {
       res.render("error_403", {user: req.session.user});
     }
@@ -215,14 +215,14 @@ exports.guiding = function (app) {
 
     // 公式
     app.get('/content/layout/publish', function (req, res) {
-      res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 1, statusFlag:0});
+      res.render("content_layout", {"title": __("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 1, statusFlag:0});
     });
     //申請中
     app.get('/content/layout/apply', function (req, res) {
       if(!util.hasContentPermit(req.session.user)){
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:21});
+        res.render("content_layout", {"title": __("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:21});
     }
     });
     //承認待ち
@@ -230,7 +230,7 @@ exports.guiding = function (app) {
       if(!util.hasApprovePermit(req.session.user)){
         res.render("error_403", {user: req.session.user});
       } else {
-        res.render("content_layout", {"title": i.__("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:22});
+        res.render("content_layout", {"title": __("js.routes.website.content_layout.title"), user: req.session.user, publishFlag: 0, statusFlag:22});
       }
     });
 
@@ -238,7 +238,7 @@ exports.guiding = function (app) {
     if(!util.hasContentPermit(req.session.user)){
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_add.title"), user: req.session.user, layoutId:0, isCopy:"false"});
+      res.render("content_layout_add", {"title": __("js.routes.website.content_layout_add.title"), user: req.session.user, layoutId:0, isCopy:"false"});
     }
   });
 
@@ -246,7 +246,7 @@ exports.guiding = function (app) {
     if(!util.hasContentPermit(req.session.user)){
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_update.title"), user: req.session.user, layoutId:req.params.id, isCopy:"false"});
+      res.render("content_layout_add", {"title": __("js.routes.website.content_layout_update.title"), user: req.session.user, layoutId:req.params.id, isCopy:"false"});
     }
   });
 
@@ -254,7 +254,7 @@ exports.guiding = function (app) {
     if(!util.hasContentPermit(req.session.user)){
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("content_layout_add", {"title": i.__("js.routes.website.content_layout_copy.title"), user: req.session.user, layoutId:req.params.id, isCopy:"true"});
+      res.render("content_layout_add", {"title": __("js.routes.website.content_layout_copy.title"), user: req.session.user, layoutId:req.params.id, isCopy:"true"});
     }
   });
 
@@ -278,7 +278,7 @@ exports.guiding = function (app) {
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_add.title"), user: req.session.user,compId:""});
+      res.render("admin_company_update", {"title": __("js.routes.website.admin_company_add.title"), user: req.session.user,compId:""});
     }
   });
   app.get('/admin/company/edit/:id', function (req, res) {
@@ -287,7 +287,7 @@ exports.guiding = function (app) {
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("admin_company_update", {"title": i.__("js.routes.website.admin_company_update.title"), user: req.session.user,compId:req.params.id});
+      res.render("admin_company_update", {"title": __("js.routes.website.admin_company_update.title"), user: req.session.user,compId:req.params.id});
     }
   });
   app.get('/admin/company', function (req, res) {
@@ -296,7 +296,7 @@ exports.guiding = function (app) {
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("admin_company_list", {"title": i.__("js.routes.website.admin_company_list.title"), user: req.session.user});
+      res.render("admin_company_list", {"title": __("js.routes.website.admin_company_list.title"), user: req.session.user});
     }
   });
 
@@ -306,7 +306,7 @@ exports.guiding = function (app) {
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
       res.render("error_403", {user: req.session.user});
     } else {
-      res.render("admin_log", {"title": i.__("js.routes.website.admin_log.title"), user: req.session.user, serverTime: new Date().getTime()});
+      res.render("admin_log", {"title": __("js.routes.website.admin_log.title"), user: req.session.user, serverTime: new Date().getTime()});
     }
   });
 
@@ -332,10 +332,10 @@ exports.guiding = function (app) {
 
   // 运营情报
   app.get('/admin/operated', function (req, res) {
-    res.render("admin_operated_list", {"title":  i.__("js.routes.website.admin_operated_list.title"), user: req.session.user});
+    res.render("admin_operated_list", {"title":  __("js.routes.website.admin_operated_list.title"), user: req.session.user});
   });
   app.get('/customer/operated', function (req, res) {
-    res.render("customer_operated_list", {"title":  i.__("js.routes.website.admin_operated_list.title"), user: req.session.user});
+    res.render("customer_operated_list", {"title":  __("js.routes.website.admin_operated_list.title"), user: req.session.user});
   });
   // 元素
   app.get('/content/synthetic', function (req, res) {
@@ -343,7 +343,7 @@ exports.guiding = function (app) {
       res.render("error_403", {user: req.session.user});
     } else {
       res.render("content_synthetic", {
-        title: i.__("js.routes.synthetic.content_synthetic.title") , user: req.session.user
+        title: __("js.routes.synthetic.content_synthetic.title") , user: req.session.user
       });
     }
   });
@@ -353,7 +353,7 @@ exports.guiding = function (app) {
       res.render("error_403", {user: req.session.user});
     } else {
       res.render("content_synthetic_add", {
-        title: i.__("js.routes.synthetic.content_synthetic_add.title") , synthetic_id:'' , user: req.session.user
+        title: __("js.routes.synthetic.content_synthetic_add.title") , synthetic_id:'' , user: req.session.user
       });
     }
   });
@@ -363,7 +363,7 @@ exports.guiding = function (app) {
     } else {
       var type = req_.params.type;
       res_.render("content_synthetic_add", {
-        title: i.__("js.routes.synthetic.content_synthetic_add.title")
+        title: __("js.routes.synthetic.content_synthetic_add.title")
         , synthetic_id : type
         , user: req_.session.user
       });
@@ -376,7 +376,7 @@ exports.guiding = function (app) {
     } else {
       var id = req_.params.synthetic_id;
       res_.render("content_synthetic_add", {
-        title: i.__("js.routes.synthetic.content_synthetic_update.title")
+        title: __("js.routes.synthetic.content_synthetic_update.title")
         , synthetic_id : id
         , user: req_.session.user
       });
