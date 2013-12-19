@@ -3,7 +3,7 @@ module.exports = {
       "host": "mongo"
     , "port": 27017
     , "dbname": "yukari"
-    , "prefix": "sf"
+    , "prefix": ""
     , "schema": {
       "User": "Users"
     }
@@ -37,7 +37,7 @@ module.exports = {
     , "i18n": {
       "cache": "memory"
       , "lang": "ja"
-      , "category": "salesfloor"
+      , "category": "yukari"
     }
     , "ignoreAuth": [
       // 静态资源

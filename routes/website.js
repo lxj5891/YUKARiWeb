@@ -1,6 +1,7 @@
 var
-//  i     = smart.util.irequire("i18n")
-   util  = require('../core/utils')
+//  i     = smart.ctrl.i18n
+  user = smart.ctrl.user
+  , util  = require('../core/utils')
   , log   = smart.framework.log;
 //  , logapi   = require("smartcore").api.log;
 
@@ -9,7 +10,7 @@ exports.guiding = function (app) {
   app.get('/', function (req, res) {
 
     log.operation("begin : show login");
-    res.render("login", {"title": 111});
+    res.render("login", {"title":"js.routes.website.top_signin.title"});
 //    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
     log.operation("end : show login");
   });
@@ -18,16 +19,17 @@ exports.guiding = function (app) {
   app.get('/login', function (req, res) {
 
     log.operation("begin : show login");
-    res.render("login", {"title": 1});
+    res.render("login", {"title": "js.routes.website.top_signin.title"});
 //    res.render("login", {"title": i.__("js.routes.website.top_signin.title")});
     log.operation("end : show login");
   });
 
   // 主画面
   app.get('/yukari', function (req, res) {
-
     log.operation("begin : show yukari top page");
-    res.render("yukari", {"title": "yukari", user: req.session.user});
+    console.log(req.session.user);
+    res.render("yukari", {"title": "yukari", user: req.session.user})
+//    res.render("yukari", {"title": "yukari"});
     log.operation("end : show yukari top page");
   });
 

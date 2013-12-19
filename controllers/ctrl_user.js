@@ -31,6 +31,9 @@ exports.listByDBName = function(dbName_,start_, limit_, keyword_, callback_) {
       if (err_) {
         return callback_(new error.InternalServer(err_));
       } else {
+
+        result = transUserResult(result);
+
         var compFunc = function(user_,sub_callback){
           user.searchOneByDBName(dbName,user_._doc.createby,function(err_c,edituser){
             if(err_c) {
@@ -73,3 +76,10 @@ exports.searchOneByDBName = function(dbName_, uid_, callback_) {
   });
 
 };
+
+function transUserResult(result) {
+    var resultold;
+  resultold.name.name_zh = result.expand.name_zh
+
+  return resultold;
+}
