@@ -30,6 +30,7 @@ var user          = require("../api/user.js")
 //////////edit by zhaobing//////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.guiding = function(app){
 // 登陆
+// test git by zhaobing
   app.get('/simplelogin', function (req, res) {
       user.simpleLogin(req, res);
   });
