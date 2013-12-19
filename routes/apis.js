@@ -1,5 +1,6 @@
 
-var user          = smart.ctrl.user
+var user          = require("../api/user.js")
+  ,auth           =smart.framework.auth
   , group         = smart.ctrl.group
  // , search        = smart.api.search
   , util          = smart.framework.util
@@ -8,6 +9,8 @@ var user          = smart.ctrl.user
 //  , apn           = smart.api.apn
   , errors        = smart.framework.errors
 //  , json          = smart.core.json
+  ,log              =smart.framework.log
+  ,response       =smart.framework.response
   , utils         = require('../core/utils')
   , material      = require("../api/material")
   , synthetic     = require("../api/synthetic")
@@ -24,41 +27,16 @@ var user          = smart.ctrl.user
   , setting       = require("../api/setting")
   , conference    = require("../api/conference")
   , errorsExt     = require("../core/errorsExt");
-//////////////////////////////////////////////////////////////////////////////
-exports.simpleLogin = function(req, res){
-
-  log.debug("user name: " + req.query.name);
-
-  // パスワードのsha256文字列を取得する
-  req.query.password = auth.sha256(req.query.password);
-
-  // 認証処理
-  auth.simpleLogin(req, res, function(err, result) {
-
-    if (err) {
-      log.error(err, undefined);
-      log.audit("login failed.", req.query.name);
-    } else {
-      log.audit("login succeed.", result._id);
-    }
-
-    response.send(res, err, result);
-  });
-};
-
-///////////////////////////////////////////////////////////////////////////
+//////////edit by zhaobing//////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.guiding = function(app){
-
-  // 登陆
+// 登陆
   app.get('/simplelogin', function (req, res) {
     var deivceId = req.query.deviceid;
     var logined = function() {
       if (req.session.user.type == 1) // 重新设定管理员画面
         req.query.home = "/admin";
-
       //
     };
-
     var path = req.query.path; // 公司ID, Web登陆用
     var code = req.query.code; // 公司Code，iPad登陆用
     // 登陆到公司的DB进行Login
@@ -68,27 +46,28 @@ exports.guiding = function(app){
           return errorsExt.sendJSON(res, err);
         if(!comp)
           return errorsExt.sendJSON(res, errorsExt.NoCompanyID);
-        var companyDB = comp.code;
-        user.login(req, res, logined, companyDB);
+       // var companyDB = comp.code;
+        req.query.companycode= comp.code;
       })
     // iPad登陆
     } else if(code) {
-      //添加 deviceUserId
       ctrl_company.getByCode(code, function(err, comp){
-        if(err)
-          return errorsExt.sendJSON(res, err);
+       if(err)
+         return errorsExt.sendJSON(res, err);
         if(!comp)
-          return errorsExt.sendJSON(res, errorsExt.NoCompanyCode);
-        var companyDB = comp.code;
-        user.login(req, res, logined, companyDB);
-      });
+         return errorsExt.sendJSON(res, errorsExt.NoCompanyCode);
+      var companyDB = comp.code;
+           req.query.companycode = code;
+     });
 
     // 登陆主DB进行Login
-    } else {
+    }/* else {
       user.login(req, res, logined);
-    }
-  });
+    }*/
 
+      user.simpleLogin(req, res);
+  });
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 注销
   app.get("/simplelogout", function (req, res) {
     req.query.home = "/top/login";

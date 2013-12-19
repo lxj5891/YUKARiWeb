@@ -1,12 +1,14 @@
 var json      = smart.framework.response
   , errors    = smart.framework.errors
+  , log       = smart.framework.log
+  , auth     = smart.framework.auth
+  , response    = smart.framework.response
   , user      = require('../controllers/ctrl_user')
   , util      = require('../core/utils');
 
 
 //yukari
 exports.list = function(req_, res_) {
-
   var start = req_.query.start
     , limit = req_.query.count
     , keyword = req_.query.keyword
@@ -33,3 +35,25 @@ exports.searchOne = function(req_, res_) {
     }
   });
 };
+//////edit by zhaobing//////////////////////////////////////////////////////////////////////////////////////////
+exports.simpleLogin = function(req, res){
+
+  log.debug("user name: " + req.query.name);
+
+  // パスワードのsha256文字列を取得する
+  req.query.password = auth.sha256(req.query.password);
+
+  // 認証処理
+  auth.simpleLogin(req, res, function(err, result) {
+
+    if (err) {
+      log.error(err, undefined);
+      log.audit("login failed.", req.query.name);
+    } else {
+      log.audit("login succeed.", result._id);
+    }
+
+    response.send(res, err, result);
+  });
+};
+//////////////////////////////////////////////////////////////////////////////////////////

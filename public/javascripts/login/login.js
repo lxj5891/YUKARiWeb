@@ -14,6 +14,7 @@ $(function() {
 });
 
 var demoTimeout;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function login() {
 
   var username = $('#name').val()
@@ -37,39 +38,18 @@ function login() {
     clearTimeout(demoTimeout);
     demoTimeout = setTimeout(function(){container.trigger('stopRumble');}, 200);
   } else {
+    ////////////将原有的ajax请求方式改为调用封装好的doget（）,目前数据库没有公司的数据，暂时没有验证//////////
+    smart.doget("/simplelogin?name=" + username + "&password=" + password, function(err, result) {
+      if (err) {
 
-    $.ajax({
-        url: "/simplelogin"
-      , async: false
-      , type: "GET"
-      , data: {
-        "path": path, "name": username, "pass": password, "home": "yukari"
+        return Alertify.log.info("用户名或密码不正确");
       }
-      , success: function(data, textStatus, jqXHR) {
-        if (jqXHR.status != 200) {
-          Alertify.log.info(data);
-        }
-        var error = (data && data.error) ? data.error: undefined;
-        if(error) {
-          if(error.code == 1020) {// 公司不存在
-            Alertify.log.error(error.message);
-            $('#path').focus();
-          } else if(error.code) {
-            Alertify.log.error(error.message);
-          } else {
-            Alertify.log.info(data);
-          }
-        } else {
-          window.location = "/yukari";
-        }
-      }
-      , error: function(jqXHR, textStatus, errorThrown) {
-        Alertify.log.error(jqXHR.responseJSON.error.message);
-      }
+
+      window.location = "/yukari";
     });
   }
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function applydata() {
     var btn = $('#btn-apply');
     var container = $('#container-apply');
