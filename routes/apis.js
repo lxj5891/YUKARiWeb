@@ -31,40 +31,6 @@ var user          = require("../api/user.js")
 exports.guiding = function(app){
 // 登陆
   app.get('/simplelogin', function (req, res) {
-    var deivceId = req.query.deviceid;
-    var logined = function() {
-      if (req.session.user.type == 1) // 重新设定管理员画面
-        req.query.home = "/admin";
-      //
-    };
-    var path = req.query.path; // 公司ID, Web登陆用
-    var code = req.query.code; // 公司Code，iPad登陆用
-    // 登陆到公司的DB进行Login
-    if(path) {
-      ctrl_company.getByPath(path, function(err, comp){
-        if(err)
-          return errorsExt.sendJSON(res, err);
-        if(!comp)
-          return errorsExt.sendJSON(res, errorsExt.NoCompanyID);
-       // var companyDB = comp.code;
-        req.query.companycode= comp.code;
-      })
-    // iPad登陆
-    } else if(code) {
-      ctrl_company.getByCode(code, function(err, comp){
-       if(err)
-         return errorsExt.sendJSON(res, err);
-        if(!comp)
-         return errorsExt.sendJSON(res, errorsExt.NoCompanyCode);
-      var companyDB = comp.code;
-           req.query.companycode = code;
-     });
-
-    // 登陆主DB进行Login
-    }/* else {
-      user.login(req, res, logined);
-    }*/
-
       user.simpleLogin(req, res);
   });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
