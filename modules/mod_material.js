@@ -38,8 +38,8 @@ var Material = new schema({
  * @returns {model} material model
  */
 function model(code) {
-
-  return conn(code).model("Material", Material);
+  return conn.model(code, "Material", Material);
+//  return conn(code).model("Material", Material);
 }
 
 /**

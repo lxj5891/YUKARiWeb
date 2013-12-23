@@ -5,7 +5,7 @@ $(function () {
   events();
 
   smart.view("tag").view.initialize("textBoxTag");
-
+  console.log("begin content_material");
   // 获取Tag一览
   smart.doget("/tag/search.json?count=20&start=0", function(err, result){
 
@@ -30,7 +30,7 @@ var _materialList;
  * 注册事件
  */
 function events() {
-
+  console.log("zhuceshijian");
   $("#txt_search").bind("change",function(){
       var _keyword = '';
       _keyword =  $("#txt_search").val();
@@ -182,6 +182,7 @@ function events() {
  * 显示对话框
  */
 function renderDialog(row, index) {
+  console.log("xianshiduihuakuang");
   $('#inputName').val(delExtension(row.filename));
   $('#extensions').val(row.filename.split(delExtension(row.filename))[1]);
   $('#inputSize').val(Math.round(row.length / 1024) + " KB");
@@ -207,7 +208,7 @@ function delExtension(str) {
  * 绘制画面
  */
 function render(start, count,keyword) {
-
+  console.log("huizhihuamian");
   var tags = [];
   _.each($("#taglist").find(".selected_tag"), function(item){
     tags.push($(item).html());

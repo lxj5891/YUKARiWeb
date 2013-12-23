@@ -8,18 +8,23 @@ var ph        = smart.lang.path
   , confapp   = smart.util.config.app
   , tag       = require('./ctrl_tag')
 //  , gridfs    = smart.mod.gridfs
+  , file = smart.ctrl.file
   , user      = smart.ctrl.user
   , error     = smart.framework.errors
   , util      = smart.lang.util;
 
-
 //var EventProxy = require('eventproxy');
 
-exports.list = function(code_, contentType_, keyword_, tags_, start_, limit_, callback_) {
+exports.list = function(handler, callback_) {
 
-  var start = start_ || 0
-    , limit = limit_ || 20
-    , condition = {};
+  var start = handler.params.start || 0
+    , limit = handler.params.limit || 20
+    , condition = {}
+    , tags_ = handler.params.tags
+    , code_ = handler.params.code
+//    , user = handler.user
+    , keyword_ = handler.params.keyword
+//    , contentType_ = handler.contentType
 
   // 指定的Tag
   if (tags_){
@@ -30,6 +35,8 @@ exports.list = function(code_, contentType_, keyword_, tags_, start_, limit_, ca
     });
     condition.$or = or;
   }
+  console.log("content: " );
+  console.log(handler.params);
   if  (contentType_){
     if("image" == contentType_ )
       condition.contentType = /image/;
@@ -61,55 +68,68 @@ exports.list = function(code_, contentType_, keyword_, tags_, start_, limit_, ca
   });
 };
 
-exports.add = function(code_, uid_, files_, callback_) {
 
-  var result = [];
+//added by wuql at 20131223 copy from diandianweb ctrl_file
+exports.add = function(handler,callback){
 
-  async.forEach(files_, function(file, callback){
-
-    var name = ph.basename(file.name);
-    var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
-    var metadata = {
-      "author": uid_
-      , "tags": types(file.type)
-    };
-
-    // To save the file to GridFS
-    gridfs.save(code_, name, path, metadata, file.type, function(err, doc){
-
-      if (err) {
-          return callback(new error.InternalServer(err));
-      }
-
-      var detail = {};
-      detail["fileid"] = doc._id;
-      detail["filename"] = doc.filename;
-      detail["chunkSize"] = doc.chunkSize;
-      detail["contentType"] = doc.contentType;
-      detail["length"] = doc.length;
-      detail["editat"] = doc.uploadDate;
-      detail["editby"] = uid_;
-
-      material.add(code_, detail, function(err, info){
-       result.push(info);
-
-       // create thumbs
-       mq.thumb({code: code_
-         , id: info._id
-         , fid: doc._id
-         , collection: "materials"
-         , x: "0", y: "0"
-         , width: "0"});
-
-         return callback(err);
-       });
-    });
-
-  },function(err){
-    return callback_(err, result);
-  });
-
+  file.add(handler,function(err,result){
+    if(err){
+      return callback(new error.InternalServer(err));
+    }
+    callback(err,result[0]._id);
+  })
 };
+
+
+//exports.add = function(code_, uid_, files_, callback_) {
+
+//  var result = [];
+
+//  async.forEach(files_, function(file, callback){
+//
+//    var name = ph.basename(file.name);
+//    var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
+//    var metadata = {
+//      "author": uid_
+//      , "tags": types(file.type)
+//    };
+//
+//    // To save the file to GridFS
+//    gridfs.save(code_, name, path, metadata, file.type, function(err, doc){
+//
+//      if (err) {
+//          return callback(new error.InternalServer(err));
+//      }
+//
+//      var detail = {};
+//      detail["fileid"] = doc._id;
+//      detail["filename"] = doc.filename;
+//      detail["chunkSize"] = doc.chunkSize;
+//      detail["contentType"] = doc.contentType;
+//      detail["length"] = doc.length;
+//      detail["editat"] = doc.uploadDate;
+//      detail["editby"] = uid_;
+//
+//      material.add(code_, detail, function(err, info){
+//       result.push(info);
+//
+//       // create thumbs
+//       mq.thumb({code: code_
+//         , id: info._id
+//         , fid: doc._id
+//         , collection: "materials"
+//         , x: "0", y: "0"
+//         , width: "0"});
+//
+//         return callback(err);
+//       });
+//    });
+//
+//  },function(err){
+//    return callback_(err, result);
+//  });
+
+//};
 
 /**
  * 更新文件

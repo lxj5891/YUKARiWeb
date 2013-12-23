@@ -1,13 +1,15 @@
 var async           = smart.framework.async
   , _               = smart.util.underscore
-  , json            = smart.framework.response
-//  , dbfile          = smart.ctrl.dbfile
+  , response            = smart.framework.response
+  , context         = smart.framework.context
   , errors          = smart.framework.errors
+  , log             = smart.framework.log
   , mod_group       = smart.ctrl.group
   , utils           = require('../core/utils')
   , material        = require('../controllers/ctrl_material')
   , layout_publish  = require('../modules/mod_layout_publish')
   , ctl_layout      = require('../controllers/ctrl_layout');
+
 
 
 /**
@@ -17,55 +19,67 @@ var async           = smart.framework.async
  */
 exports.list = function(req_, res_) {
 
-  var code = req_.session.user.companycode
-    , user = req_.session.user
-    , keyword = req_.query.keyword          // 检索用关键字
-    , tags = req_.query.tags                // 选中的tag
-    , start = req_.query.start
-    , limit = req_.query.count
-    , contentType = req_.query.contentType;
+//  var code = req_.session.user.companycode
+//    ,
+  var user = req_.session.user;
+//    , keyword = req_.query.keyword          // 检索用关键字
+//    , tags = req_.query.tags                // 选中的tag
+//    , start = req_.query.start
+//    , limit = req_.query.count
+//    , contentType = req_.query.contentType;
+  console.log("api: " + req_.query.contentType);
+  var handler = new context().bind(req_,res_);
 
   if(!canUpdate(user)){
     return noAccessResponse(res_);
   }
 
 
-  material.list(code, contentType, keyword, tags, start, limit, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+  material.list(handler, function(err, result) {
+//    if (err) {
+//      return res_.send(err.code, response.errorSchema(err.code, err.message));
+//    } else {
+//      return res_.send(response.createDataSchema(result));
+//    }
+    response.send(req_,err,result);
   });
 };
 
 // Add new file
 exports.add = function(req_, res_) {
 
-  var uid = req_.session.user._id
-    , user = req_.session.user
-    , code = req_.session.user.companycode;
-
-  if(!canUpdate(user)){
-    return noUpdateResponse(res_);
-  }
-
-  // Get file list from the request
-  var files = [];
-  if (req_.files.files instanceof Array) {
-    files = req_.files.files;
-  } else {
-    files.push(req_.files.files);
-  }
-
-  // Save to GridFS and tables
-  material.add(code, uid, files, function(err, result){
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema({items: result}));
-    }
-  });
+  var handler = new context().bind(req_,res_);
+  console.log("material"+handler.uid);
+  log.operation("begin: add an file ", handler.uid);
+  material.add(handler,function(err,result){
+    console.log("finish.zhaobing"+handler.uid);
+    log.operation("finish: add an file ",handler.uid);
+    response.send(res_,err,result);
+  })
+//  var uid = req_.session.user._id
+//    , user = req_.session.user
+//    , code = req_.session.user.companycode;
+//
+//  if(!canUpdate(user)){
+//    return noUpdateResponse(res_);
+//  }
+//
+//  // Get file list from the request
+//  var files = [];
+//  if (req_.files.files instanceof Array) {
+//    files = req_.files.files;
+//  } else {
+//    files.push(req_.files.files);
+//  }
+//
+//  // Save to GridFS and tables
+//  material.add(code, uid, files, function(err, result){
+//    if (err) {
+//      return res_.send(err.code, response.errorSchema(err.code, err.message));
+//    } else {
+//      return res_.send(response.dataSchema({items: result}));
+//    }
+//  });
 };
 
 // Update a file
@@ -82,9 +96,9 @@ exports.updatefile = function(req_, res_) {
 
   material.updatefile(code, uid, fid, req_.files.files, function(err, result){
     if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
+      return res_.send(err.code, response.errorSchema(err.code, err.message));
     } else {
-      return res_.send(json.dataSchema({items: result}));
+      return res_.send(response.dataSchema({items: result}));
     }
   });
 };
@@ -109,9 +123,9 @@ exports.edit = function(req_, res_) {
 
   material.edit(code, fname , uid, fid, object, function(err, result){
     if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
+      return res_.send(err.code, response.errorSchema(err.code, err.message));
     } else {
-      return res_.send(json.dataSchema({items: result}));
+      return res_.send(response.dataSchema({items: result}));
     }
   });
 };
@@ -126,22 +140,22 @@ exports.download = function(req_, res_, isPublish) {
 
     if(target == null) {
       var err = new errors.BadRequest(__("api.param.error","target"));
-      res_.send(err.code, json.errorSchema(err.code, err.message));
+      res_.send(err.code, response.errorSchema(err.code, err.message));
       return;
     }
     if(file_name == null) {
       var err = new errors.BadRequest(__("api.param.error","filename"));
-      res_.send(err.code, json.errorSchema(err.code, err.message));
+      res_.send(err.code, response.errorSchema(err.code, err.message));
       return;
     }
 
 
     function getLayout(err, layout) {
       if (err)
-        return res_.send(err.code, json.errorSchema(err.code, err.message));
+        return res_.send(err.code, response.errorSchema(err.code, err.message));
       if (!layout) {
         var err = new errors.InternalServer(__("api.layout.id.error") + target);
-        return res_.send(err.code, json.errorSchema(err.code, err.message));
+        return res_.send(err.code, response.errorSchema(err.code, err.message));
       }
 
       var file_id = undefined;
@@ -171,7 +185,7 @@ exports.download = function(req_, res_, isPublish) {
         var ids = file_name.split("-");
         if(ids.length < 4) {
           var err = new errors.BadRequest(__("api.param.error","filename"));
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
+          return res_.send(err.code, response.errorSchema(err.code, err.message));
         }
 
         // param 1
@@ -181,7 +195,7 @@ exports.download = function(req_, res_, isPublish) {
         var page_index = parseInt(ids[1]);
         if(! layout.layout.page[page_index]) {
           var err = new errors.NotFound(__("api.file.name.error") + file_name);
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
+          return res_.send(err.code, response.errorSchema(err.code, err.message));
         }
         var page = fixDoc(layout.layout.page[page_index]);
 
@@ -189,7 +203,7 @@ exports.download = function(req_, res_, isPublish) {
         var tile_index = parseInt(ids[2]);
         if(! page.tile[tile_index]) {
           var err = new errors.NotFound(__("api.file.name.error") + file_name);
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
+          return res_.send(err.code, response.errorSchema(err.code, err.message));
         }
         var tile = fixDoc(page.tile[tile_index]);
 
@@ -230,12 +244,12 @@ exports.download = function(req_, res_, isPublish) {
 
       if(!file_id) {
         var err = new errors.NotFound(__("api.file.name.error") + file_name);
-        return res_.send(err.code, json.errorSchema(err.code, err.message));
+        return res_.send(err.code, response.errorSchema(err.code, err.message));
       }
 
       dbfile.download(code, file_id, function(err, doc, info){
         if (err) {
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
+          return res_.send(err.code, response.errorSchema(err.code, err.message));
         } else {
           res_.header('Content-Length', info.length);
           res_.attachment(file_name);
@@ -249,13 +263,13 @@ exports.download = function(req_, res_, isPublish) {
       layout_publish.get(code, {_id: target}, function (err, result) {
         if (err) {
           var err = new errors.InternalServer(__("api.file.name.error") + file_name);
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
+          return res_.send(err.code, response.errorSchema(err.code, err.message));
         }
 
         mod_group.getAllGroupByUid(code, uid, function(err, groups){
           if(err){
             var error = new errors.InternalServer(err);
-            return res_.send(error.code, json.errorSchema(error.code, error.message));
+            return res_.send(error.code, response.errorSchema(error.code, error.message));
           }
 
           // 公开先check
@@ -354,9 +368,9 @@ exports.remove = function(req_, res_) {
 
   material.remove(code, uid, fid, function(err, result){
     if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
+      return res_.send(err.code, response.errorSchema(err.code, err.message));
     } else {
-      return res_.send(json.dataSchema({items: result}));
+      return res_.send(response.dataSchema({items: result}));
     }
   });
 };
@@ -371,10 +385,10 @@ function canUpdate(user_){
 
 function noAccessResponse(res_){
   var err= new errors.Forbidden(__("js.common.access.check"));
-  return res_.send(err.code, json.errorSchema(err.code, err.message));
+  return res_.send(err.code, response.errorSchema(err.code, err.message));
 }
 
 function noUpdateResponse(res_){
   var err= new errors.Forbidden(__("js.common.update.check"));
-  return res_.send(err.code, json.errorSchema(err.code, err.message));
+  return res_.send(err.code, response.errorSchema(err.code, err.message));
 }

@@ -10,8 +10,7 @@ exports.guiding = function (app) {
   app.get('/', function (req, res) {
 
     log.operation("begin : show login");
-    res.render("login", {"title":"js.routes.website.top_signin.title"});
-//    res.render("login", {"title": __("js.routes.website.top_signin.title")});
+    res.render("login", {"title": __("js.routes.website.top_signin.title")});
     log.operation("end : show login");
   });
 
@@ -19,17 +18,15 @@ exports.guiding = function (app) {
   app.get('/login', function (req, res) {
 
     log.operation("begin : show login");
-    res.render("login", {"title": "js.routes.website.top_signin.title"});
-//    res.render("login", {"title": __("js.routes.website.top_signin.title")});
+    res.render("login", {"title": __("js.routes.website.top_signin.title")});
     log.operation("end : show login");
   });
 
   // 主画面
   app.get('/yukari', function (req, res) {
     log.operation("begin : show yukari top page");
-    console.log(req.session.user);
+//    console.log(req.session.user);
     res.render("yukari", {"title": "yukari", user: req.session.user})
-//    res.render("yukari", {"title": "yukari"});
     log.operation("end : show yukari top page");
   });
 
