@@ -31,7 +31,9 @@ var Tag = new schema({
  */
 function model(code) {
 
-  return conn(code).model("Tag", Tag);
+//  return conn(code).model("Tag", Tag);
+  return conn.model(code, "Tag", Tag);
+
 }
 
 /**
