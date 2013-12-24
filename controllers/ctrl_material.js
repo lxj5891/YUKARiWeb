@@ -1,4 +1,5 @@
 var ph        = smart.lang.path
+  ,log        =smart.framework.log
   , fs        = smart.lang.fs
   , sync = smart.util.async
   , _ = smart.util.underscore
@@ -13,9 +14,32 @@ var ph        = smart.lang.path
   , error     = smart.framework.errors
   , util      = smart.lang.util;
 
-//var EventProxy = require('eventproxy');
 
-exports.list = function(handler, callback_) {
+//var EventProxy = require('eventproxy');
+/////////edit by zhaobing
+exports.list = function(handler, callback) {
+  var start = handler.params.start || 0
+    , limit = handler.params.limit || 20
+   // , condition = {}
+    , tags_ = handler.params.tags
+    , code_ = handler.params.code
+    , condition = handler.params.keyword
+
+  handler.addParams("tags",tags_);
+  handler.addParams("condition",  condition);
+  handler.print(log.debug);
+
+  file.getList(handler, function(err, result) {
+    if (err) {
+      log.error(err, uid);
+      return callback(new errors.NotFound("js.ctr.common.system.error"));
+    } else {
+      return callback(err, result);
+    }
+  });
+};
+///////////////////////
+/*exports.list = function(handler, callback_) {
 
   var start = handler.params.start || 0
     , limit = handler.params.limit || 20
@@ -24,7 +48,7 @@ exports.list = function(handler, callback_) {
     , code_ = handler.params.code
 //    , user = handler.user
     , keyword_ = handler.params.keyword
-//    , contentType_ = handler.contentType
+//    , contentType_ = handler.params.contentType || null;
 
   // 指定的Tag
   if (tags_){
@@ -35,16 +59,15 @@ exports.list = function(handler, callback_) {
     });
     condition.$or = or;
   }
-  console.log("content: " );
-  console.log(handler.params);
-  if  (contentType_){
-    if("image" == contentType_ )
-      condition.contentType = /image/;
-    else if("video" == contentType_)
-      condition.contentType = /video/;
-    else
-      condition.contentType = / /;
-  }
+
+//  if  (contentType_){
+//    if("image" == contentType_ )
+//      condition.contentType = /image/;
+//    else if("video" == contentType_)
+//      condition.contentType = /video/;
+//    else
+//      condition.contentType = / /;
+//  }
   if (keyword_&& keyword_.length>0) {
     keyword_ = util.quoteRegExp(keyword_);
     condition.filename = new RegExp(keyword_.toLowerCase(),"i");
@@ -66,7 +89,7 @@ exports.list = function(handler, callback_) {
       });
     });
   });
-};
+};*/
 
 
 //added by wuql at 20131223 copy from diandianweb ctrl_file

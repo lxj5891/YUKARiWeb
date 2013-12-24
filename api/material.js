@@ -17,21 +17,21 @@ var async           = smart.framework.async
  * @param req_
  * @param res_
  */
-exports.list = function(req_, res_) {
+exports.list = function(req, res) {
 
 //  var code = req_.session.user.companycode
 //    ,
-  var user = req_.session.user;
+  var user = req.session.user;
 //    , keyword = req_.query.keyword          // 检索用关键字
 //    , tags = req_.query.tags                // 选中的tag
 //    , start = req_.query.start
 //    , limit = req_.query.count
 //    , contentType = req_.query.contentType;
-  console.log("api: " + req_.query.contentType);
-  var handler = new context().bind(req_,res_);
+ // console.log("api: " + req.query.contentType);
+  var handler = new context().bind(req,res);
 
   if(!canUpdate(user)){
-    return noAccessResponse(res_);
+    return noAccessResponse(res);
   }
 
 
@@ -41,7 +41,8 @@ exports.list = function(req_, res_) {
 //    } else {
 //      return res_.send(response.createDataSchema(result));
 //    }
-    response.send(req_,err,result);
+    log.operation("finish: find list: ",handler.uid);
+    response.send(res,err,result);
   });
 };
 
