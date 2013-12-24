@@ -5,7 +5,7 @@ $(function () {
   events();
 
   smart.view("tag").view.initialize("textBoxTag");
-  console.log("begin content_material");
+
   // 获取Tag一览
   smart.doget("/tag/search.json?count=20&start=0", function(err, result){
 
@@ -220,16 +220,17 @@ function render(start, count,keyword) {
   smart.doget("/material/list.json?count=" + count + "&start=" + start + "&tags=" + tags_ + "&keyword=" + keyword, function (error, result) {
 
     if (smart.error(error, i18n["js.common.search.error"], true)) {
-      return;
+     return;
     }
 
     _materialList = result.items;
+
 
     // 一览表示
     var tmpl_list = $('#tmpl_material_list').html()
       , container_list = $("#material_list")
       , index = 1;
-
+    console.log("container_list.html");
     container_list.html("");
     _.each(_materialList, function(row){
       container_list.append(_.template(tmpl_list, {
@@ -237,10 +238,10 @@ function render(start, count,keyword) {
         , "fid": row._id
         , "file": row.thumb ? row.thumb.middle : row.fileid
         , "type": row.contentType
-        , "filename": row.filename
+        , "filename": row.name
         , "size": Math.round(row.length / 1024) + " KB"
-        , "editat": smart.date(row.editat)
-        , "editby": row.user.name.name_zh
+        , "editat": smart.date(row.updateAt)
+        , "editby": row.updateBy
       }));
     });
     if(_materialList.length == 0 ){
@@ -263,10 +264,10 @@ function render(start, count,keyword) {
         , "fid": row._id
         , "file": row.thumb ? row.thumb.middle : row.fileid
         , "type": row.contentType
-        , "filename": row.filename
+        , "filename": row.name
         , "size": Math.round(row.length / 1024) + " KB"
         , "editat": smart.date(row.editat)
-        , "editby": row.user.name.name_zh
+        , "editby": row.updateBy
       });
 
       colindex++;
