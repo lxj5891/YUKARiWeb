@@ -12,7 +12,7 @@ var ph        = smart.lang.path
   , file = smart.ctrl.file
   , user      = smart.ctrl.user
   , error     = smart.framework.errors
-  , util      = smart.lang.util;
+  , util      = smart.framework.util;
 
 
 //var EventProxy = require('eventproxy');
@@ -23,10 +23,16 @@ exports.list = function(handler, callback) {
     ,condition = {};
 
   if(handler.params.keyword){
-  //应该添加正则表达式，匹配所有包含这个字段的方法
+  //已经添加正则表达式，by zhaobing
     var keyword = handler.params.keyword;
-    condition = {"name":keyword};
+    if (keyword) {
+      keyword = util.quoteRegExp(keyword);
+      condition.name = new RegExp(keyword.toLowerCase(), "i");
+    }
+   // condition = {"name":keyword};
+
   };
+  console.log()
 
   handler.addParams("tags",tags_);
   handler.addParams("condition",  condition);
