@@ -18,12 +18,15 @@ var ph        = smart.lang.path
 //var EventProxy = require('eventproxy');
 /////////edit by zhaobing
 exports.list = function(handler, callback) {
-  var start = handler.params.start || 0
-    , limit = handler.params.limit || 20
-   // , condition = {}
-    , tags_ = handler.params.tags
-    , code_ = handler.params.code
-    , condition = handler.params.keyword
+
+  var tags_ = handler.params.tags
+    ,condition = {};
+
+  if(handler.params.keyword){
+  //应该添加正则表达式，匹配所有包含这个字段的方法
+    var keyword = handler.params.keyword;
+    condition = {"name":keyword};
+  };
 
   handler.addParams("tags",tags_);
   handler.addParams("condition",  condition);
@@ -83,7 +86,7 @@ exports.list = function(handler, callback) {
         return callback_(new error.InternalServer(err));
       }
 
-      // 添加用户信息
+      // 添加用?信息
       user.appendUser(code_, result, "editby", function(err, result){
         return callback_(err, {totalItems: count, items:result});
       });
