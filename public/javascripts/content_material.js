@@ -182,15 +182,15 @@ function events() {
  * 显示对话框
  */
 function renderDialog(row, index) {
-  console.log("xianshiduihuakuang");
-  $('#inputName').val(delExtension(row.filename));
-  $('#extensions').val(row.filename.split(delExtension(row.filename))[1]);
+  console.log("显示对话框");
+  $('#inputName').val(delExtension(row.name));
+  $('#extensions').val(row.name.split(delExtension(row.name))[1]);
   $('#inputSize').val(Math.round(row.length / 1024) + " KB");
-  $('#inputEditBy').val(row.user.name.name_zh);
-  $('#inputEditAt').val(smart.date(row.editat));
+  $('#inputEditBy').val(row.updateBy);
+  $('#inputEditAt').val(smart.date(row.updateAt));
   $('#updatefile').attr("index", index);
   $('#btnSave').attr("index", index);
-  $('#material_detail').attr("src", "/picture/" + row.fileid);
+  $('#material_detail').attr("src", "/picture/" + row._id);
 
   var tag = smart.view("tag").view;
   tag.setDefaults(row.tags);
@@ -236,7 +236,7 @@ function render(start, count,keyword) {
       container_list.append(_.template(tmpl_list, {
           "index": index++ + start
         , "fid": row._id
-        , "file": row.thumb ? row.thumb.middle : row.fileid
+        , "file": row.thumb ? row.thumb.middle : row._id
         , "type": row.contentType
         , "filename": row.name
         , "size": Math.round(row.length / 1024) + " KB"
@@ -262,7 +262,7 @@ function render(start, count,keyword) {
       cols[colindex].push({
           "index": index++
         , "fid": row._id
-        , "file": row.thumb ? row.thumb.middle : row.fileid
+        , "file": row.thumb ? row.thumb.middle : row._id
         , "type": row.contentType
         , "filename": row.name
         , "size": Math.round(row.length / 1024) + " KB"

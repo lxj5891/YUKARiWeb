@@ -5,7 +5,7 @@ var user          = require("../api/user.js")
  // , search        = smart.api.search
   , util          = smart.framework.util
 //  , common        = smart.api.common
-//  , file          = smart.api.dbfile
+  , file          = require("../api/file")
 //  , apn           = smart.api.apn
   , errors        = smart.framework.errors
 //  , json          = smart.core.json
@@ -43,7 +43,7 @@ exports.guiding = function(app){
 
   // 获取图片
   app.get('/picture/:id', function(req, res){
-    file.image(req, res, function(err, doc){
+    file.getImage(req, res, function(err, doc){
       res.send(doc);
     });
   });
