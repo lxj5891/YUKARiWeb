@@ -128,27 +128,40 @@ function events() {
   // 保存文件
   $("#btnSave").bind("click", function(event){
 
-    var tag = []
-      , inputTag = $("#inputTag");
-
-    // 输入框输入的文字，也直接变成Tag
-    if (inputTag.val().length > 0) {
-      tag.push(inputTag.val());
-    }
-
-    $("#textBoxTag li").each(function(index){
-      if ($(this).attr("tagname").length > 0) {
-        tag.push($(this).attr("tagname"));
-      }
-    });
+//    var tag = []
+//      , inputTag = $("#inputTag");
+//
+//    // 输入框输入的文字，也直接变成Tag
+//    if (inputTag.val().length > 0) {
+//      tag.push(inputTag.val());
+//    }
+//暂时取消tag字段，20131225
+//    $("#textBoxTag li").each(function(index){
+//      if ($(this).attr("tagname").length > 0) {
+//        tag.push($(this).attr("tagname"));
+//      }
+//    });
 
     var inputName = $("#inputName").val() + $("#extensions").val();
+
     var index = $(this).attr("index")
       , row = _materialList[index - 1];
     if($("#inputName").val()) {
-        smart.doput("/material/edit.json", {fid: row._id, tags: tag.join(",") , fname:inputName}, function(err, result) {
+      //暂时1去掉tag字段的修改
+      console.log(row);
+      var updatefiletem = {
+        fileInfoId : row._id
+        , name : inputName
+      };
+      console.log(updatefiletem);
+      var body =
+      {updateFile : updatefiletem};
+      console.log("body.updateFile"+body.updateFile);
+//        smart.doput("/material/edit.json", {fid: row._id, tags: tag.join(",") , fname:inputName}, function(err, result) {
+          smart.doput("/material/edit.json", body, function(err, result) {
+            console.log("进到doput");
           if(smart.error(err, i18n["js.common.update.error"], false)){
-
+          console.log("smart.doput");
           } else {
             smart.paginationInitalized = false;
             render(0, 20);
