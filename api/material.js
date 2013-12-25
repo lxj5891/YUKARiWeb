@@ -53,7 +53,6 @@ exports.add = function(req_, res_) {
   console.log("material"+handler.uid);
   log.operation("begin: add an file ", handler.uid);
   material.add(handler,function(err,result){
-    console.log("finish.zhaobing"+handler.uid);
     log.operation("finish: add an file ",handler.uid);
     response.send(res_,err,result);
   })
@@ -84,7 +83,21 @@ exports.add = function(req_, res_) {
 };
 
 // Update a file
+///////////////////////////////////////////////////////
 exports.updatefile = function(req_, res_) {
+  var handler = new context().bind(req_, res_);
+
+  material.updateFile(handler, function(err, result){
+    if (err) {
+      return res_.send(err.code, response.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(response.dataSchema({items: result}));
+    }
+  });
+};
+
+////////////////////////////////////////////////////
+/*exports.updatefile = function(req_, res_) {
 
   var uid = req_.session.user._id
     , user = req_.session.user
@@ -102,33 +115,46 @@ exports.updatefile = function(req_, res_) {
       return res_.send(response.dataSchema({items: result}));
     }
   });
-};
+};*/
 
 // Update
 exports.edit = function(req_, res_) {
+  console.log("req_.body.updateFile"+req_.body.updateFile);
 
-  var uid = req_.session.user._id
-    , user = req_.session.user
-    , fid = req_.body.fid
-    , fname =req_.body.fname
-    , tags = req_.body.tags.split(",")
-    , code = req_.session.user.companycode;
+  var handler = new context().bind(req_,res_);
+  handler.addParams("updateFile",req_.body.updateFile);
 
-  if(!canUpdate(user)){
+//      updateFile=req_.files.files;
+//  console.log("(updateFile是"
+//  +req_.body);
+//  var uid = req_.session.user._id
+//    , user = req_.session.user
+//    , fid = req_.body.fid
+//    , fname =req_.body.fname
+////    , tags = req_.body.tags.split(",")
+//    , code = req_.session.user.companycode;
+
+  if(!canUpdate(req_.session.user)){
     return noUpdateResponse(res_);
   }
 
-  var object = {
-    "tags": tags
-  }
+//  var object = {
+////    "tags": tags
+//  }
+  console.log("--------------api:"+handler.params.updateFile);
+  material.edit(handler,function(err,result){
 
-  material.edit(code, fname , uid, fid, object, function(err, result){
-    if (err) {
-      return res_.send(err.code, response.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(response.dataSchema({items: result}));
-    }
+    log.operation("finish: edit an file ",handler.uid);
+    response.send(res_,err,result);
   });
+
+//  material.edit(code, fname , uid, fid, object, function(err, result){
+//    if (err) {
+//      return res_.send(err.code, response.errorSchema(err.code, err.message));
+//    } else {
+//      return res_.send(response.dataSchema({items: result}));
+//    }
+//  });
 };
 
 // Download a file

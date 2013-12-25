@@ -1,14 +1,14 @@
 var ph        = smart.lang.path
   ,log        =smart.framework.log
   , fs        = smart.lang.fs
-  , async = smart.util.async
-  , _ = smart.util.underscore
+  , async     = smart.util.async
+  , _         = smart.util.underscore
   , material  = require('../modules/mod_material.js')
   , synthetic = require('../modules/mod_synthetic.js')
   , mq        = require('./ctrl_mq.js')
   , confapp   = smart.util.config.app
   , tag       = require('./ctrl_tag')
-  , file = smart.ctrl.file
+  , file      = smart.ctrl.file
   , user      = smart.ctrl.user
   , error     = smart.framework.errors
   , util      = smart.framework.util;
@@ -28,7 +28,7 @@ exports.list = function(handler, callback) {
       keyword = util.quoteRegExp(keyword);
       condition.name = new RegExp(keyword.toLowerCase(), "i");
     }
-   // condition = {"name":keyword};
+
 
   };
   console.log()
@@ -46,59 +46,6 @@ exports.list = function(handler, callback) {
     }
   });
 };
-///////////////////////
-/*exports.list = function(handler, callback_) {
-
-  var start = handler.params.start || 0
-    , limit = handler.params.limit || 20
-    , condition = {}
-    , tags_ = handler.params.tags
-    , code_ = handler.params.code
-//    , user = handler.user
-    , keyword_ = handler.params.keyword
-//    , contentType_ = handler.params.contentType || null;
-
-  // 指定的Tag
-  if (tags_){
-
-    var or = [];
-    _.each(tags_.split(","), function(item){
-      or.push({tags: item});
-    });
-    condition.$or = or;
-  }
-
-//  if  (contentType_){
-//    if("image" == contentType_ )
-//      condition.contentType = /image/;
-//    else if("video" == contentType_)
-//      condition.contentType = /video/;
-//    else
-//      condition.contentType = / /;
-//  }
-  if (keyword_&& keyword_.length>0) {
-    keyword_ = util.quoteRegExp(keyword_);
-    condition.filename = new RegExp(keyword_.toLowerCase(),"i");
-  }
-
-  material.total(code_, condition, function(err, count){
-    if (err) {
-      return callback_(new error.InternalServer(err));
-    }
-
-    material.getList(code_, condition, start, limit, function(err, result){
-      if (err) {
-        return callback_(new error.InternalServer(err));
-      }
-
-      // 添加用?信息
-      user.appendUser(code_, result, "editby", function(err, result){
-        return callback_(err, {totalItems: count, items:result});
-      });
-    });
-  });
-};*/
-
 
 //added by wuql at 20131223 copy from diandianweb ctrl_file
 exports.add = function(handler,callback){
@@ -110,57 +57,6 @@ exports.add = function(handler,callback){
     callback(err,result[0]._id);
   })
 };
-
-
-//exports.add = function(code_, uid_, files_, callback_) {
-
-//  var result = [];
-
-//  async.forEach(files_, function(file, callback){
-//
-//    var name = ph.basename(file.name);
-//    var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
-//    var metadata = {
-//      "author": uid_
-//      , "tags": types(file.type)
-//    };
-//
-//    // To save the file to GridFS
-//    gridfs.save(code_, name, path, metadata, file.type, function(err, doc){
-//
-//      if (err) {
-//          return callback(new error.InternalServer(err));
-//      }
-//
-//      var detail = {};
-//      detail["fileid"] = doc._id;
-//      detail["filename"] = doc.filename;
-//      detail["chunkSize"] = doc.chunkSize;
-//      detail["contentType"] = doc.contentType;
-//      detail["length"] = doc.length;
-//      detail["editat"] = doc.uploadDate;
-//      detail["editby"] = uid_;
-//
-//      material.add(code_, detail, function(err, info){
-//       result.push(info);
-//
-//       // create thumbs
-//       mq.thumb({code: code_
-//         , id: info._id
-//         , fid: doc._id
-//         , collection: "materials"
-//         , x: "0", y: "0"
-//         , width: "0"});
-//
-//         return callback(err);
-//       });
-//    });
-//
-//  },function(err){
-//    return callback_(err, result);
-//  });
-
-//};
 
 /**
  * 更新文件
@@ -208,7 +104,17 @@ exports.updatefile = function(code_, uid_, fid_, file_, callback_) {
   });
 
 };
-
+exports.edit = function(handler,callback){
+  console.log("ctrl----------------------1"+handler.params.updateFile);
+//  console.log("--------------ctrl:"+handler.updateFile.fileName);
+  file.update(handler,function(err, result){
+    if(err){
+      return callback(new error.InternalServer(err));
+    }
+//    console.log("handler.params.updateFile"+handler.params.updateFile);
+    callback(err,result);
+  });
+}
 /**
  * 更新详细信息
  * @param code_
@@ -217,7 +123,7 @@ exports.updatefile = function(code_, uid_, fid_, file_, callback_) {
  * @param detail_
  * @param callback_
  */
-exports.edit = function(code_, fname_ , uid_, fid_, detail_, callback_) {
+/*exports.edit = function(code_, fname_ , uid_, fid_, detail_, callback_) {
 
   detail_["editat"] = new Date();
   detail_["editby"] = uid_;
@@ -269,8 +175,7 @@ exports.edit = function(code_, fname_ , uid_, fid_, detail_, callback_) {
   async.waterfall(tasks, function(err, result){
     return callback_(err, result);
   });
-
-};
+};*/
 
 /**
  * 删除
