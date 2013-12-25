@@ -84,7 +84,8 @@ var Synthetic = new schema({
  */
 
 function model(code) {
-  return conn(code).model("Synthetic", Synthetic);
+  return conn.model(code, "Synthetic", Synthetic);
+
 }
 
 /**

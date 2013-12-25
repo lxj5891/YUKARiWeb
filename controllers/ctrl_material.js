@@ -1,14 +1,13 @@
 var ph        = smart.lang.path
   ,log        =smart.framework.log
   , fs        = smart.lang.fs
-  , sync = smart.util.async
+  , async = smart.util.async
   , _ = smart.util.underscore
   , material  = require('../modules/mod_material.js')
   , synthetic = require('../modules/mod_synthetic.js')
   , mq        = require('./ctrl_mq.js')
   , confapp   = smart.util.config.app
   , tag       = require('./ctrl_tag')
-//  , gridfs    = smart.mod.gridfs
   , file = smart.ctrl.file
   , user      = smart.ctrl.user
   , error     = smart.framework.errors
@@ -21,7 +20,7 @@ exports.list = function(handler, callback) {
 
   var tags_ = handler.params.tags
     ,condition = {};
-
+  condition.valid = 1;
   if(handler.params.keyword){
   //已经添加正则表达式，by zhaobing
     var keyword = handler.params.keyword;
@@ -280,17 +279,35 @@ exports.edit = function(code_, fname_ , uid_, fid_, detail_, callback_) {
  * @param fid_
  * @param callback_
  */
-exports.remove = function(code_, uid_, fid_, callback_) {
-
+//exports.remove = function(code_, uid_, fid_, callback_) {
+//  // 保留GridFS中的文件，而不删除
+//  checkMaterialHasUse(code_, fid_, function(err, count){
+//    if(count>0){
+//      return callback_(new error.BadRequest(__("js.ctr.material.used.error")));
+//    } else {
+//      material.remove(code_, fid_, function(err, info){
+//        return callback_(err, info);
+//      });
+//    }
+//  });
+//}
+exports.remove = function(handler, callback_) {
   // 保留GridFS中的文件，而不删除
-  checkMaterialHasUse(code_, fid_, function(err, count){
+
+  checkMaterialHasUse(handler.code, handler.params.fileInfoId, function(err, count){
+    console.log("count: "+ count);
     if(count>0){
       return callback_(new error.BadRequest(__("js.ctr.material.used.error")));
     } else {
-      material.remove(code_, fid_, function(err, info){
-        return callback_(err, info);
+      file.remove(handler,function(err,result){
+        if(err){
+          return callback_(new error.InternalServer(err));
+        }
+        return callback_(err,result);
       });
-
+//      material.remove(code_, fid_, function(err, info){
+//        return callback_(err, info);
+//      });
     }
   });
 }
@@ -304,24 +321,36 @@ exports.remove = function(code_, uid_, fid_, callback_) {
  */
 function checkMaterialHasUse(code_, material_id, callback){
 
-  var ep = EventProxy.create('cover_use', 'pic_use','txt_use','widget_use', function(cover_use, pic_use, txt_use, widget_use){
-    return callback(null, cover_use + pic_use + txt_use + widget_use);
+  var tasks = [];
+  var count = 0;
+  console.log("count1: " +count);
+  tasks.push(function(cb){
+    synthetic.count(code_, {"cover.material_id": material_id, valid: 1}, function(err,count1){
+      count = count + count1
+      cb(null);
+    });
   });
-
-  synthetic.count(code_, {"cover.material_id": material_id, valid: 1}, function(err,count){
-    ep.emit('cover_use', count);
+  tasks.push(function(cb){
+    synthetic.count(code_, {"metadata.material_id": material_id, valid: 1}, function(err,count1){
+      count = count + count1
+      cb(null);
+    });
   });
-
-  synthetic.count(code_, {"metadata.material_id": material_id, valid: 1}, function(err,count){
-    ep.emit('pic_use', count);
+  tasks.push(function(cb){
+    synthetic.count(code_, {"metadata.txtmaterial_id":material_id, valid: 1}, function(err,count1){
+      count = count + count1
+      cb(null);
+    });
   });
-
-  synthetic.count(code_, {"metadata.txtmaterial_id":material_id, valid: 1}, function(err,count){
-    ep.emit('txt_use', count);
+  tasks.push(function(cb){
+    synthetic.count(code_, {"metadata.widget.action.material_id":material_id, valid: 1}, function(err,count1){
+      count = count + count1
+      cb(null);
+    });
   });
-
-  synthetic.count(code_, {"metadata.widget.action.material_id":material_id, valid: 1}, function(err,count){
-    ep.emit('widget_use', count);
+  async.waterfall(tasks, function(err, result){
+    console.log("count1: " +count);
+    return callback(err, count);
   });
 }
 

@@ -101,7 +101,7 @@ function events() {
       Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
         // OK
-        smart.dodelete("/material/remove.json", {"fid": row._id}, function(err, result){
+        smart.dodelete("/material/remove.json", {"fileInfoId": row._id,"updateFile":{}}, function(err, result){
           if(smart.error(err,i18n["js.public.check.material.delete"],false)){
             return;
           } else {

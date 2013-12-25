@@ -357,23 +357,28 @@ function fixDoc(data) {
 
 // Delete a file
 exports.remove = function(req_, res_) {
+  var handler = new context().bind(req_,res_);
+  console.log("material"+handler.uid);
+  log.operation("begin: remove an file ", handler.uid);
+//  var uid = req_.session.user._id
+//    , fid = req_.body.fid
+//    , user = req_.session.user
+//    , code = req_.session.user.companycode;
 
-  var uid = req_.session.user._id
-    , fid = req_.body.fid
-    , user = req_.session.user
-    , code = req_.session.user.companycode;
-
-  if(!canUpdate(user)){
+  if(!canUpdate(req_.session.user)){
     return noUpdateResponse(res_);
   }
-
-  material.remove(code, uid, fid, function(err, result){
-    if (err) {
-      return res_.send(err.code, response.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(response.dataSchema({items: result}));
-    }
+  material.remove(handler,function(err,result){
+    log.operation("finish: remove an file", handler.uid);
+    response.send(res_,err,result);
   });
+//  material.remove(code, uid, fid, function(err, result){
+//    if (err) {
+//      return res_.send(err.code, response.errorSchema(err.code, err.message));
+//    } else {
+//      return res_.send(response.dataSchema({items: result}));
+//    }
+//  });
 };
 
 
