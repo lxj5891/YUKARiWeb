@@ -20,8 +20,8 @@
 
 <input type="hidden" name="publishFlag" id="publishFlag" value=<%=publishFlag%> >
 <input type="hidden" name="statusFlag" id="statusFlag" value=<%=statusFlag%> >
-<input type="hidden" id="authorityContents" value="<%= user.authority.contents %>" >
-<input type="hidden" id="authorityApprove" value="<%= user.authority.approve %>" >
+<input type="hidden" id="authorityContents" value="<%= user.extend.authority.contents %>" >
+<input type="hidden" id="authorityApprove" value="<%= user.extend.authority.approve %>" >
 
 <% include common/navbar.html %>
 <div class="main-container container-fluid">
