@@ -19,30 +19,27 @@ var _         = smart.util.underscore
 
 
 
-
 /**
  * 获取公司一览
- * @param start_
- * @param limit_
+ * @param handler
  * @param callback
  */
-////////edit by zhaobing//////////////////////////////////
 exports.list = function(handler,callback) {
-  var start=handler.params.query.start
-  ,limit  =handler.params.query.count
-  ,keyword=handler.params.query.keyword;
-  if (keyword) {
-    keyword = util.quoteRegExp(keyword);
-    condition.name = new RegExp(keyword.toLowerCase(), "i");
-  }
-   handler.addParams("start",start)   ;
-   handler.addParams("limit",limit)   ;
-   handler.addParams("condition ", keyword);
-  console.log("*****************"+start);
-  console.log("*****************"+limit);
-  console.log("*****************"+keyword);
-    //order = params.order;
 
+
+  var start_ = handler.params.start
+    , limit_ = handler.params.count
+    , keyword_ =handler.params.keyword;
+
+  var start =  start_||0
+    , limit = limit_||20
+    , condition = { valid:1 };
+  if (keyword_) {
+    condition.$or = [{ "name": new RegExp(keyword.toLowerCase(), "i") }];
+  }
+  handler.addParams("start",start);
+  handler.addParams("limit",limit);
+  handler.addParams("condition",condition);
   company.getList(handler, function(err, result) {
     if (err) {
       log.error(err, uid);
@@ -51,34 +48,7 @@ exports.list = function(handler,callback) {
       return callback(err, result);
     }
   });
-}
-/////////////////////////////////
-/*exports.list = function(start_, limit_, keyword ,callback) {
-
-  var start = start_ || 0
-    , limit = limit_ || 20
-    , condition = { valid:1 };
-
-  if (keyword) {
-    condition.$or = [{ "name": new RegExp(keyword.toLowerCase(), "i") }];
-  }
-
-  // 获取件数
-  company.total(condition, function(err, count) {
-    if (err) {
-      return callback(new error.InternalServer(err));
-    }
-
-    // 获取一览
-    company.getList(condition, start, limit, function(err, result) {
-      if (err) {
-        return callback(new error.InternalServer(err));
-      }
-
-      return callback(err,  {totalItems: count, items:result});
-    });
-  });
-};*/
+};
 
 exports.companyListWithDevice = function(start_, limit_, callback){
   exports.getList(start_, limit_, function(err, comps){

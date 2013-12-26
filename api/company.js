@@ -19,21 +19,16 @@ function commonCheck(req_, res_) {
 // 获取公司一览
 exports.list = function(req_, res_) {
   var handler=new context().bind(req_, res_);
-  console.log("apiapi"+req_.query.start);
-  console.log("apiapi"+req_.query.limit);
-  console.log("apiapi"+req_.query.keyword);
   //权限check
   if (!commonCheck(req_, res_)) {
-      return;
+    return;
   };
-  company.list(handler, function(err, result) {
-    if (err) {
-      return res_.send(err.code, response.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(response.dataSchema(result));
-    }
+  company.list(handler , function(err, result) {
+    log.operation("finish: find list: ",handler.uid);
+    response.send(res_,err,result);
   });
 };
+
 
 // 获取指定公司
 exports.searchOne = function(req_, res_) {
