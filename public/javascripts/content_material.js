@@ -30,7 +30,6 @@ var _materialList;
  * 注册事件
  */
 function events() {
-  console.log("zhuceshijian");
   $("#txt_search").bind("change",function(){
       var _keyword = '';
       _keyword =  $("#txt_search").val();
@@ -148,20 +147,15 @@ function events() {
       , row = _materialList[index - 1];
     if($("#inputName").val()) {
       //暂时1去掉tag字段的修改
-      console.log(row);
       var updatefiletem = {
         fileInfoId : row._id
         , name : inputName
       };
-      console.log(updatefiletem);
       var body =
       {updateFile : updatefiletem};
-      console.log("body.updateFile"+body.updateFile);
 //        smart.doput("/material/edit.json", {fid: row._id, tags: tag.join(",") , fname:inputName}, function(err, result) {
           smart.doput("/material/edit.json", body, function(err, result) {
-            console.log("进到doput");
           if(smart.error(err, i18n["js.common.update.error"], false)){
-          console.log("smart.doput");
           } else {
             smart.paginationInitalized = false;
             render(0, 20);
@@ -195,7 +189,6 @@ function events() {
  * 显示对话框
  */
 function renderDialog(row, index) {
-  console.log("显示对话框");
   $('#inputName').val(delExtension(row.name));
   $('#extensions').val(row.name.split(delExtension(row.name))[1]);
   $('#inputSize').val(Math.round(row.length / 1024) + " KB");
@@ -221,7 +214,6 @@ function delExtension(str) {
  * 绘制画面
  */
 function render(start, count,keyword) {
-  console.log("huizhihuamian");
   var tags = [];
   _.each($("#taglist").find(".selected_tag"), function(item){
     tags.push($(item).html());
@@ -243,7 +235,6 @@ function render(start, count,keyword) {
     var tmpl_list = $('#tmpl_material_list').html()
       , container_list = $("#material_list")
       , index = 1;
-    console.log("container_list.html");
     container_list.html("");
     _.each(_materialList, function(row){
       container_list.append(_.template(tmpl_list, {
@@ -350,10 +341,11 @@ function updateFiles(index, files) {
   }
 
   var fd = new FormData();
-  fd.append("fid", _materialList[index - 1]._id);
+  fd.append("fileInfoId", _materialList[index - 1]._id);
   for (var i = 0; i < files.length; i++) {
-    fd.append("files", files[i]);
+    fd.append("updateFile", files[i]);
   }
+
 
   // 显示进度条
   $("#upload_progress_dlg").modal("show");

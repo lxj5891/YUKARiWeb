@@ -1,5 +1,4 @@
-var async           = smart.framework.async
-  , _               = smart.util.underscore
+var  _               = smart.util.underscore
   , response            = smart.framework.response
   , context         = smart.framework.context
   , errors          = smart.framework.errors
@@ -19,28 +18,13 @@ var async           = smart.framework.async
  */
 exports.list = function(req, res) {
 
-//  var code = req_.session.user.companycode
-//    ,
   var user = req.session.user;
-//    , keyword = req_.query.keyword          // 检索用关键字
-//    , tags = req_.query.tags                // 选中的tag
-//    , start = req_.query.start
-//    , limit = req_.query.count
-//    , contentType = req_.query.contentType;
- // console.log("api: " + req.query.contentType);
   var handler = new context().bind(req,res);
-
   if(!canUpdate(user)){
     return noAccessResponse(res);
   }
 
-
   material.list(handler, function(err, result) {
-//    if (err) {
-//      return res_.send(err.code, response.errorSchema(err.code, err.message));
-//    } else {
-//      return res_.send(response.createDataSchema(result));
-//    }
     log.operation("finish: find list: ",handler.uid);
     response.send(res,err,result);
   });
@@ -48,113 +32,46 @@ exports.list = function(req, res) {
 
 // Add new file
 exports.add = function(req_, res_) {
-
   var handler = new context().bind(req_,res_);
-  console.log("material"+handler.uid);
   log.operation("begin: add an file ", handler.uid);
+
   material.add(handler,function(err,result){
     log.operation("finish: add an file ",handler.uid);
     response.send(res_,err,result);
-  })
-//  var uid = req_.session.user._id
-//    , user = req_.session.user
-//    , code = req_.session.user.companycode;
-//
-//  if(!canUpdate(user)){
-//    return noUpdateResponse(res_);
-//  }
-//
-//  // Get file list from the request
-//  var files = [];
-//  if (req_.files.files instanceof Array) {
-//    files = req_.files.files;
-//  } else {
-//    files.push(req_.files.files);
-//  }
-//
-//  // Save to GridFS and tables
-//  material.add(code, uid, files, function(err, result){
-//    if (err) {
-//      return res_.send(err.code, response.errorSchema(err.code, err.message));
-//    } else {
-//      return res_.send(response.dataSchema({items: result}));
-//    }
-//  });
-};
+  });
+}
 
-// Update a file
-///////////////////////////////////////////////////////
 exports.updatefile = function(req_, res_) {
-  var handler = new context().bind(req_, res_);
-
-  material.updateFile(handler, function(err, result){
-    if (err) {
-      return res_.send(err.code, response.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(response.dataSchema({items: result}));
-    }
-  });
-};
-
-////////////////////////////////////////////////////
-/*exports.updatefile = function(req_, res_) {
-
-  var uid = req_.session.user._id
-    , user = req_.session.user
-    , fid = req_.body.fid
-    , code = req_.session.user.companycode;
-
-  if(!canUpdate(user)){
-    return noUpdateResponse(res_);
-  }
-
-  material.updatefile(code, uid, fid, req_.files.files, function(err, result){
-    if (err) {
-      return res_.send(err.code, response.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(response.dataSchema({items: result}));
-    }
-  });
-};*/
-
-// Update
-exports.edit = function(req_, res_) {
-  console.log("req_.body.updateFile"+req_.body.updateFile);
-
   var handler = new context().bind(req_,res_);
-  handler.addParams("updateFile",req_.body.updateFile);
-
-//      updateFile=req_.files.files;
-//  console.log("(updateFile是"
-//  +req_.body);
-//  var uid = req_.session.user._id
-//    , user = req_.session.user
-//    , fid = req_.body.fid
-//    , fname =req_.body.fname
-////    , tags = req_.body.tags.split(",")
-//    , code = req_.session.user.companycode;
 
   if(!canUpdate(req_.session.user)){
     return noUpdateResponse(res_);
   }
+  console.log(handler.params);
+  material.updatefile(handler ,function(err, result){
+    log.operation("finish: update an file ",handler.uid);
+    response.send(res_,err,result);
 
-//  var object = {
-////    "tags": tags
-//  }
-  console.log("--------------api:"+handler.params.updateFile);
+
+  });
+
+}
+
+
+// Update
+exports.edit = function(req_, res_) {
+  var handler = new context().bind(req_,res_);
+  handler.addParams("updateFile",req_.body.updateFile);
+  if(!canUpdate(req_.session.user)){
+    return noUpdateResponse(res_);
+  }
   material.edit(handler,function(err,result){
 
     log.operation("finish: edit an file ",handler.uid);
     response.send(res_,err,result);
   });
 
-//  material.edit(code, fname , uid, fid, object, function(err, result){
-//    if (err) {
-//      return res_.send(err.code, response.errorSchema(err.code, err.message));
-//    } else {
-//      return res_.send(response.dataSchema({items: result}));
-//    }
-//  });
+
 };
 
 // Download a file
@@ -384,12 +301,7 @@ function fixDoc(data) {
 // Delete a file
 exports.remove = function(req_, res_) {
   var handler = new context().bind(req_,res_);
-  console.log("material"+handler.uid);
   log.operation("begin: remove an file ", handler.uid);
-//  var uid = req_.session.user._id
-//    , fid = req_.body.fid
-//    , user = req_.session.user
-//    , code = req_.session.user.companycode;
 
   if(!canUpdate(req_.session.user)){
     return noUpdateResponse(res_);
@@ -398,15 +310,7 @@ exports.remove = function(req_, res_) {
     log.operation("finish: remove an file", handler.uid);
     response.send(res_,err,result);
   });
-//  material.remove(code, uid, fid, function(err, result){
-//    if (err) {
-//      return res_.send(err.code, response.errorSchema(err.code, err.message));
-//    } else {
-//      return res_.send(response.dataSchema({items: result}));
-//    }
-//  });
 };
-
 
 // author check
 
