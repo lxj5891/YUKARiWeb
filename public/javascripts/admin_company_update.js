@@ -60,18 +60,21 @@ function render(compid) {
 
 //取得公司信息
 function getCompanyData() {
-  var company = {
-     companyType: $("#inputCompanyType").attr('value')
-    , mail: $("#inputAdmin").val()
-    , name: $("#inputNameEn").val()
-    , kana: $("#inputNameJp").val()
+  var extend = {
+     kana: $("#inputNameJp").val()
     , address: $("#inputAddress").val()
     , tel: $("#inputTel").val()
-    , active: $("#inputActive").attr('value')
+  }
+  var company = {
+     type: $("#inputCompanyType").attr('value')
+    , mail: $("#inputAdmin").val()
+    , name: $("#inputNameEn").val()
+    , valid: $("#inputActive").attr('value')
   };
+  company.extend = extend;
   //编集时,如果会社ID没有变更,不提交.
   if ($("#inputComPath").val() != $("#inputComPath").attr("oldpath")) {
-    company.path = $("#inputComPath").val();
+    company.domain = $("#inputComPath").val();
   }
   company.code = $("#inputComPath").attr("code");
   return company;
@@ -101,7 +104,6 @@ function addCompany(company,user) {
     } else {
       window.location = "/admin/company";
     }
-
   });
 }
 

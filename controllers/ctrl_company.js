@@ -7,13 +7,15 @@
 "use strict";
 
 var _         = smart.util.underscore
-  , sync      = smart.util.async
+  , async      = smart.util.async
   , check     = smart.util.validator.check
   , error     = smart.framework.errors
+  , log       = smart.framework.log
   , user      = smart.ctrl.user
   , auth      = smart.framework.auth
+  , context         = smart.framework.context
   , device    = require('../controllers/ctrl_device')
-  , company   = require('../modules/mod_company.js');
+  , company   = smart.ctrl.company;
 
 
 
@@ -24,7 +26,34 @@ var _         = smart.util.underscore
  * @param limit_
  * @param callback
  */
-exports.list = function(start_, limit_, keyword ,callback) {
+////////edit by zhaobing//////////////////////////////////
+exports.list = function(handler,callback) {
+  var start=handler.params.query.start
+  ,limit  =handler.params.query.count
+  ,keyword=handler.params.query.keyword;
+  if (keyword) {
+    keyword = util.quoteRegExp(keyword);
+    condition.name = new RegExp(keyword.toLowerCase(), "i");
+  }
+   handler.addParams("start",start)   ;
+   handler.addParams("limit",limit)   ;
+   handler.addParams("condition ", keyword);
+  console.log("*****************"+start);
+  console.log("*****************"+limit);
+  console.log("*****************"+keyword);
+    //order = params.order;
+
+  company.getList(handler, function(err, result) {
+    if (err) {
+      log.error(err, uid);
+      return callback(new errors.NotFound("js.ctr.common.system.error"));
+    } else {
+      return callback(err, result);
+    }
+  });
+}
+/////////////////////////////////
+/*exports.list = function(start_, limit_, keyword ,callback) {
 
   var start = start_ || 0
     , limit = limit_ || 20
@@ -49,7 +78,7 @@ exports.list = function(start_, limit_, keyword ,callback) {
       return callback(err,  {totalItems: count, items:result});
     });
   });
-};
+};*/
 
 exports.companyListWithDevice = function(start_, limit_, callback){
   exports.getList(start_, limit_, function(err, comps){
@@ -102,105 +131,55 @@ exports.getByCode = function( code, callback_) {
 
 };
 
-exports.add = function(uid_, data_, callback_) {
-
-  try {
-    /** 公司*/
-    //会社名(かな)
-    if (data_.body_company.kana != undefined) {
-      check(data_.body_company.kana, __("js.ctr.check.company.kana.min")).notEmpty();
-      check(data_.body_company.kana, __("js.ctr.check.company.kana.max")).notEmpty().len(1,30);
-    }
-    //会社名(英語)
-    if (data_.body_company.name != undefined) {
-//      check(data_.body_company.name, __("js.ctr.check.company.name.min")).notEmpty();
-      check(data_.body_company.name, __("js.ctr.check.company.name.max")).len(0,30);
-    }
-    //会社ID
-    if (data_.body_company.path != undefined) {
-      check(data_.body_company.path, __("js.ctr.check.company.path.min")).notEmpty();
-      check(data_.body_company.path, __("js.ctr.check.company.path.max")).len(0,20);
-    }
-    //会社住所
-    if (data_.body_company.address != undefined) {
-//      check(data_.body_company.address, __("js.ctr.check.company.address.min")).notEmpty();
-      check(data_.body_company.address, __("js.ctr.check.company.address.max")).len(0,50);
-    }
-    //電話番号
-    if (data_.body_company.tel != undefined) {
-      check(data_.body_company.tel, __("js.ctr.check.company.tel")).len(0,30);
-    }
-    //有効性
-    if (data_.body_company.active != undefined) {
-      check(data_.body_company.active, __("js.ctr.check.company.active")).equals("1");
-    }
-    //
-    /** 用户*/
-    if (data_.body_user.userid != undefined) {
-      check(data_.body_user.userid, __("js.ctr.check.company.user.uid.min")).notEmpty();
-      check(data_.body_user.userid, __("js.ctr.check.company.user.uid.max")).notEmpty().len(3,30);
-      check(data_.body_user.userid, __("js.ctr.check.company.user.uid.ismail")).notEmpty().isEmail();
-    }
-
-    if (data_.body_user.password != undefined) {
-      check(data_.body_user.password, __("js.ctr.check.company.user.password.min")).notEmpty();
-      check(data_.body_user.password, __("js.ctr.check.company.user.password.max")).notEmpty().len(1,20);
-    }
-
-  } catch (e) {
-    return callback_(new error.BadRequest(e.message));
+exports.add = function(handler, callback) {
+  var comphandler = new context().create(handler.uid,"","");
+  var comp = handler.params.body_company;
+  if(comp.code){
+    comphandler.params.code = comp.code;
   }
+  comphandler.params.name = comp.name;
+  comphandler.params.domain = comp.domain;
+  comphandler.params.type = comp.type;
+  comphandler.params.extend = comp.extend;
 
-  var comp_ = data_.body_company;
-    comp_.createat = new Date();
-    comp_.createby = uid_;
-    comp_.editat = new Date();
-    comp_.editby = uid_;
+  var tasks = [];
 
-  var user_ = data_.body_user;
-    user_.createat = new Date();
-    user_.createby = uid_;
-    user_.editat = new Date();
-    user_.editby = uid_;
-
-  sync.waterfall([
-    function(callback) {
-      // check path
-      company.getByPath(comp_.path, function(err, result){
-        if (err) {
-          return  callback(new error.InternalServer(__("js.ctr.common.system.error")));
-        }
-        if (result) {
-          return callback(new error.BadRequest(__("js.ctr.check.company.path")));
-        } else {
-          return callback(err);
-        }
-      });
-    },
-    // 添加公司
-    function(callback) {
-        company.add(comp_, function(err, result) {
-            callback(err, result);
-
-        });
-    },
-    // 添加用户
-    function(result,callback) {
-        user_.type = 1;
-        user_.active = 1;
-        user_.companyid = result.id;
-        user_.companycode = result.code;
-        user.addByDBName(user_.companycode, uid_, user_, function(err,resultuser){
-            if (err) {
-           //TODO  rollback未对应
-            }
-            callback(err, result);
-        });
-    }
-
-    ], function(err, result) {
-        callback_(err, result);
+  tasks.push(function(callback){
+  //添加公司
+    company.add(comphandler, function(err, result) {
+      if (err) {
+        log.error(err, comphandler.uid);
+        return callback(new error.NotFound("js.ctr.common.system.error"));
+      } else {
+        return callback(err, result);
+      }
     });
+  });
+
+  tasks.push(function(result,callback){
+    var userhandler = new context().create(handler.uid,result.code,handler.params.body_user.lang)
+      , inuser = handler.params.body_user;
+    userhandler.params.userName = inuser.userid;
+    userhandler.params.password = inuser.password;
+    userhandler.params.timezone = inuser.timezone;
+    userhandler.params.lang = inuser.lang;
+    var extend  = {};
+    extend.type = 1;
+    userhandler.params.extend = extend;
+  //添加用户
+    user.add(userhandler,function(err,result){
+      if (err) {
+        log.error(err, userhandler.uid);
+        return callback(new error.NotFound("js.ctr.common.system.error"));
+      } else {
+        return callback(err, result);
+      }
+    })
+  });
+  async.waterfall(tasks, function(err, result){
+    return callback(err, result);
+  });
+
 };
 
 /**
@@ -290,4 +269,20 @@ exports.active= function(uid_, comp_, callback_) {
   });
 
 };
+//随机生成唯一的code
+function createCode(callback) {
 
+  var guid8 = util.randomGUID8();
+
+  comp.count({ code: guid8 }).exec(function(err, count) {
+    if (err) {
+      return callback(err);
+    }
+
+    if (count > 0) {
+      createCode(comp, callback);
+    } else {
+      return callback(err, guid8);
+    }
+  });
+}

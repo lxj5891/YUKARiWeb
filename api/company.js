@@ -1,6 +1,8 @@
-var json      = smart.framework.response
+var response      = smart.framework.response
   , errors    = smart.framework.errors
-  , adminuser = require('../controllers/ctrl_admin_user')
+  , log = smart.framework.log
+  , context         = smart.framework.context
+  , company = require('../controllers/ctrl_company')
   , util      = require('../core/utils');
 //权限check
 function commonCheck(req_, res_) {
@@ -8,7 +10,7 @@ function commonCheck(req_, res_) {
   //DA系统管理员,开发人员以外的场合,不能访问.
   if (!util.isSystemAdmin(user)  && !util.isSuperAdmin(user)) {
     var err= new errors.Forbidden(__("js.common.access.check"));
-    res_.send(err.code, json.errorSchema(err.code, err.message));
+    res_.send(err.code, response.errorSchema(err.code, err.message));
     return false;
   }
   return true;
@@ -16,20 +18,19 @@ function commonCheck(req_, res_) {
 
 // 获取公司一览
 exports.list = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
+  console.log("apiapi"+req_.query.start);
+  console.log("apiapi"+req_.query.limit);
+  console.log("apiapi"+req_.query.keyword);
   //权限check
   if (!commonCheck(req_, res_)) {
       return;
   };
-
-  var start = req_.query.start
-    , limit = req_.query.count
-    , keyword = req_.query.keyword
-
-  company.list(start, limit, keyword , function(err, result) {
+  company.list(handler, function(err, result) {
     if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
+      return res_.send(err.code, response.errorSchema(err.code, err.message));
     } else {
-      return res_.send(json.dataSchema(result));
+      return res_.send(response.dataSchema(result));
     }
   });
 };
@@ -45,9 +46,9 @@ exports.searchOne = function(req_, res_) {
 
   company.searchOne(compid, function(err, result) {
       if (err) {
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
+          return res_.send(err.code, response.errorSchema(err.code, err.message));
       } else {
-          return res_.send(json.dataSchema(result));
+          return res_.send(response.dataSchema(result));
       }
   });
 };
@@ -58,9 +59,9 @@ exports.getByPath = function(req_, res_) {
 
   company.getByPath(getPath, function(err, result) {
     if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
+      return res_.send(err.code, response.errorSchema(err.code, err.message));
     } else {
-      return res_.send(json.dataSchema(result));
+      return res_.send(response.dataSchema(result));
     }
   });
 };
@@ -70,15 +71,10 @@ exports.add = function(req_, res_) {
   if (!commonCheck(req_, res_)) {
     return;
   };
-
-  var uid = req_.session.user._id;
-
-  company.add(uid, req_.body, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+  var handler = new context().bind(req_, res_);
+  company.add(handler, function(err, result) {
+    log.operation("finish: add an company: ",handler.uid);
+    response.send(res_,err,result);
   });
 };
 // 更新公司
@@ -92,9 +88,9 @@ exports.update = function(req_, res_) {
 
   company.update(uid, req_.body, function(err, result) {
       if (err) {
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
+          return res_.send(err.code, response.errorSchema(err.code, err.message));
       } else {
-          return res_.send(json.dataSchema(result));
+          return res_.send(response.dataSchema(result));
       }
   });
 };
@@ -109,9 +105,9 @@ exports.active = function(req_, res_) {
 
   company.active(uid, req_.body, function(err, result) {
     if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
+      return res_.send(err.code, response.errorSchema(err.code, err.message));
     } else {
-      return res_.send(json.dataSchema(result));
+      return res_.send(response.dataSchema(result));
     }
   });
 };
@@ -123,9 +119,9 @@ exports.companyListWithDevice = function(req_, res_) {
 
   company.companyListWithDevice(start, limit, function(err, result) {
     if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
+      return res_.send(err.code, response.errorSchema(err.code, err.message));
     } else {
-      return res_.send(json.dataSchema(result));
+      return res_.send(response.dataSchema(result));
     }
   });
 };
