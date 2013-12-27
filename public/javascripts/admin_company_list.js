@@ -25,14 +25,14 @@ function render(start, count, keyword) {
         container.append(_.template(tmpl, {
           "index": index++ + start
           , "type": row.companyType
-          , "_id": row.path
+          , "_id": row.domain
           , "name": row.name
-          , "kana": row.kana
+          , "kana": row.extend.kana
           , "tel": row.tel
           , "address": row.address
-          , "mail": row.mail
-          , "createat": smart.date(row.createat)
-          , "active": row.active
+          , "mail":row.userName
+          , "createat": smart.date(row.createAt)
+          , "active": row.extend.active
           , "code" : row.code
         }));
       });
@@ -71,7 +71,7 @@ function events() {
       , row = companyList[index - 1];
     // 编辑按钮
     if (operation == "edit") {
-      window.location = "/admin/company/edit/" + row._id;
+      window.location = "/admin/company/edit/" + row.domain;
     }
     // 无效按钮
     if (operation == "active") {

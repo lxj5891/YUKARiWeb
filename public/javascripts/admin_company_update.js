@@ -2,6 +2,7 @@ $(function () {
   'use strict';
   //取得URL参数
   var compid = $('#compId').val();
+  console.log("------------------------------"+compid);
   //画面表示
   render(compid);
   //事件追加
@@ -30,22 +31,23 @@ function render(compid) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
-        var inputCompanyType = result.companyType;
+        console.log(result);
+        var inputCompanyType = result.compInfo.type;// result.companyType
         new ButtonGroup("inputCompanyType", inputCompanyType).init();
         $("#inputContract").attr('disabled','disabled');
         $("#inputDemo").attr('disabled','disabled');
-        $("#inputAdmin").val(result.mail);
+        $("#inputAdmin").val(result.items[0].userName);
         $("#inputAdmin").attr('disabled','disabled')
         $("#inputPassword").attr('type',"hidden");
         $("#labelInputPass").css("display","none");
-        $("#inputNameEn").val(result.name);
-        $("#inputNameJp").val(result.kana);
-        $("#inputAddress").val(result.address);
-        $("#inputTel").val(result.tel);
-        $("#inputComPath").val(result.path);
-        $("#inputComPath").attr("oldpath",result.path);
-        $("#inputComPath").attr("code",result.code);
-        var inputActive = result.active == 1 ? "1" : "0";
+        $("#inputNameEn").val(result.compInfo.name);
+        $("#inputNameJp").val(result.compInfo.extend.kana);
+        $("#inputAddress").val(result.compInfo.extend.address);
+        $("#inputTel").val(result.compInfo.extend.tel);
+        $("#inputComPath").val(result.compInfo.domain);
+        $("#inputComPath").attr("oldpath",result.compInfo.domain );
+        $("#inputComPath").attr("code",result.compInfo.code);
+        var inputActive = result.compInfo.extend.active == 1 ? 1 : 0;
         new ButtonGroup("inputActive", inputActive).init();
 
         $("#inputActiveGroup").css("display","none");

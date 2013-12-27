@@ -7,6 +7,8 @@
 "use strict";
 
 var _         = smart.util.underscore
+  ,ph          =smart.lang.path
+  ,user        =smart.ctrl.user
   , async      = smart.util.async
   , check     = smart.util.validator.check
   , error     = smart.framework.errors
@@ -23,31 +25,57 @@ var _         = smart.util.underscore
  * 获取公司一览
  * @param handler
  * @param callback
+ * @auth zhaobing
  */
 exports.list = function(handler,callback) {
-
 
   var start_ = handler.params.start
     , limit_ = handler.params.count
     , keyword_ =handler.params.keyword;
-
   var start =  start_||0
     , limit = limit_||20
     , condition = { valid:1 };
   if (keyword_) {
-    condition.$or = [{ "name": new RegExp(keyword.toLowerCase(), "i") }];
+    condition.$or = [{ "name": new RegExp(keyword_.toLowerCase(), "i") }];
   }
+
   handler.addParams("start",start);
   handler.addParams("limit",limit);
   handler.addParams("condition",condition);
+
   company.getList(handler, function(err, result) {
+    var items = result.items;
+
     if (err) {
       log.error(err, uid);
       return callback(new errors.NotFound("js.ctr.common.system.error"));
     } else {
-      return callback(err, result);
-    }
-  });
+      for(var k in items) {
+        items[k].kindex = k;
+      }
+      var complist = [];
+      var getUserByCode= function (comp_,sub_callback){
+        var userhandler = new context().create("",comp_._doc.code,"");
+        var condition = {"extend.type":1};
+        userhandler.addParams("condition",condition);
+        user.getList(userhandler,function(err,result){
+          var userItem = result.items;
+          if (err) {
+            return callback(new error.InternalServer(err));
+          }else{
+            if(userItem && userItem.length>0){
+              comp_._doc.userName = userItem[0].userName;
+            }
+            complist[comp_.kindex] = comp_;
+            sub_callback(err,result);
+          }
+        });
+
+      }
+      async.forEach(items,getUserByCode,function(err){
+        callback(err,result);
+      });
+  }});
 };
 
 exports.companyListWithDevice = function(start_, limit_, callback){
@@ -62,22 +90,43 @@ exports.companyListWithDevice = function(start_, limit_, callback){
 
       });
     };
-    sync.forEach(comps.items, task_getDeviceCount, function(err){
+    async.forEach(comps.items, task_getDeviceCount, function(err){
       callback(err, comps);
     });
 
 
   });
-}
+};
 
-exports.searchOne = function( compid, callback_) {
-    company.get(compid, function(err, result){
-        if (err) {
-            return callback_(new error.InternalServer(err));
-        }
-        return callback_(err, result);
+exports.searchOne = function( handler, callback) {
+  handler.addParams("domain",handler.params.compid);
+  var compInfo = {};
+  company.getByDomain(handler,function(err,result){
+    var items = result;
+    compInfo = result;
+    if (err) {
+      log.error(err, uid);
+      return callback(new errors.NotFound("js.ctr.common.system.error"));
+    } else {
+        var userhandler = new context().create("",items._doc.code,"");
+        var condition = {"extend.type":1};
+        userhandler.addParams("condition",condition);
+        user.getList(userhandler,function(err,result){
+          var userItem = result.items;
+          console.log(" userItem"+ userItem);
+          if (err) {
+            return callback(new error.InternalServer(err));
+          }else{
+            if(userItem && userItem.length>0){
+              result.compInfo = compInfo;
+              items._doc.userName = userItem[0].userName;
+              return callback(err,result);
+           }
+          }
+        });
+      }
+
     });
-
 };
 
 // 通过公司ID获取指定公司
@@ -219,7 +268,7 @@ exports.active= function(uid_, comp_, callback_) {
   comp_.editby = uid_;
   var dbName = comp_.code;
 
-  sync.waterfall([
+  async.waterfall([
     // 更新公司
     function(callback) {
       company.update(comp_.id,comp_, function(err, result) {

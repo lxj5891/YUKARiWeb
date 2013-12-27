@@ -9,7 +9,7 @@ var  json      = smart.framework.response
 //yukri
 exports.adminlist = function(uid_,callback) {
     company.find({active:1,valid:1},function(err,comps) {
-      for(var k in comps){
+      for(var k in comps) {
         comps[k].kindex = k;
       }
        if(err) {
@@ -35,7 +35,6 @@ exports.adminlist = function(uid_,callback) {
            });
          };
          sync.forEach(comps, allUserFunc, function(err){
-           console.log(comUserList);
            for(var j in comUserList){
              allUserList = allUserList.concat(comUserList[j]);
            }

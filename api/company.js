@@ -23,7 +23,7 @@ exports.list = function(req_, res_) {
   if (!commonCheck(req_, res_)) {
     return;
   };
-  company.list(handler , function(err, result) {
+    company.list(handler , function(err, result) {
     log.operation("finish: find list: ",handler.uid);
     response.send(res_,err,result);
   });
@@ -32,19 +32,14 @@ exports.list = function(req_, res_) {
 
 // 获取指定公司
 exports.searchOne = function(req_, res_) {
+  var handler =new context().bind(req_, res_);
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
-
-  var compid = req_.query.compid;
-
-  company.searchOne(compid, function(err, result) {
-      if (err) {
-          return res_.send(err.code, response.errorSchema(err.code, err.message));
-      } else {
-          return res_.send(response.dataSchema(result));
-      }
+  company.searchOne(handler, function(err, result) {
+    log.operation("finish: find list: ",handler.uid);
+    response.send(res_,err,result);
   });
 };
 // 获取指定公司ID
