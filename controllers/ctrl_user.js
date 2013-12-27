@@ -8,6 +8,7 @@
   , auth     = smart.framework.auth
   , log       = smart.framework.log
   , company   = smart.ctrl.company
+  , context = smart.framework.context;
 
 
 // added by wuql from api/user edit by zhaobing
@@ -19,18 +20,22 @@ exports.simpleLogin = function(req, res){
   };
   var path = req.query.path; // 公司ID, Web登陆用
   var code = req.query.code; // 公司Code，iPad登陆用
+// パスワードのsha256文字列を取得する
+  req.query.password = auth.sha256(req.query.password);
   // 登陆到公司的DB进行Login
   if(path) {
-//    ctrl_company.getByPath(path, function(err, comp){
-//      if(err)
-//        return errorsExt.sendJSON(res, err);
-//      if(!comp)
-//        return errorsExt.sendJSON(res, errorsExt.NoCompanyID);
-      // var companyDB = comp.code;
-      req.query.code= "4e7ad44a";
-//    })
+      var handler = new context().bind(req,res);
+      handler.addParams("domain",path);
+      company.getByDomain(handler,function(err,result){
+        if (err) {
+          log.error(err, path);
+        }else{
+          req.query.code = result._doc.code;
+          userLogin (req, res )
+        }
+      });
     // iPad登陆
-  } else if(code) {
+  }else if(code) {
     ctrl_company.getByCode(code, function(err, comp){
       if(err)
         return errorsExt.sendJSON(res, err);
@@ -38,27 +43,25 @@ exports.simpleLogin = function(req, res){
         return errorsExt.sendJSON(res, errorsExt.NoCompanyCode);
 //      var companyDB = comp.code;
       req.query.companycode = code;
+      userLogin (req, res )
     });
+  } else {
+    userLogin (req, res )
   }
-
   log.debug("user name: " + req.query.name);
-
-  // パスワードのsha256文字列を取得する
-  req.query.password = auth.sha256(req.query.password);
-
-  // 認証処理
-  auth.simpleLogin(req, res, function(err, result) {
-
-    if (err) {
-      log.error(err, undefined);
-      log.audit("login failed.", req.query.name);
-    } else {
-      log.audit("login succeed.", result._id);
-    }
-
-    response.send(res, err, result);
-  });
 };
+// 認証処理
+function userLogin (req, res ){
+  auth.simpleLogin(req, res, function(err, result) {
+  if (err) {
+    log.error(err, undefined);
+    log.audit("login failed.", req.query.name);
+  } else {
+    log.audit("login succeed.", result._id);
+  }
+  response.send(res, err, result);
+});
+}
 
 
 //yukri
