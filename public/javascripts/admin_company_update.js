@@ -64,12 +64,12 @@ function getCompanyData() {
      kana: $("#inputNameJp").val()
     , address: $("#inputAddress").val()
     , tel: $("#inputTel").val()
+    , active: $("#inputActive").attr('value')
   }
   var company = {
      type: $("#inputCompanyType").attr('value')
     , mail: $("#inputAdmin").val()
     , name: $("#inputNameEn").val()
-    , valid: $("#inputActive").attr('value')
   };
   company.extend = extend;
   //编集时,如果会社ID没有变更,不提交.
