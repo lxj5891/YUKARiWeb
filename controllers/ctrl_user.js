@@ -7,7 +7,7 @@
   , response    = smart.framework.response
   , auth     = smart.framework.auth
   , log       = smart.framework.log
-  , company   = require('../modules/mod_company');
+  , company   = smart.ctrl.company
 
 
 // added by wuql from api/user edit by zhaobing
@@ -21,14 +21,14 @@ exports.simpleLogin = function(req, res){
   var code = req.query.code; // 公司Code，iPad登陆用
   // 登陆到公司的DB进行Login
   if(path) {
-    ctrl_company.getByPath(path, function(err, comp){
-      if(err)
-        return errorsExt.sendJSON(res, err);
-      if(!comp)
-        return errorsExt.sendJSON(res, errorsExt.NoCompanyID);
+//    ctrl_company.getByPath(path, function(err, comp){
+//      if(err)
+//        return errorsExt.sendJSON(res, err);
+//      if(!comp)
+//        return errorsExt.sendJSON(res, errorsExt.NoCompanyID);
       // var companyDB = comp.code;
-      req.query.companycode= comp.code;
-    })
+      req.query.code= "4e7ad44a";
+//    })
     // iPad登陆
   } else if(code) {
     ctrl_company.getByCode(code, function(err, comp){
