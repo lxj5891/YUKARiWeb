@@ -1,8 +1,10 @@
 var json      = smart.framework.response
   , errors    = smart.framework.errors
-
-  , user      = require('../controllers/ctrl_user')
-  , util      = require('../core/utils');
+  , context   = smart.framework.context
+  , response  = smart.framework.response
+  , auth      = smart.framework.auth
+  , util      = smart.framework.util
+  , user      = require('../controllers/ctrl_user');
 
 
 //yukari
@@ -33,8 +35,17 @@ exports.searchOne = function(req_, res_) {
     }
   });
 };
-//////edit by zhaobing//////////////////////////////////////////////////////////////////////////////////////////
-///remove to controllers
-exports.simpleLogin = function(req, res){
-  user.simpleLogin(req,res);
+
+exports.simpleLogin = function(req_, res_){
+  var handler=new context().bind(req_, res_);
+  user.simpleLogin(handler,function(err,result){
+    response.send(res_, err, result);
+  });
+};
+exports.simpleLogout = function(req_, res_){
+  auth.simpleLogout(req_, res_);
+  if (util.isBrowser(req_)) {
+    return res_.redirect("/login");
+  }
+  response.send(res_, undefined, "success");
 };

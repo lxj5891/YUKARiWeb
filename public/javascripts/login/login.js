@@ -38,8 +38,10 @@ function login() {
     clearTimeout(demoTimeout);
     demoTimeout = setTimeout(function(){container.trigger('stopRumble');}, 200);
   } else {
-    ////////////将原有的ajax请求方式改为调用封装好的doget（）,目前数据库没有公司的数据，暂时没有验证//////////
-    smart.doget("/simplelogin?name=" + username + "&password=" + password+"&path="+path+"&home="+"yukari", function(err, result) {
+    username = encodeURIComponent(username);
+    password = encodeURIComponent(password);
+    path     = encodeURIComponent(path);
+    smart.doget("/simplelogin?name=" + username + "&password=" + password+"&domain="+path+"&home="+"yukari", function(err, result) {
       if (err) {
 
         return Alertify.log.info("用户名或密码不正确");

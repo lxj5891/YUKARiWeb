@@ -13,7 +13,7 @@ $(function () {
 
     if (userid && userid.length > 0) {
       //编集用户
-      user.id = userid;    //编集用户ID
+      user.uid = userid;    //编集用户ID
       updateUser(user)
     } else {
       //添加用户
@@ -37,12 +37,12 @@ $(function () {
         _.each(result.items, function(row){
           container.append(_.template(tmpl, {
             "index": index++
-            , "type": row.companyType
+            , "type": row.type
             , "id" : row._id
-            , "companypath": row.path
+            , "companypath": row.domain
             , "name": row.name
             , "code" : row.code
-            , "createat": smart.date(row.createat)
+            , "createat": smart.date(row.createAt)
           }));
         });
 
@@ -81,20 +81,20 @@ $(function () {
 //画面表示
 function render(userid,code) {
   if (userid) {
-    smart.doget("/admin/user/findOne.json?code=" + code + "&userid=" + userid, function(err, result) {
+    smart.doget("/admin/user/findOne.json?code=" + code + "&uid=" + userid, function(err, result) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
         if (result) {
-          $("#inputUserID").val(result.uid);
+          $("#inputUserID").val(result.userName);
           $("#inputUserID").attr("disabled","disabled");
           $("#inputPassword").val(result.password);
           $("#inputPassword").attr("oldpass",result.password);
-          $("#inputName").val(result.name ? result.name.name_zh:"");
-          $("#inputRole").val(result.title);
-          $("#inputPhone").val(result.tel ? result.tel.telephone:"");
-          $("#inputComment").val(result.description);
-          $("#inputCompanyCode").val(result.companypath)
+          $("#inputName").val(result.first);
+          $("#inputRole").val(result.extend.title);
+          $("#inputPhone").val(result.extend.tel);
+          $("#inputComment").val(result.extend.description);
+          $("#inputCompanyCode").val(result.path);
           $("#inputCompanyCode").attr('code',result.companycode);
           $("#inputCompanyCode").attr("disabled","disabled");
 
@@ -102,9 +102,9 @@ function render(userid,code) {
           new ButtonGroup("inputLang", inputLang).init();
           var inputTimezone = result.timezone;
           new ButtonGroup("inputTimezone", inputTimezone).init();
-          var inputContents = result.authority && result.authority.contents == 1 ? "1" : "0";
+          var inputContents = result.extend.authority && result.extend.authority.contents == 1 ? "1" : "0";
           new ButtonGroup("inputContents", inputContents).init();
-          var inputActive = result.active == 1 ? "1" : "0";
+          var inputActive = result.extend.active == 1 ? "1" : "0";
           new ButtonGroup("inputActive", inputActive).init();
         }
       }
@@ -122,20 +122,35 @@ function render(userid,code) {
 //取得用户信息
 function getUserData() {
 
+//  var user = {
+//     userid : $("#inputUserID").val()
+//    , name: {
+//        name_zh:$("#inputName").val()
+//    }
+//    , title: $("#inputRole").val()
+//    , tel: {
+//        telephone:$("#inputPhone").val()
+//    }
+//    , "description": $("#inputComment").val()
+//    , "timezone": $("#inputTimezone").attr('value')
+//    , "lang": $("#inputLang").attr('value')
+//    , "companycode" :$("#inputCompanyCode").attr('code')
+//  };
+
+
   var user = {
-     userid : $("#inputUserID").val()
-    , name: {
-        name_zh:$("#inputName").val()
+    userName          : $("#inputUserID").val()
+    , first           : $("#inputName").val()
+    , "timezone"      : $("#inputTimezone").attr('value')
+    , "lang"          : $("#inputLang").attr('value')
+    , extend: {
+      tel             : $("#inputPhone").val()
+      , "description" : $("#inputComment").val()
+      , title         : $("#inputRole").val()
     }
-    , title: $("#inputRole").val()
-    , tel: {
-        telephone:$("#inputPhone").val()
-    }
-    , "description": $("#inputComment").val()
-    , "timezone": $("#inputTimezone").attr('value')
-    , "lang": $("#inputLang").attr('value')
-    , "companycode" :$("#inputCompanyCode").attr('code')
-  };
+    , "companycode"   : $("#inputCompanyCode").attr('code')
+    };
+
 
   //编集时,如果密码没有变更,不提交密码.
   if ($("#inputPassword").val() != $("#inputPassword").attr("oldpass")) {
@@ -144,13 +159,13 @@ function getUserData() {
   //Contents作成者,有效在画面不表示时,不指定值.
   if ($("#inputContents").size() > 0) {
     var contents = $("#inputContents").attr('value');
-    user.authority = user.authority || {};
-    user.authority.contents = contents;
+    user.extend.authority = user.extend.authority || {};
+    user.extend.authority.contents = contents;
   }
 
   if ($("#inputActive").size() > 0) {
     var active = $("#inputActive").attr('value');
-    user.active = active;
+    user.extend.active = active;
   }
   return user;
 }

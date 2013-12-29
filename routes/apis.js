@@ -27,18 +27,17 @@ var user          = require("../api/user.js")
   , setting       = require("../api/setting")
   , conference    = require("../api/conference")
   , errorsExt     = require("../core/errorsExt");
-//////////edit by zhaobing//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 exports.guiding = function(app){
-// 登陆
-// test git by zhaobing
+
+  // 登陆
   app.get('/simplelogin', function (req, res) {
       user.simpleLogin(req, res);
   });
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   // 注销
   app.get("/simplelogout", function (req, res) {
-    req.query.home = "/top/login";
-    user.logout(req, res);
+    user.simpleLogout(req, res);
   });
 
   // 获取图片
@@ -210,6 +209,9 @@ exports.guiding = function(app){
   });
   app.put('/admin/user/update.json', function(req, res){
     admin_user.adminupdate(req, res);
+  });
+  app.put('/admin/user/updateActive.json', function(req, res){
+    admin_user.adminUpdateActive(req, res);
   });
   // ----------------------------------
   // Group

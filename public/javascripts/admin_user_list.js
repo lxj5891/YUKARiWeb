@@ -28,14 +28,14 @@ function render(start, count ,keyword) {
         container.append(_.template(tmpl, {
           "index": index++ + start,
           "id": row._id,
-          "uid": row.uid,
-          "name": row.name ? row.name.name_zh : "",
-          "title": row.title,
-          "telephone": row.tel ? row.tel.telephone : "",
-          "description": row.description,
-          "contents": row.authority ? row.authority.contents : "0",
-          "active": row.active,
-          "type": row.type,
+          "uid": row.userName,
+          "name": row.first,
+          "title": row.extend.title,
+          "telephone": row.extend.tel,
+          "description": row.extend.description,
+          "contents": row.extend.authority ? row.extend.authority.contents : "0",
+          "active": row.extend.active,
+          "type": row.extend.type,
           "companycode":row.companycode,
           "path":row.path
         }));
@@ -61,11 +61,12 @@ function events() {
         // 无效按钮
         if (operation == "active") {
             var userinfo = {
-                id: row._id
-               ,active: (row.active == "1") ? "0" : "1"
+                uid: row._id
+               ,extendKey:"active"
+               ,extendValue:(row.extend.active == "1") ? "0" : "1"
                ,companycode : row.companycode
             };
-            smart.doput("/admin/user/update.json",userinfo, function(err, result){
+            smart.doput("/admin/user/updateActive.json",userinfo, function(err, result){
                 if (err) {
                   smart.error(err,i18n["js.common.update.error"],false);
                 } else {

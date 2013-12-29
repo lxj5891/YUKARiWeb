@@ -1,6 +1,8 @@
 var json      = smart.framework.response
   , errors    = smart.framework.errors
   , adminuser = require('../controllers/ctrl_admin_user')
+  , context   = smart.framework.context
+  , response  = smart.framework.response
   , util      = require('../core/utils');
 
 //权限check
@@ -9,7 +11,7 @@ function commonCheck(req_, res_) {
   //DA系统管理员,开发人员以外的场合,不能访问.
   if (!util.isSystemAdmin(user)  && !util.isSuperAdmin(user)) {
     var err= new errors.Forbidden(__("js.common.access.check"));
-    res_.send(err.code, json.errorSchema(err.code, err.message));
+    response.send(res_, err);
     return false;
   }
   return true;
@@ -17,64 +19,59 @@ function commonCheck(req_, res_) {
 
 // 获取用户一览
 exports.adminlist = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
-  var uid =req_.session.user._id;
-  adminuser.adminlist(uid, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+
+  adminuser.adminlist(handler, function(err, result) {
+      response.send(res_, err, result);
   });
 };
 
 exports.adminadd = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
-  var uid = req_.session.user._id;
 
-  adminuser.add(uid, req_.body, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+  adminuser.add(handler, function(err, result) {
+    response.send(res_, err, result);
   });
 };
 
 exports.adminupdate = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
-  var uid = req_.session.user._id;
-
-  adminuser.update(uid, req_.body, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+  adminuser.update(handler, function(err, result) {
+    response.send(res_, err, result);
   });
 };
-exports.adminsearchOne = function(req_, res_) {
+
+exports.adminUpdateActive = function(req_,res_){
+  var handler=new context().bind(req_, res_);
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
-  var code = req_.query.code;
-  var userid = req_.query.userid;
+  adminuser.updateActive(handler, function(err, result) {
+    response.send(res_, err, result);
+  });
+};
 
-  adminuser.adminsearchOne(code, userid, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+exports.adminsearchOne = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
+  //权限check
+  if (!commonCheck(req_, res_)) {
+    return;
+  };
+
+  adminuser.adminsearchOne(handler, function(err, result) {
+    response.send(res_, err, result);
   });
 };

@@ -7,15 +7,14 @@
 "use strict";
 
 var _         = smart.util.underscore
-  ,ph          =smart.lang.path
-  ,user        =smart.ctrl.user
-  , async      = smart.util.async
+  , ph         =smart.lang.path
+  , user       =smart.ctrl.user
+  , async     = smart.util.async
   , check     = smart.util.validator.check
   , error     = smart.framework.errors
   , log       = smart.framework.log
-  , user      = smart.ctrl.user
   , auth      = smart.framework.auth
-  , context         = smart.framework.context
+  , context   = smart.framework.context
   , device    = require('../controllers/ctrl_device')
   , company   = smart.ctrl.company;
 
@@ -48,7 +47,7 @@ exports.list = function(handler,callback) {
 
     if (err) {
       log.error(err, uid);
-      return callback(new errors.NotFound("js.ctr.common.system.error"));
+      return callback(new error.NotFound("js.ctr.common.system.error"));
     } else {
       for(var k in items) {
         items[k].kindex = k;
@@ -184,6 +183,7 @@ exports.add = function(handler, callback) {
     userhandler.params.lang = inuser.lang;
     var extend  = {};
     extend.type = 1;
+    extend.active = 1;
     userhandler.params.extend = extend;
   //添加用户
     user.add(userhandler,function(err,result){

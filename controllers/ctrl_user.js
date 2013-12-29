@@ -4,64 +4,57 @@
   var util      = smart.framework.util
   , _         = smart.util.underscore
   , sync      = smart.util.async
-  , response    = smart.framework.response
-  , auth     = smart.framework.auth
+  , response  = smart.framework.response
+  , auth      = smart.framework.auth
   , log       = smart.framework.log
   , company   = smart.ctrl.company
-  , context = smart.framework.context;
+  , crl_user  = smart.ctrl.user
+  , error     = smart.framework.errors
+  , context   = smart.framework.context;
 
 
-// added by wuql from api/user edit by zhaobing
-exports.simpleLogin = function(req, res){
-  var deivceId = req.query.deviceid;
-  var logined = function() {
-    if (req.session.user.type == 1) // 重新设定管理员画面
-      req.query.home = "/admin";
-  };
-  var path = req.query.path; // 公司ID, Web登陆用
-  var code = req.query.code; // 公司Code，iPad登陆用
-// パスワードのsha256文字列を取得する
-  req.query.password = auth.sha256(req.query.password);
-  // 登陆到公司的DB进行Login
-  if(path) {
-      var handler = new context().bind(req,res);
-      handler.addParams("domain",path);
-      company.getByDomain(handler,function(err,result){
-        if (err) {
-          log.error(err, path);
-        }else{
-          req.query.code = result._doc.code;
-          userLogin (req, res )
-        }
-      });
-    // iPad登陆
-  }else if(code) {
-    ctrl_company.getByCode(code, function(err, comp){
-      if(err)
-        return errorsExt.sendJSON(res, err);
-      if(!comp)
-        return errorsExt.sendJSON(res, errorsExt.NoCompanyCode);
-//      var companyDB = comp.code;
-      req.query.companycode = code;
-      userLogin (req, res )
+exports.simpleLogin = function(handler,callback_){
+  var domain = handler.params.domain; // 公司ID, Web登陆用
+  var code   = handler.params.code;   // 公司Code，iPad登陆用
+  handler.req.query.password = auth.sha256(handler.params.password);
+  if(domain){
+
+    company.getByDomain(handler,function(err,company){
+      if(err){
+
+        callback_(err);
+
+      }else{
+
+        handler.req.query.code = company.code;
+        auth.simpleLogin(handler.req,handler.res,function(err,result){
+          if(result && result.extend.active != 1){
+            callback_(new error.NotFound(__("user.error.notExist")));
+          }
+          callback_(err,result);
+        });
+
+      }
     });
-  } else {
-    userLogin (req, res )
+
+  }else if(code){
+
+    handler.req.query.code = code;
+    auth.simpleLogin(handler.req,handler.res,function(err,result){
+      if(result && result.extend.active != 1){
+        callback_(new error.NotFound(__("user.error.notExist")));
+      }
+      callback_(err,result);
+    });
+
+  }else{
+
+    auth.simpleLogin(handler.req,handler.res,function(err,result){
+      callback_(err,result);
+    });
+
   }
-  log.debug("user name: " + req.query.name);
 };
-// 認証処理
-function userLogin (req, res ){
-  auth.simpleLogin(req, res, function(err, result) {
-  if (err) {
-    log.error(err, undefined);
-    log.audit("login failed.", req.query.name);
-  } else {
-    log.audit("login succeed.", result._id);
-  }
-  response.send(res, err, result);
-});
-}
 
 
 //yukri
