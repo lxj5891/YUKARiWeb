@@ -63,7 +63,7 @@ exports.adminsearchOne = function(handler,callback_) {
     if (err) {
       return callback_(err);
     }
-    company.get(handler,function(err,comps){
+    company.getByCode(handler,function(err,comps){
       if(err) {
         return callback_(new error.InternalServer(err));
       } else {
@@ -97,7 +97,6 @@ exports.add = function(handler, callback_) {
 
 };
 exports.update = function(handler,callback_) {
-  handler.params.extend.type = 0;
 
   var user = handler.params;
   handler.addParams("_code",user.companycode);

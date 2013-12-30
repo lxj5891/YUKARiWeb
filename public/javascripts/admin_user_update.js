@@ -17,7 +17,7 @@ $(function () {
       updateUser(user)
     } else {
       //添加用户
-      user.type = 0;      //普通用户
+      user.extend.type = 0;      //普通用户
       addUser(user);
     }
     return false;
