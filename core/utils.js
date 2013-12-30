@@ -25,7 +25,7 @@ exports.hasNoticePermit = function(user) {
  * @returns {boolean} 判断结果
  */
 exports.isSuperAdmin = function(user) {
-  return user.extend.type === 3;
+  return user.extend.type == 3;
 }
 
 
@@ -35,7 +35,7 @@ exports.isSuperAdmin = function(user) {
  * @returns {boolean} 判断结果
  */
 exports.isCommonUser = function(user){
-  return user.extend.type === 0;
+  return user.extend.type == 0;
 }
 
 /**
@@ -44,7 +44,7 @@ exports.isCommonUser = function(user){
  * @returns {boolean} 判断结果
  */
 exports.isAdmin = function(user) {
-  return user.extend.type === 1;
+  return user.extend.type == 1;
 }
 
 /**
@@ -53,7 +53,7 @@ exports.isAdmin = function(user) {
  * @returns {boolean} 判断结果
  */
 exports.isSystemAdmin = function(user) {
-  return user.extend.type === 2;
+  return user.extend.type == 2;
 }
 
 // -------------- 以下未整理

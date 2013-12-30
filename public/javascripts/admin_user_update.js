@@ -94,6 +94,7 @@ function render(userid,code) {
           $("#inputRole").val(result.extend.title);
           $("#inputPhone").val(result.extend.tel);
           $("#inputComment").val(result.extend.description);
+          $("#inputType").val(result.extend.type);
           $("#inputCompanyCode").val(result.path);
           $("#inputCompanyCode").attr('code',result.companycode);
           $("#inputCompanyCode").attr("disabled","disabled");
@@ -147,6 +148,7 @@ function getUserData() {
       tel             : $("#inputPhone").val()
       , "description" : $("#inputComment").val()
       , title         : $("#inputRole").val()
+      , type          : $("#inputType").val()
     }
     , "companycode"   : $("#inputCompanyCode").attr('code')
     };
