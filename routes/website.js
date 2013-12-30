@@ -79,7 +79,7 @@ exports.guiding = function (app) {
   });
   //
   // DA管理员 创建用户
-  app.get('/admin/user/add', function (req, res) {
+  app.get('/super/user/add', function (req, res) {
     var sessionuser = req.session.user;
     //客户管理员,开发人员以外,不能访问.
     if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser)) ) {
@@ -88,7 +88,7 @@ exports.guiding = function (app) {
       res.render("admin_user_update", {"title": __("js.routes.website.customer_user_add.title"), user: req.session.user,userId:"",code:""});
     }
   });
-  app.get('/admin/user/edit/:code/:id', function (req, res) {
+  app.get('/super/user/edit/:code/:id', function (req, res) {
     var sessionuser = req.session.user;
     //客户管理员,开发人员,不能访问.
     if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
@@ -98,7 +98,7 @@ exports.guiding = function (app) {
     }
 
   });
-  app.get('/admin/user', function (req, res) {
+  app.get('/super/user', function (req, res) {
     var sessionuser = req.session.user;
     //客户管理员,开发人员以外,不能访问.
     if (!(util.isSystemAdmin(sessionuser) || util.isSuperAdmin(sessionuser))) {
@@ -269,7 +269,7 @@ exports.guiding = function (app) {
 //  });
 
   // 公司一览
-  app.get('/admin/company/add', function (req, res) {
+  app.get('/super/company/add', function (req, res) {
     var sessionuser = req.session.user;
     //DA系统管理员,开发人员以外的场合,不能访问.
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
@@ -278,7 +278,7 @@ exports.guiding = function (app) {
       res.render("admin_company_update", {"title": __("js.routes.website.admin_company_add.title"), user: req.session.user,compId:""});
     }
   });
-  app.get('/admin/company/edit/:id', function (req, res) {
+  app.get('/super/company/edit/:id', function (req, res) {
     var sessionuser = req.session.user;
     //DA系统管理员,开发人员以外的场合,不能访问.
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
@@ -287,7 +287,7 @@ exports.guiding = function (app) {
       res.render("admin_company_update", {"title": __("js.routes.website.admin_company_update.title"), user: req.session.user,compId:req.params.id});
     }
   });
-  app.get('/admin/company', function (req, res) {
+  app.get('/super/company', function (req, res) {
     var sessionuser = req.session.user;
     //DA系统管理员,开发人员以外的场合,不能访问.
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
@@ -297,7 +297,7 @@ exports.guiding = function (app) {
     }
   });
 
-  app.get('/admin/log', function (req, res) {
+  app.get('/super/log', function (req, res) {
     var sessionuser = req.session.user;
     //DA系统管理员,开发人员以外的场合,不能访问.
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
@@ -307,7 +307,7 @@ exports.guiding = function (app) {
     }
   });
 
-  app.get('/admin/log/list.json', function (req, res) {
+  app.get('/super/log/list.json', function (req, res) {
     var sessionuser = req.session.user;
     //DA系统管理员,开发人员以外的场合,不能访问.
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
@@ -317,7 +317,7 @@ exports.guiding = function (app) {
     }
   });
 
-  app.get('/admin/log/detail.json', function (req, res) {
+  app.get('/super/log/detail.json', function (req, res) {
     var sessionuser = req.session.user;
     //DA系统管理员,开发人员以外的场合,不能访问.
     if (!util.isSystemAdmin(sessionuser)  && !util.isSuperAdmin(sessionuser)) {
@@ -328,7 +328,7 @@ exports.guiding = function (app) {
   });
 
   // 运营情报
-  app.get('/admin/operated', function (req, res) {
+  app.get('/super/operated', function (req, res) {
     res.render("admin_operated_list", {"title":  __("js.routes.website.admin_operated_list.title"), user: req.session.user});
   });
   app.get('/customer/operated', function (req, res) {

@@ -5,9 +5,9 @@
     <title><%= title %></title>
     <% include common/required.html %>
 
-    <link rel='stylesheet' href='/stylesheets/login.css'/>
-    <script type='text/javascript' src='/javascripts/login/browser.js'></script>
-    <script type='text/javascript' src='/javascripts/login/login.js'></script>
+    <link rel="stylesheet" href="<%= dynamic('/stylesheets/login.css')%>"/>
+    <script type="text/javascript" src="<%= dynamic('/javascripts/login/browser.js')%>"></script>
+    <script type="text/javascript" src="<%= dynamic('/javascripts/login/login.js')%>"></script>
 
   </head>
   <body>

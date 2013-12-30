@@ -4,9 +4,9 @@
   <title><%= title %></title>
 
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
 
-  <!--<script type="text/javascript" src="/javascripts/admin_operated_list.js"></script>-->
+  <!--<script type="text/javascript" src="<%= dynamic('/javascripts/admin_operated_list.js')%>"></script>-->
 
 </head>
 <body>

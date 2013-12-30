@@ -3,9 +3,9 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="/javascripts/content_layout_add.js"></script>
-  <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="<%= dynamic('/javascripts/content_layout_add.js')%>"></script>
+  <script type="text/javascript" src="<%= dynamic('/javascripts/common.user.view.js')%>"></script>
   <style type="text/css">
     .pagination {
       margin-top: 0px !important;

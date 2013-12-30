@@ -4,9 +4,9 @@
 
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="/javascripts/common.tag.view.js"></script>
-  <script type="text/javascript" src="/javascripts/content_material.js"></script>
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="<%= dynamic('/javascripts/common.tag.view.js')%>"></script>
+  <script type="text/javascript" src="<%= dynamic('/javascripts/content_material.js')%>"></script>
   <script type="text/javascript">
       var i18n = {
           "js.common.search.error": "<%=i('js.common.search.error') %>"

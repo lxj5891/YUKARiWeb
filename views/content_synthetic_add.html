@@ -3,9 +3,9 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <!--<script type="text/javascript" src="/javascripts/common.tag.view.js"></script>-->
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-  <link href="/stylesheets/contents.css" rel="stylesheet" media="screen">
+  <!--<script type="text/javascript" src="<%= dynamic('/javascripts/common.tag.view.js')%>"></script>-->
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
+  <link href="<%= dynamic('/stylesheets/contents.css')%>" rel="stylesheet" media="screen">
   <style type="text/css">
 
 
@@ -510,19 +510,19 @@
 </script>
 
 
-<script type="text/javascript" src="/javascripts/contents/cover.js"></script>
-<script type="text/javascript" src="/javascripts/contents/material.js"></script>
-<script type="text/javascript" src="/javascripts/contents/widget.js"></script>
-<script type="text/javascript" src="/javascripts/contents/solution.js"></script>
-<script type="text/javascript" src="/javascripts/contents/logo.js"></script>
-<script type="text/javascript" src="/javascripts/contents/tpl.js"></script>
-<script type="text/javascript" src="/javascripts/contents/viewports.js"></script>
-<script type="text/javascript" src="/javascripts/contents/store.js"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents/cover.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents/material.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents/widget.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents/solution.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents/logo.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents/tpl.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents/viewports.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents/store.js')%>"></script>
 
-<script type="text/javascript" src="/javascripts/contents.view.js"></script>
-<script type="text/javascript" src="/javascripts/contents.view.widget.js"></script>
-<script type="text/javascript" src="/javascripts/contents.view.solution.js"></script>
-<script type="text/javascript" src="/javascripts/contents.view.logo.js"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents.view.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents.view.widget.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents.view.solution.js')%>"></script>
+<script type="text/javascript" src="<%= dynamic('/javascripts/contents.view.logo.js')%>"></script>
 
 <script type="text/template" id="tmpl_logo">
   <div id="{{id}}" class="logo_widget"

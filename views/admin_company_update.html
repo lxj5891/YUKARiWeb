@@ -3,9 +3,9 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
 
-  <script type="text/javascript" src="/javascripts/admin_company_update.js"></script>
+  <script type="text/javascript" src="<%= dynamic('/javascripts/admin_company_update.js')%>"></script>
     <script type="text/javascript">
         var i18n = {
             "js.common.search.error": "<%=i('js.common.search.error') %>"
@@ -40,7 +40,7 @@
         </li>
         <li style="width: 90px;">
           <i class="icon-briefcase icon-large"></i>
-          <a href="/admin/company"><%= i('html.label.company') %><!-- 顧客--></a>
+          <a href="/super/company"><%= i('html.label.company') %><!-- 顧客--></a>
           <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
         </li>
         <li style="width: 86px;" class="active">

@@ -3,13 +3,13 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="/javascripts/content_layout_list.js"></script>
-  <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
-  <link href="/vendor/daterangepicker/css/daterangepicker-bs3.css" rel="stylesheet" media="screen">
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="<%= dynamic('/javascripts/content_layout_list.js')%>"></script>
+  <script type="text/javascript" src="<%= dynamic('/javascripts/common.user.view.js')%>"></script>
+  <link href="<%= dynamic('/vendor/daterangepicker/css/daterangepicker-bs3.css')%>" rel="stylesheet" media="screen">
 
-  <script type="text/javascript" src="/vendor/daterangepicker/js/daterangepicker.js"></script>
-  <script type="text/javascript" src="/vendor/moment/moment+langs.min.js"></script>
+  <script type="text/javascript" src="<%= dynamic('/vendor/daterangepicker/js/daterangepicker.js')%>"></script>
+  <script type="text/javascript" src="<%= dynamic('/vendor/moment/moment+langs.min.js')%>"></script>
   <style type="text/css">
     .dropdown-menu{
       z-index: 1100; /*为解决daterangepicker比dialog层低的问题*/

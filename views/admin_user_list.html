@@ -3,9 +3,9 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
 
-  <script type="text/javascript" src="/javascripts/admin_user_list.js"></script>
+  <script type="text/javascript" src="<%= dynamic('/javascripts/admin_user_list.js')%>"></script>
 
 </head>
 <body>
@@ -34,7 +34,7 @@
     <div class="page-content">
       <div class="row tableheader">
         <div class="pull-right" style="padding-bottom: 5px">
-            <a href="/admin/user/add" class="btn btn-default"><i class="icon-plus"></i><%= i('html.button.user.add') %><!-- ユーザ追加--></a>
+            <a href="/super/user/add" class="btn btn-default"><i class="icon-plus"></i><%= i('html.button.user.add') %><!-- ユーザ追加--></a>
         </div>
         <div class="pull-right" style="width: 300px">
           <form class="search-form" onsubmit="return false;">
@@ -98,11 +98,11 @@
     <td></td>
     <$ } $>
     <td>
-      <a href="/admin/user/edit/{{id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
+      <a href="/super/user/edit/{{id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
       <$ if (active == 1) {$>
-        <a href="/admin/user/" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.inactive') %><!-- 無効--></a>
+        <a href="/super/user/" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.inactive') %><!-- 無効--></a>
       <$ } else {$>
-        <a href="/admin/user/" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.active') %><!-- 有効--></a>
+        <a href="/super/user/" class="btn btn-default btn-sm" index={{index}} operation="active"><%= i('html.button.common.active') %><!-- 有効--></a>
       <$ } $>
     </td>
   </tr>
