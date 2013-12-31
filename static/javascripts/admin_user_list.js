@@ -55,7 +55,7 @@ function events() {
 
         // 编辑按钮
         if (operation == "edit") {
-            window.location = "/admin/user/edit/" + row.companycode + "/" + row._id;
+            window.location = "/super/user/edit/" + row.companycode + "/" + row._id;
         }
 
         // 无效按钮
