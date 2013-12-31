@@ -17,38 +17,32 @@ exports.simpleLogin = function(handler,callback_){
   var domain = handler.params.domain; // 公司ID, Web登陆用
   var code   = handler.params.code;   // 公司Code，iPad登陆用
   handler.req.query.password = auth.sha256(handler.params.password);
+
   if(domain){
-
-    company.getByDomain(handler,function(err,company){
-      if(err){
-
-        callback_(err);
-
-      }else{
-
-        handler.req.query.code = company.code;
-        auth.simpleLogin(handler.req,handler.res,function(err,result){
-          if(result && result.extend.active != 1){
-            callback_(new error.NotFound(__("user.error.notExist")));
-          }
-          callback_(err,result);
-        });
-
-      }
-    });
-
-  }else if(code){
-
-    handler.req.query.code = code;
     auth.simpleLogin(handler.req,handler.res,function(err,result){
       if(result && result.extend.active != 1){
         callback_(new error.NotFound(__("user.error.notExist")));
+      }else{
+        callback_(err,result);
       }
-      callback_(err,result);
     });
+  }else if(code){
+      company.getByCode(handler,function(err,comp){
+         if(err){
+           callback_(err);
+         }else{
+           handler.req.query.domain = comp.domain;
+           auth.simpleLogin(handler.res,handler.req,function(err_,result){
+             if(result && result.extend.active != 1){
+               callback_(new error.NotFound(__("user.error.notExist")));
+             }else{
+               callback_(err_,result);
+             }
+           });
+         }
 
+      });
   }else{
-
     auth.simpleLogin(handler.req,handler.res,function(err,result){
       callback_(err,result);
     });
