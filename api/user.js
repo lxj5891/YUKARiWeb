@@ -49,3 +49,13 @@ exports.simpleLogout = function(req_, res_){
   }
   response.send(res_, undefined, "success");
 };
+/**
+ * 检索用户
+ */
+exports.searchuser = function(req,res){
+  var handler = new context().bind(req,res);
+
+  user.searchuser(handler,function(err,result){
+    response.send(res,err,result);
+  })
+}

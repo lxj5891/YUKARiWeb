@@ -1,7 +1,6 @@
 
 var user          = require("../api/user.js")
   ,auth           =smart.framework.auth
-  , group         = smart.ctrl.group
  // , search        = smart.api.search
   , util          = smart.framework.util
 //  , common        = smart.api.common
@@ -12,6 +11,7 @@ var user          = require("../api/user.js")
   ,log              =smart.framework.log
   ,response       =smart.framework.response
   , utils         = require('../core/utils')
+  , group         = require("../api/group")
   , material      = require("../api/material")
   , synthetic     = require("../api/synthetic")
   , layout        = require("../api/layout")
@@ -181,7 +181,9 @@ exports.guiding = function(app){
     user.update(req, res);
   });
   app.get('/user/search.json', function(req, res){
-    search.user(req, res);
+    user.searchuser(req,res);
+//    search方法取消
+//    search.user(req, res);
   });
   app.get('/user/download/template.json', function(req, res){
     user.downloadTemp(req, res);
