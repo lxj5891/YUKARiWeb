@@ -12,7 +12,7 @@ var userList;
 function render(start, count ,keyword) {
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/yiuser/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function (err, result) {
+  smart.doget("/yiuser/list.json?type=all&limit=" + count + "&skip=" + start + "&keyword=" + keyword, function (err, result) {
 
     if (err) {
       smart.error(err,i18n["js.common.search.error"],false);
@@ -28,18 +28,18 @@ function render(start, count ,keyword) {
          container.append(_.template(tmpl, {
            "index": index++ + start,
            "id": row._id,
-           "uid": row.uid,
-           "name": row.name ? row.name.name_zh : "",
-           "title": row.title,
-           "telephone": row.tel ? row.tel.telephone : "",
-           "description": row.description,
-           "contents": row.authority ? row.authority.contents : "0",
-           "notice": row.authority ? row.authority.notice : "0",
-           "approved": row.authority ? row.authority.approve : "0",
-           "active": row.active,
-           "type": row.type,
+           "uid": row.userName,
+           "name": row.first ? row.first : "",
+           "title": row.extend.title,
+           "telephone": row.extend.tel,
+           "description": row.extend.description,
+           "contents": row.extend.authority ? row.extend.authority.contents : "0",
+           "notice": row.extend.authority ? row.extend.authority.notice : "0",
+           "approved": row.extend.authority ? row.extend.authority.approve : "0",
+           "active": row.extend.active,
+           "type": row.extend.type,
            "companycode":row.companycode,
-           "code":row.code
+           "canbeedit":row.canbeedit
          }));
       });
       if (result.items.length == 0) {
@@ -83,16 +83,17 @@ function events() {
         // 无效按钮
         if (operation == "active") {
           var activeTemp;
-          if (row.active == "1") {
+          if (row.extend.active == "1") {
             activeTemp="0";
           } else {
             activeTemp ="1";
           }
             var userinfo = {
-                id: row._id,
-                active: activeTemp
+                uid: row._id
+                ,extendKey:"active"
+                ,extendValue: activeTemp
             };
-            smart.doput("/user/update.json",userinfo, function(err, result){
+            smart.doput("/user/updateActive.json",userinfo, function(err, result){
                 if (err) {
                   smart.error(err,i18n["js.common.update.error"],false);
                 } else {

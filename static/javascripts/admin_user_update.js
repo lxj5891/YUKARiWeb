@@ -151,7 +151,7 @@ function getUserData() {
       , type          : $("#inputType").val()
     }
     , "companycode"   : $("#inputCompanyCode").attr('code')
-    };
+   };
 
 
   //编集时,如果密码没有变更,不提交密码.

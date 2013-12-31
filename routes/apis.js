@@ -180,6 +180,10 @@ exports.guiding = function(app){
   app.put('/user/update.json', function(req, res){
     user.update(req, res);
   });
+  app.put('/user/updateActive.json', function(req, res){
+    user.updateActive(req, res);
+  });
+
   app.get('/user/search.json', function(req, res){
     user.searchuser(req,res);
 //    search方法取消
