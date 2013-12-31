@@ -111,7 +111,7 @@ var userbox = function(User) {
       }
 
       _.each(users, function(user){
-        var name = user.name.name_zh
+        var name = user.userName
           , photo = (user.photo && user.photo.small) ? "/picture/" + user.photo.small : "/images/user.png";
         self.itemFinderContainer.append(_.template(self.tmplRow.html(), {
           "id": user._id, "name": name, "photo": photo, "addition": user.title, "type": "user"

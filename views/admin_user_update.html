@@ -3,8 +3,15 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="/javascripts/admin_user_update.js"></script>
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="<%= dynamic('/javascripts/admin_user_update.js')%>"></script>
+  <script type="text/javascript">
+    var i18n = {
+      "js.common.search.error"    : "<%=i('js.common.search.error') %>"
+      , "js.common.add.error"     : "<%=i('js.common.add.error') %>"
+      , "js.common.update.error"  : "<%=i('js.common.update.error') %>"
+    }
+  </script>
 </head>
 <body>
 <input type="hidden" id="userId" name="userId" value="<%= userId %>">

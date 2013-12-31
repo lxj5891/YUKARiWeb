@@ -6,7 +6,10 @@
 
 "use strict";
 
-var _ = smart.util.underscore;
+var _     = smart.util.underscore
+  , check = smart.util.validator.check
+  , error = smart.framework.errors;
+
 
 /**
  * 确认是否可以发送通知
@@ -100,4 +103,40 @@ exports.canDownloadPublishContents = function(user_, joinGroup, publishLayout_){
   }
 
   return false;
+}
+
+exports.checkUser = function(user,callback_){
+  try {
+    if (user.password != undefined) {
+      check(user.password, __("js.ctr.check.user.password.min")).notEmpty();
+      check(user.password, __("js.ctr.check.user.password.max")).notEmpty().len(1,20);
+    }
+
+    if (user.userName != undefined) {
+      check(user.userName, __("js.ctr.check.user.uid.min")).notEmpty();
+      check(user.userName, __("js.ctr.check.user.uid.max")).notEmpty().len(3,30);
+      check(user.userName, __("js.ctr.check.user.uid.ismail")).notEmpty().isEmail();
+    }
+
+    if (user.first != undefined) {
+      check(user.first, __("js.ctr.check.user.name.min")).notEmpty();
+      check(user.first, __("js.ctr.check.user.name.max")).notEmpty().len(1,20);
+    }
+
+    if (user.extend !=undefined && user.extend.title != undefined) {
+      check(user.extend.title, __("js.ctr.check.user.title.max")).len(0,20);
+    }
+
+    if (user.extend !=undefined && user.extend.tel != undefined) {
+      check(user.extend.tel, __("js.ctr.check.user.telephone.max")).len(0,30);
+    }
+
+    if (user.extend !=undefined && user.extend.description != undefined) {
+      check(user.extend.description, __("js.ctr.check.user.description.max")).len(0,100);
+    }
+  } catch (e) {
+    console.log(e);
+    return callback_(new error.BadRequest(e.message));
+  }
+  return callback_();
 }

@@ -28,6 +28,8 @@ module.exports = {
   "app": {
     "port": 3000
     , "views": "views"
+    , "public": "/"
+    , "static": "/static"
     , "cookieSecret": "smartcore"
     , "sessionSecret": "smartcore"
     , "sessionKey": "smartcore.sid"

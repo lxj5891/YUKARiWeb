@@ -12,11 +12,11 @@ $(function () {
 
     if (userid && userid.length > 0) {
       //编集用户
-      user.id = userid;    //编集用户ID
+      user.uid = userid;    //编集用户ID
       updateUser(user)
     } else {
       //添加用户
-      user.type = 0;      //普通用户
+      user.extend.type = 0;      //普通用户
       addUser(user);
     }
     return false;
@@ -28,53 +28,53 @@ var userType = 0;
 function render(userid) {
   userType =  $('#userType').val();
   if (userid) {
-    smart.doget("/yiuser/findOne.json?userid=" + userid , function(err, result) {
+    smart.doget("/yiuser/findOne.json?uid=" + userid , function(err, result) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
         if (result) {
           if (result.comp) {
             //契约客户时,没有contents权限
-            if(result.comp.companyType !=2) {
+            if(result.comp.type !=2) {
               $("#contents").css("display","none");
             }
           }
           if (result.item) {
             $("#inputCompanyCode").val(result.item.companycode);
             $("#inputCompanyCode").attr("disabled","disabled");
-            $("#inputUserID").val(result.item.uid);
+            $("#inputUserID").val(result.item.userName);
             $("#inputUserID").attr("disabled","disabled");
             $("#inputPassword").val(result.item.password);
             $("#inputPassword").attr("oldpass",result.item.password);
-            $("#inputName").val(result.item.name ? result.item.name.name_zh:"");
-            $("#inputRole").val(result.item.title);
-            $("#inputPhone").val(result.item.tel ? result.item.tel.telephone:"");
-            $("#inputComment").val(result.item.description);
+            $("#inputName").val(result.item.first ? result.item.first:"");
+            $("#inputRole").val(result.item.extend.title);
+            $("#inputPhone").val(result.item.extend.tel);
+            $("#inputComment").val(result.item.extend.description);
 
             var inputLang = result.item.lang;
             new ButtonGroup("inputLang", inputLang).init();
             var inputTimezone = result.item.timezone;
             new ButtonGroup("inputTimezone", inputTimezone).init();
-            var inputContents = result.item.authority && result.item.authority.contents == 1 ? "1" : "0";
+            var inputContents = result.item.extend.authority && result.item.extend.authority.contents == 1 ? "1" : "0";
             new ButtonGroup("inputContents", inputContents).init();
-            var inputNotice = result.item.authority && result.item.authority.notice == 1 ? "1" : "0";
+            var inputNotice = result.item.extend.authority && result.item.extend.authority.notice == 1 ? "1" : "0";
             new ButtonGroup("inputNotice", inputNotice).init();
-            var inputApproved = result.item.authority && result.item.authority.approve == 1 ? "1" : "0";
+            var inputApproved = result.item.extend.authority && result.item.extend.authority.approve == 1 ? "1" : "0";
             new ButtonGroup("inputApproved", inputApproved).init();
-            var inputActive = result.item.active == 1 ? "1" : "0";
+            var inputActive = result.item.extend.active == 1 ? "1" : "0";
             new ButtonGroup("inputActive", inputActive).init();
           }
         }
       }
     });
   } else {
-    smart.doget("/yiuser/findOne.json?userid=" + "" , function(err, result) {
+    smart.doget("/yiuser/findOne.json?uid=" + "" , function(err, result) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
         if (result.comp) {
            //契约客户时,没有contents权限
-           if(result.comp.companyType !=2) {
+           if(result.comp.type !=2) {
              $("#contents").css("display","none");
            }
         }
@@ -95,19 +95,32 @@ function render(userid) {
 //取得用户信息
 function getUserData(userid) {
 
+//  var user1 = {
+//    userName : $("#inputUserID").val()
+//    , first: {
+//        name_zh:$("#inputName").val()
+//    }
+//    , title: $("#inputRole").val()
+//    , tel: {
+//        telephone:$("#inputPhone").val()
+//    }
+//    , "description": $("#inputComment").val()
+//    , "timezone": $("#inputTimezone").attr('value')
+//    , "lang": $("#inputLang").attr('value')
+//  };
+
   var user = {
-     userid : $("#inputUserID").val()
-    , name: {
-        name_zh:$("#inputName").val()
+    userName          : $("#inputUserID").val()
+    , first           : $("#inputName").val()
+    , "timezone"      : $("#inputTimezone").attr('value')
+    , "lang"          : $("#inputLang").attr('value')
+    , extend: {
+        tel           : $("#inputPhone").val()
+      , "description" : $("#inputComment").val()
+      , title         : $("#inputRole").val()
     }
-    , title: $("#inputRole").val()
-    , tel: {
-        telephone:$("#inputPhone").val()
-    }
-    , "description": $("#inputComment").val()
-    , "timezone": $("#inputTimezone").attr('value')
-    , "lang": $("#inputLang").attr('value')
   };
+
 
   //编集时,如果密码没有变更,不提交密码.
   if ($("#inputPassword").val() != $("#inputPassword").attr("oldpass")) {
@@ -116,22 +129,22 @@ function getUserData(userid) {
   //承认者,通知者,Contents作成者,有效在画面不表示时,不指定值.
   if ($("#inputContents").size() > 0) {
     var contents = $("#inputContents").attr('value');
-    user.authority = user.authority || {};
-    user.authority.contents = contents;
+    user.extend.authority = user.extend.authority || {};
+    user.extend.authority.contents = contents;
   }
   if ($("#inputApproved").size() > 0) {
     var approved = $("#inputApproved").attr('value');
-    user.authority = user.authority || {};
-    user.authority.approve = approved;
+    user.extend.authority = user.extend.authority || {};
+    user.extend.authority.approve = approved;
   }
   if ($("#inputNotice").size() > 0) {
     var notice = $("#inputNotice").attr('value');
-    user.authority = user.authority || {};
-    user.authority.notice = notice;
+    user.extend.authority = user.extend.authority || {};
+    user.extend.authority.notice = notice;
   }
   if ($("#inputActive").size() > 0) {
     var active = $("#inputActive").attr('value');
-    user.active = active;
+    user.extend.active = active;
   }
   return user;
 }

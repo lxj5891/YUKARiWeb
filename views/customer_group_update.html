@@ -3,9 +3,9 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="/javascripts/common.user.view.js"></script>
-  <script type="text/javascript" src="/javascripts/customer_group_update.js"></script>
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="<%= dynamic('/javascripts/common.user.view.js')%>"></script>
+  <script type="text/javascript" src="<%= dynamic('/javascripts/customer_group_update.js')%>"></script>
 </head>
 <body>
 <input type="hidden" id="groupId" name="groupId" value="<%= groupId %>">

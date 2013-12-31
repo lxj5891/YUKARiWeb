@@ -63,9 +63,7 @@ function getGroupData() {
   });
 
   var group = {
-    name: {
-      name_zh:$("#inputName").val()
-    }
+    name: $("#inputName").val()
     , member : uids
     , description : $("#inputComment").val()
   };

@@ -3,12 +3,19 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="/javascripts/customer_user_update.js"></script>
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="<%= dynamic('/javascripts/customer_user_update.js')%>"></script>
+  <script type="text/javascript">
+    var i18n = {
+      "js.common.search.error"    : "<%=i('js.common.search.error') %>"
+      , "js.common.add.error"     : "<%=i('js.common.add.error') %>"
+      , "js.common.update.error"  : "<%=i('js.common.update.error') %>"
+    }
+  </script>
 </head>
 <body>
 <input type="hidden" id="userId" name="userId" value="<%= userId %>">
-<input type="hidden" id="userType" name="userType" value="<%= user.type %>">
+<input type="hidden" id="userType" name="userType" value="<%= user.extend.type %>">
 <% include common/navbar.html %>
 
 <div class="main-container container-fluid">
@@ -24,7 +31,7 @@
           <a href="/yukari"><%= i('html.label.common.home') %><!-- ホーム--></a>
           <span class="divider"><i class="icon-chevron-right arrow-icon"></i></span>
         </li>
-        <% if (user.type != 0) {%>
+        <% if (user.extend.type != 0) {%>
         <li style="width:90px">
           <i class="icon-male icon-large"></i>
           <a href="/customer/user"><%= i('html.label.user') %><!-- ユーザ一覧--></a>
@@ -105,7 +112,7 @@
               <textarea class="form-control" id="inputComment" placeholder="<%= i('html.label.user.comment') %>"></textarea>
             </div>
           </div>
-          <% if (user.type == 3 || user.type == 1) {%>
+          <% if (user.extend.type == 3 || user.extend.type == 1) {%>
           <div class="form-group" id="contents">
             <label class="col-lg-2 control-label"><%= i('html.label.user.contents') %><!-- コンテンツ作成者--></label>
             <div class="col-lg-8">

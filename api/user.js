@@ -9,31 +9,40 @@ var json      = smart.framework.response
 
 //yukari
 exports.list = function(req_, res_) {
-  var start = req_.query.start
-    , limit = req_.query.count
-    , keyword = req_.query.keyword
-    , dbName = req_.session.user.companycode
-  user.listByDBName(dbName,start, limit, keyword, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+
+  var handler=new context().bind(req_, res_);
+  user.getList(handler,function(err,result){
+    response.send(res_, err, result);
+  });
+};
+
+exports.add = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
+  user.add(handler, function(err, result) {
+    response.send(res_, err, result);
+  });
+};
+
+exports.update = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
+  user.update(handler, function(err, result) {
+    response.send(res_, err, result);
+  });
+};
+exports.updateActive = function(req_,res_){
+  var handler=new context().bind(req_, res_);
+  user.updateActive(handler, function(err, result) {
+    response.send(res_, err, result);
   });
 };
 // 获取指定用户
 exports.searchOne = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
 
-  var userid = req_.query.userid
-    , dbName = req_.session.user.companycode;
-
-  user.searchOneByDBName(dbName,userid, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+  user.searchOne(handler,function(err,result){
+    response.send(res_,err,result);
   });
+
 };
 
 exports.simpleLogin = function(req_, res_){
@@ -42,6 +51,7 @@ exports.simpleLogin = function(req_, res_){
     response.send(res_, err, result);
   });
 };
+
 exports.simpleLogout = function(req_, res_){
   auth.simpleLogout(req_, res_);
   if (util.isBrowser(req_)) {
@@ -49,3 +59,13 @@ exports.simpleLogout = function(req_, res_){
   }
   response.send(res_, undefined, "success");
 };
+/**
+ * 检索用户
+ */
+exports.searchuser = function(req,res){
+  var handler = new context().bind(req,res);
+
+  user.searchuser(handler,function(err,result){
+    response.send(res,err,result);
+  })
+}

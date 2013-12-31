@@ -4,8 +4,8 @@
   <title><%= title %></title>
   <% include common/required.html %>
 
-  <script type="text/javascript" src="/javascripts/content_synthetic.js"></script>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="<%= dynamic('/javascripts/content_synthetic.js')%>"></script>
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
 
 </head>
 <body>

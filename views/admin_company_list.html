@@ -4,9 +4,9 @@
   <title><%= title %></title>
 
   <% include common/required.html %>
-  <link href="/stylesheets/yukari.css" rel="stylesheet" media="screen">
+  <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
 
-  <script type="text/javascript" src="/javascripts/admin_company_list.js"></script>
+  <script type="text/javascript" src="<%= dynamic('/javascripts/admin_company_list.js')%>"></script>
     <script type="text/javascript">
         var i18n = {
             "js.common.search.error": "<%=i('js.common.search.error') %>"
@@ -50,7 +50,7 @@
     <div class="page-content">
       <div class="row tableheader">
         <div class="pull-right" style="padding-bottom: 5px">
-          <a href="/admin/company/add" class="btn btn-default"><i class="icon-plus"></i><%= i('html.button.company.add') %><!--顧客追加 --></a>
+          <a href="/super/company/add" class="btn btn-default"><i class="icon-plus"></i><%= i('html.button.company.add') %><!--顧客追加 --></a>
         </div>
         <div class="pull-right" style="width: 300px">
           <form class="search-form" onsubmit="return false;">
@@ -120,11 +120,11 @@
     <td></td>
   <$ } $>
   <td>
-    <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>
+    <a href="/super/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>
     <$ if (active == 1) {$>
-      <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} code={{code}} operation="active"><%= i('html.button.common.inactive') %><!--無効 --></a>
+      <a href="/super/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} code={{code}} operation="active"><%= i('html.button.common.inactive') %><!--無効 --></a>
     <$ } else {$>
-      <a href="/admin/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} code={{code}} operation="active"><%= i('html.button.common.active') %><!--有効 --></a>
+      <a href="/super/company/edit/{{_id}}" class="btn btn-default btn-sm" index={{index}} code={{code}} operation="active"><%= i('html.button.common.active') %><!--有効 --></a>
     <$ } $>
   </td>
 </tr>
