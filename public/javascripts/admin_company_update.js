@@ -1,8 +1,7 @@
 $(function () {
   'use strict';
   //取得URL参数
-  var compid = $('#compId').val();
-  console.log("------------------------------"+compid);
+  var compid = $("#compId").val();
   //画面表示
   render(compid);
   //事件追加
@@ -14,11 +13,11 @@ $(function () {
     //更新公司信息
     if (compid && compid.length > 0) {
         //编辑公司
-        company.id = compid;
-        updateCompany(company,user)
+      company.id = compid;
+      updateCompany(company,user);
     } else {
         //添加公司
-        addCompany(company,user);
+      addCompany(company,user);
     }
     return false;
   });
@@ -77,6 +76,8 @@ function getCompanyData() {
   //编集时,如果会社ID没有变更,不提交.
   if ($("#inputComPath").val() != $("#inputComPath").attr("oldpath")) {
     company.domain = $("#inputComPath").val();
+  }else{
+    company.domain = $("#inputComPath").attr("oldpath");
   }
   company.code = $("#inputComPath").attr("code");
   return company;

@@ -16,7 +16,7 @@ var _ = smart.util.underscore;
 exports.hasNoticePermit = function(user) {
   return exports.isSuperAdmin(user)
     || exports.isAdmin(user)
-    || (exports.isCommonUser(user) && user.authority && user.authority.notice === 1);
+    || (exports.isCommonUser(user) && user.extend.authority && user.extend.authority.notice == 1);
 }
 
 /**
@@ -61,11 +61,11 @@ exports.isSystemAdmin = function(user) {
 
 
 exports.hasContentPermit = function(user_){
-  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority && user_.authority.contents === 1);
+  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.extend.authority && user_.extend.authority.contents == 1);
 }
 
 exports.hasApprovePermit = function(user_){
-  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.authority &&  user_.authority.approve === 1);
+  return exports.isSuperAdmin(user_) || (exports.isCommonUser(user_) && user_.extend.authority &&  user_.extend.authority.approve == 1);
 }
 
 exports.canDownloadDraftContents = function(user_){

@@ -134,7 +134,7 @@ function render(start, count,keyword) {
   }
   smart.doget(jsonUrl, function(e, result){
 
-    if (smart.error(e, i18n["js.common.search.error"], true)) {
+    if (smart.error(e, i18n["js.common.search.error"], false)) {
       return;
     }
 

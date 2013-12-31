@@ -98,21 +98,27 @@ exports.companyListWithDevice = function(start_, limit_, callback){
 };
 
 exports.searchOne = function( handler, callback) {
-  handler.addParams("domain",handler.params.compid);
+
+  var condition = {"_id" : handler.params.compid };
+  handler.addParams("condition",condition);
+  handler.addParams("start",0);
+  handler.addParams("limit",20);
+  handler.addParams("order",null);
+
   var compInfo = {};
-  company.getByDomain(handler,function(err,result){
-    var items = result;
-    compInfo = result;
+
+  company.getList(handler,function(err,result){
+    var items = result.items[0];
+    compInfo =  result.items[0];
     if (err) {
       log.error(err, uid);
       return callback(new errors.NotFound("js.ctr.common.system.error"));
     } else {
-        var userhandler = new context().create("",items._doc.code,"");
-        var condition = {"extend.type":1};
-        userhandler.addParams("condition",condition);
-        user.getList(userhandler,function(err,result){
+      var userhandler = new context().create("",items._doc.code,"");
+      var condition = {"extend.type":1};
+      userhandler.addParams("condition",condition);
+      user.getList(userhandler,function(err,result){
           var userItem = result.items;
-          console.log(" userItem"+ userItem);
           if (err) {
             return callback(new error.InternalServer(err));
           }else{
@@ -120,12 +126,12 @@ exports.searchOne = function( handler, callback) {
               result.compInfo = compInfo;
               items._doc.userName = userItem[0].userName;
               return callback(err,result);
-           }
+            }
           }
         });
-      }
+    }
 
-    });
+  });
 };
 
 // 通过公司ID获取指定公司
@@ -208,86 +214,40 @@ exports.add = function(handler, callback) {
  * @param callback_
  * @returns {*}
  */
-exports.update = function(uid_, data_, callback_) {
-  try {
-    /** 公司*/
-    //会社名(かな)
-    if (data_.body_company.kana != undefined) {
-      check(data_.body_company.kana, __("js.ctr.check.company.kana.min")).notEmpty();
-      check(data_.body_company.kana, __("js.ctr.check.company.kana.max")).notEmpty().len(1,30);
-    }
-    //会社名(英語)
-    if (data_.body_company.name != undefined) {
-//      check(data_.body_company.name, __("js.ctr.check.company.name.min")).notEmpty();
-      check(data_.body_company.name, __("js.ctr.check.company.name.max")).len(0,30);
-    }
-    //会社ID
-    if (data_.body_company.path != undefined) {
-      check(data_.body_company.path, __("js.ctr.check.company.path.min")).notEmpty();
-      check(data_.body_company.path, __("js.ctr.check.company.path.max")).len(0,20);
-    }
-    //会社住所
-    if (data_.body_company.address != undefined) {
-//      check(data_.body_company.address, __("js.ctr.check.company.address.min")).notEmpty();
-      check(data_.body_company.address, __("js.ctr.check.company.address.max")).len(0,50);
-    }
-    //電話番号
-    if (data_.body_company.tel != undefined) {
-      check(data_.body_company.tel, __("js.ctr.check.company.tel")).len(0,30);
-    }
+exports.update = function(handler, callback_) {
 
-  } catch (e) {
-    return callback_(new error.BadRequest(e.message));
-  }
+      var uid_=handler.user._id
+       ,company_=handler.params.body_company;
+  handler.addParams("domain",company_.domain);
+  handler.addParams("cid",company_.id);
+  handler.addParams("type",company_.type);
+  handler.addParams("extend",company_.extend);
+  handler.addParams("name",company_.name);
+  handler.addParams("uid",uid_);
+  handler.addParams("createAt",new Date());
 
-  var comp_ = data_.body_company;
-  comp_.editat = new Date();
-  comp_.editby = uid_;
-
-  // path check
-  var pathcheck = comp_.path  ? comp_.path : "";
-  company.find({path:pathcheck}, function(err, coms){
+  company.update(handler, function(err, result){
     if (err) {
-      return  callback_(new error.InternalServer(__("js.ctr.common.system.error")));
+      return callback_(new error.InternalServer(err));
     }
-    if (coms.length > 0) {
-      return callback_(new error.BadRequest(__("js.ctr.check.company.path")));
-    } else {
-      company.update(comp_.id, comp_, function(err, result){
-        if (err) {
-          return callback_(new error.InternalServer(err));
-        }
-        return callback_(err, result);
-      });
-    }
+    return callback_(err, result);
   });
-
 };
-exports.active= function(uid_, comp_, callback_) {
-  comp_.editat = new Date();
-  comp_.editby = uid_;
-  var dbName = comp_.code;
 
-  async.waterfall([
-    // 更新公司
-    function(callback) {
-      company.update(comp_.id,comp_, function(err, result) {
-        callback(err, result);
-      });
-    },
+exports.active= function(handler, callback_) {
 
-    // 更新用户
-    function(result,callback) {
-      user.activeByDBName(dbName,uid_, comp_.active, function(err,rtn){
-        callback(err, rtn);
-      });
-    }
+  var newhandler = new context().create("",handler.params.code,"ja");
+  newhandler.addParams("name",handler.params.name);
+  newhandler.addParams("domain",handler.params.domain);
+  newhandler.addParams("type",handler.params.type);
+  newhandler.addParams("extend",handler.params.extend);
+  newhandler.addParams("updateBy", handler.req.session.user._id);
+  newhandler.addParams("cid", handler.params.id);
 
-  ], function(err, result) {
-    callback_(err, result);
-  });
-
-};
+    company.update(newhandler, function(err, result) {
+      callback_(err, result);
+    });
+  };
 //随机生成唯一的code
 function createCode(callback) {
 

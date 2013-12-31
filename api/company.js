@@ -1,9 +1,9 @@
 var response      = smart.framework.response
-  , errors    = smart.framework.errors
-  , log = smart.framework.log
-  , context         = smart.framework.context
-  , company = require('../controllers/ctrl_company')
-  , util      = require('../core/utils');
+  , errors        = smart.framework.errors
+  , log           = smart.framework.log
+  , context       = smart.framework.context
+  , company       = require('../controllers/ctrl_company')
+  , util          = require('../core/utils');
 //权限check
 function commonCheck(req_, res_) {
   var user =  req_.session.user;
@@ -69,36 +69,30 @@ exports.add = function(req_, res_) {
 };
 // 更新公司
 exports.update = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
 
-  var uid = req_.session.user._id;
+  company.update(handler, function(err, result) {
 
-  company.update(uid, req_.body, function(err, result) {
-      if (err) {
-          return res_.send(err.code, response.errorSchema(err.code, err.message));
-      } else {
-          return res_.send(response.dataSchema(result));
-      }
+     response.send(res_,err,result);
+
   });
 };
 // 无效指定公司
 exports.active = function(req_, res_) {
+  var handler=new context().bind(req_, res_);
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
 
-  var uid = req_.session.user._id;
+  company.active(handler, function(err, result) {
 
-  company.active(uid, req_.body, function(err, result) {
-    if (err) {
-      return res_.send(err.code, response.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(response.dataSchema(result));
-    }
+      response.send(res_,err,result)
+
   });
 };
 

@@ -71,15 +71,21 @@ function events() {
       , row = companyList[index - 1];
     // 编辑按钮
     if (operation == "edit") {
-      window.location = "/admin/company/edit/" + row.domain;
+      window.location = "/admin/company/edit/" + row._id;
     }
     // 无效按钮
+
     if (operation == "active") {
       var company = {
           id: row._id,
-          active: (row.active == 1) ? 0:1,
+          name:row.name,
+          domain:row.domain,
+          type:row.type,
+          updater:row.userName,
+          extend: { active : (row.extend.active == "1" ? "0" : "1")},
           code : row.code
       };
+
       smart.doput("/company/active.json",company, function(err, result){
         if (err) {
           smart.error(err,i18n["js.common.update.error"],false);
