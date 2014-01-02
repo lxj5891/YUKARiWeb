@@ -54,9 +54,11 @@ exports.list = function(handler,callback) {
       }
       var complist = [];
       var getUserByCode= function (comp_,sub_callback){
-        var userhandler = new context().create("",comp_._doc.code,"");
+        //var userhandler = new context().create("",comp_._doc.code,"");
+        var userhandler=new context().create("","","");
+            userhandler.code=comp_._doc.code;
         var condition = {"extend.type":1};
-        userhandler.addParams("condition",condition);
+            userhandler.addParams("condition",condition);
         user.getList(userhandler,function(err,result){
           var userItem = result.items;
           if (err) {
@@ -189,8 +191,9 @@ exports.add = function(handler, callback) {
   });
 
   tasks.push(function(result,callback){
-    var userhandler = new context().create(handler.uid,result.code,handler.params.body_user.lang)
+    var userhandler = new context().create(handler.uid,"",handler.params.body_user.lang)
       , inuser = handler.params.body_user;
+    userhandler.code=result.code;
     userhandler.params.userName = inuser.userid;
     userhandler.params.password = auth.sha256(inuser.password);
     userhandler.params.timezone = inuser.timezone;

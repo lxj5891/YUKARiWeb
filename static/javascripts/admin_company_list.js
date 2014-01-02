@@ -21,10 +21,11 @@ function render(start, count, keyword) {
         , index = 1;
 
       container.html("");
+
       _.each(result.items, function(row){
         container.append(_.template(tmpl, {
           "index": index++ + start
-          , "type": row.companyType
+          , "type": row.type
           , "_id": row.domain
           , "name": row.name
           , "kana": row.extend.kana
