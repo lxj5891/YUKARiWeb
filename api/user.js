@@ -69,3 +69,17 @@ exports.searchuser = function(req,res){
     response.send(res,err,result);
   })
 }
+
+/**
+ * 下载模板（zhaobing）
+ */
+exports.downloadTemp = function(req_, res_) {
+  user.downloadTemp(req_, res_);
+};
+
+/**
+ * 导入csv（zhaobing）
+ */
+exports.import = function(req_, res_) {
+  user.import(req_, res_);
+};
