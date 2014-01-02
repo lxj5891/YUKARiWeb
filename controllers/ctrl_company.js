@@ -7,6 +7,7 @@
 "use strict";
 
 var _         = smart.util.underscore
+  , yiutil      = require('../core/utils')
   , ph         =smart.lang.path
   , user       =smart.ctrl.user
   , async     = smart.util.async
@@ -121,20 +122,18 @@ exports.searchOne = function( handler, callback) {
       handler.code = items._doc.code;
       var condition = {"extend.type":1};
       handler.addParams("condition",condition);
-      console.log("---------------------------------------");
 
       user.getList(handler,function(err,result){
-        console.log(err);
-        console.log(result);
+
           var userItem = result.items;
           if (err) {
-            console.log(err);
+
             return callback(new error.InternalServer(err));
           }else{
             if(userItem && userItem.length>0){
               result.compInfo = compInfo;
               items._doc.userName = userItem[0].userName;
-              console.log(result);
+
               return callback(err,result);
             }
           }
@@ -167,7 +166,8 @@ exports.getByCode = function( code, callback_) {
 
 exports.add = function(handler, callback) {
   var comphandler = new context().create(handler.uid,"","");
-  var comp = handler.params.body_company;
+  var comp = handler.params.body_company
+     ,compAll=handler.params;
   if(comp.code){
     comphandler.params.code = comp.code;
   }
@@ -176,8 +176,14 @@ exports.add = function(handler, callback) {
   comphandler.params.type = comp.type;
   comphandler.params.extend = comp.extend;
 
-  var tasks = [];
 
+  yiutil.checkCompany(compAll,function(checkErr){
+    if(checkErr){
+      callback(checkErr);
+    }else{
+
+      handler.params.body_user.password = auth.sha256(compAll.body_user.password );
+      var tasks = [];
   tasks.push(function(callback){
   //添加公司
     company.add(comphandler, function(err, result) {
@@ -211,10 +217,12 @@ exports.add = function(handler, callback) {
         return callback(err, result);
       }
     })
-  });
-  async.waterfall(tasks, function(err, result){
-    return callback(err, result);
-  });
+  })
+      async.waterfall(tasks, function(err, result){
+        return callback(err, result);
+      });
+  }
+ });
 
 };
 
