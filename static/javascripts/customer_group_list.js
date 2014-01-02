@@ -13,7 +13,6 @@ var groupList;
 function render(start, count , keyword) {
 
   keyword = keyword ? encodeURIComponent(keyword) : "";
-
   smart.doget("/group/list.json?count=" + count + "&start=" + start +"&keyword=" + keyword, function(err, result){
 
     if (err) {
@@ -27,14 +26,13 @@ function render(start, count , keyword) {
         , index = 1;
       container.html("");
       _.each(groupList, function(row){
-
         container.append(_.template(tmpl, {
           "id": row._id
           , "index": index++ + start
-          , "name": row.name.name_zh
-          , "members": row.member.length
+          , "name": row.name
+          , "members": row.extend.member.length
           , "description": row.description
-          , "editat": smart.date(row.editat)
+          , "editat": smart.date(row.updateAt)
         }));
       });
       if(groupList.length == 0)
@@ -64,11 +62,9 @@ function events() {
     });
   // 一览按钮
   $("#group_list").on("click", "a", function(event){
-
     var operation = $(event.target).attr("operation")
       , index = $(event.target).attr("index")
       , row = groupList[index - 1];
-
     // 编辑按钮
     if (operation == "edit") {
       window.location = "/customer/group/edit/" + row._id;

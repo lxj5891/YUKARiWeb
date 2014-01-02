@@ -2,7 +2,7 @@ $(function () {
   'use strict';
 
   //取得URL参数
-  var groupid = $('#groupId').val();;
+  var groupid = $('#groupId').val();
   // 初始化用户
   var view = new userbox(smart.view("user")).view;
   view.initialize("textBoxMember", "", {search_target: "user"});
@@ -33,14 +33,17 @@ function render(groupid,view) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
-        $("#inputName").val(result.name ?result.name.name_zh: "");
+        console.log("-----------------------");
+        console.log(result);
+        console.log("-----------------------");
+        $("#inputName").val(result.name ?result.name: "");
         $("#inputComment").val(result.description);
         var userNameList = [];
         _.each(result.users, function(row){
           if (row.valid == 1) {
             var displayData = {
               uid : row._id,
-              uname: row.name ? row.name.name_zh : "",
+              uname: row.userName ? row.userName : "",
               type : "user"
             };
             userNameList.push(displayData) ;
@@ -61,10 +64,9 @@ function getGroupData() {
       uids.push($(this).attr("uid"));
     }
   });
-
   var group = {
     name: $("#inputName").val()
-    , member : uids
+    ,extend : { member : uids }
     , description : $("#inputComment").val()
   };
   return group;
