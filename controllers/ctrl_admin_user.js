@@ -6,7 +6,9 @@ var  json     = smart.framework.response
   , sync      = smart.util.async
   , check     = smart.util.validator.check
   , auth      = smart.framework.auth
+  , yiutil      = require('../core/utils')
   , company   = smart.ctrl.company;
+
 var FAKE_PASSWORD = "000000000000000000000";
 //yukri
 exports.adminlist = function(handler,callback) {
@@ -23,10 +25,10 @@ exports.adminlist = function(handler,callback) {
     if(err) {
       return callback(new error.InternalServer(err));
     } else {
-      var allUserList= [];
+      var allUserList = [];
       var comUserList = [];
       var allUserFunc = function(comp_,sub_callback){
-        handler.addParams("_code",comp_.code);
+        handler.code = comp_.code;
         handler.addParams("condition",{valid:1,createBy:handler.uid});
         crl_user.getList(handler,function(err,result){
           var userList = result.items;
@@ -56,8 +58,7 @@ exports.adminlist = function(handler,callback) {
 exports.adminsearchOne = function(handler,callback_) {
 
   var code = handler.params.code;
-  handler.addParams("_code",code);
-
+  handler.code = code;
 
   crl_user.get(handler,function(err,result){
     if (err) {
@@ -81,9 +82,9 @@ exports.add = function(handler, callback_) {
   handler.params.extend.type = 0;
 
   var user = handler.params;
-  handler.addParams("_code",user.companycode);
+  handler.code = user.companycode;
 
-  checkUser(user,function(checkErr){
+  yiutil.checkUser(user,function(checkErr){
     if(checkErr){
       callback_(checkErr);
     }else{
@@ -99,8 +100,8 @@ exports.add = function(handler, callback_) {
 exports.update = function(handler,callback_) {
 
   var user = handler.params;
-  handler.addParams("_code",user.companycode);
-  checkUser(user,function(checkErr){
+  handler.code = user.companycode;
+  yiutil.checkUser(user,function(checkErr){
     if(checkErr){
       callback_(checkErr);
     }else{
@@ -117,44 +118,9 @@ exports.update = function(handler,callback_) {
 exports.updateActive = function(handler,callback_) {
 
   var user = handler.params;
-  handler.addParams("_code",user.companycode);
+  handler.code = user.companycode;
   handler.params.extendValue = parseInt(handler.params.extendValue);
   crl_user.updateExtendProperty(handler,function(err,result){
     return callback_(err,result);
   });
-};
-
-function checkUser(user,callback_){
-  try {
-    if (user.password != undefined) {
-      check(user.password, __("js.ctr.check.user.password.min")).notEmpty();
-      check(user.password, __("js.ctr.check.user.password.max")).notEmpty().len(1,20);
-    }
-
-    if (user.userName != undefined) {
-      check(user.userName, __("js.ctr.check.user.uid.min")).notEmpty();
-      check(user.userName, __("js.ctr.check.user.uid.max")).notEmpty().len(3,30);
-      check(user.userName, __("js.ctr.check.user.uid.ismail")).notEmpty().isEmail();
-    }
-
-    if (user.first != undefined) {
-      check(user.first, __("js.ctr.check.user.name.min")).notEmpty();
-      check(user.first, __("js.ctr.check.user.name.max")).notEmpty().len(1,20);
-    }
-
-    if (user.extend !=undefined && user.extend.title != undefined) {
-      check(user.extend.title, __("js.ctr.check.user.title.max")).len(0,20);
-    }
-
-    if (user.extend !=undefined && user.extend.tel != undefined) {
-      check(user.extend.tel, __("js.ctr.check.user.telephone.max")).len(0,30);
-    }
-
-    if (user.extend !=undefined && user.extend.description != undefined) {
-      check(user.extend.description, __("js.ctr.check.user.description.max")).len(0,100);
-    }
-  } catch (e) {
-    return callback_(new error.BadRequest(e.message));
-  }
-  return callback_();
 };

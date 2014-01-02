@@ -151,7 +151,7 @@ function getUserData() {
       , type          : $("#inputType").val()
     }
     , "companycode"   : $("#inputCompanyCode").attr('code')
-    };
+   };
 
 
   //编集时,如果密码没有变更,不提交密码.
@@ -178,7 +178,7 @@ function addUser(user) {
     if (err) {
       smart.error(err,i18n["js.common.add.error"],false);
     } else {
-      window.location = "/admin/user";
+      window.location = "/super/user";
     }
   });
 }
@@ -189,7 +189,7 @@ function updateUser(user) {
     if (err) {
       smart.error(err,i18n["js.common.update.error"],false);
     } else {
-      window.location = "/admin/user";
+      window.location = "/super/user";
     }
   });
 }

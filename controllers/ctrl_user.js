@@ -12,9 +12,11 @@
   , error     = smart.framework.errors
   , context   = smart.framework.context
   , SmartCtrlGroup = smart.ctrl.group
+  , yiutil    = require('../core/utils')
   , SmartModGroup = require('../node_modules/smartcore/lib/models/mod_group.js')
   , SmartModUser = require('../node_modules/smartcore/lib/models/mod_user.js');
 
+var FAKE_PASSWORD = "000000000000000000000";
 
 exports.simpleLogin = function(handler,callback_){
   var domain = handler.params.domain; // 公司ID, Web登陆用
@@ -226,3 +228,95 @@ function transUserResult(result) {
   return resultold;
 }
 
+
+exports.add = function(handler,callback){
+  var user = handler.params;
+  yiutil.checkUser(user,function(checkErr){
+    if(checkErr){
+      callback(checkErr);
+    }else{
+      handler.params.password = auth.sha256(user.password );
+      crl_user.add(handler,function(err,result){
+        return callback(err, result);
+      });
+    }
+  });
+};
+
+
+exports.update = function(handler,callback_) {
+
+  var user = handler.params;
+  yiutil.checkUser(user,function(checkErr){
+    if(checkErr){
+      callback_(checkErr);
+    }else{
+      if(user.password != undefined){
+        handler.params.password = auth.sha256(user.password );
+      }
+      crl_user.update(handler,function(err,result){
+        return callback_(err, result);
+      });
+    }
+  });
+};
+
+exports.updateActive = function(handler,callback_) {
+  handler.params.extendValue = parseInt(handler.params.extendValue);
+  crl_user.updateExtendProperty(handler,function(err,result){
+    return callback_(err,result);
+  });
+};
+
+exports.searchOne = function(handler, callback_) {
+  handler.addParams("code",handler.code);
+  company.getByCode(handler,function(err,comp){
+    if(err){
+      callback_(err);
+    }else{
+      if (handler.params.uid != ""){
+        crl_user.get(handler,function(err_,user){
+          if(err_){
+            callback_(err_);
+          }else{
+            user._doc.companycode = handler.req.session.code;
+            user.password = FAKE_PASSWORD;
+            callback_(err_,{comp:comp,item:user});
+          }
+        });
+      }else{
+        callback_(err,{comp:comp,item:null});
+      }
+    }
+  });
+};
+exports.getList = function(handler, callback_) {
+  var condition = {
+    valid: 1
+  }
+  var keyword_ = handler.params.keyword;
+  if (keyword_) {
+    keyword_ = util.quoteRegExp(keyword_);
+    condition.$or = [
+
+      {"first": new RegExp(keyword_.toLowerCase(), "i")}
+      ,
+
+      {"first": new RegExp(keyword_.toLowerCase(), "i")}
+    ]
+  }
+
+  handler.addParams("condition",condition);
+
+  crl_user.getList(handler,function(err,result){
+    if(result){
+      _.each(result.items,function(user){
+        user._doc.companycode = handler.req.session.code;
+        if(user.createBy == handler.req.session.user._id){
+          user._doc.canbeedit = "1";
+        }
+      });
+    }
+    callback_(err,result);
+  });
+};

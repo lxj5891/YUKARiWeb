@@ -6,7 +6,13 @@
   <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
 
   <script type="text/javascript" src="<%= dynamic('/javascripts/customer_user_list.js')%>"></script>
-
+  <script type="text/javascript">
+    var i18n = {
+      "js.common.search.error": "<%=i('js.common.search.error') %>"
+      , "js.common.list.empty": "<%=i('js.common.list.empty') %>"
+      , "js.common.update.error": "<%=i('js.common.update.error') %>"
+    }
+  </script>
 </head>
 <body>
 
@@ -107,7 +113,7 @@
     <$ } else {$>
     <td></td>
     <$ } $>
-    <$ if("<%= user.companycode%>" == code) { $>
+    <$ if(canbeedit) { $>
     <td>
       <a href="/customer/user/edit/{{id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
       <$ if (type == 0) {$>
