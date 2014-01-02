@@ -82,24 +82,24 @@ exports.searchuser = function(handler,callback_){
       user: function(callback) {
         if (target_ == "all" || target_ == "user") {
           SmartModUser.getList(code,usercondition,0, Number.MAX_VALUE,{"name" : 'asc'},function(err, users) {
-            console.log(users);
             if(scope == 1){
               if (err) {
                 return callback(new errors.InternalServer(err));
               }
+
               callback(err,users);
             }else{
+              //暂时看来应该是进不来的,scope总是等于1
               var guighandler = new context().create(handler.uid ,handler.code,"ja");
-              guighandler.addParams("gid",handler.params.scope);
-              SmartCtrlGroup.getUsersInGroup(guighandler,function(err,uids){
-                var result = [];
-                _.each(users,function(u){
-                  if(_.contains(uids, u._id.toString())){
-                    result.push(u);
-                  }
-                });
-                console.log(result);
-                callback(err,result);
+                guighandler.addParams("gid",handler.params.scope);
+                SmartCtrlGroup.getUsersInGroup(guighandler,function(err,uids){
+                  var result = [];
+                  _.each(users,function(u){
+                    if(_.contains(uids, u._id.toString())){
+                      result.push(u);
+                    }
+                  });
+                  callback(err,result);
               })
             }
           });
@@ -108,44 +108,41 @@ exports.searchuser = function(handler,callback_){
         }
       }
       , group: function(callback) {
-        var grouphandler = new context().create(handler.uid ,handler.code,"ja");
-        SmartCtrlGroup.getList(grouphandler,function(err,groups){
-          if(target_ == "all" || target_ == "group"){
-            //old YUKari ctrl_search 暂时的方法不涉及到这个部分
-            /*group.getAllGroupByUid(dbName,login_, function(err,viewable){
-             var gids = [];
-             var groupViewable = [];
-             _.each(viewable, function(g){gids.push(g._id.toString());});
-             _.each(groups, function(g){
-             //if(_.contains(gids,g._id.toString())){
-             groupViewable.push(g);
-             //}
-             });
+        if(target_ == "all" || target_ == "group"){
+          if(scope == "1"){
+            var grouphandler = new context().create(handler.uid ,handler.code,"");
+            grouphandler.code = handler.code;
+            grouphandler.addParams("condition",{"extend.member":handler.uid});
+            SmartCtrlGroup.getList(grouphandler,function(err,groups){
+              if(err){
+                return callback(new errors.InternalServer(err));
+              }else{
 
-             if(scope_ == "1"){
-             callback(err, groupViewable);
-             }else{
-             group.childDepartments(dbName,[scope_], function(err, children){
-             var gids = [scope_];
-             _.each(children, function(g){gids.push(g._id.toString());});
-             //console.log(gids);
-             var result = [];
-             _.each(groupViewable, function(g){
-             if(_.contains(gids, g._id.toString())){
-             result.push(g);
-             }
-             });
-             callback(err, result);
-             });
-             }
-             });*/
-          } else{
-            callback();
+                callback(err,groups.items);
+              }
+            });
+          }else{
+//scope != 1，时，暂时还不知道什么情况会出现，具体出现时候再处理此种情况
+//            group.childDepartments(dbName,[scope_], function(err, children){
+//              var gids = [scope_];
+//              _.each(children, function(g){gids.push(g._id.toString());});
+//              //console.log(gids);
+//              var result = [];
+//              _.each(groupViewable, function(g){
+//                if(_.contains(gids, g._id.toString())){
+//                  result.push(g);
+//                }
+//              });
+//              callback(err, result);
+//            });callback();
           }
-        });
+        }else{
+        callback();
+        }
       }
     }
     , function(err, results){
+      console.log(results);
       callback_(err, { items:results });
     });
 }

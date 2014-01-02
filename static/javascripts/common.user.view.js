@@ -121,7 +121,7 @@ var userbox = function(User) {
       _.each(groups, function(group){
         var photo = (group.photo && group.photo.small) ? "/picture/" + group.photo.small : "/images/user.png";
         self.itemFinderContainer.append(_.template(self.tmplRow.html(), {
-          "id": group._id, "name": group.name.name_zh, "photo": photo, "addition": i18n["js.public.common.group"], "type": "group"
+          "id": group._id, "name": group.name, "photo": photo, "addition": i18n["js.public.common.group"], "type": "group"
         }));
       });
 

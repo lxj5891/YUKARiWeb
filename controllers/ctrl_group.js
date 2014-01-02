@@ -36,6 +36,8 @@ exports.createGroup = function (handler,callback) {
   if(handler.params.extend.member == undefined || handler.params.extend.member.length < 1){
     return callback(new error.BadRequest(__("js.public.check.group.member")));
   }
+//把当前用户也默认添加到该组中
+  handler.params.extend.member.push(handler.req.session.user._id);
   group.add(handler,function(err,result){
     if(err){
       log.error(err,handler.uid);

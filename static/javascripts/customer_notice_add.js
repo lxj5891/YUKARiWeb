@@ -8,10 +8,10 @@ $(function () {
     var uids = [], gids = [];
     $("#textBoxNotice li").each(function() {
       if ("user" == $(this).attr("type")) {
-        uids.push($(this).attr("uid"));
+        uids.push($(this).attr("userName"));
       }
       if ("group" == $(this).attr("type")) {
-        gids.push($(this).attr("uid"));
+        gids.push($(this).attr("name"));
       }
     });
     var notice = {
@@ -20,7 +20,6 @@ $(function () {
       , user: uids.join(",")
       , group: gids.join(",")
     };
-
     if (!check_notice(notice)) {
 
       smart.dopost("/notice/add.json", notice, function(err, result) {
