@@ -57,7 +57,7 @@ exports.getGroupWithMemberByGid = function(handler,callback){
   group.get(handler,function(err,result){
       if(err){
         log.error(err,handler.uid);
-        return callback(new error.NotFound("js.ctr.common.system.error"));
+        return callback(new error.NotFound(__("js.ctr.common.system.error")));
       }else{
         var userhandler = new context().create("",handler.code,"");
 
@@ -67,21 +67,12 @@ exports.getGroupWithMemberByGid = function(handler,callback){
         user.getList(userhandler,function(err,userresult){
           if(err){
             log.error(err,handler.uid);
-            return callback(new error.NotFound("js.ctr.common.system.error"));
+            return callback(new error.NotFound(__("js.ctr.common.system.error")));
           }else{
             result._doc.users = userresult.items;
             callback(err,result);
           }
         });
-        /*group.getUsersInGroup(handler,function(err,userresult){
-          if(err){
-            log.error(err,handler.uid);
-            return callback(new error.NotFound("js.ctr.common.system.error"));
-          }else{
-            result._doc.users = userresult;
-            callback(err,result);
-          }
-        });*/
       }
     }
   )

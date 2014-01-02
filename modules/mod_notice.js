@@ -30,8 +30,7 @@ var Notice = new schema({
  * @returns {*} notice model
  */
 function model(code) {
-
-  return conn(code).model("Notice", Notice);
+  return conn.model(code, "Notice", Notice);
 }
 
 /**

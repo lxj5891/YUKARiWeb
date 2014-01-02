@@ -2,11 +2,10 @@ var _         = smart.util.underscore
   , async     = smart.util.async
   , notice    = require('../modules/mod_notice.js')
   , mq        = require('./ctrl_mq')
-//  , smart     = require("smartcore")
   , user      = smart.ctrl.user
-//  , mod_user  = smart.mod.user
-  , group     = smart.ctrl.group
+  , group     = require('./ctrl_group')
   , error     = smart.framework.errors
+  , context = smart.framework.context
   , util      = smart.framework.util;
 
 //var EventProxy = require('eventproxy');
@@ -69,65 +68,79 @@ exports.list = function (code_, keyword_, start_, limit_, callback_) {
   });
 };
 
-exports.add = function(code_, uid_, notice_, callback_) {
+//exports.add = function(code_, uid_, notice_, callback_) {
+exports.add = function(handler, callback) {
+  var params = handler.params;
   var obj = {
     valid: 1
     , createat: new Date()
-    , createby: uid_
-    , notice: notice_.notice
-    , title: notice_.title
-    , touser: notice_.user ? notice_.user.split(",") : []
-    , togroup: notice_.group ? notice_.group.split(",") : []
+    , createby: handler.uid
+    , notice: params.notice
+    , title: params.title
+    , touser: params.user ? params.user.split(",") : []
+    , togroup: params.group ? params.group.split(",") : []
   };
 
   var userList = [];
-
-  var subTask = function(id, subCB){
-    group.getGroupWithMemberByGid(code_, id, function(err_, result_) {
-      userList = _.union(userList, result_._doc.users);
-      subCB(err_);
-    });
-  };
-
-  async.forEach(obj.togroup, subTask, function(err_){
-
-    if (err_) {
-      return callback_(new error.InternalServer(err_));
-    }
-
-    if (obj.touser) {
-      user.listByUids(code_, obj.touser, 0, 0, function(err, u_result) {
-        if (err) {
-          return callback_(new error.InternalServer(err));
-        }
-
-        userList = _.union(userList, u_result);
+  var tasks = [];
+//检索group中的member
+  tasks.push(function(callback){
+  //处理group
+    async.forEach(obj.togroup
+    ,function(id, subCB){
+      handler.addParams("gid",params.group);
+      group.getGroupWithMemberByGid(handler,function(err_, result_) {
+        userList = _.union(userList, result_._doc.users);
+        subCB(err_);
       });
     }
+    , function(err_){
+      if (err_) {
+        return callback(new error.InternalServer(err_));
+      }
+    })
+    return callback(null);
+  });
 
+  tasks.push(function(callback){
+    if (obj.touser) {
+      var userhandler = new context().create(handler.uid,handler.code,"ja");
+      userhandler.addParams("condition",{"_id":handler.uid});
+      user.getList(userhandler,function(err,users){
+        if (err) {
+          return callback(new errors.InternalServer(err));
+        }
+        userList = _.union(userList, users);
+      });
+    }
+    return callback(null);
+  })
+
+  tasks.push(function(callback){
     var toList = [];
     _.each(userList, function(user) {
       toList.push(user.uid);
     });
+  //查重
     toList = _.uniq(toList);
-
-    notice.add(code_, obj, function(err, result){
+    notice.add(handler.code, obj, function(err, resultnotice){
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return callback(new error.InternalServer(err));
       }
-
       // send apn notice
       _.each(toList, function(uid){
         mq.pushApnMessage({
-          code: code_
+          code: handler.code
           , target: uid
-          , body: result.title
+          , body: resultnotice.title
           , type : "notice"
         });
       });
-      return callback_(err, result);
+      return callback(null);
     });
+  })
 
-
-  });
+  async.waterfall(tasks,function(err,result){
+    return callback(err,userList);
+  })
 };
