@@ -30,8 +30,7 @@ function render(compid) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
-        console.log(result);
-        var inputCompanyType = result.compInfo.type;// result.companyType
+        var inputCompanyType = result.compInfo.type;
         new ButtonGroup("inputCompanyType", inputCompanyType).init();
         $("#inputContract").attr('disabled','disabled');
         $("#inputDemo").attr('disabled','disabled');
@@ -105,7 +104,7 @@ function addCompany(company,user) {
     if (err) {
       smart.error(err,i18n["js.common.add.error"],false);
     } else {
-      window.location = "/admin/company";
+      window.location = "/super/company";
     }
   });
 }
@@ -120,7 +119,7 @@ function updateCompany(company,user) {
     if (err) {
       smart.error(err,i18n["js.common.update.error"],false);
     } else {
-      window.location = "/admin/company";
+      window.location = "/super/company";
     }
   });
 }

@@ -110,21 +110,29 @@ exports.searchOne = function( handler, callback) {
   company.getList(handler,function(err,result){
     var items = result.items[0];
     compInfo =  result.items[0];
+
     if (err) {
       log.error(err, uid);
       return callback(new errors.NotFound("js.ctr.common.system.error"));
     } else {
-      var userhandler = new context().create("",items._doc.code,"");
+//      var userhandler = new context().create("",items._doc.code,"");
+      handler.code = items._doc.code;
       var condition = {"extend.type":1};
-      userhandler.addParams("condition",condition);
-      user.getList(userhandler,function(err,result){
+      handler.addParams("condition",condition);
+      console.log("---------------------------------------");
+
+      user.getList(handler,function(err,result){
+        console.log(err);
+        console.log(result);
           var userItem = result.items;
           if (err) {
+            console.log(err);
             return callback(new error.InternalServer(err));
           }else{
             if(userItem && userItem.length>0){
               result.compInfo = compInfo;
               items._doc.userName = userItem[0].userName;
+              console.log(result);
               return callback(err,result);
             }
           }
@@ -236,15 +244,15 @@ exports.update = function(handler, callback_) {
 
 exports.active= function(handler, callback_) {
 
-  var newhandler = new context().create("",handler.params.code,"ja");
-  newhandler.addParams("name",handler.params.name);
-  newhandler.addParams("domain",handler.params.domain);
-  newhandler.addParams("type",handler.params.type);
-  newhandler.addParams("extend",handler.params.extend);
-  newhandler.addParams("updateBy", handler.req.session.user._id);
-  newhandler.addParams("cid", handler.params.id);
+  handler.code = handler.params.code;
+  handler.addParams("name",handler.params.name);
+  handler.addParams("domain",handler.params.domain);
+  handler.addParams("type",handler.params.type);
+  handler.addParams("extend",handler.params.extend);
+  handler.addParams("updateBy", handler.req.session.user._id);
+  handler.addParams("cid", handler.params.id);
 
-    company.update(newhandler, function(err, result) {
+    company.update(handler, function(err, result) {
       callback_(err, result);
     });
   };

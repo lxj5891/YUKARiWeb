@@ -57,11 +57,11 @@ exports.getByPath = function(req_, res_) {
 };
 // 添加公司
 exports.add = function(req_, res_) {
+  var handler = new context().bind(req_, res_);
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
-  var handler = new context().bind(req_, res_);
   company.add(handler, function(err, result) {
     log.operation("finish: add an company: ",handler.uid);
     response.send(res_,err,result);

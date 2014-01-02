@@ -71,7 +71,7 @@ function events() {
       , row = companyList[index - 1];
     // 编辑按钮
     if (operation == "edit") {
-      window.location = "/admin/company/edit/" + row._id;
+      window.location = "/super/company/edit/" + row._id;
     }
     // 无效按钮
 
