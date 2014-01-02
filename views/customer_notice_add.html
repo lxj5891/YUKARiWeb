@@ -6,7 +6,14 @@
   <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
   <script type="text/javascript" src="<%= dynamic('/javascripts/common.user.view.js')%>"></script>
   <script type="text/javascript" src="<%= dynamic('/javascripts/customer_notice_add.js')%>"></script>
-
+    <script type="text/javascript">
+        var i18n = {
+            "js.common.search.error": "<%=i('js.common.search.error') %>"
+            , "js.common.add.error": "<%=i('js.common.add.error') %>"
+            , "js.common.update.error": "<%=i('js.common.update.error') %>"
+            , "js.ctr.common.system.error": "<%=i('js.ctr.common.system.error') %>"
+        }
+    </script>
 </head>
 <body>
 
