@@ -140,3 +140,54 @@ exports.checkUser = function(user,callback_){
   }
   return callback_();
 }
+
+exports.checkCompany = function(comp,callback_){
+  try {
+    /** 公司*/
+    //会社名(かな)
+    if (comp.body_company.extend.kana != undefined) {
+      check(comp.body_company.extend.kana, __("js.ctr.check.company.kana.min")).notEmpty();
+      check(comp.body_company.extend.kana, __("js.ctr.check.company.kana.max")).notEmpty().len(1,30);
+    }
+    //会社名(英語)
+    if (comp.body_company.name != undefined) {
+//      check(data_.body_company.name, __("js.ctr.check.company.name.min")).notEmpty();
+      check(comp.body_company.name, __("js.ctr.check.company.name.max")).len(0,30);
+    }
+    //会社ID
+    if (comp.body_company.path != undefined) {
+      check(comp.body_company.path, __("js.ctr.check.company.path.min")).notEmpty();
+      check(comp.body_company.path, __("js.ctr.check.company.path.max")).len(0,20);
+    }
+    //会社住所
+    if (comp.body_company.extend.address != undefined) {
+//      check(data_.body_company.address, __("js.ctr.check.company.address.min")).notEmpty();
+      check(comp.body_company.extend.address, __("js.ctr.check.company.address.max")).len(0,50);
+    }
+    //電話番号
+    if (comp.body_company.extend.tel != undefined) {
+      check(comp.body_company.extend.tel, __("js.ctr.check.company.tel")).len(0,30);
+    }
+    //有効性
+    if (comp.body_company.active != undefined) {
+      check(comp.body_company.active, __("js.ctr.check.company.active")).equals("1");
+    }
+    //
+    /** 用户*/
+    if (comp.body_user.userName != undefined) {
+      check(comp.body_user.userName, __("js.ctr.check.company.user.uid.min")).notEmpty();
+      check(comp.body_user.userName, __("js.ctr.check.company.user.uid.max")).notEmpty().len(3,30);
+      check(comp.body_user.userName, __("js.ctr.check.company.user.uid.ismail")).notEmpty().isEmail();
+    }
+
+    if (comp.body_user.password != undefined) {
+      check(comp.body_user.password, __("js.ctr.check.company.user.password.min")).notEmpty();
+      check(comp.body_user.password, __("js.ctr.check.company.user.password.max")).notEmpty().len(1,20);
+    }
+
+  } catch (e) {
+    console.log(e);
+   return callback_(new error.BadRequest(e.message));
+  }
+   return callback_();
+}
