@@ -4,6 +4,7 @@ var _         = smart.util.underscore
   , mq        = require('./ctrl_mq')
   , user      = smart.ctrl.user
   , group     = require('./ctrl_group')
+  , smartgroup = smart.ctrl.group
   , error     = smart.framework.errors
   , context = smart.framework.context
   , util      = smart.framework.util;
@@ -17,50 +18,64 @@ exports.getNoticeById = function(code_, notice_id, callback){
 };
 
 // get list
-exports.list = function (code_, keyword_, start_, limit_, callback_) {
-
-  var start = start_ || 0
-    , limit = limit_ || 20
+//exports.list = function (code_, keyword_, start_, limit_, callback_) {
+exports.list = function (handler, callback_) {
+  var params = handler.params;
+  var start = params.start_ || 0
+    , limit = params.limit_ || 20
     , condition = {valid: 1};
 
-  if (keyword_) {
-    keyword_ = util.quoteRegExp(keyword_);
-    condition.title = new RegExp(keyword_.toLowerCase(), "i");
+  if (params.keyword_) {
+//    keyword_ = util.quoteRegExp(keyword_);
+    condition.title = new RegExp(params.keyword_.toLowerCase(), "i");
   }
 
-  notice.total(code_, condition, function (err, count) {
+  notice.total(handler.code, condition, function (err, count) {
     if (err) {
       return callback_(new error.InternalServer(err));
     }
 
-    notice.getList(code_, condition, start, limit, function (err, result) {
+    notice.getList(handler.code, condition, start, limit, function (err, result) {
       if (err) {
         return callback_(new error.InternalServer(err));
       }
-
       var subTask = function (item, subCB) {
 
         async.parallel({
           user: function (callback2) {
-
-            user.listByUids(code_, item.touser, 0, 20, function (err, u_result) {
-              callback2(err, u_result);
+            var userhandler = new context().create(handler.uid,handler.code,"");
+            userhandler.code = handler.code;
+            userhandler.addParams("condition",{"_id":{"$in":item.touser}});
+            user.getList(userhandler,function(err,u_result){
+                if(err){
+                  log.error(err,handler.uid);
+                  return callback(new error.NotFound(__("js.ctr.common.system.error")));
+                }else{
+              callback2(err, u_result.items);
+                }
             });
           },
           group: function (callback2) {
-            group.listByGids(code_, item.togroup, 0, 20, function (err, g_result) {
-              callback2(err, g_result);
+            var grouphandler = new context().create(handler.uid,handler.code,"");
+            grouphandler.code = handler.code;
+            grouphandler.addParams("condition",{"_id":{"$in":item.togroup}});
+            smartgroup.getList(grouphandler, function (err, g_result) {
+              if(err){
+                log.error(err,handler.uid);
+                return callback(new error.NotFound(__("js.ctr.common.system.error")));
+              }else{
+              callback2(err, g_result.items);
+              }
             });
           }
         }, function (errs, results) {
           item._doc.sendto = results;
           subCB(errs);
         });
-
       };
 
       async.forEach(result, subTask, function (err_) {
-        user.appendUser(code_, result, "createby", function (err) {
+        user.appendUser(handler.code, result, "createby", function (err) {
           return callback_(err, {items: result, totalItems: count});
         });
       });
@@ -127,6 +142,7 @@ exports.add = function(handler, callback) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
+      //!!!发送通知部分没解决
       // send apn notice
       _.each(toList, function(uid){
         mq.pushApnMessage({

@@ -29,12 +29,12 @@ function commonCheck(req_, res_) {
  * updated by wuql on 14/01/02
  */
 exports.add = function(req_, res_) {
-  var handler = new context().bind(req_,res_);
+
   //权限check
   if (!commonCheck(req_, res_)) {
     return;
   };
-
+  var handler = new context().bind(req_,res_);
   notice.add(handler, function(err, result) {
     response.send(res_,err,result);
   });
@@ -46,12 +46,8 @@ exports.list = function(req_, res_) {
   if (!commonCheck(req_, res_)) {
     return;
   };
-  var code = req_.session.user.companycode
-    , keyword = req_.query.keyword
-    , start = req_.query.start
-    , limit = req_.query.count;
-
-  notice.list(code, keyword, start, limit, function(err, result) {
+  var handler = new context().bind(req_,res_);
+  notice.list(handler,function(err,result){
     response.send(res_,err,result);
   });
 };

@@ -10,7 +10,6 @@ function render(start, count,keyword) {
     keyword = '';
   }
   smart.doget("/notice/list.json?count=" + count + "&start=" + start + "&keyword=" + keyword, function(err, result){
-
     if (err) {
       smart.error(err,i18n["js.common.search.error"],false);
     } else {
@@ -22,12 +21,13 @@ function render(start, count,keyword) {
 
       _.each(result.items, function(row){
         container.append(_.template(tmpl, {
+
           "index": index++ + start
           , "sendto": new UserView().render.cellHtml(row.sendto)
           , "title": row.title
           , "notice": row.notice.replace('\n','<br>')
           , "createat": smart.date(row.createat)
-          , "createby": row.user.name.name_zh
+          , "createby": row.$createby.userName
         }));
       });
       if(!result.items||result.items.length == 0 ){
