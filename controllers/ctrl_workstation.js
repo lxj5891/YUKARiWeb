@@ -1,14 +1,17 @@
 var _           = smart.util.underscore
   , workstation = require('../modules/mod_workstation.js')
+  , context   = smart.framework.context
   , async       = smart.util.async
-//  , smart       = require("smartcore")
   , user        = smart.ctrl.user
   , group       = smart.ctrl.group
-//  , mod_group   = smart.mod.group
   , error       = smart.framework.errors
   , utils       = require('../core/utils');
 
-exports.save = function(code_, uid_, workstation_, callback_){
+exports.save = function(handler, callback_){
+
+  var workstation_=handler.req.body
+      ,uid_=handler.req.session.user._id
+      ,code_=handler.code;
   var now = new Date();
 
   var ws = {
@@ -53,7 +56,10 @@ exports.save = function(code_, uid_, workstation_, callback_){
   }
 };
 
-exports.saveList = function(code_, uid_, workstationList_, callback_) {
+exports.saveList = function(handler, callback_) {
+  var workstationList_=handler.req.body
+    ,uid_=handler.req.session.user._id
+    ,code_=handler.code;
 
   var subTask = function(item, callback_){
     var info = item.split(":");
@@ -77,14 +83,18 @@ exports.saveList = function(code_, uid_, workstationList_, callback_) {
 
 };
 
-exports.get = function(code_, user_, workstationId_, callback_){
+exports.get = function(handler, callback_){
+  var code_=handler.code
+     ,user_=handler.req.session.user
+     , workstationId_=handler.req.query.id;
 
   workstation.get(code_, workstationId_, function(err, result){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
-
-    mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
+//code_, user_._id
+    handler.addParams("condition",user_._id);
+    group.getList(handler, function(err, groups){
       if(err){
         return callback_(new error.InternalServer(err));
       }
@@ -96,12 +106,19 @@ exports.get = function(code_, user_, workstationId_, callback_){
       async.parallel({
         user: function (callback2) {
 
-          user.listByUids(code_, result.touser, 0, 20, function(err, u_result) {
+          var userhandler = new context().create("",handler.code,"");
+          var condition = { "_id":{"$in": result.touser} };
+          userhandler.addParams("condition",condition);
+          user.getList( userhandler, function(err, u_result) {
             callback2(err, u_result);
           });
         },
         group: function (callback2) {
-          group.listByGids(code_, result.togroup, 0, 20, function(err, g_result) {
+
+          var grouphandler = new context().create("",handler.code,"");
+          var condition = { "_id":{"$in": result.togroup} };
+          grouphandler.addParams("condition",condition);
+          group.getList( grouphandler, function(err, g_result) {
             callback2(err, g_result);
           });
         }
@@ -114,9 +131,11 @@ exports.get = function(code_, user_, workstationId_, callback_){
   });
 };
 
-exports.remove = function(code_, user_, workstationId_ , callback_){
-
-  workstation.remove(code_, user_, workstationId_, function(err, result){
+exports.remove = function(handler, callback_){
+  var code_=handler.code
+     , workstationId_=handler.req.body.id;
+  console.log(handler.req.session.user._id);
+  workstation.remove(code_, handler.uid, workstationId_, function(err, result){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
@@ -124,11 +143,13 @@ exports.remove = function(code_, user_, workstationId_ , callback_){
   });
 };
 
-exports.list = function(code_, user_, callback_) {
-
+exports.list = function(handler, callback_) {
+  var user_=handler.req.session.user;
+  var code_ = handler.code;
   var condition = {valid: 1};
-
-  mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
+//code_, user_._id,
+  handler.addParams("condition",handler.req.session.user._id);
+  group.getList(handler, function(err, groups){
     if(err){
       return callback_(new error.InternalServer(err));
     }
