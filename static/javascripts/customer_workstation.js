@@ -2,26 +2,26 @@ $(function () {
   'use strict';
 
   var iconMap = {
-    "1":"/images/workstation/yim_icon_01.png",
-    "2":"/images/workstation/yim_icon_02.png",
-    "3":"/images/workstation/yim_icon_03.png",
-    "4":"/images/workstation/yim_icon_04.png",
-    "5":"/images/workstation/yim_icon_05.png",
-    "6":"/images/workstation/yim_icon_06.png",
-    "7":"/images/workstation/yim_icon_07.png",
-    "8":"/images/workstation/yim_icon_08.png",
-    "9":"/images/workstation/yim_icon_09.png",
-    "10":"/images/workstation/yim_icon_10.png",
-    "11":"/images/workstation/yim_icon_11.png",
-    "12":"/images/workstation/yim_icon_12.png",
-    "13":"/images/workstation/yim_icon_13.png",
-    "14":"/images/workstation/yim_icon_14.png",
-    "15":"/images/workstation/yim_icon_15.png",
-    "16":"/images/workstation/yim_icon_16.png",
-    "17":"/images/workstation/yim_icon_17.png",
-    "18":"/images/workstation/yim_icon_18.png",
-    "19":"/images/workstation/yim_icon_19.png",
-    "20":"/images/workstation/yim_icon_20.png"
+    "1":"/static/images/workstation/yim_icon_01.png",
+    "2":"/static/images/workstation/yim_icon_02.png",
+    "3":"/static/images/workstation/yim_icon_03.png",
+    "4":"/static/images/workstation/yim_icon_04.png",
+    "5":"/static/images/workstation/yim_icon_05.png",
+    "6":"/static/images/workstation/yim_icon_06.png",
+    "7":"/static/images/workstation/yim_icon_07.png",
+    "8":"/static/images/workstation/yim_icon_08.png",
+    "9":"/static/images/workstation/yim_icon_09.png",
+    "10":"/static/images/workstation/yim_icon_10.png",
+    "11":"/static/images/workstation/yim_icon_11.png",
+    "12":"/static/images/workstation/yim_icon_12.png",
+    "13":"/static/images/workstation/yim_icon_13.png",
+    "14":"/static/images/workstation/yim_icon_14.png",
+    "15":"/static/images/workstation/yim_icon_15.png",
+    "16":"/static/images/workstation/yim_icon_16.png",
+    "17":"/static/images/workstation/yim_icon_17.png",
+    "18":"/static/images/workstation/yim_icon_18.png",
+    "19":"/static/images/workstation/yim_icon_19.png",
+    "20":"/static/images/workstation/yim_icon_20.png"
   };
 
   var typeMap = {
@@ -84,6 +84,7 @@ $(function () {
   function events() {
 
     $('#setting_add').on('click', function () {
+
 
       setWSData({icon:1, type:"ise", open: 0});
       $("#settingModal").modal("show");
@@ -184,7 +185,7 @@ $(function () {
         sortList.push(cnt + ":" + wsid)
         cnt++;
       });
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       smart.dopost("/workstation/updateList.json", sortList, function(err, result){
         if (smart.error(err,i18n["js.common.save.error"],false)) {
           return;
