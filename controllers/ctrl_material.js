@@ -19,8 +19,8 @@ var ph        = smart.lang.path
 exports.list = function(handler, callback) {
 
   var tags_ = handler.params.tags
-    ,condition = {};
-  condition.valid = 1;
+    , contentType_ = handler.params.contentType_
+    , condition = {"valid":1};
   if(handler.params.keyword){
   //已经添加正则表达式，by zhaobing
     var keyword = handler.params.keyword;
@@ -29,7 +29,14 @@ exports.list = function(handler, callback) {
       condition.name = new RegExp(keyword.toLowerCase(), "i");
     }
   };
-
+  if (contentType_){
+    if("image" == contentType_ )
+      condition.contentType = /image/;
+    else if("video" == contentType_)
+      condition.contentType = /video/;
+    else
+      condition.contentType = / /;
+  }
   handler.addParams("tags",tags_);
   handler.addParams("condition",  condition);
   handler.print(log.debug);

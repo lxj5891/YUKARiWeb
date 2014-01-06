@@ -4,14 +4,13 @@ $(function () {
 
   // 发送消息
   $("#addNotice").bind("click", function(event){
-
     var uids = [], gids = [];
     $("#textBoxNotice li").each(function() {
       if ("user" == $(this).attr("type")) {
-        uids.push($(this).attr("userName"));
+        uids.push($(this).attr("uid"));
       }
       if ("group" == $(this).attr("type")) {
-        gids.push($(this).attr("name"));
+        gids.push($(this).attr("uid"));
       }
     });
     var notice = {
@@ -21,7 +20,6 @@ $(function () {
       , group: gids.join(",")
     };
     if (!check_notice(notice)) {
-
       smart.dopost("/notice/add.json", notice, function(err, result) {
         if (err) {
           smart.error(err,i18n["js.common.add.error"],false);

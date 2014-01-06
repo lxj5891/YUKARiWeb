@@ -260,14 +260,14 @@ var UserView = function() {
         // Render group
         if(users && users.group) {
           _.each(users.group, function(group) {
-            list.push("<i class=\"icon-group\"></i>&nbsp;&nbsp;" +  _.escape(group.name.name_zh));
+            list.push("<i class=\"icon-group\"></i>&nbsp;&nbsp;" +  _.escape(group.name));
           });
         }
 
         // Render user
         if(users && users.user) {
           _.each(users.user, function(user) {
-            list.push("<i class=\"icon-male\"></i>&nbsp;&nbsp;" + _.escape(user.name.name_zh));
+            list.push("<i class=\"icon-male\"></i>&nbsp;&nbsp;" + _.escape(user.userName));
           });
         }
 
