@@ -1,7 +1,9 @@
 //var smart     = require("smartcore")
 //  , json      = smart.core.json
 //  , user      = smart.mod.user
-  var util      = smart.framework.util
+var util      = smart.framework.util
+  ,fs         =smart.lang.fs
+  ,csv        =smart.util.csv
   , _         = smart.util.underscore
   , async      = smart.util.async
   , response  = smart.framework.response
@@ -15,6 +17,7 @@
   , yiutil    = require('../core/utils')
   , SmartModGroup = require('../node_modules/smartcore/lib/models/mod_group.js')
   , SmartModUser = require('../node_modules/smartcore/lib/models/mod_user.js');
+
 
 var FAKE_PASSWORD = "000000000000000000000";
 
@@ -317,3 +320,236 @@ exports.getList = function(handler, callback_) {
     callback_(err,result);
   });
 };
+
+// 下载模板
+exports.downloadTemp = function(req_, res_) {
+  getTemplate(function(err, data){
+    res_.set('Content-Type', 'text/csv');
+    res_.attachment("user_template.csv");
+    csv().from.array(data).to.stream(res_, {rowDelimiter: '\r\n'});
+  })
+};
+
+
+//下载csv模板
+getTemplate = function(callback){
+  var data = [
+    [ // titles
+      "UID（*）", "パスワード（デフォルトはUIDのアドレスの先頭）", "名前",  "職位", "電話番号", "コメント", "言語", "タイムゾーン"
+    ]
+    ,[ // line1
+      'temp@gmail.com', '', 'temp','課長','0411-12345678', '', 'zh','GMT+08:00'
+    ]
+  ];
+  callback(null, data);
+
+};
+
+// CSV导入用户
+exports.import = function(handler,callback){
+//exports.import = function(req_, res_){
+  var req_=handler.req
+     ,res_=handler.res;
+  console.log("11111111111111"+req_);
+  console.log("11111111111111"+res_);
+  if(!req_.files.csvfile || !req_.files.csvfile.path) {
+    response.send(res_, "",{ code: 400, message: __("user.error.CantFindImportFile")});
+    return;
+  }
+
+  // 先读文件的目的是为了预处理回车换行符，当前csv模块处理有问题。
+  fs.readFile(req_.files.csvfile.path, 'utf-8', function(err, data) {
+    if (err) {
+      response.send(res_,"",{ code: 400, message: __("user.error.CantFindImportFile")});
+      return;
+    }
+
+    // 统一换行符，解决这个csv模块的回车换行的bug
+    data = data.replace(/\r\n/g, '\n');
+    data = data.replace(/\r/g, '\n');
+
+    var records = [];
+    var error_import;
+    csv()
+      .from.string(data)
+      .on('record', function(row,index){
+        if(index > 0) { // 跳过Head
+          records.push(row);
+        }
+        return row;
+      })
+      .on('end', function(count){
+        if(error_import) {
+          error_import.message =  (index + 1) + __("user.csv.rownum") + error_import.message;
+          response.send(res_,"", { code: 200, message: error_import.message});
+        } else {
+          if(records.length == 0) {
+            response.send(res_,err,{ message: __("user.error.ThereIsNoImportDataPleaseSpecifyTheData") });
+            return;
+          }
+
+
+            var importRow =function(row_,sub_callback){
+
+              console.log('#'+index+' '+JSON.stringify(row_));
+
+              csvImportRow(handler, row_, function(err, result){
+                if(err) {
+                  console.log(err)
+                  sub_callback(err);
+                  //error_import = err;
+                }else{
+                  sub_callback(err,result);
+                }
+              })
+
+            }
+
+            async.eachSeries(records,importRow,function(err){
+              callback(err);
+
+            });
+
+
+
+
+        }
+
+      })
+      .on('error', function(error){
+        var error_message = __("user.csv.canNotToParseTheCSVFile");
+        error_import = {
+          code: 200
+          ,message: error_message
+        };
+        console.log(error_message + '\n' + error.message);
+      });
+      return callback(err,data);
+  });
+
+};
+
+
+
+csvImportRow = function(handler, row, callback) {
+  var exe_user=handler.req.session.user;
+  var code = handler.code;
+  var now = new Date();
+  var u = {
+    type:   0      // 用户类型， 默认0.   0: 普通用户, 1: 系统管理员
+    ,active: 1
+    ,companyid : exe_user.companyid           ////////////我们得通过调用方法取id////////
+    ,companycode: code
+    ,valid : 1
+  };
+  if(row[0]) { u.uid                                              = row[0]; }
+  if(row[1]) { u.password                                         = auth.sha256(row[1]); }
+  if(row[2]) { u.name = u.name || {}; u.name.name_zh              = row[2]; }
+  if(row[3]) { u.title                                            = row[3]; }
+  if(row[4]) { u.tel = u.tel || {}; u.tel.telephone               = row[4]; }
+  if(row[5]) { u.description                                      = row[5]; }
+  if(row[6]) { u.lang                                             = row[6]; }
+  if(row[7]) { u.timezone                                         = row[7]; }
+
+  u = util.checkObject(u);
+
+  // Check uid
+  if(!u.uid) {
+    callback(new error.BadRequest("UIDを指定してください。"));
+    return;
+  }else if(u.uid == "admin") {
+    callback(new error.BadRequest("UIDに管理者を指定できません。"));
+    return;
+  }
+
+  // Check password
+  if(!u.password) {// 如果没输入用默认的uid做密码，如果是邮件取"@"前做密码
+    /^(.*)@.*$/.test(u.uid);
+    if(!RegExp.$1) {
+      callback(new error.BadRequest("パスワードを指定してください。"));
+      return;
+    }
+    u.password = auth.sha256(RegExp.$1);
+  }
+//
+//  // Check email
+//  if(u.email) {
+//    if(u.email.email1 && !util.isEmail(u.email.email1)) {
+//      callback(new Error("メールアドレスが正しくありません。"));
+//      return;
+//    }
+//    if(u.email.email2 && !util.isEmail(u.email.email2)) {
+//      callback(new Error("メールアドレスが正しくありません。"));
+//      return;
+//    }
+//  }
+  // Check name
+  if(!u.name) {
+    return callback(new error.BadRequest("名前を指定してください。"));
+  }
+//    if(u.tel.mobile && !util.isTel(u.tel.mobile)) {
+//      callback(new Error("携帯番号が正しくありません。"));
+//      return;
+//    }
+//  }
+  // Check tel
+  if(u.tel) {
+    if(u.tel.telephone && !util.isTel(u.tel.telephone)) {
+      callback(new error.BadRequest("電話番号が正しくありません。"));
+      return;
+    }
+//    if(u.tel.mobile && !util.isTel(u.tel.mobile)) {
+//      callback(new Error("携帯番号が正しくありません。"));
+//      return;
+//    }
+  }
+
+  // Check language
+  if(u.lang){
+    if(u.lang != "zh" && u.lang != "en" && u.lang != "ja") {
+      callback(new error.BadRequest('入力言語が正しくありません。”zh”、”en”、”ja”の何れを指定してください。'));
+      return;
+    }
+  }else {
+    u.lang = "zh"; // default language
+  }
+
+  // Check timezone
+  if(u.timezone) {
+    if(u.timezone != "GMT+08:00" && u.timezone != "GMT+09:00" && u.timezone != "GMT-05:00") {
+      callback(new error.BadRequest('タイムゾーンが正しくありません。”GMT+08:00”、”GMT+09:00”、 ”GMT-05:00”の何れを指定してください。'));
+      return;
+    }
+  } else {
+    u.timezone = "GMT+08:00"; // default timezone
+  }
+//
+//  if(u.custom) {
+//    // Check url
+//    if(u.custom.url && !util.isUrl(u.custom.url)) {
+//      callback(new Error('ホームページが正しくありません。'));
+//      return;
+//    }
+//  }
+  exports.findByDBName(code, {"uid": u.uid}, function(err, result){
+    if(result && result.length > 0){               // Update user
+      u.editby = exe_user._id;
+      u.editat = now;
+
+      exports.updateByDBName(code, result[0]._id, u, function(err, result) {
+        //console.log('Update User.');
+        callback(err, result);
+      });
+    } else {                                        // Create user
+      u.createby = exe_user._id;
+      u.createat = now;
+      u.editby = exe_user._id;
+      u.editat = now;
+
+      exports.createByDBName(code, u, function(err, result) {
+        //console.log('Create User.');
+        callback(err, result);
+      });
+    }
+  });
+}

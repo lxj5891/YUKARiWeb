@@ -81,5 +81,9 @@ exports.downloadTemp = function(req_, res_) {
  * 导入csv（zhaobing）
  */
 exports.import = function(req_, res_) {
-  user.import(req_, res_);
+  var handler=new context().bind(req_, res_);
+ // user.import(req_, res_);
+  user.import(handler,function(err,result){
+    response.send(res_,err,result);
+  })
 };
