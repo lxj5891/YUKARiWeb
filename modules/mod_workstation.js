@@ -36,7 +36,7 @@ var Workstation = new schema({
  */
 function model(dbname) {
 
-  return conn(dbname).model("Workstation", Workstation);
+  return conn.model(dbname,"Workstation", Workstation);
 }
 
 /**
