@@ -89,11 +89,11 @@ function render() {
     if(smart.error(err,i18n["js.common.update.error"],true)){
       return;
     }
-    var items = result.items;
-    for (var i in items) {
-      $("#" + items[i].key).attr("data", items[i].val);
-      if (items[i].val)
-        $("#" + items[i].key).attr("src", "/picture/" + items[i].val);
+
+    for (var i in result) {
+      $("#" + result[i].key).attr("data", result[i].val);
+      if (result[i].val)
+        $("#" + result[i].key).attr("src", "/picture/" + result[i].val);
     }
   })
 };
@@ -114,14 +114,14 @@ function uploadFiles(files, el) {
   // 发送文件
   smart.dopostData("/file/upload.json", fd,
     function (err, result) {
+
       $("#upload_progress_dlg").modal("hide");
       if (smart.error(err, i18n["js.common.upload.error"], false)) {
         return;
       } else {
 
-
-        $("#" + el).attr("src", "/picture/" + result.data.items[0]._id);
-        $("#" + el).attr("data", result.data.items[0]._id);
+        $("#" + el).attr("src", "/picture/" + result.data[0]._id);
+        $("#" + el).attr("data",result.data[0]._id);
         Alertify.log.success(i18n["js.common.upload.success"]);
       }
     },

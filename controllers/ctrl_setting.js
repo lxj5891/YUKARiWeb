@@ -3,7 +3,8 @@ var async   = smart.util.async
   , log     = smart.framework.log
   , _       = smart.util.underscore;
 
-exports.getAppimage = function (code, callback_) {
+exports.getAppimage = function (handler, callback_) {
+  var code=handler.code;
   var keys = ["image1", "image2", "imagelogo"];
   setting.getListByKeys(code, keys, callback_);
 };
@@ -17,13 +18,13 @@ function settingItem(user_, key, val) {
   };
 };
 
-function saveSettingItem(code, item_list, callback_) {
+function saveSettingItem(code, user,item_list, callback_) {
   if (!code) {
-    log.out("error", "argument  error");
+    log.error("argument  error",user);
     return;
   }
   if (!item_list || item_list.length === 0) {
-    log.out("error", "argument  error");
+    log.error("argument  error",user);
     return;
   }
   var task = [];
@@ -45,7 +46,12 @@ function saveSettingItem(code, item_list, callback_) {
 
 };
 
-exports.updateAppimage = function (code_, user_, image1_, image2_, logo_, callback_) {
+exports.updateAppimage = function (handler, callback_) {
+   var image1_ =handler.req.body.image1
+   , image2_ =handler.req.body.image2
+   , logo_ =handler.req.body.logo
+   , code_ =handler.code
+   , user_ =handler.req.session.user;
   var list = [];
   if (image1_) {
     list.push(settingItem(user_, "image1", image1_));
@@ -57,7 +63,7 @@ exports.updateAppimage = function (code_, user_, image1_, image2_, logo_, callba
     list.push(settingItem(user_, "imagelogo", logo_));
   }
 
-  saveSettingItem(code_, list, callback_);
+  saveSettingItem(code_,user_, list, callback_);
 
 
 };

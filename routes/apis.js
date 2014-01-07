@@ -3,8 +3,8 @@ var user          = require("../api/user.js")
   ,auth           =smart.framework.auth
  // , search        = smart.api.search
   , util          = smart.framework.util
-//  , common        = smart.api.common
   , file          = require("../api/file")
+  ,appImage       =require("../api/appImage")
 //  , apn           = smart.api.apn
   , errors        = smart.framework.errors
 //  , json          = smart.core.json
@@ -329,7 +329,7 @@ exports.guiding = function(app){
     //   var err = new errors.Forbidden(__("js.common.update.check"));
     //   return res.send(err.code, json.errorSchema(err.code, err.message));
     // }
-    common.save(req, res);
+    appImage.save(req, res);
   });
 
   app.post('/conference/add.json', function(req, res){

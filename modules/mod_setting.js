@@ -28,7 +28,7 @@ var Setting = new schema({
  * @returns setting model
  */
 function model(code) {
-  return conn(code).model("Setting", Setting);
+  return conn.model(code,"Setting", Setting);
 }
 
 /**
