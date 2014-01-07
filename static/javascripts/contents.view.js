@@ -37,18 +37,18 @@ $contents.view = {
     $("#txt_metadata_effect option").each(function (e) {
       $(e).attr("selected", false);
     });
-    $("#preview img").attr("src", "/images/block.png");
+    $("#preview img").attr("src", "/static/images/block.png");
     $("#txt_metadata_effect").val("none");
     if (!_metadata.effect) {
       $("#txt_metadata_effect option:first").attr("selected", "selected");
       $("#txt_metadata_effect").val("none");
-      $("#preview img").attr("src", "/images/block.png");
+      $("#preview img").attr("src", "/static/images/block.png");
     } else {
 //      $("#txt_metadata_effect option[value="+_metadata.effect+"]").attr("selected",true);
       $("#txt_metadata_effect").val(_metadata.effect);
 
       if (!_metadata.txtimage) {
-        $("#preview img").attr("src", "/images/block.png");
+        $("#preview img").attr("src", "/static/images/block.png");
       } else {
         $("#preview img").attr("src", _metadata.txtimage);
         $("#effect_big_preview img").attr("src", _metadata.txtimage);
@@ -130,7 +130,7 @@ $contents.view = {
       }
       store.setTxtmetadata(_metadata);
 
-      $("#preview img").attr("src","/images/block.png");
+      $("#preview img").attr("src","/static/images/block.png");
 
     };
     $("#preview span").unbind("click").bind("click",removeEffectImage);

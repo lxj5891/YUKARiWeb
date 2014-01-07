@@ -224,11 +224,11 @@ LogoFace.prototype.setAction = function () {
       if(_this.action.bg_image){
         $("#action_bglogo_preview img").attr("src", _this.action.bg_image);
       }else{
-        $("#action_bglogo_preview img").attr("src", "/images/logo-block.png");
+        $("#action_bglogo_preview img").attr("src", "/static/images/logo-block.png");
       }
     }
   } else {
-    $("#action_bglogo_preview img").attr("src", "/images/logo-block.png");
+    $("#action_bglogo_preview img").attr("src", "/static/images/logo-block.png");
   }
 
 

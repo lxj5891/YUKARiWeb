@@ -5,6 +5,27 @@
   <% include common/required.html %>
 
   <script type="text/javascript" src="<%= dynamic('/javascripts/content_synthetic.js')%>"></script>
+  <script type="text/javascript">
+    var i18n = {
+      "js.public.info.synthetic.type.animation"    : "<%=i('js.public.info.synthetic.type.animation') %>"
+      , "js.public.info.synthetic.type.imageset"  : "<%=i('js.public.info.synthetic.type.imageset') %>"
+
+      , "js.public.info.synthetic.type.gallery"  : "<%=i('js.public.info.synthetic.type.gallery') %>"
+      , "js.public.info.synthetic.type.caseview"  : "<%=i('js.public.info.synthetic.type.caseview') %>"
+      , "html.label.synthetic.type.solutionmap"  : "<%=i('html.label.synthetic.type.solutionmap') %>"
+      , "html.label.synthetic.type.Introduction"  : "<%=i('html.label.synthetic.type.Introduction') %>"
+      , "js.common.search.error"  : "<%=i('js.common.search.error') %>"
+      , "js.common.list.empty"  : "<%=i('js.common.list.empty') %>"
+      , "js.common.dialog.ok"  : "<%=i('js.common.dialog.ok') %>"
+      , "js.common.dialog.cancel"  : "<%=i('js.common.dialog.cancel') %>"
+      , "js.common.delete.confirm"  : "<%=i('js.common.delete.confirm') %>"
+      , "js.common.delete.error"  : "<%=i('js.common.delete.error') %>"
+      , "js.common.delete.success"  : "<%=i('js.common.delete.success') %>"
+      , "js.common.copy.error"  : "<%=i('js.common.copy.error') %>"
+      , "js.common.copy.success"  : "<%=i('js.common.copy.success') %>"
+
+    }
+  </script>
   <link href="<%= dynamic('/stylesheets/yukari.css')%>" rel="stylesheet" media="screen">
 
 </head>
@@ -170,7 +191,7 @@
                   </div>
                   <div id="collapseOne" class="panel-collapse collapse in">
                     <div class="panel-body">
-                      <img width="300px" src="/images/image.png">
+                      <img width="300px" src="/static/images/image.png">
                     </div>
                   </div>
                 </div>
@@ -187,7 +208,7 @@
                   </div>
                   <div id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body">
-                      <img width="300px" src="/images/anime.png">
+                      <img width="300px" src="/static/images/anime.png">
                     </div>
                   </div>
                 </div>
@@ -204,7 +225,7 @@
                   </div>
                   <div id="collapseThree" class="panel-collapse collapse">
                     <div class="panel-body">
-                      <img width="300px" src="/images/caseview.png">
+                      <img width="300px" src="/static/images/caseview.png">
                     </div>
                   </div>
                 </div>
@@ -221,7 +242,7 @@
                   </div>
                   <div id="collapseFour" class="panel-collapse collapse">
                     <div class="panel-body">
-                      <img width="300px" src="/images/gallery.png">
+                      <img width="300px" src="/static/images/gallery.png">
                     </div>
                   </div>
                 </div>
@@ -239,7 +260,7 @@
                   </div>
                   <div id="collapseFive" class="panel-collapse collapse">
                     <div class="panel-body">
-                      <img width="300px" src="/images/solutiontype.png">
+                      <img width="300px" src="/static/images/solutiontype.png">
                     </div>
                   </div>
                 </div>
@@ -257,7 +278,7 @@
                   </div>
                   <div id="collapseSix" class="panel-collapse collapse">
                     <div class="panel-body">
-                      <img width="300px" src="/images/Introduction.png">
+                      <img width="300px" src="/static/images/Introduction.png">
                     </div>
                   </div>
                 </div>

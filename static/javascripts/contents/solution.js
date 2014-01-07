@@ -164,7 +164,7 @@ SolutionFace.prototype.setAction = function () {
     }
 
   } else {
-    $("#solution_image_preview img").attr("src", '/images/logo-block.png');
+    $("#solution_image_preview img").attr("src", '/static/images/logo-block.png');
   }
 
 }

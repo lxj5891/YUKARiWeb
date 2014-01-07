@@ -10,6 +10,42 @@
 
 
   </style>
+  <script type="text/javascript">
+    var i18n = {
+        "html.label.synthetic.type.Introduction"        : "<%=i('html.label.synthetic.type.Introduction') %>"
+        , "html.label.synthetic.type.solutionmap"       : "<%=i('html.label.synthetic.type.solutionmap') %>"
+        , "js.common.copy.error"                        : "<%=i('js.common.copy.error') %>"
+        , "js.common.copy.success"                      : "<%=i('js.common.copy.success') %>"
+        , "js.common.delete.confirm"                    : "<%=i('js.common.delete.confirm') %>"
+        , "js.common.delete.error"                      : "<%=i('js.common.delete.error') %>"
+        , "js.common.delete.success"                    : "<%=i('js.common.delete.success') %>"
+        , "js.common.dialog.cancel"                     : "<%=i('js.common.dialog.cancel') %>"
+        , "js.common.dialog.ok"                         : "<%=i('js.common.dialog.ok') %>"
+        , "js.common.list.empty"                        : "<%=i('js.common.list.empty') %>"
+        , "js.common.save.success"                      : "<%=i('js.common.save.success')%>"
+        , "js.common.search.error"                      : "<%=i('js.common.search.error') %>"
+        , "js.public.check.contents.view.cover"         : "<%=i('js.public.check.contents.view.cover')%>"
+        , "js.public.check.contents.view.Customization" : "<%=i('js.public.check.contents.view.Customization')%>"
+        , "js.public.check.contents.view.first"         : "<%=i('js.public.check.contents.view.first')%>"
+        , "js.public.check.contents.view.last"          : "<%=i('js.public.check.contents.view.last')%>"
+        , "js.public.check.contents.view.metadata"      : "<%=i('js.public.check.contents.view.metadata')%>"
+        , "js.public.check.contents.view.name"          : "<%=i('js.public.check.contents.view.name')%>"
+        , "js.public.check.widget.length"               : "<%=i('js.public.check.widget.length')%>"
+        , "js.public.error.store.effect"                : "<%=i('js.public.error.store.effect')%>"
+        , "js.public.error.store.logobgfileid"          : "<%=i('js.public.error.store.logobgfileid')%>"
+        , "js.public.error.store.logobgtag"             : "<%=i('js.public.error.store.logobgtag')%>"
+        , "js.public.error.store.logofileid"            : "<%=i('js.public.error.store.logofileid')%>"
+        , "js.public.error.store.txtfileid"             : "<%=i('js.public.error.store.txtfileid')%>"
+        , "js.public.info.contents.view.cancel"         : "<%=i('js.public.info.contents.view.cancel')%>"
+        , "js.public.info.contents.view.effect"         : "<%=i('js.public.info.contents.view.effect')%>"
+        , "js.public.info.detaillist.load"              : "<%=i('js.public.info.detaillist.load')%>"
+        , "js.public.info.synthetic.type.animation"     : "<%=i('js.public.info.synthetic.type.animation') %>"
+        , "js.public.info.synthetic.type.caseview"      : "<%=i('js.public.info.synthetic.type.caseview') %>"
+        , "js.public.info.synthetic.type.gallery"       : "<%=i('js.public.info.synthetic.type.gallery') %>"
+        , "js.public.info.synthetic.type.imageset"      : "<%=i('js.public.info.synthetic.type.imageset') %>"
+        , "js.public.info.widget.name"                  : "<%=i('js.public.info.widget.name')%>"
+    }
+  </script>
 </head>
 <body>
 <%if(synthetic_id){%>
@@ -115,7 +151,7 @@
 </div>
 <div class="row col-lg-8" style="margin-bottom: 30px;border:solid 0px #e3e3e3">
   <div class="pull-left col-lg-2" style="padding-left: 0px;padding-top: 15px;" id="cover_preview_panel">
-    <div class="cover_thumb"><img src="/images/logo-block.png"></div>
+    <div class="cover_thumb"><img src="/static/images/logo-block.png"></div>
   </div>
   <div class="pull-left col-lg-10">
     <div class="coverpanel" id="cover_panel" style="margin-left:30px;display:none;overflow-x: auto;overflow-y: hidden;">
@@ -131,14 +167,14 @@
 </div>
 <div class="row col-lg-8" id="solutionDisplay1" style="border:solid 0px #e3e3e3;border-bottom-width: 0px">
 <div id="main_panel">
-  <img id="main_panel_img" src="/images/logo-block.png">
+  <img id="main_panel_img" src="/static/images/logo-block.png">
 
   <div id="effect_big_preview">
-    <img src="/images/logo-block.png">
+    <img src="/static/images/logo-block.png">
   </div>
   <div id="solutionmap_preview">
     <div id="solutionmap_board">
-      <img id="solutionmap_board_img" src="/images/logo-block.png">
+      <img id="solutionmap_board_img" src="/static/images/logo-block.png">
     </div>
   </div>
 </div>
@@ -206,7 +242,7 @@
             <!-- ビデオ選択--></a>
 
           <div class="action_widget_moive_preview">
-            <video src="/images/logo-block.png"/>
+            <video src="/static/images/logo-block.png"/>
             </video>
           </div>
         </div>
@@ -222,7 +258,7 @@
             <!-- 画像選択--></a>
 
           <div class="action_widget_image_preview">
-            <img src="/images/logo-block.png"/>
+            <img src="/static/images/logo-block.png"/>
           </div>
         </div>
       </div>
@@ -231,7 +267,7 @@
           <!-- 遷移先--></a>
 
         <div class="action_jump_preview">
-          <img src="/images/logo-block.png"/>
+          <img src="/static/images/logo-block.png"/>
         </div>
       </div>
       <div class="form-group" id="_action_type_urlScheme">
@@ -300,7 +336,7 @@
         </div>
       </div>
     </form>
-    <div id="preview"><img src="/images/block.png">
+    <div id="preview"><img src="/static/images/block.png">
     </div>
   </div>
 </div>
@@ -334,7 +370,7 @@
 
         <div class="col-lg-7">
           <div id="solution_image_preview">
-            <img src="/images/logo-block.png"/>
+            <img src="/static/images/logo-block.png"/>
           </div>
 
         </div>
@@ -370,7 +406,7 @@
           <a id="btnSelectLogoBgMetadata" class="btn btn-default btn-sm" ><%=i('html.button.synthetic.setting') %><!-- 设定--></a>
 
           <div id="action_bglogo_preview" class="action_bglogo_preview">
-            <img src="/images/logo-block.png"/>
+            <img src="/static/images/logo-block.png"/>
           </div>
         </div>
 
@@ -466,7 +502,7 @@
 <script type="text/template" id="tmpl_popup_video">
   <div class="modalfix_box">
     <video src="{{image}}" class="material_thumb" data="{{fileid}}" material_id="{{material_id}}"></video>
-    <div class="modalfix_checkbox" num="{{num}}"><img src="/images/img_check.png"></div>
+    <div class="modalfix_checkbox" num="{{num}}"><img src="/static/images/img_check.png"></div>
   </div>
 </script>
 
@@ -475,7 +511,7 @@
   <div class="modalfix_box">
     <img src="{{image}}" class="material_thumb" data="{{fileid}}" material_id="{{material_id}}">
 
-    <div class="modalfix_checkbox" num="{{num}}"><img src="/images/img_check.png"></div>
+    <div class="modalfix_checkbox" num="{{num}}"><img src="/static/images/img_check.png"></div>
   </div>
 </script>
 <!-- 提示工具的template -->
@@ -528,7 +564,7 @@
   <div id="{{id}}" class="logo_widget"
        style="left: {{left}}px; top:{{top}}px; width: {{width}}px; height: {{height}}px;">
     <div id="{{id}}_border" class="logo_widget_border">
-      <img src="/images/logo-block.png">
+      <img src="/static/images/logo-block.png">
     </div>
   </div>
 </script>

@@ -272,9 +272,9 @@ WidgetFace.prototype.setActionChange = function(init){
   var _action_chage_event = function(){
     var cur_action_type = $("#action").val();
     if(!_this.action||cur_action_type != _this.action.type ){
-      $(".action_widget_moive_preview video").attr("src",'/images/logo-block.png');
-      $(".action_widget_image_preview img").attr("src",'/images/logo-block.png');
-      $(".action_jump_preview img").attr("src","/images/logo-block.png");
+      $(".action_widget_moive_preview video").attr("src",'/static/images/logo-block.png');
+      $(".action_widget_image_preview img").attr("src",'/static/images/logo-block.png');
+      $(".action_jump_preview img").attr("src","/static/images/logo-block.png");
       $("#txt_widget_action_app").val('');
       $("#txt_widget_action_url").val('');
 
@@ -325,9 +325,9 @@ WidgetFace.prototype.setAction = function(){
 
     _this.itemAction.val(_this.action.type);
   }
-//  $(".action_jump_preview img").attr("src","/images/logo-block.png");
-//  $(".action_widget_image_preview video").attr("src",'/images/logo-block.png');
-//  $(".action_jump_preview img").attr("src",'/images/logo-block.png');
+//  $(".action_jump_preview img").attr("src","/static/images/logo-block.png");
+//  $(".action_widget_image_preview video").attr("src",'/static/images/logo-block.png');
+//  $(".action_jump_preview img").attr("src",'/static/images/logo-block.png');
 
 
   //删除插件事件

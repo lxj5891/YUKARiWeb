@@ -18,13 +18,13 @@ function jModal() {
       continue;
     }
     if (store[i].image) {
-      $("#" + el + " div[class=material_popup]").append(tpl(store[i].image, '/images/img_check.png', store[i].image, store[i].metadata_id, store[i]._id));
+      $("#" + el + " div[class=material_popup]").append(tpl(store[i].image, '/static/images/img_check.png', store[i].image, store[i].metadata_id, store[i]._id));
       continue;
     }
     if (store[i].thumb) {
-      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + store[i].thumb.middle, '/images/img_check.png', store[i].thumb.middle, store[i].metadata_id, store[i]._id));
+      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + store[i].thumb.middle, '/static/images/img_check.png', store[i].thumb.middle, store[i].metadata_id, store[i]._id));
     } else {
-      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + store[i].fileid, '/images/img_check.png', store[i].fileid, store[i].metadata_id, store[i]._id));
+      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + store[i].fileid, '/static/images/img_check.png', store[i].fileid, store[i].metadata_id, store[i]._id));
     }
 
   }
@@ -39,7 +39,7 @@ function loadModal(el, tpl, data, type, callback) {
       if (data[i].contentType && data[i].contentType != "video/mp4") {
         continue;
       }
-      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + data[i].fileid, '/images/img_check.png', data[i].fileid, data[i].metadata_id, data[i]._id));
+      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + data[i].fileid, '/static/images/img_check.png', data[i].fileid, data[i].metadata_id, data[i]._id));
     }
     $("#" + el).unbind('click').on("click", "video", function (e) {
       var $target = $($(e.target).parent().find('div'));
@@ -70,9 +70,9 @@ function loadModal(el, tpl, data, type, callback) {
       continue;
     }
     if (data[i].thumb) {
-      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + data[i].thumb.middle, '/images/img_check.png', data[i].thumb.middle, data[i].metadata_id, data[i]._id));
+      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + data[i].thumb.middle, '/static/images/img_check.png', data[i].thumb.middle, data[i].metadata_id, data[i]._id));
     } else {
-      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + data[i].fileid, '/images/img_check.png', data[i].fileid, data[i].metadata_id, data[i]._id));
+      $("#" + el + " div[class=material_popup]").append(tpl("/picture/" + data[i].fileid, '/static/images/img_check.png', data[i].fileid, data[i].metadata_id, data[i]._id));
     }
 
   }
@@ -262,7 +262,7 @@ function ImagePopup(opt, callback) {
     }
     $("#" + el).unbind('mouseover').on("mouseover",opt.type == "video"?"video": "img", function (e) {
       var $target = $(e.target);
-      if ($target.attr('src') == '/images/img_check.png') {
+      if ($target.attr('src') == '/static/images/img_check.png') {
         return;
       }
       $target.css("position", "absolute");
@@ -287,7 +287,7 @@ function ImagePopup(opt, callback) {
     $("#" + el).unbind("mouseout").on("mouseout", opt.type == "video"?"video": "img", function (e) {
 
       var $target = $(e.target);
-      if ($target.attr('src') == '/images/img_check.png') {
+      if ($target.attr('src') == '/static/images/img_check.png') {
         return;
       }
       $target.css("position", "absolute");

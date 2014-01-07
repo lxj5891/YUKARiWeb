@@ -26,7 +26,7 @@ var tpl_thumbPanel = function () {
 //
 //var tpl_mainPanel = function () {
 //  var args = arguments;
-//  return "<div id=\"main_panel\"><img src=\"/images/logo-block.png\"></div>"
+//  return "<div id=\"main_panel\"><img src=\"/static/images/logo-block.png\"></div>"
 //}
 //
 //
@@ -181,7 +181,7 @@ var tpl_matedata_thumb = function(){
 }
 var tpl_matedata_thumb_block = function () {
   return  "<a class=\"cover_add\">\
-        <img src=\"/images/block.png\">\
+        <img src=\"/static/images/block.png\">\
         </a>";
 };
 var tpl_cover_block = function(){

@@ -43,9 +43,11 @@ exports.list = function(handler, callback) {
 
   file.getList(handler, function(err, result) {
     if (err) {
-      log.error(err, uid);
-      return callback(new errors.NotFound("js.ctr.common.system.error"));
+      return callback(new error.NotFound("js.ctr.common.system.error"));
     } else {
+      _.each(result.items,function(item){
+        item._doc.fileid = item._id;
+      });
       return callback(err, result);
     }
   });
